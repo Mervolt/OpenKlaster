@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+
+</head>
+<body>
+    <form class = "form" id = "form">
+        <div>
+            <hr>
+            <h1>Register</h1>
+            <label><b>Username</b></label>
+            <label>
+                <input type="text" placeholder="Enter username" name="username" required>
+            </label>
+            <br>
+            <label><b>Password</b></label>
+            <label>
+                <input type="password" placeholder="Enter password" name="password" required>
+            </label>
+            <hr>
+            <button type="submit" class="registerbtn">Register</button>
+        </div>
+    </form>
+
+    <script>
+        const form = document.getElementById("form");
+        form.addEventListener('submit', function(element) {
+            const formData = new FormData(this);
+            element.preventDefault();
+
+            fetch("http://localhost:8080/users/", {
+                method : 'post',
+                headers : {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body : JSON.stringify({
+                    username : formData.get("username"),
+                    password : formData.get("password")
+                })
+            }).then(function (response) {
+            })
+        });
+    </script>
+</body>
+</html>
