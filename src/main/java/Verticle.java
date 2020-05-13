@@ -1,70 +1,68 @@
+import config.*;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
+import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
-import org.javatuples.Pair;
+import io.vertx.ext.web.handler.BodyHandler;
 import parser.*;
-import service.*;
+import service.MongoPersistenceService;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
+
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Util.println;
 
 public class Verticle extends AbstractVerticle {
 
-    private final MongoClient client = MongoClient.createShared(vertx,config());
-    private final MongoPersistenceService persistenceService = new MongoPersistenceService(client);
+    private final DbConfig dbConfig;
+    private final MongoClient client;
+    private final MongoPersistenceService persistenceService;
+    private final List<EntityConfig> entityConfigs;
 
+    public Verticle(Vertx vertx) {
+        this.vertx = vertx;
+        this.dbConfig = new DbConfig();
+        this.client = MongoClient.createShared(vertx, dbConfig.getMongoConfig());
+        this.persistenceService = new MongoPersistenceService(client);
+        this.entityConfigs = Arrays.asList(
+                new CalculatorConfig(persistenceService, new EnergySourceCalculatorParser()),
+                new InstallationConfig(persistenceService, new InstallationParser()),
+                new InverterConfig(persistenceService, new InverterParser()),
+                new LoadConfig(persistenceService, new LoadParser()),
+                new SourceConfig(persistenceService, new SourceParser()),
+                new UserConfig(persistenceService, new UserParser())
+        );
+
+    }
 
     @Override
-    public void start(Promise<Void> promise){
+    public void start(Promise<Void> promise) {
 
-        Router router =Router.router(vertx);
-        router.route("/").handler(routingContext ->{
+        Router router = Router.router(vertx);
+        router.route("/").handler(routingContext -> {
             HttpServerResponse response = routingContext.response();
             response
                     .end("Ended...");
         });
 
+        HttpServer server = vertx.createHttpServer()
+                .requestHandler(router)
+                .listen(8080);
         routerConfig(router);
 
-        vertx
-                .createHttpServer()
-                .requestHandler(router::accept)
-                .listen(8080,result ->{
-                    if(result.succeeded()){
-                        promise.complete();
-                    }else{
-                        promise.fail(result.cause());
-                    }
-                });
     }
 
-    private void routerConfig(Router router){
-       /* List<Pair<EntityHandler,String>> handlersRoutesList = Arrays.asList(
-                new Pair(new UserHandler(new UserParser(),persistenceService),"users"),
-                new Pair(new UserHandler(new UserParser(),persistenceService),"users"),
-                new Pair(new EnergySourceCalculatorHandler(new EnergySourceCalculatorParser(),persistenceService),"calculators"),
-                new Pair(new UserHandler(new UserParser(),persistenceService),"users"),
-                new Pair(new UserHandler(new UserParser(),persistenceService),"users"),
-                new Pair(new UserHandler(new UserParser(),persistenceService),"users"),
-                new InstallationHandler(new InstallationParser(),persistenceService),
-                new InverterHandler(new InverterParser(),persistenceService),
-                new LoadHandler(new LoadParser(),persistenceService),
-                new SourceHandler(new SourceParser(),persistenceService)
-        );
-
-        handlersParsersList.forEach(handler ->{
-            router.post()
-        });*/
+    private void routerConfig(Router router) {
+        entityConfigs.forEach(config -> {
+            router.route(config.getRoute()).handler(BodyHandler.create());
+            router.post(config.getRoute()).consumes("application/json").handler(config.getHandler()::add);
+            router.get(config.getRoute()).consumes("application/json").handler(config.getHandler()::findById);
+            router.delete(config.getRoute()).consumes("application/json").handler(config.getHandler()::delete);
+        });
     }
 
-    private void configureUsers(Router router){
-        UserHandler userHandler = new UserHandler(new UserParser(),persistenceService);
-        router.post("/users/").handler(userHandler::add);
-        router.get("/users/").handler(userHandler::findById);
-        router.delete("/users/").handler(userHandler::delete);
-    }
+
 }

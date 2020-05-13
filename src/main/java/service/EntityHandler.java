@@ -9,11 +9,11 @@ import parser.EntityParser;
 public abstract class EntityHandler<T> {
 
     protected static Logger logger;
-    private EntityParser<T> parser;
+    protected EntityParser<T> parser;
     protected String collectionName;
-    private static String ID_FIELD_KEY = "_id";
+    protected static String ID_FIELD_KEY = "_id";
 
-    private MongoPersistenceService persistenceService;
+    protected MongoPersistenceService persistenceService;
 
     public EntityHandler(EntityParser<T> parser, MongoPersistenceService service) {
         this.parser = parser;
@@ -39,8 +39,14 @@ public abstract class EntityHandler<T> {
     }
 
     public void findById(RoutingContext context) {
+        String id = context.request().getParam("id");
+        if(id==null){
+            context.response().setStatusCode(400)
+                    .end();
+            return;
+        }
         JsonObject jsonObject = new JsonObject()
-                .put(ID_FIELD_KEY, context.request().getParam("id"));
+                .put(ID_FIELD_KEY, id);
         persistenceService.findOneByQuery(jsonObject, collectionName,
                 handler -> {
                     if (handler.succeeded()) {
@@ -59,8 +65,14 @@ public abstract class EntityHandler<T> {
     }
 
     public void delete(RoutingContext context) {
+        String id = context.request().getParam("id");
+        if(id==null){
+            context.response().setStatusCode(400)
+                    .end();
+            return;
+        }
         JsonObject jsonObject = new JsonObject()
-                .put(ID_FIELD_KEY, context.request().getParam("id"));
+                .put(ID_FIELD_KEY, id);
         persistenceService.removeByQuery(jsonObject, collectionName,
                 handler -> {
                     if (handler.succeeded()) {
