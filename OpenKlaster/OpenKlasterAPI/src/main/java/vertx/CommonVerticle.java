@@ -22,7 +22,7 @@ public class CommonVerticle extends AbstractVerticle {
         Router router = Router.router(vertx);
         HttpServer server = vertx.createHttpServer()
                 .requestHandler(router)
-                .listen(8081);
+                .listen(8080);
         RegisterController registerController = new RegisterController(WebClient.create(vertx));
         registerController.registerHandler(router);
         registerController.registerRequestHandler(router);

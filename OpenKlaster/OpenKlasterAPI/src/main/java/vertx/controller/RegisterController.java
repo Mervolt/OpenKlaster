@@ -12,11 +12,12 @@ import io.vertx.ext.web.handler.StaticHandler;
 
 public class RegisterController {
     WebClient webClient;
+
     public RegisterController(WebClient webClient) {
-        this.webClient=webClient;
+        this.webClient = webClient;
     }
 
-    public void registerHandler(Router router){
+    public void registerHandler(Router router) {
         router.route().path("/register/").handler(StaticHandler.create("register.html"));
     }
 
@@ -33,13 +34,14 @@ public class RegisterController {
 
     }
 
-    private void storeUser(JsonObject userJsonObject){
+    private void storeUser(JsonObject userJsonObject) {
         System.out.println(userJsonObject.toString());
-        webClient.post(8080,"http://localhost","/users/")
-                .sendBuffer(userJsonObject.toBuffer(),resp -> {
-                    if(resp.succeeded()){
-                        System.out.println("Added successfully" + resp.result().body());
-                    }else{
+        webClient.post(8081, "localhost", "/users/")
+                .putHeader("Content-Type", "application/json")
+                .sendBuffer(userJsonObject.toBuffer(), resp -> {
+                    if (resp.succeeded()) {
+                        System.out.println("Added successfully" + resp.result());
+                    } else {
                         System.out.println("Could not add!" + resp.cause());
                     }
                 });

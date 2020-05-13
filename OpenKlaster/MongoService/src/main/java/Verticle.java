@@ -33,7 +33,6 @@ public class Verticle extends AbstractVerticle {
                 new SourceConfig(persistenceService, new SourceParsers()),
                 new UserConfig(persistenceService, new UserParser())
         );
-
     }
 
     @Override
@@ -48,7 +47,7 @@ public class Verticle extends AbstractVerticle {
 
         HttpServer server = vertx.createHttpServer()
                 .requestHandler(router)
-                .listen(8080);
+                .listen(8081);
         routerConfig(router);
 
     }
