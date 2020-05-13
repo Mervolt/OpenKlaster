@@ -1,0 +1,157 @@
+{
+  "sites": [
+    {
+      "id": 1,
+      "username": "JohnDoe1",
+      "name": "testSite1",
+      "longtitude": 19.45466,
+      "latitude": 66.154789
+    },
+    {
+      "id": 2,
+      "username": "NickiMinaj",
+      "name": "testSite2",
+      "longtitude": 23.45466,
+      "latitude": 42.154789
+    }
+  ],
+  "inverters": [
+    {
+      "id": 1,
+      "siteId": 1,
+      "model": "testModel",
+      "manufacturer": "Growad"
+    },
+    {
+      "id": 2,
+      "siteId": 1,
+      "model": "testModel",
+      "manufacturer": "Growad"
+    },
+    {
+      "id": 3,
+      "siteId": 2,
+      "model": "testModel",
+      "manufacturer": "Manuf"
+    }
+  ],
+  "devices": [
+    {
+      "id": 1,
+      "inverterId": 1,
+      "azimuth": 25,
+      "tilt": 130,
+      "capacity": 30000
+    },
+    {
+      "id": 2,
+      "inverterId": 1,
+      "azimuth": 25,
+      "tilt": 130,
+      "capacity": 30000
+    },
+    {
+      "id": 3,
+      "inverterId": 2,
+      "azimuth": 35,
+      "tilt": 110,
+      "capacity": 30000
+    },
+    {
+      "id": 4,
+      "inverterId": 3,
+      "azimuth": 50,
+      "tilt": 100,
+      "capacity": 30000
+    }
+  ],
+  "measurements": [
+    {
+      "id": 1,
+      "deviceId": 1,
+      "dateStart": "29.04.2020",
+      "dateEnd": "01.05.2020",
+      "energy": 350
+    },
+    {
+      "id": 2,
+      "deviceId": 1,
+      "dateStart": "25.04.2020",
+      "dateEnd": "28.04.2020",
+      "energy": 420
+    },
+    {
+      "id": 3,
+      "deviceId": 1,
+      "dateStart": "21.04.2020",
+      "dateEnd": "24.04.2020",
+      "energy": 333
+    },
+    {
+      "id": 4,
+      "deviceId": 2,
+      "dateStart": "29.04.2020",
+      "dateEnd": "01.05.2020",
+      "energy": 654
+    },
+    {
+      "id": 5,
+      "deviceId": 2,
+      "dateStart": "25.04.2020",
+      "dateEnd": "28.04.2020",
+      "energy": 234
+    },
+    {
+      "id": 6,
+      "deviceId": 2,
+      "dateStart": "21.04.2020",
+      "dateEnd": "24.04.2020",
+      "energy": 432
+    },
+    {
+      "id": 7,
+      "deviceId": 3,
+      "dateStart": "29.04.2020",
+      "dateEnd": "01.05.2020",
+      "energy": 12
+    },
+    {
+      "id": 8,
+      "deviceId": 3,
+      "dateStart": "25.04.2020",
+      "dateEnd": "28.04.2020",
+      "energy": 321
+    },
+    {
+      "id": 9,
+      "deviceId": 3,
+      "dateStart": "21.04.2020",
+      "dateEnd": "24.04.2020",
+      "energy": 323
+    },
+    {
+      "id": 10,
+      "deviceId": 4,
+      "dateStart": "29.04.2020",
+      "dateEnd": "01.05.2020",
+      "energy": 665
+    },
+    {
+      "id": 11,
+      "deviceId": 4,
+      "dateStart": "25.04.2020",
+      "dateEnd": "28.04.2020",
+      "energy": 432
+    },
+    {
+      "id": 12,
+      "deviceId": 4,
+      "dateStart": "21.04.2020",
+      "dateEnd": "24.04.2020",
+      "energy": 321
+    },
+    {
+      "id": 13
+    }
+  ]
+}
