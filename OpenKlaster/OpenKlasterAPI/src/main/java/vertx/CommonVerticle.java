@@ -2,6 +2,7 @@ package vertx;
 import io.vertx.core.*;
 import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.client.WebClient;
 import vertx.controller.RegisterController;
 
 public class CommonVerticle extends AbstractVerticle {
@@ -21,8 +22,8 @@ public class CommonVerticle extends AbstractVerticle {
         Router router = Router.router(vertx);
         HttpServer server = vertx.createHttpServer()
                 .requestHandler(router)
-                .listen(8080);
-        RegisterController registerController = new RegisterController();
+                .listen(8081);
+        RegisterController registerController = new RegisterController(WebClient.create(vertx));
         registerController.registerHandler(router);
         registerController.registerRequestHandler(router);
     }

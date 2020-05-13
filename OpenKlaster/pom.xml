@@ -11,6 +11,7 @@
     <modules>
         <module>OpenKlasterCore</module>
         <module>OpenKlasterAPI</module>
+        <module>MongoService</module>
     </modules>
 
 
