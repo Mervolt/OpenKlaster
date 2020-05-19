@@ -14,18 +14,51 @@
 	{ "id": 3, "inverterId": 2, "azimuth" : 35, "tilt" : 110, "capacity" : 30000 },
 	{ "id": 4, "inverterId": 3, "azimuth" : 50, "tilt" : 100, "capacity" : 30000 }
   ],
-  "measurements": [
-    { "id": 1, "deviceId": 1, "dateStart": "29.04.2020", "dateEnd": "01.05.2020", "energy" : 350  },
-	{ "id": 2, "deviceId": 1, "dateStart": "25.04.2020", "dateEnd": "28.04.2020", "energy" : 420  },
-	{ "id": 3, "deviceId": 1, "dateStart": "21.04.2020", "dateEnd": "24.04.2020", "energy" : 333  },
-	{ "id": 4, "deviceId": 2, "dateStart": "29.04.2020", "dateEnd": "01.05.2020", "energy" : 654  },
-	{ "id": 5, "deviceId": 2, "dateStart": "25.04.2020", "dateEnd": "28.04.2020", "energy" : 234  },
-	{ "id": 6, "deviceId": 2, "dateStart": "21.04.2020", "dateEnd": "24.04.2020", "energy" : 432  },
-	{ "id": 7, "deviceId": 3, "dateStart": "29.04.2020", "dateEnd": "01.05.2020", "energy" : 12  },
-	{ "id": 8, "deviceId": 3, "dateStart": "25.04.2020", "dateEnd": "28.04.2020", "energy" : 321  },
-	{ "id": 9, "deviceId": 3, "dateStart": "21.04.2020", "dateEnd": "24.04.2020", "energy" : 323  },
-	{ "id": 10, "deviceId": 4, "dateStart": "29.04.2020", "dateEnd": "01.05.2020", "energy" : 665  },
-	{ "id": 11, "deviceId": 4, "dateStart": "25.04.2020", "dateEnd": "28.04.2020", "energy" : 432  },
-	{ "id": 12, "deviceId": 4, "dateStart": "21.04.2020", "dateEnd": "24.04.2020", "energy" : 321  }
-  ]
+  "loadMeasurements": [
+    { "id": 1, "receiverId": 1, "dateStart": "29.04.2020", "dateEnd": "01.05.2020", "energy" : 350  },
+	{ "id": 2, "receiverId": 1, "dateStart": "25.04.2020", "dateEnd": "28.04.2020", "energy" : 420  },
+	{ "id": 3, "receiverId": 1, "dateStart": "21.04.2020", "dateEnd": "24.04.2020", "energy" : 333  },
+	{ "id": 4, "receiverId": 2, "dateStart": "29.04.2020", "dateEnd": "01.05.2020", "energy" : 654  },
+	{ "id": 5, "receiverId": 2, "dateStart": "25.04.2020", "dateEnd": "28.04.2020", "energy" : 234  },
+	{ "id": 6, "receiverId": 2, "dateStart": "21.04.2020", "dateEnd": "24.04.2020", "energy" : 432  },
+	{ "id": 7, "receiverId": 3, "dateStart": "29.04.2020", "dateEnd": "01.05.2020", "energy" : 12  },
+	{ "id": 8, "receiverId": 3, "dateStart": "25.04.2020", "dateEnd": "28.04.2020", "energy" : 321  },
+	{ "id": 9, "receiverId": 3, "dateStart": "21.04.2020", "dateEnd": "24.04.2020", "energy" : 323  },
+	{ "id": 10, "receiverId": 4, "dateStart": "29.04.2020", "dateEnd": "01.05.2020", "energy" : 665  },
+	{ "id": 11, "receiverId": 4, "dateStart": "25.04.2020", "dateEnd": "28.04.2020", "energy" : 432  },
+	{ "id": 12, "receiverId": 4, "dateStart": "21.04.2020", "dateEnd": "24.04.2020", "energy" : 321  }
+  ],
+	"sourceMeasurements": [
+		{ "id": 1, "inverterId": 1, "dateStart": "29.04.2020", "dateEnd": "01.05.2020", "energy" : 350  },
+		{ "id": 2, "inverterId": 1, "dateStart": "25.04.2020", "dateEnd": "28.04.2020", "energy" : 420  },
+		{ "id": 3, "inverterId": 1, "dateStart": "21.04.2020", "dateEnd": "24.04.2020", "energy" : 333  },
+		{ "id": 4, "inverterId": 2, "dateStart": "29.04.2020", "dateEnd": "01.05.2020", "energy" : 654  },
+		{ "id": 5, "inverterId": 2, "dateStart": "25.04.2020", "dateEnd": "28.04.2020", "energy" : 234  },
+		{ "id": 6, "inverterId": 2, "dateStart": "21.04.2020", "dateEnd": "24.04.2020", "energy" : 432  },
+		{ "id": 7, "inverterId": 3, "dateStart": "29.04.2020", "dateEnd": "01.05.2020", "energy" : 12  },
+		{ "id": 8, "inverterId": 3, "dateStart": "25.04.2020", "dateEnd": "28.04.2020", "energy" : 321  },
+		{ "id": 9, "inverterId": 3, "dateStart": "21.04.2020", "dateEnd": "24.04.2020", "energy" : 323  },
+		{ "id": 10, "inverterId": 4, "dateStart": "29.04.2020", "dateEnd": "01.05.2020", "energy" : 665  },
+		{ "id": 11, "inverterId": 4, "dateStart": "25.04.2020", "dateEnd": "28.04.2020", "energy" : 432  },
+		{ "id": 12, "inverterId": 4, "dateStart": "21.04.2020", "dateEnd": "24.04.2020", "energy" : 321  }
+	],
+	"energyPredictions": [
+		{ "id" : 1, "timestamp": "05.05.2020", "source": 1, "type" : "solar", "description" : "just a demo.."},
+		{ "id" : 2, "timestamp": "05.05.2020", "source": 2, "type" : "solar", "description" : "just a demo.."},
+		{ "id" : 3, "timestamp": "05.05.2020", "source": 3, "type" : "solar", "description" : "just a demo.."},
+		{ "id" : 4, "timestamp": "05.05.2020", "source": 4, "type" : "solar", "description" : "just a demo.."},
+		{ "id" : 5, "timestamp": "05.05.2020", "source": 5, "type" : "solar", "description" : "just a demo.."},
+		{ "id" : 6, "timestamp": "05.05.2020", "source": 5, "type" : "solar", "description" : "just a demo.."},
+		{ "id" : 7, "timestamp": "05.05.2020", "source": 5, "type" : "solar", "description" : "just a demo.."}
+	],
+	"weatherConditions": [
+		{ "id" : 1, "timestamp": "05.05.2020", "source": 1, "type" : "solar", "description" : "just a demo.."},
+		{ "id" : 2, "timestamp": "05.05.2020", "source": 2, "type" : "solar", "description" : "just a demo.."},
+		{ "id" : 3, "timestamp": "05.05.2020", "source": 3, "type" : "solar", "description" : "just a demo.."},
+		{ "id" : 4, "timestamp": "05.05.2020", "source": 4, "type" : "solar", "description" : "just a demo.."},
+		{ "id" : 5, "timestamp": "05.05.2020", "source": 5, "type" : "solar", "description" : "just a demo.."},
+		{ "id" : 6, "timestamp": "05.05.2020", "source": 5, "type" : "solar", "description" : "just a demo.."},
+		{ "id" : 7, "timestamp": "05.05.2020", "source": 5, "type" : "solar", "description" : "just a demo.."}
+	]
+
 }

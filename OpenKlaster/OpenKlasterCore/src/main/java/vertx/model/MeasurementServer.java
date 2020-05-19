@@ -1,15 +1,15 @@
 package vertx.model;
 
-public class DemoServer {
+public class MeasurementServer {
     int port = 3000;
     String host = "localhost";
-    String loadMeasurementEndpointAddress = "/loadMeasurements";
-    String energyPredictionsEndpointAddress = "/energyPredictions";
-    String sourceMeasurementEndpointAddress = "/sourceMeasurements";
-    String weatherConditionsEndpointAddress = "/weatherConditions";
+    String energyPredictionsEndpointAddress = "/energypredictions";
+    String loadMeasurementEndpointAddress = "/loadmeasurement";
+    String sourceMeasurementEndpointAddress = "/energypredictions";
+    String weatherConditionsEndpointAddress = "/energypredictions";
 
-    public static DemoServer getMeasurementEndpoint(){
-        return new DemoServer();
+    public static MeasurementServer getMeasurementEndpoint(){
+        return new MeasurementServer();
     }
 
     public int getPort() {
@@ -35,6 +35,7 @@ public class DemoServer {
     public void setLoadMeasurementEndpointAddress(String loadMeasurementEndpointAddress) {
         this.loadMeasurementEndpointAddress = loadMeasurementEndpointAddress;
     }
+
     public String getEnergyPredictionsEndpointAddress() {
         return energyPredictionsEndpointAddress;
     }

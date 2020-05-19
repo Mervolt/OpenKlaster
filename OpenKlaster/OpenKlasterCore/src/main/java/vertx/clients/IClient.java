@@ -3,5 +3,8 @@ package vertx.clients;
 import io.vertx.core.Vertx;
 
 public interface IClient {
-    void getMeasurement(int id);
+    void getLoadMeasurement(int id);
+    void getSourceMeasurement(int id);
+    void getEnergyPrediction(int id);
+    void getWeatherConditions(int id);
 }
