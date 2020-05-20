@@ -12,7 +12,7 @@ public class SourceMeasurementHandler extends CassandraHandler {
     private final Mapper<SourceMeasurement> mapper;
 
     public SourceMeasurementHandler(CassandraClient cassandraClient) {
-        super(cassandraClient, "/sourcemeasurement/", "sourcemeasurement", "inverterId");
+        super(cassandraClient, "/sourcemeasurement", "sourcemeasurement", "inverterId");
         this.mapper = mappingManager.mapper(SourceMeasurement.class);
     }
 

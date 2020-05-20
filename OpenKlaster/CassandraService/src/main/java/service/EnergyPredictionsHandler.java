@@ -12,7 +12,7 @@ public class EnergyPredictionsHandler extends CassandraHandler {
     private final Mapper<EnergyPredictions> mapper;
 
     public EnergyPredictionsHandler(CassandraClient cassandraClient) {
-        super(cassandraClient, "/energypredictions/", "energypredictions", "installationId");
+        super(cassandraClient, "/energypredictions", "energypredictions", "installationId");
         this.mapper = mappingManager.mapper(EnergyPredictions.class);
     }
 

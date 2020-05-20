@@ -12,7 +12,7 @@ public class LoadMeasurementHandler extends CassandraHandler {
     private final Mapper<LoadMeasurement> mapper;
 
     public LoadMeasurementHandler(CassandraClient cassandraClient) {
-        super(cassandraClient, "/loadmeasurement/", "loadmeasurement", "receiverId");
+        super(cassandraClient, "/loadmeasurement", "loadmeasurement", "receiverId");
         this.mapper = mappingManager.mapper(LoadMeasurement.class);
     }
 

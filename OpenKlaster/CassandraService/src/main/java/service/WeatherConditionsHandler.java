@@ -12,7 +12,7 @@ public class WeatherConditionsHandler extends CassandraHandler {
     private final Mapper<WeatherConditions> mapper;
 
     public WeatherConditionsHandler(CassandraClient cassandraClient) {
-        super(cassandraClient, "/weatherconditions/", "weatherconditions", "installationId");
+        super(cassandraClient, "/weatherconditions", "weatherconditions", "installationId");
         this.mapper = mappingManager.mapper(WeatherConditions.class);
     }
 

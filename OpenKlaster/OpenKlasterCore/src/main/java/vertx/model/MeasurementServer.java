@@ -1,7 +1,7 @@
 package vertx.model;
 
 public class MeasurementServer {
-    int port = 3000;
+    int port = 8190;
     String host = "localhost";
     String energyPredictionsEndpointAddress = "/energypredictions";
     String loadMeasurementEndpointAddress = "/loadmeasurement";
