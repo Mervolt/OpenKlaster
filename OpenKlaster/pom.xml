@@ -12,6 +12,7 @@
         <module>OpenKlasterCore</module>
         <module>OpenKlasterAPI</module>
         <module>MongoService</module>
+        <module>CassandraService</module>
     </modules>
 
 
