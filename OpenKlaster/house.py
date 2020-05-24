@@ -27,18 +27,17 @@ def energy_load(x):
         return random.randint(1, 10) / 100
 
 
-def post_energy_porduction(energy_produced, device_id):
-    url = 'http://localhost:8082/power/production/'
-    myobj = {'deviceId': device_id, 'value': round(energy_produced, 3)}
-    print(myobj)
+def post_energy_porduction(energy_produced, inverter_id):
+    url = 'http://localhost:8082/power/production'
+    myobj = {'inverterId': inverter_id, 'value': round(energy_produced, 3)}
     x = requests.post(url, data=myobj)
+    print(x)
 
-
-def post_energy_load(energy_consumed, inverter_id):
-    url = 'http://localhost:8082power/consumption/'
-    myobj = {'inverterId': inverter_id, 'value': round(energy_consumed, 3)}
-    print(myobj)
+def post_energy_load(energy_consumed, receiver_id):
+    url = 'http://localhost:8082power/consumption'
+    myobj = {'receiverId': receiver_id, 'value': round(energy_consumed, 3)}
     x = requests.post(url, data=myobj)
+    print(x)
 
 
 def house():
