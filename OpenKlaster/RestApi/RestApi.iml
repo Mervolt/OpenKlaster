@@ -11,7 +11,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.12" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-web-client:3.9.0" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-web-common:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.5.2" level="project" />
     <orderEntry type="library" name="Maven: org.apiguardian:apiguardian-api:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.junit.platform:junit-platform-engine:1.5.2" level="project" />
@@ -40,7 +41,6 @@
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.24" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-config:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-web:3.9.0" level="project" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-web-common:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-auth-common:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-bridge-common:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-jdbc-client:3.9.0" level="project" />

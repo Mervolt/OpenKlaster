@@ -2,20 +2,25 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="MongoService" />
         <module name="OpenKlasterCore" />
-        <module name="OpenKlasterAPI" />
+        <module name="MongoService" />
+        <module name="UserService" />
+        <module name="RestApi" />
+        <module name="CommonService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="CommonService" target="1.8" />
       <module name="MongoService" target="1.8" />
       <module name="OpenKlaster" target="1.8" />
-      <module name="OpenKlasterAPI" target="1.8" />
       <module name="OpenKlasterCore" target="1.8" />
+      <module name="RestApi" target="1.8" />
+      <module name="UserService" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

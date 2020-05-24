@@ -4,7 +4,6 @@ import parser.EntityParser;
 import service.EntityHandler;
 import service.MongoPersistenceService;
 
-//TODO ZROBIC
 public abstract class EntityConfig<T> {
 
     protected EntityParser<T> parser;
