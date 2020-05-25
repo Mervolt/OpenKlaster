@@ -55,7 +55,7 @@ public class ApiVerticle extends AbstractVerticle {
         endpointConfigs.add(new EnergyMeasurementConfig(configAccessor.getJsonObject("energy.endpoint"), new EnergyMeasurementHandler()));
         //WebClient waits for DI, now I'm creating new :C
         endpointConfigs.add(new PowerMeasurementConfig(configAccessor.getJsonObject("power.endpoint"),
-                new PowerMeasurementHandler(WebClient.create(vertx),configAccessor.getJsonObject("power.handler"))));
+                new PowerMeasurementHandler(WebClient.create(vertx),configAccessor.getRootConfig())));
 
         for(EndpointConfig config : endpointConfigs){
             config.configureRouter(router);

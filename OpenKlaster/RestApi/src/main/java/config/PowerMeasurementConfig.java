@@ -20,11 +20,13 @@ public class PowerMeasurementConfig extends EndpointConfig {
 
     @Override
     public void configureRouter(Router router) {
-        router.route(MAIN_ROUTE).handler(BodyHandler.create());
+        router.route(MAIN_ROUTE + CONSUMPTION_ROUTE).handler(BodyHandler.create());
         router.get(MAIN_ROUTE + CONSUMPTION_ROUTE).consumes(ROUTE_CONSUMES)
                 .handler(handler::getPowerConsumption);
         router.post(MAIN_ROUTE + CONSUMPTION_ROUTE).consumes(ROUTE_CONSUMES)
                 .handler(handler::addPowerConsumption);
+
+        router.route(MAIN_ROUTE + PRODUCTION_ROUTE).handler(BodyHandler.create());
         router.get(MAIN_ROUTE + PRODUCTION_ROUTE).consumes(ROUTE_CONSUMES)
                 .handler(handler::getPowerProduction);
         router.post(MAIN_ROUTE + PRODUCTION_ROUTE).consumes(ROUTE_CONSUMES)

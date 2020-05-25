@@ -23,6 +23,10 @@ public class PowerMeasurementHandler extends EndpointHandler {
         addPowerMeasurement("cassandra.route.load","receiverId",context);
     }
 
+    public void getPowerConsumption(RoutingContext context) {
+        getPowerMeasurement("cassandra.route.load","receiverId",context);
+    }
+
     public void addPowerProduction(RoutingContext context) {
         addPowerMeasurement("cassandra.route.source","inverterId",context);
     }
@@ -31,23 +35,19 @@ public class PowerMeasurementHandler extends EndpointHandler {
         getPowerMeasurement("cassandra.route.source","inverterId",context);
     }
 
-    public void getPowerConsumption(RoutingContext context) {
-        getPowerMeasurement("cassandra.route.load","receiverId",context);
-    }
-
     private void addPowerMeasurement(String routeConfigPath, String deviceIdKey, RoutingContext context) {
         JsonObject jsonObject = context.getBodyAsJson();
         webClient.post(config.getInteger("cassandra.port"), config.getString("cassandra.host"),
                 config.getString(routeConfigPath))
                 .putHeader("Content-type", config.getString("cassandra.consumes"))
-                .addQueryParam("value", jsonObject.getString("value"))
-                .addQueryParam(deviceIdKey, jsonObject.getString(deviceIdKey))
+                .addQueryParam("value", jsonObject.getInteger("value").toString())
+                .addQueryParam(deviceIdKey, jsonObject.getInteger(deviceIdKey).toString())
                 .send(resp -> {
                     if (resp.succeeded()) {
                         context.response().setStatusCode(HttpResponseStatus.OK.code())
                                 .end();
                     } else {
-                        logger.error(resp.cause());
+                        logger.error("Error while adding Power Measurement: " + resp.cause());
                         context.response().setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code())
                                 .end();
                     }

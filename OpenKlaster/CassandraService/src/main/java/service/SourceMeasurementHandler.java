@@ -21,7 +21,8 @@ public class SourceMeasurementHandler extends CassandraHandler {
             String receiverIdString = routingContext.request().getParam(idType);
             String valueString = routingContext.request().getParam("value");
             String cumulativelyString = routingContext.request().getParam("cumulatively");
-
+            System.out.println(receiverIdString);
+            System.out.println(valueString);
             int inverterId;
             double value;
             try {

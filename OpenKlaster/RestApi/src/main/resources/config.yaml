@@ -4,22 +4,23 @@ http:
 energy:
   endpoint:
     route:
-      main: "/energy/"
-      production: "production/"
-      consumption: "consumption/"
-    consumes: "application-json"
-  handler:
-    cassandra:
-      port: 8083
-      host: "localhost"
-      consumes: "application/json"
-      route:
-        load: "/loadmeasurement/"
-        source: "/sourcemeasurement/"
+      main: "/energy"
+      production: "/production"
+      consumption: "/consumption"
+    consumes: "application/json"
+
 power:
   endpoint:
     route:
-      main: "/power/"
-      production: "production/"
-      consumption: "consumption/"
-    consumes: "application-json"
+      main: "/power"
+      production: "/production"
+      consumption: "/consumption"
+    consumes: "application/json"
+
+cassandra:
+  port: 8191
+  host: "localhost"
+  consumes: "application/json"
+  route:
+    load: "/loadmeasurement"
+    source: "/sourcemeasurement"
