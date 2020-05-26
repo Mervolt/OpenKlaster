@@ -1,55 +1,59 @@
+import json
+import sys
 import threading
 import numpy
 import datetime
 import random
 import requests
 
-period_of_time = 30
 
 i = 0
 energy_produced = 0
 energy_consumed = 0
 
 
-def energy_porduction(x):
-    produced = numpy.sin(numpy.pi / 13 * (x - 4))
-    if produced > 0:
-        return produced
+# If we get a positive value from the function, it is returned. If negative we draw a small number.
+def count_function(function, x):
+    y = function(x);
+    if y > 0:
+        return y
     else:
         return random.randint(1, 10) / 100
 
 
-def energy_load(x):
-    load = numpy.sin(numpy.pi / 6 * x - 2)
-    if load > 0:
-        return load
+def energy_production_function(x):
+    return numpy.sin(numpy.pi / 13 * (x - 4))
+
+
+def energy_load_function(x):
+    return numpy.sin(numpy.pi / 6 * x - 2)
+
+
+def post_energy(id_type, id, energy):
+    if id_type == "inverterId":
+        url = 'http://localhost:8082/power/production'
+    elif id_type == "receiverId":
+        url = 'http://localhost:8082/power/consumption'
+
+    obj = {id_type: id, 'value': round(energy, 3)}
+    headers = {'content-type': 'application/json'}
+    x = requests.post(url, data=json.dumps(obj), headers=headers)
+    if x.status_code == 200:
+        print("Post request sent " + str(obj))
     else:
-        return random.randint(1, 10) / 100
-
-
-def post_energy_porduction(energy_produced, inverter_id):
-    url = 'http://localhost:8082/power/production'
-    myobj = {'inverterId': inverter_id, 'value': round(energy_produced, 3)}
-    x = requests.post(url, data=myobj)
-    print(x)
-
-def post_energy_load(energy_consumed, receiver_id):
-    url = 'http://localhost:8082power/consumption'
-    myobj = {'receiverId': receiver_id, 'value': round(energy_consumed, 3)}
-    x = requests.post(url, data=myobj)
-    print(x)
+        print("Problem with sending post request. Status code: " + str(x.status_code))
 
 
 def house():
     global period_of_time, i, energy_produced, energy_consumed
     now = datetime.datetime.now()
-    energy_produced += energy_porduction(now.hour + (now.minute * 60 + now.second) / 3600)
-    energy_consumed += energy_load(now.hour + (now.minute * 60 + now.second) / 3600)
+    energy_produced += count_function(energy_production_function, now.hour + (now.minute * 60 + now.second) / 3600)
+    energy_consumed += count_function(energy_load_function, now.hour + (now.minute * 60 + now.second) / 3600)
 
     i += 1
     if i == period_of_time:
-        post_energy_porduction(energy_produced, 42)
-        post_energy_load(energy_consumed, 23)
+        post_energy("inverterId", 42, energy_produced)
+        post_energy("receiverId", 23, energy_consumed)
         i = 0
         energy_produced = 0
         energy_consumed = 0
@@ -58,4 +62,9 @@ def house():
 
 
 if __name__ == '__main__':
-    house()
+    global period_of_time
+    if len(sys.argv) < 2:
+        print("As a parameter, enter a number specifying every how many seconds post request should be sent.")
+    else:
+        period_of_time = int(sys.argv[1])
+        house()
