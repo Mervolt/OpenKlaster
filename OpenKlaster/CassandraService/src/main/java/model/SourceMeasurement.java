@@ -20,39 +20,14 @@ public class SourceMeasurement {
         this.value = value;
     }
 
-    public SourceMeasurement() {
-    }
-
-    public int getInverterId() {
-        return inverterId;
-    }
-
-    public void setInverterId(int inverterId) {
-        this.inverterId = inverterId;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
+    @Override
+    public String toString() {
+        return "SourceMeasurement{" +
+                "timestamp=" + timestamp +
+                ", inverterId=" + inverterId +
+                ", unit='" + unit + '\'' +
+                ", value=" + value +
+                '}';
     }
 }
 

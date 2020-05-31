@@ -1,0 +1,30 @@
+http:
+  port: 8191
+
+cassandra:
+  port: 9042
+  keyspace: "openklaster"
+
+sourcemeasurement:
+  route: "/sourcemeasurement"
+  table: "sourcemeasurement"
+  idtype: "inverterId"
+  content-type: "application/json; charset=utf-8"
+
+loadmeasurement:
+  route: "/loadmeasurement"
+  table: "loadmeasurement"
+  idtype: "receiverId"
+  content-type: "application/json; charset=utf-8"
+
+energypredictions:
+  route: "/energypredictions"
+  table: "energypredictions"
+  idtype: "installationId"
+  content-type: "application/json; charset=utf-8"
+
+weatherconditions:
+  route: "/weatherconditions"
+  table: "weatherconditions"
+  idtype: "installationId"
+  content-type: "application/json; charset=utf-8"

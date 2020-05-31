@@ -20,39 +20,14 @@ public class LoadMeasurement {
         this.value = value;
     }
 
-    public LoadMeasurement() {
-    }
-
-    public int getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(int receiverId) {
-        this.receiverId = receiverId;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
+    @Override
+    public String toString() {
+        return "LoadMeasurement{" +
+                "timestamp=" + timestamp +
+                ", receiverId=" + receiverId +
+                ", unit='" + unit + '\'' +
+                ", value=" + value +
+                '}';
     }
 }
 

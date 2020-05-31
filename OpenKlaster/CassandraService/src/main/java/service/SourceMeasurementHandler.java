@@ -3,6 +3,8 @@ package service;
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.Mapper;
 import io.vertx.core.Handler;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.RoutingContext;
 import model.SourceMeasurement;
 
@@ -11,32 +13,21 @@ import java.util.Date;
 public class SourceMeasurementHandler extends CassandraHandler {
     private final Mapper<SourceMeasurement> mapper;
 
-    public SourceMeasurementHandler(CassandraClient cassandraClient) {
-        super(cassandraClient, "/sourcemeasurement", "sourcemeasurement", "inverterId");
+    public SourceMeasurementHandler(CassandraClient cassandraClient, JsonObject configObject) {
+        super(cassandraClient, configObject);
+        logger = LoggerFactory.getLogger(SourceMeasurementHandler.class);
         this.mapper = mappingManager.mapper(SourceMeasurement.class);
     }
 
-    public Handler<RoutingContext> postHandler() {
+    @Override
+    public Handler<RoutingContext> createPostHandler() {
         return routingContext -> {
-            String receiverIdString = routingContext.request().getParam(idType);
-            String valueString = routingContext.request().getParam("value");
-            String cumulativelyString = routingContext.request().getParam("cumulatively");
+            int id = parseInt(routingContext, idType);
+            float value = parseFloat(routingContext, "value");
+            String unit = parseUnit(routingContext);
 
-            int inverterId;
-            double value;
-            try {
-                inverterId = Integer.parseInt(receiverIdString);
-                value = Double.parseDouble(valueString);
-            } catch(NumberFormatException | NullPointerException e) {
-                routingContext.response()
-                        .setStatusCode(400)
-                        .end();
-                return;
-            }
-            String unit = cumulativelyString != null && cumulativelyString.equals("yes") ? "kWH" : "kW";
-
-            SourceMeasurement sourceMeasurement = new SourceMeasurement(inverterId, new Date(), unit, value);
-            mapper.save(sourceMeasurement, handler(routingContext));
+            SourceMeasurement sourceMeasurement = new SourceMeasurement(id, new Date(), unit, value);
+            mapper.save(sourceMeasurement, handler(routingContext, sourceMeasurement.toString()));
         };
     }
 }

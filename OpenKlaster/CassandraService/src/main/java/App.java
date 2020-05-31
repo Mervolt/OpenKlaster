@@ -1,10 +1,11 @@
+import config.ConfigFilesManager;
 import io.vertx.core.Vertx;
 
 public class App {
-
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
-        Verticle myVerticle = new Verticle(vertx);
-        vertx.deployVerticle(myVerticle);
+        ConfigFilesManager configFilesManager = new ConfigFilesManager();
+        Verticle verticle = new Verticle(vertx, configFilesManager.getConfig(vertx));
+        vertx.deployVerticle(verticle);
     }
 }
