@@ -48,6 +48,7 @@ public abstract class CassandraHandler {
             String startDate = parseDate(routingContext, "startDate");
             String endDate = parseDate(routingContext, "endDate");
             String query = String.format(select, table, idType.toLowerCase(), id, startDate, endDate);
+            System.out.println(query);
             cassandraClient.executeWithFullFetch(query, resultHandler(routingContext));
         };
     }
@@ -134,7 +135,7 @@ public abstract class CassandraHandler {
 
     protected String parseDate(RoutingContext routingContext, String param) {
         String dateToValdate = routingContext.request().getParam(param);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         formatter.setLenient(false);
         Date parsedDate = null;
         try {
@@ -145,6 +146,19 @@ public abstract class CassandraHandler {
                     .setStatusCode(HttpResponseStatus.BAD_REQUEST.code())
                     .end();
         }
-        return formatter.format(parsedDate);
+        return formatter.format(parsedDate).replace("_", " ");
+    }
+
+    protected Date parseTimestamp(RoutingContext routingContext) {
+        String timestamp = routingContext.request().getParam("timestamp");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        formatter.setLenient(false);
+        Date parsedDate = null;
+        try {
+            parsedDate = formatter.parse(timestamp);
+        } catch (ParseException e) {
+            return new Date();
+        }
+        return parsedDate;
     }
 }

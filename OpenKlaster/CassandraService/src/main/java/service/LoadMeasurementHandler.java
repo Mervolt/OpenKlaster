@@ -8,6 +8,8 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.RoutingContext;
 import model.LoadMeasurement;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class LoadMeasurementHandler extends CassandraHandler {
@@ -25,8 +27,9 @@ public class LoadMeasurementHandler extends CassandraHandler {
             int id = parseInt(routingContext, idType);
             float value = parseFloat(routingContext, "value");
             String unit = parseUnit(routingContext);
+            Date timestamp = parseTimestamp(routingContext);
 
-            LoadMeasurement loadMeasurement = new LoadMeasurement(id, new Date(), unit, value);
+            LoadMeasurement loadMeasurement = new LoadMeasurement(id, timestamp, unit, value);
             mapper.save(loadMeasurement, handler(routingContext, loadMeasurement.toString()));
         };
     }
