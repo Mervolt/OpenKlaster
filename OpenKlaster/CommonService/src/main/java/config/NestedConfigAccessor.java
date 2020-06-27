@@ -23,6 +23,10 @@ public class NestedConfigAccessor {
         this.PATH_SPLIT_REGEX = splitRegex;
     }
 
+    public NestedConfigAccessor getPathConfigAccessor(String path){
+        return new NestedConfigAccessor(getJsonObject(path));
+    }
+
     public JsonObject getRootConfig(){
         return this.config;
     }

@@ -4,25 +4,25 @@ import parser.EntityParser;
 import service.EntityHandler;
 import service.MongoPersistenceService;
 
-public abstract class EntityConfig<T> {
+public abstract class EntityConfig {
 
-    protected EntityParser<T> parser;
-    protected EntityHandler<T> handler;
-    protected String collectionName;
-    protected String route;
+    protected EntityParser parser;
+    protected EntityHandler handler;
     protected MongoPersistenceService mongoPersistenceService;
+    protected NestedConfigAccessor config;
 
 
-    public EntityConfig(EntityParser<T> parser, EntityHandler<T> handler){
+    public EntityConfig(EntityParser parser, EntityHandler handler, NestedConfigAccessor config){
         this.handler=handler;
         this.parser=parser;
+        this.config=config;
     }
 
-    public  EntityParser<T> getParser(){
+    public  EntityParser getParser(){
         return this.parser;
     }
-    public EntityHandler<T> getHandler(){return this.handler;}
-    public String getCollectionName(){return this.collectionName;}
-    public String getRoute(){return this.route;}
+    public EntityHandler getHandler(){return this.handler;}
+    public String getCollectionName(){return this.config.getString("mongo.collectionName");}
+    public String getBusAddress(){return this.config.getString("bus.address");}
 
 }

@@ -2,20 +2,16 @@ package parser;
 
 import io.vertx.core.json.JsonObject;
 import model.EnergySourceCalculator;
+import model.Installation;
 
 public class EnergySourceCalculatorParser implements EntityParser<EnergySourceCalculator> {
     @Override
     public JsonObject toJsonObject(EnergySourceCalculator entity) {
-        return new JsonObject()
-                .put("sourceName", entity.getSourceName())
-                .put("energyValue", entity.getEnergyValue());
+        return JsonObject.mapFrom(entity);
     }
 
     @Override
     public EnergySourceCalculator toEntity(JsonObject jsonObject) {
-        EnergySourceCalculator outp = new EnergySourceCalculator();
-        outp.setEnergyValue(jsonObject.getDouble("energyValue"));
-        outp.setSourceName(jsonObject.getString("sourceName"));
-        return outp;
+        return jsonObject.mapTo(EnergySourceCalculator.class);
     }
 }

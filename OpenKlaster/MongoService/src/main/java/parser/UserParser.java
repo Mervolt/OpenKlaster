@@ -1,21 +1,19 @@
 package parser;
 
 import io.vertx.core.json.JsonObject;
+import model.Installation;
 import model.User;
 
 public class UserParser implements EntityParser<User> {
 
-    public JsonObject toJsonObject(User user){
-        return new JsonObject()
-                .put("_id",user.getUsername())
-                .put("password",user.getPassword());
+    @Override
+    public JsonObject toJsonObject(User entity) {
+        return JsonObject.mapFrom(entity);
     }
 
+    @Override
     public User toEntity(JsonObject jsonObject) {
-        User outp = new User();
-        outp.setPassword(jsonObject.getString("password"));
-        outp.setUsername(jsonObject.getString("_id"));
-        return outp;
+        return jsonObject.mapTo(User.class);
     }
 
 }

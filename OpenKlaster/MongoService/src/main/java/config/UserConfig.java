@@ -5,12 +5,11 @@ import parser.UserParser;
 import service.MongoPersistenceService;
 import service.UserHandler;
 
-public class UserConfig  extends EntityConfig<User>{
+public class UserConfig  extends EntityConfig{
 
-    public UserConfig(MongoPersistenceService service, UserParser parser) {
-        super(parser, new UserHandler(parser,service));
+    public UserConfig(MongoPersistenceService service, UserParser parser, NestedConfigAccessor config) {
+        super(parser, new UserHandler(parser,service, config), config);
         mongoPersistenceService = service;
-        collectionName= "userz";
-        route="/users/";
+
     }
 }

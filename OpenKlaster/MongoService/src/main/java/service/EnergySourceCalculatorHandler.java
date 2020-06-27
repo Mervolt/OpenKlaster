@@ -1,13 +1,15 @@
 package service;
 
+import config.NestedConfigAccessor;
 import io.vertx.core.logging.LoggerFactory;
 import model.EnergySourceCalculator;
 import parser.EntityParser;
 
-public class EnergySourceCalculatorHandler extends EntityHandler<EnergySourceCalculator>{
-    public EnergySourceCalculatorHandler(EntityParser<EnergySourceCalculator> parser, MongoPersistenceService service) {
-        super(parser, service);
+public class EnergySourceCalculatorHandler extends EntityHandler{
+    public EnergySourceCalculatorHandler(EntityParser<EnergySourceCalculator> parser,
+                                         MongoPersistenceService service,
+                                         NestedConfigAccessor config) {
+        super(parser, service, config);
         logger = LoggerFactory.getLogger(EnergySourceCalculatorHandler.class);
-        collectionName= "energySourceCalculators";
     }
 }
