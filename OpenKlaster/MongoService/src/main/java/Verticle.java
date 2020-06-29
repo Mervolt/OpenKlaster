@@ -37,7 +37,6 @@ public class Verticle extends AbstractVerticle {
 
     @Override
     public void start(Promise<Void> promise) {
-
         Router router = Router.router(vertx);
         router.route("/").handler(routingContext -> {
             HttpServerResponse response = routingContext.response();
@@ -45,7 +44,7 @@ public class Verticle extends AbstractVerticle {
                     .end("Ended...");
         });
 
-        HttpServer server = vertx.createHttpServer()
+        vertx.createHttpServer()
                 .requestHandler(router)
                 .listen(8081);
         routerConfig(router);
