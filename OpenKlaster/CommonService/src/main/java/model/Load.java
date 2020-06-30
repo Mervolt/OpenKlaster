@@ -3,7 +3,7 @@ package model;
 import lombok.Data;
 
 @Data
-public class Load implements Model{
+public class Load extends Model{
     private String _id;
     private String installationId;
     private String name;

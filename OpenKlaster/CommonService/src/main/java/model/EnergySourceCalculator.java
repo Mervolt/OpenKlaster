@@ -3,7 +3,7 @@ package model;
 import lombok.Data;
 
 @Data
-public class EnergySourceCalculator implements Model{
+public class EnergySourceCalculator extends Model{
     private String sourceName;
     private Double energyValue;
 }

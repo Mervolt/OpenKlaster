@@ -1,5 +1,6 @@
 package handler;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.MultiMap;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
@@ -14,11 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 public class DefaultHandler extends Handler {
-
-    private static String access_token = "access_token";
-    private static int requestTimeout = 15000;
-
-
     public DefaultHandler(String coreRoute, String route, EventBus eventBus, IParseStrategy<? extends Model> parseStrategy) {
         super(coreRoute, route, eventBus, parseStrategy);
     }
@@ -31,15 +27,14 @@ public class DefaultHandler extends Handler {
         }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions("post");
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.postMethodHeader);
 
         eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
             if(coreResponse.succeeded()){
                 handleSuccessfulRequest(context.response());
             }
             else{
-                context.response().putHeader("content-type", "text/html")
-                        .end("<h1>Errors during processing the request</h1>");
+                handleProcessingError(context.response());
             }
         });
     }
@@ -52,18 +47,17 @@ public class DefaultHandler extends Handler {
         }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions("get");
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.getMethodHeader);
 
         eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
             if(coreResponse.succeeded()){
                 /*
-                * TODO add already existing handler*/
+                * TODO add already existing record handler*/
                 context.response().putHeader("content-type", "application/json; charset=utf-8")
                         .end(Json.encodePrettily(coreResponse.result().body()));
             }
             else{
-                context.response().putHeader("content-type", "text/html")
-                        .end("<h1>Errors during processing the request</h1>");
+                handleProcessingError(context.response());
             }
         });
     }
@@ -76,15 +70,14 @@ public class DefaultHandler extends Handler {
         }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions("put");
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.putMethodHeader);
 
         eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
             if(coreResponse.succeeded()){
                 handleSuccessfulRequest(context.response());
             }
             else{
-                context.response().putHeader("content-type", "text/html")
-                        .end("<h1>Errors during processing the request</h1>");
+                handleProcessingError(context.response());
             }
         });
     }
@@ -97,19 +90,17 @@ public class DefaultHandler extends Handler {
         }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions("delete");
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.deleteMethodHeader);
 
         eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
             if(coreResponse.succeeded()){
                 handleSuccessfulRequest(context.response());
             }
             else{
-                context.response().putHeader("content-type", "text/html")
-                        .end("<h1>Errors during processing the request</h1>");
+                handleProcessingError(context.response());
             }
         });
     }
-
 
     private boolean isPutPostRequestInvalid(RoutingContext context){
         JsonObject jsonModel = context.getBodyAsJson();
@@ -135,21 +126,20 @@ public class DefaultHandler extends Handler {
     }
 
     private void handleUnprocessableRequest(HttpServerResponse response){
-        response.setStatusCode(422);
-        response.setStatusMessage("Request entity is unprocessable for this request");
+        response.setStatusCode(HttpResponseStatus.UNPROCESSABLE_ENTITY.code());
+        response.setStatusMessage(HandlerProperties.unprocessableEntityMessage);
         response.end();
     }
 
     private void handleSuccessfulRequest(HttpServerResponse response) {
-        response.setStatusCode(200);
-        response.setStatusMessage("Successful request");
+        response.setStatusCode(HttpResponseStatus.OK.code());
+        response.setStatusMessage(HandlerProperties.successfulRequestMessage);
         response.end();
     }
 
-
     private boolean isGetDeleteRequestInvalid(RoutingContext context){
         MultiMap params = context.queryParams();
-        params.remove(access_token);
+        params.remove(HandlerProperties.accessToken);
         return areRequestParamsUnprocessable(params);
     }
 
@@ -164,16 +154,15 @@ public class DefaultHandler extends Handler {
         return jsonModel;
     }
 
-
     private DeliveryOptions createRequestDeliveryOptions(String requestMethod){
         DeliveryOptions deliveryOptions = new DeliveryOptions();
-        deliveryOptions.addHeader("method", requestMethod);
-        deliveryOptions.setSendTimeout(requestTimeout);
+        deliveryOptions.addHeader(HandlerProperties.methodKeyHeader, requestMethod);
+        deliveryOptions.setSendTimeout(HandlerProperties.requestDefaultTimeout);
         return deliveryOptions;
     }
 
-
-
-
-
+    private void handleProcessingError(HttpServerResponse response) {
+        response.putHeader("content-type", "text/html")
+                .end(HandlerProperties.processingErrorMessage);
+    }
 }

@@ -3,7 +3,7 @@ package model;
 import lombok.Data;
 
 @Data
-public class Source implements Model{
+public class Source extends Model{
     private String _id;
     private Integer azimuth;
     private String inverterId;
