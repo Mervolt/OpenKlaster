@@ -1,9 +1,11 @@
 package vertx;
 
 import codec.GenericCodec;
+import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
@@ -29,10 +31,43 @@ public class CommonCoreVerticle{
                 Vertx vertx = result.result();
                 EventBus eventBus = vertx.eventBus();
 
-                eventBus.<JsonObject>consumer("openKlaster.core.request.post", message -> {
+                eventBus.<JsonObject>consumer("openKlaster.core.user", message -> {
+                    MultiMap headers = message.headers();
+                    if(!headers.contains("method"))
+                        /*
+                        * handle unprocessable..
+                        */
+                        message.reply(null);
                     JsonObject json = message.body();
-                    System.out.println(json);
+                    message.reply(json);
                 });
+
+
+                eventBus.<JsonObject>consumer("openKlaster.core.load", message -> {
+                    JsonObject json = message.body();
+                    message.reply(json);
+                });
+
+                eventBus.<JsonObject>consumer("openKlaster.core.source", message -> {
+                    JsonObject json = message.body();
+                    message.reply(json);
+                });
+
+                eventBus.<JsonObject>consumer("openKlaster.core.inverter", message -> {
+                    JsonObject json = message.body();
+                    message.reply(json);
+                });
+
+                eventBus.<JsonObject>consumer("openKlaster.core.installation", message -> {
+                    JsonObject json = message.body();
+                    message.reply(json);
+                });
+
+                eventBus.<JsonObject>consumer("openKlaster.core.energySourceCalculator", message -> {
+                    JsonObject json = message.body();
+                    message.reply(json);
+                });
+
             }
         });
     }

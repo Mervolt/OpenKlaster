@@ -11,8 +11,7 @@ import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
-import model.Load;
-import model.User;
+import model.*;
 import parser.DefaultParseStrategy;
 
 import java.util.Arrays;
@@ -50,8 +49,19 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                 vertx = result.result();
                 eventBus = vertx.eventBus();
                 handlers = Arrays.asList(
-                        new DefaultHandler("/user", eventBus, new DefaultParseStrategy<User>(User.class)),
-                        new DefaultHandler("/load", eventBus, new DefaultParseStrategy<Load>(Load.class)));
+                        new DefaultHandler("openKlaster.core.user",
+                                "/user", eventBus, new DefaultParseStrategy<User>(User.class)),
+                        new DefaultHandler("openKlaster.core.load",
+                                "/load", eventBus, new DefaultParseStrategy<Load>(Load.class)),
+                        new DefaultHandler("openKlaster.core.source",
+                                "/source", eventBus, new DefaultParseStrategy<Source>(Source.class)),
+                        new DefaultHandler("openKlaster.core.inverter",
+                                "/inverter", eventBus, new DefaultParseStrategy<Inverter>(Inverter.class)),
+                        new DefaultHandler("openKlaster.core.installation",
+                                "/installation", eventBus, new DefaultParseStrategy<Installation>(Installation.class)),
+                        new DefaultHandler("openKlaster.core.energySourceCalculator",
+                                "/energySourceCalculator", eventBus,
+                                new DefaultParseStrategy<EnergySourceCalculator>(EnergySourceCalculator.class)));
                 promise.complete();
 
             }
@@ -101,7 +111,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
             router.post(handler.getRoute()).consumes("application/json").handler(handler::post);
             router.get(handler.getRoute()).handler(handler::get);
             router.put(handler.getRoute()).consumes("application/json").handler(handler::put);
-            router.delete(handler.getRoute()).consumes("application/json").handler(handler::delete);
+            router.delete(handler.getRoute()).handler(handler::delete);
         });
     }
 }

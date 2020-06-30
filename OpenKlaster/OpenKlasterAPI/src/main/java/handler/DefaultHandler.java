@@ -1,8 +1,10 @@
 package handler;
 
 import io.vertx.core.MultiMap;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import model.Model;
@@ -14,65 +16,104 @@ import java.util.Map;
 public class DefaultHandler extends Handler {
 
     private static String access_token = "access_token";
+    private static int requestTimeout = 15000;
 
-    public DefaultHandler(String route, EventBus eventBus, IParseStrategy<? extends Model> parseStrategy) {
-        super(route, eventBus, parseStrategy);
+
+    public DefaultHandler(String coreRoute, String route, EventBus eventBus, IParseStrategy<? extends Model> parseStrategy) {
+        super(coreRoute, route, eventBus, parseStrategy);
     }
 
     @Override
     public void post(RoutingContext context) {
-        if(isPutPostRequestInvalid(context))
+        if(isPutPostRequestInvalid(context)) {
+            handleUnprocessableRequest(context.response());
             return;
+        }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        eventBus.send("openKlaster.core.request.post", jsonModel);
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions("post");
 
-        handleSuccessfulRequest(context.response());
+        eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
+            if(coreResponse.succeeded()){
+                handleSuccessfulRequest(context.response());
+            }
+            else{
+                context.response().putHeader("content-type", "text/html")
+                        .end("<h1>Errors during processing the request</h1>");
+            }
+        });
     }
-
 
     @Override
     public void get(RoutingContext context) {
-        if(isGetDeleteRequestInvalid(context))
+        if(isGetDeleteRequestInvalid(context)) {
+            handleUnprocessableRequest(context.response());
             return;
+        }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        eventBus.send("openKlaster.core.request.get", jsonModel);
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions("get");
 
-        handleSuccessfulRequest(context.response());
+        eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
+            if(coreResponse.succeeded()){
+                /*
+                * TODO add already existing handler*/
+                context.response().putHeader("content-type", "application/json; charset=utf-8")
+                        .end(Json.encodePrettily(coreResponse.result().body()));
+            }
+            else{
+                context.response().putHeader("content-type", "text/html")
+                        .end("<h1>Errors during processing the request</h1>");
+            }
+        });
     }
 
     @Override
     public void put(RoutingContext context) {
-        if(isPutPostRequestInvalid(context))
+        if(isPutPostRequestInvalid(context)) {
+            handleUnprocessableRequest(context.response());
             return;
+        }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        eventBus.send("openKlaster.core.request.put", jsonModel);
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions("put");
 
-        handleSuccessfulRequest(context.response());
+        eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
+            if(coreResponse.succeeded()){
+                handleSuccessfulRequest(context.response());
+            }
+            else{
+                context.response().putHeader("content-type", "text/html")
+                        .end("<h1>Errors during processing the request</h1>");
+            }
+        });
     }
 
     @Override
     public void delete(RoutingContext context) {
-        if(isGetDeleteRequestInvalid(context))
+        if(isGetDeleteRequestInvalid(context)) {
+            handleUnprocessableRequest(context.response());
             return;
+        }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        eventBus.send("openKlaster.core.request.delete", jsonModel);
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions("delete");
 
-        handleSuccessfulRequest(context.response());
+        eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
+            if(coreResponse.succeeded()){
+                handleSuccessfulRequest(context.response());
+            }
+            else{
+                context.response().putHeader("content-type", "text/html")
+                        .end("<h1>Errors during processing the request</h1>");
+            }
+        });
     }
 
 
     private boolean isPutPostRequestInvalid(RoutingContext context){
         JsonObject jsonModel = context.getBodyAsJson();
-
-        if(isJsonModelUnprocessable(jsonModel)) {
-            handleUnprocessableRequest(context.response());
-            return true;
-        }
-        return false;
+        return isJsonModelUnprocessable(jsonModel);
     }
 
     private boolean isJsonModelUnprocessable(JsonObject jsonModel){
@@ -109,12 +150,7 @@ public class DefaultHandler extends Handler {
     private boolean isGetDeleteRequestInvalid(RoutingContext context){
         MultiMap params = context.queryParams();
         params.remove(access_token);
-        if(areRequestParamsUnprocessable(params)) {
-            handleUnprocessableRequest(context.response());
-            return true;
-        }
-
-        return false;
+        return areRequestParamsUnprocessable(params);
     }
 
     private boolean areRequestParamsUnprocessable(MultiMap modelParams){
@@ -127,5 +163,17 @@ public class DefaultHandler extends Handler {
         modelParams.forEach(entry -> jsonModel.put(entry.getKey(),entry.getValue()));
         return jsonModel;
     }
+
+
+    private DeliveryOptions createRequestDeliveryOptions(String requestMethod){
+        DeliveryOptions deliveryOptions = new DeliveryOptions();
+        deliveryOptions.addHeader("method", requestMethod);
+        deliveryOptions.setSendTimeout(requestTimeout);
+        return deliveryOptions;
+    }
+
+
+
+
 
 }

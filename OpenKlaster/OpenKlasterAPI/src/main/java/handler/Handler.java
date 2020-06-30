@@ -6,11 +6,13 @@ import parser.IParseStrategy;
 
 public abstract class Handler {
 
+    String coreRoute;
     String route;
     EventBus eventBus;
     IParseStrategy parseStrategy;
 
-    public Handler(String route, EventBus eventBus, IParseStrategy parseStrategy) {
+    public Handler(String coreRoute, String route, EventBus eventBus, IParseStrategy parseStrategy) {
+        this.coreRoute = coreRoute;
         this.route = route;
         this.eventBus = eventBus;
         this.parseStrategy = parseStrategy;
