@@ -57,8 +57,6 @@
             <artifactId>cassandra-driver-mapping</artifactId>
             <version>3.5.0</version>
         </dependency>
-
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -92,6 +90,11 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-config</artifactId>
             <version>3.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-hazelcast</artifactId>
+            <version>3.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.openklaster</groupId>

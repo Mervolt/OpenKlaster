@@ -53,6 +53,8 @@
     <orderEntry type="library" name="Maven: io.vertx:vertx-codegen:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: org.mvel:mvel2:2.3.1.Final" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-config:3.9.1" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-hazelcast:3.9.0" level="project" />
+    <orderEntry type="library" name="Maven: com.hazelcast:hazelcast:3.12.2" level="project" />
     <orderEntry type="module" module-name="CommonService" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-core:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.48.Final" level="project" />

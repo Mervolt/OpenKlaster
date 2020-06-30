@@ -2,10 +2,9 @@ package service;
 
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.Mapper;
-import io.vertx.core.Handler;
+import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.ext.web.RoutingContext;
 import model.EnergyPredictions;
 
 import java.util.Date;
@@ -20,15 +19,17 @@ public class EnergyPredictionsHandler extends CassandraHandler {
     }
 
     @Override
-    public Handler<RoutingContext> createPostHandler() {
-        return routingContext -> {
-            int id = parseInt(routingContext, idType);
-            String source = routingContext.request().getParam("source");
-            String type = routingContext.request().getParam("type");
-            String description = routingContext.request().getParam("description");
+    public void createPostHandler(Message<JsonObject> message) {
+        try {
+            int id = message.body().getInteger(idType);
+            String source = message.body().getString("source");
+            String type = message.body().getString("type");
+            String description = message.body().getString("description");
 
             EnergyPredictions energyPredictions = new EnergyPredictions(new Date(), id, source, type, description);
-            mapper.save(energyPredictions, handler(routingContext, energyPredictions.toString()));
-        };
+            mapper.save(energyPredictions, handler(message, energyPredictions.toString()));
+        } catch (Exception e) {
+            parsingArgumentsError(message);
+        }
     }
 }
