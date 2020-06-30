@@ -90,15 +90,15 @@ public class DefaultHandler extends Handler {
         }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.deleteMethodHeader);
+            DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.deleteMethodHeader);
 
-        eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
-            if(coreResponse.succeeded()){
-                handleSuccessfulRequest(context.response());
-            }
-            else{
-                handleProcessingError(context.response());
-            }
+            eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
+                if(coreResponse.succeeded()){
+                    handleSuccessfulRequest(context.response());
+                }
+                else{
+                    handleProcessingError(context.response());
+                }
         });
     }
 
@@ -162,7 +162,8 @@ public class DefaultHandler extends Handler {
     }
 
     private void handleProcessingError(HttpServerResponse response) {
-        response.putHeader("content-type", "text/html")
-                .end(HandlerProperties.processingErrorMessage);
+        response.putHeader("content-type", "text/html");
+        response.setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
+        response.end(HandlerProperties.processingErrorMessage);
     }
 }
