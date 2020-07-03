@@ -14,7 +14,7 @@ public class LoadMeasurementHandler extends CassandraHandler {
 
     public LoadMeasurementHandler(CassandraClient cassandraClient, JsonObject configObject) {
         super(cassandraClient, configObject);
-        logger = LoggerFactory.getLogger(LoadMeasurementHandler.class);
+        this.logger = LoggerFactory.getLogger(LoadMeasurementHandler.class);
         this.mapper = mappingManager.mapper(LoadMeasurement.class);
     }
 

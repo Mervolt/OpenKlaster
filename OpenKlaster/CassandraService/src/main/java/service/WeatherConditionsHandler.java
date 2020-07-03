@@ -14,7 +14,7 @@ public class WeatherConditionsHandler extends CassandraHandler {
 
     public WeatherConditionsHandler(CassandraClient cassandraClient, JsonObject configObject) {
         super(cassandraClient, configObject);
-        logger = LoggerFactory.getLogger(WeatherConditionsHandler.class);
+        this.logger = LoggerFactory.getLogger(WeatherConditionsHandler.class);
         this.mapper = mappingManager.mapper(WeatherConditions.class);
     }
 

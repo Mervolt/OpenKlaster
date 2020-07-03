@@ -14,7 +14,7 @@ public class SourceMeasurementHandler extends CassandraHandler {
 
     public SourceMeasurementHandler(CassandraClient cassandraClient, JsonObject configObject) {
         super(cassandraClient, configObject);
-        logger = LoggerFactory.getLogger(SourceMeasurementHandler.class);
+        this.logger = LoggerFactory.getLogger(SourceMeasurementHandler.class);
         this.mapper = mappingManager.mapper(SourceMeasurement.class);
     }
 

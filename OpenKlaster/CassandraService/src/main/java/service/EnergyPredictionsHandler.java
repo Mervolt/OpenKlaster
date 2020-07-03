@@ -14,7 +14,7 @@ public class EnergyPredictionsHandler extends CassandraHandler {
 
     public EnergyPredictionsHandler(CassandraClient cassandraClient, JsonObject configObject) {
         super(cassandraClient, configObject);
-        logger = LoggerFactory.getLogger(EnergyPredictionsHandler.class);
+        this.logger = LoggerFactory.getLogger(EnergyPredictionsHandler.class);
         this.mapper = mappingManager.mapper(EnergyPredictions.class);
     }
 

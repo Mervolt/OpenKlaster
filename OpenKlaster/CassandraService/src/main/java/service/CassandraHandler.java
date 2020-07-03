@@ -20,6 +20,8 @@ import java.util.List;
 public abstract class CassandraHandler {
     public static final String OK = "200";
     public static final String BAD_REQUEST = "400";
+    private static final String dateFormat = "yyyy-MM-dd HH:mm:ss";
+    private static final String select = "SELECT JSON * FROM %s WHERE %s = %d AND timestamp >= '%s' AND timestamp <= '%s' ALLOW FILTERING";
     protected static Logger logger;
     protected final CassandraClient cassandraClient;
     protected final MappingManager mappingManager;
@@ -27,7 +29,6 @@ public abstract class CassandraHandler {
     protected final String address;
     protected final String table;
     protected final String idType;
-    private static final String select = "SELECT JSON * FROM %s WHERE %s = %d AND timestamp >= '%s' AND timestamp <= '%s' ALLOW FILTERING";
 
     public CassandraHandler(CassandraClient cassandraClient, JsonObject configObject) {
         this.cassandraClient = cassandraClient;
@@ -56,11 +57,11 @@ public abstract class CassandraHandler {
                 if (listAsyncResult.succeeded()) {
                     List<Row> rows = listAsyncResult.result();
                     JsonArray response = getJsonResponse(rows);
-                    logger.info("Status code for GET request " + OK);
+                    logger.debug("Status code for GET request " + OK);
                     deliveryOptions.addHeader("statusCode", OK);
                     message.reply(response, deliveryOptions);
                 } else {
-                    logger.info("Status code for GET request " + BAD_REQUEST);
+                    logger.error("Status code for GET request " + BAD_REQUEST);
                     deliveryOptions.addHeader("statusCode", BAD_REQUEST);
                     message.reply(new JsonObject(), deliveryOptions);
                 }
@@ -74,11 +75,11 @@ public abstract class CassandraHandler {
         return voidAsyncResult -> {
             DeliveryOptions deliveryOptions = new DeliveryOptions();
             if (voidAsyncResult.succeeded()) {
-                logger.info("New entry in the database " + object);
+                logger.debug("New entry in the database " + object);
                 deliveryOptions.addHeader("statusCode", OK);
                 message.reply(new JsonObject(), deliveryOptions);
             } else {
-                logger.info("Unable to add entry to the database " + object);
+                logger.error("Unable to add entry to the database " + object);
                 deliveryOptions.addHeader("statusCode", BAD_REQUEST);
                 message.reply(new JsonObject(), deliveryOptions);
             }
@@ -87,15 +88,15 @@ public abstract class CassandraHandler {
 
     private JsonArray getJsonResponse(List<Row> rows) {
         JsonArray jsonArray = new JsonArray();
-        for (int i = 0; i < rows.size(); i++) {
-            jsonArray.add(new JsonObject(rows.get(i).getString(0)));
+        for (Row row : rows) {
+            jsonArray.add(new JsonObject(row.getString(0)));
         }
         return jsonArray;
     }
 
     protected String valdateDate(Message<JsonObject> message, String param) throws ParseException {
         String dateToValidate = message.body().getString(param);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
         formatter.setLenient(false);
         Date parsedDate = formatter.parse(dateToValidate);
         return formatter.format(parsedDate);
@@ -103,19 +104,18 @@ public abstract class CassandraHandler {
 
     protected Date parseTimestamp(Message<JsonObject> message) throws ParseException {
         String timestamp = message.body().getString("timestamp");
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
         formatter.setLenient(false);
-        Date parsedDate;
-        try {
-            parsedDate = formatter.parse(timestamp);
-        } catch (NullPointerException e) {
+        if (timestamp != null) {
+            return formatter.parse(timestamp);
+        }
+        else {
             return new Date();
         }
-        return parsedDate;
     }
 
     public void parsingArgumentsError(Message<JsonObject> message) {
-        logger.info("Problem with parsing arguments");
+        logger.error("Problem with parsing arguments");
         DeliveryOptions deliveryOptions = new DeliveryOptions();
         deliveryOptions.addHeader("statusCode", BAD_REQUEST);
         message.reply(new JsonObject(), deliveryOptions);
