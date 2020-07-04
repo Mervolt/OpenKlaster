@@ -23,11 +23,11 @@ public class NestedConfigAccessor {
         this.PATH_SPLIT_REGEX = splitRegex;
     }
 
-    public NestedConfigAccessor getPathConfigAccessor(String path){
+    public NestedConfigAccessor getPathConfigAccessor(String path) {
         return new NestedConfigAccessor(getJsonObject(path));
     }
 
-    public JsonObject getRootConfig(){
+    public JsonObject getRootConfig() {
         return this.config;
     }
 
@@ -41,7 +41,7 @@ public class NestedConfigAccessor {
         return (Integer) getObject(path);
     }
 
-    public JsonObject getJsonObject(String path){
+    public JsonObject getJsonObject(String path) {
         return (JsonObject) getObject(path);
     }
 
@@ -49,17 +49,17 @@ public class NestedConfigAccessor {
     public Object getObject(String path) {
 
         String[] split = path.split(PATH_SPLIT_REGEX);
-        if(split.length == 1){
+        if (split.length == 1) {
             return this.config.getValue(split[0]);
         }
         JsonObject tmp = this.config.getJsonObject(split[0]);
         try {
-            for (int i =1; i< split.length -1;i++ ) {
+            for (int i = 1; i < split.length - 1; i++) {
                 tmp = tmp.getJsonObject(split[i]);
             }
         } catch (NullPointerException e) {
             return null;
         }
-        return tmp.getValue(split[split.length-1]);
+        return tmp.getValue(split[split.length - 1]);
     }
 }

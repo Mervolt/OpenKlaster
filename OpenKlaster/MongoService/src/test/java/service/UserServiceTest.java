@@ -3,16 +3,13 @@ package service;
 import app.MongoVerticle;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
-import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 import model.User;
 import openklaster.common.config.ConfigFilesManager;
 import org.junit.Before;
@@ -20,7 +17,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import parser.UserParser;
 
 @RunWith(VertxUnitRunner.class)
 @FixMethodOrder()
@@ -31,7 +27,6 @@ public class UserServiceTest {
 
     private static Vertx vertx;
     private static EventBus eventBus;
-    private static UserParser parser;
     private static final String userAddress= "mongo.users";
     private User testUser;
 

@@ -1,12 +1,10 @@
 package service;
 
-import openklaster.common.config.NestedConfigAccessor;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.Message;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
+import openklaster.common.config.NestedConfigAccessor;
 import openklaster.common.messages.BusMessageReplyClient;
 import parser.EntityParser;
 
@@ -14,9 +12,9 @@ public abstract class EntityHandler {
 
     protected static Logger logger;
     protected EntityParser parser;
-    protected static String ID_FIELD_KEY = "_id";
     protected NestedConfigAccessor config;
     protected MongoPersistenceService persistenceService;
+    private final String mongoCollectionNameKey = "mongo.collectionName";
 
     public EntityHandler(EntityParser parser, MongoPersistenceService service, NestedConfigAccessor config) {
         this.parser = parser;
@@ -25,7 +23,7 @@ public abstract class EntityHandler {
     }
 
     protected String getCollectionName() {
-        return config.getString("mongo.collectionName");
+        return config.getString(mongoCollectionNameKey);
     }
 
     public void add(Message<JsonObject> busMessage) {

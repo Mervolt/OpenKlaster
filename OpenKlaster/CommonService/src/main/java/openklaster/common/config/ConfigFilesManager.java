@@ -16,20 +16,19 @@ public class ConfigFilesManager {
     private static final String defaultConfigFile = "config.yaml";
 
     public ConfigFilesManager(String path) {
-        this.configRetrieverOptions = new ConfigRetrieverOptions();
-        addConfigFromFile(path);
+        this.configRetrieverOptions = addConfigFromFile(path);
     }
 
     public ConfigFilesManager() {
         this(defaultConfigFile);
     }
 
-    public void addConfigFromFile(String path) {
+    public ConfigRetrieverOptions addConfigFromFile(String path) {
         ConfigStoreOptions fileStoreOptions = new ConfigStoreOptions()
                 .setType(fileType)
                 .setFormat(yamlFormat)
                 .setConfig(new JsonObject().put("path", path));
-        this.configRetrieverOptions.addStore(fileStoreOptions);
+        return new ConfigRetrieverOptions().addStore(fileStoreOptions);
     }
 
     public ConfigRetriever getConfig(Vertx vertx) {
