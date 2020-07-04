@@ -16,7 +16,6 @@ public class OpenKlasterCoreVerticle {
         VertxOptions options = new VertxOptions().setClusterManager(clusterManager);
         Vertx.clusteredVertx(options, result -> {
             if (result.succeeded()) {
-                System.out.println("Success");
                 Vertx vertx = result.result();
                 EventBus eventBus = vertx.eventBus();
 

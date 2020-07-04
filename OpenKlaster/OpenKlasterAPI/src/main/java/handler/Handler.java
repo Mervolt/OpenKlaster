@@ -1,5 +1,7 @@
 package handler;
 
+import config.NestedConfigAccessor;
+import io.vertx.config.ConfigRetriever;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.ext.web.RoutingContext;
 import model.Model;
@@ -7,20 +9,18 @@ import parser.IParseStrategy;
 
 public abstract class Handler {
 
-    static String methodKeyHeader = "method";
-    static String postMethodHeader = "post";
-    static String putMethodHeader = "put";
-    static String getMethodHeader = "get";
-    static String deleteMethodHeader = "delete";
-    String coreRoute;
     String route;
+    String coreRoute;
     EventBus eventBus;
     IParseStrategy<? extends Model> parseStrategy;
+    NestedConfigAccessor nestedConfigAccessor;
 
-    public Handler(String coreRoute, String route, EventBus eventBus, IParseStrategy<? extends Model> parseStrategy) {
-        this.coreRoute = coreRoute;
+    public Handler(String route, String coreRoute, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor,
+                   IParseStrategy<? extends Model> parseStrategy) {
         this.route = route;
+        this.coreRoute = coreRoute;
         this.eventBus = eventBus;
+        this.nestedConfigAccessor = nestedConfigAccessor;
         this.parseStrategy = parseStrategy;
     }
 

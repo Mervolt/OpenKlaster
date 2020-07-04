@@ -1,5 +1,24 @@
 http:
   port: 8082
+  endpoint:
+    route:
+      user: "/user"
+      load: "/load"
+      source: "/source"
+      inverter: "/inverter"
+      installation: "/installation"
+      energySourceCalculator: "/energySourceCalculator"
+
+core:
+  route:
+    user: "openKlaster.core.user"
+    load: "openKlaster.core.load"
+    source: "openKlaster.core.source"
+    inverter: "openKlaster.core.inverter"
+    installation: "openKlaster.core.installation"
+    energySourceCalculator: "openKlaster.core.energySourceCalculator"
+
+
 
 energy:
   endpoint:
@@ -24,3 +43,7 @@ cassandra:
   route:
     load: "/loadmeasurement"
     source: "/sourcemeasurement"
+
+eventBus:
+  timeout: 15000
+

@@ -1,5 +1,6 @@
 package handler;
 
+import config.NestedConfigAccessor;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.MultiMap;
 import io.vertx.core.eventbus.DeliveryOptions;
@@ -18,29 +19,17 @@ import java.util.Map;
 
 public class DefaultHandler extends Handler {
     private static final Logger logger = LoggerFactory.getLogger(DefaultHandler.class);
-    public DefaultHandler(String coreRoute, String route, EventBus eventBus,
+    private static final String requestDefaultTimeout = "eventBus.timeout";
+
+    public DefaultHandler(String coreRoute, String route, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor,
                           IParseStrategy<? extends Model> parseStrategy) {
-        super(coreRoute, route, eventBus, parseStrategy);
+        super(coreRoute, route, eventBus, nestedConfigAccessor, parseStrategy);
     }
+
 
     @Override
     public void post(RoutingContext context) {
-        if(isPutPostRequestInvalid(context)) {
-            handleUnprocessableRequest(context.response());
-            return;
-        }
-
-        JsonObject jsonModel = context.getBodyAsJson();
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(postMethodHeader);
-
-        eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
-            if(coreResponse.succeeded()){
-                handleSuccessfulRequest(context.response());
-            }
-            else{
-                handleProcessingError(context.response());
-            }
-        });
+        sendPutPostRequest(context, HandlerProperties.postMethodHeader);
     }
 
     @Override
@@ -51,7 +40,7 @@ public class DefaultHandler extends Handler {
         }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(getMethodHeader);
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.getMethodHeader);
 
         eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
             if(coreResponse.succeeded()){
@@ -68,22 +57,7 @@ public class DefaultHandler extends Handler {
 
     @Override
     public void put(RoutingContext context) {
-        if(isPutPostRequestInvalid(context)) {
-            handleUnprocessableRequest(context.response());
-            return;
-        }
-
-        JsonObject jsonModel = context.getBodyAsJson();
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(putMethodHeader);
-
-        eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
-            if(coreResponse.succeeded()){
-                handleSuccessfulRequest(context.response());
-            }
-            else{
-                handleProcessingError(context.response());
-            }
-        });
+        sendPutPostRequest(context, HandlerProperties.putMethodHeader);
     }
 
     @Override
@@ -94,7 +68,7 @@ public class DefaultHandler extends Handler {
         }
 
         JsonObject jsonModel = context.getBodyAsJson();
-            DeliveryOptions deliveryOptions = createRequestDeliveryOptions(deleteMethodHeader);
+            DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.deleteMethodHeader);
 
             eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
                 if(coreResponse.succeeded()){
@@ -103,6 +77,25 @@ public class DefaultHandler extends Handler {
                 else{
                     handleProcessingError(context.response());
                 }
+        });
+    }
+
+    private void sendPutPostRequest(RoutingContext context, String methodHeader) {
+        if(isPutPostRequestInvalid(context)) {
+            handleUnprocessableRequest(context.response());
+            return;
+        }
+
+        JsonObject jsonModel = context.getBodyAsJson();
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(methodHeader);
+
+        eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
+            if(coreResponse.succeeded()){
+                handleSuccessfulRequest(context.response());
+            }
+            else{
+                handleProcessingError(context.response());
+            }
         });
     }
 
@@ -128,19 +121,16 @@ public class DefaultHandler extends Handler {
 
     private void handleUnprocessableRequest(HttpServerResponse response){
         response.setStatusCode(HttpResponseStatus.UNPROCESSABLE_ENTITY.code());
-        response.setStatusMessage(HandlerConfig.unprocessableEntityMessage);
-        response.end();
+        response.end(HandlerProperties.unprocessableEntityMessage);
     }
 
     private void handleSuccessfulRequest(HttpServerResponse response) {
         response.setStatusCode(HttpResponseStatus.OK.code());
-        response.setStatusMessage(HandlerConfig.successfulRequestMessage);
-        response.end();
+        response.end(HandlerProperties.successfulRequestMessage);
     }
 
     private boolean isGetDeleteRequestInvalid(RoutingContext context){
         MultiMap params = context.queryParams();
-        params.remove(HandlerConfig.accessToken);
         return areRequestParamsUnprocessable(params);
     }
 
@@ -157,14 +147,14 @@ public class DefaultHandler extends Handler {
 
     private DeliveryOptions createRequestDeliveryOptions(String requestMethod){
         DeliveryOptions deliveryOptions = new DeliveryOptions();
-        deliveryOptions.addHeader(methodKeyHeader, requestMethod);
-        deliveryOptions.setSendTimeout(HandlerConfig.requestDefaultTimeout);
+        deliveryOptions.addHeader(HandlerProperties.methodKeyHeader, requestMethod);
+        deliveryOptions.setSendTimeout(nestedConfigAccessor.getInteger(requestDefaultTimeout));
         return deliveryOptions;
     }
 
     private void handleProcessingError(HttpServerResponse response) {
         response.putHeader("content-type", "text/html");
         response.setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
-        response.end(HandlerConfig.processingErrorMessage);
+        response.end(HandlerProperties.processingErrorMessage);
     }
 }
