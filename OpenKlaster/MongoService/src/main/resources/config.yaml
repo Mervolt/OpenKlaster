@@ -1,0 +1,22 @@
+database:
+  mongo:
+    host: "localhost"
+    port: 27017
+
+calculator:
+  mongo:
+    collectionName: "calculators"
+  bus:
+    address: "mongo.calculators"
+
+installation:
+  mongo:
+    collectionName: "installations"
+  bus:
+    address: "mongo.installations"
+
+user:
+  mongo:
+    collectionName: "userz"
+  bus:
+    address: "mongo.users"

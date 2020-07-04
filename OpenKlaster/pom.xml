@@ -10,16 +10,39 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>OpenKlasterCore</module>
-        <module>OpenKlasterAPI</module>
+        <module>UserService</module>
         <module>MongoService</module>
         <module>CassandraService</module>
+        <module>RestApi</module>
+        <module>CommonService</module>
     </modules>
 
 
     <dependencies>
         <dependency>
             <groupId>io.vertx</groupId>
+            <artifactId>vertx-unit</artifactId>
+            <version>3.9.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openklaster</groupId>
+            <artifactId>CommonService</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
+            <version>3.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-config-yaml</artifactId>
+            <version>3.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-config</artifactId>
             <version>3.9.0</version>
         </dependency>
         <dependency>
@@ -41,6 +64,12 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-service-discovery</artifactId>
             <version>3.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
