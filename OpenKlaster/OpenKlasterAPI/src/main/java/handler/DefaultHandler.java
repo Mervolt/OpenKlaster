@@ -7,6 +7,8 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.RoutingContext;
 import model.Model;
 import parser.IParseStrategy;
@@ -15,7 +17,9 @@ import java.util.List;
 import java.util.Map;
 
 public class DefaultHandler extends Handler {
-    public DefaultHandler(String coreRoute, String route, EventBus eventBus, IParseStrategy<? extends Model> parseStrategy) {
+    private static final Logger logger = LoggerFactory.getLogger(DefaultHandler.class);
+    public DefaultHandler(String coreRoute, String route, EventBus eventBus,
+                          IParseStrategy<? extends Model> parseStrategy) {
         super(coreRoute, route, eventBus, parseStrategy);
     }
 
@@ -27,7 +31,7 @@ public class DefaultHandler extends Handler {
         }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.postMethodHeader);
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(postMethodHeader);
 
         eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
             if(coreResponse.succeeded()){
@@ -47,7 +51,7 @@ public class DefaultHandler extends Handler {
         }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.getMethodHeader);
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(getMethodHeader);
 
         eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
             if(coreResponse.succeeded()){
@@ -70,7 +74,7 @@ public class DefaultHandler extends Handler {
         }
 
         JsonObject jsonModel = context.getBodyAsJson();
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.putMethodHeader);
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(putMethodHeader);
 
         eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
             if(coreResponse.succeeded()){
@@ -90,7 +94,7 @@ public class DefaultHandler extends Handler {
         }
 
         JsonObject jsonModel = context.getBodyAsJson();
-            DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.deleteMethodHeader);
+            DeliveryOptions deliveryOptions = createRequestDeliveryOptions(deleteMethodHeader);
 
             eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
                 if(coreResponse.succeeded()){
@@ -117,29 +121,26 @@ public class DefaultHandler extends Handler {
             return true;
         }
         catch(IllegalArgumentException ex){
-            /*
-             * some logging...
-             * */
-            ex.printStackTrace();
+            logger.error(ex.getStackTrace());
             return false;
         }
     }
 
     private void handleUnprocessableRequest(HttpServerResponse response){
         response.setStatusCode(HttpResponseStatus.UNPROCESSABLE_ENTITY.code());
-        response.setStatusMessage(HandlerProperties.unprocessableEntityMessage);
+        response.setStatusMessage(HandlerConfig.unprocessableEntityMessage);
         response.end();
     }
 
     private void handleSuccessfulRequest(HttpServerResponse response) {
         response.setStatusCode(HttpResponseStatus.OK.code());
-        response.setStatusMessage(HandlerProperties.successfulRequestMessage);
+        response.setStatusMessage(HandlerConfig.successfulRequestMessage);
         response.end();
     }
 
     private boolean isGetDeleteRequestInvalid(RoutingContext context){
         MultiMap params = context.queryParams();
-        params.remove(HandlerProperties.accessToken);
+        params.remove(HandlerConfig.accessToken);
         return areRequestParamsUnprocessable(params);
     }
 
@@ -156,14 +157,14 @@ public class DefaultHandler extends Handler {
 
     private DeliveryOptions createRequestDeliveryOptions(String requestMethod){
         DeliveryOptions deliveryOptions = new DeliveryOptions();
-        deliveryOptions.addHeader(HandlerProperties.methodKeyHeader, requestMethod);
-        deliveryOptions.setSendTimeout(HandlerProperties.requestDefaultTimeout);
+        deliveryOptions.addHeader(methodKeyHeader, requestMethod);
+        deliveryOptions.setSendTimeout(HandlerConfig.requestDefaultTimeout);
         return deliveryOptions;
     }
 
     private void handleProcessingError(HttpServerResponse response) {
         response.putHeader("content-type", "text/html");
         response.setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
-        response.end(HandlerProperties.processingErrorMessage);
+        response.end(HandlerConfig.processingErrorMessage);
     }
 }

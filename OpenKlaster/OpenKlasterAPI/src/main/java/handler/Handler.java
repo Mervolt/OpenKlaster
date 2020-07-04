@@ -7,6 +7,11 @@ import parser.IParseStrategy;
 
 public abstract class Handler {
 
+    static String methodKeyHeader = "method";
+    static String postMethodHeader = "post";
+    static String putMethodHeader = "put";
+    static String getMethodHeader = "get";
+    static String deleteMethodHeader = "delete";
     String coreRoute;
     String route;
     EventBus eventBus;

@@ -45,7 +45,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
         VertxOptions options = new VertxOptions().setClusterManager(clusterManager);
         Vertx.clusteredVertx(options, result ->{
             if(result.succeeded()) {
-                System.out.println("Success");
+                logger.info("Succeeded during launching clustered VertX");
                 vertx = result.result();
                 eventBus = vertx.eventBus();
                 handlers = Arrays.asList(
@@ -101,7 +101,6 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
         vertx.createHttpServer()
                 .requestHandler(router)
                 .listen(configAccessor.getInteger(listeningPortKey));
-        System.out.println(configAccessor.getInteger(listeningPortKey));
         routerConfig(router);
     }
 
