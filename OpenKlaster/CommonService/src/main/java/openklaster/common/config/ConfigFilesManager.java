@@ -13,7 +13,8 @@ public class ConfigFilesManager {
     private static final String propertiesFormat = "properties";
     private static final String yamlFormat = "yaml";
     private static final String jsonFormat = "json";
-    private static final String defaultConfigFile = "config.yaml";
+    private static final String defaultConfigFile = "openklaster.rest.config.yaml";
+    private static final String configPathKey = "path";
 
     public ConfigFilesManager(String path) {
         this.configRetrieverOptions = addConfigFromFile(path);
@@ -27,7 +28,7 @@ public class ConfigFilesManager {
         ConfigStoreOptions fileStoreOptions = new ConfigStoreOptions()
                 .setType(fileType)
                 .setFormat(yamlFormat)
-                .setConfig(new JsonObject().put("path", path));
+                .setConfig(new JsonObject().put(configPathKey, path));
         return new ConfigRetrieverOptions().addStore(fileStoreOptions);
     }
 

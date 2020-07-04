@@ -19,4 +19,8 @@ public class BusMessageReplyClient {
     private static DeliveryOptions getOptionsForStatus(HttpResponseStatus status){
         return new DeliveryOptions().addHeader(STATUS_CODE, String.valueOf(status.code()));
     }
+
+    public static <T> void replyWithError(Message<T> busMessage, HttpResponseStatus status, String message){
+        busMessage.fail(status.code(),message);
+    }
 }
