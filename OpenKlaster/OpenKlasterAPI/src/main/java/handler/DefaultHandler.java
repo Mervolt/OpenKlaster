@@ -1,6 +1,7 @@
 package handler;
 
 import config.NestedConfigAccessor;
+import handler.properties.HandlerProperties;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.MultiMap;
 import io.vertx.core.eventbus.DeliveryOptions;
@@ -46,8 +47,7 @@ public class DefaultHandler extends Handler {
             if(coreResponse.succeeded()){
                 /*
                 * TODO add already existing record handler*/
-                context.response().putHeader("content-type", "application/json; charset=utf-8")
-                        .end(Json.encodePrettily(coreResponse.result().body()));
+                context.response().end(Json.encodePrettily(coreResponse.result().body()));
             }
             else{
                 handleProcessingError(context.response());
@@ -153,7 +153,6 @@ public class DefaultHandler extends Handler {
     }
 
     private void handleProcessingError(HttpServerResponse response) {
-        response.putHeader("content-type", "text/html");
         response.setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
         response.end(HandlerProperties.processingErrorMessage);
     }
