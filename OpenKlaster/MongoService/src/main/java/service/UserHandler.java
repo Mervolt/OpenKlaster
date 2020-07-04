@@ -1,11 +1,7 @@
 package service;
 
-import config.NestedConfigAccessor;
-import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonObject;
+import openklaster.common.config.NestedConfigAccessor;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.ext.web.RoutingContext;
-import model.User;
 import parser.UserParser;
 
 public class UserHandler extends EntityHandler {

@@ -1,6 +1,6 @@
 package service;
 
-import config.NestedConfigAccessor;
+import openklaster.common.config.NestedConfigAccessor;
 import io.vertx.core.logging.LoggerFactory;
 import model.Installation;
 import parser.EntityParser;

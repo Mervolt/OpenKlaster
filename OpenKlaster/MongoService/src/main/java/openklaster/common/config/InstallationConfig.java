@@ -1,6 +1,5 @@
-package config;
+package openklaster.common.config;
 
-import model.Installation;
 import parser.InstallationParser;
 import service.InstallationHandler;
 import service.MongoPersistenceService;

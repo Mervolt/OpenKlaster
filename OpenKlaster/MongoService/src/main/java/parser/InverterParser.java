@@ -1,7 +1,6 @@
 package parser;
 
 import io.vertx.core.json.JsonObject;
-import model.Installation;
 import model.Inverter;
 
 public class InverterParser implements EntityParser<Inverter> {

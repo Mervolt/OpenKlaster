@@ -1,6 +1,5 @@
-package config;
+package openklaster.common.config;
 
-import model.User;
 import parser.UserParser;
 import service.MongoPersistenceService;
 import service.UserHandler;

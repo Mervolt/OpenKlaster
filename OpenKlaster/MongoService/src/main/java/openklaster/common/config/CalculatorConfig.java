@@ -1,6 +1,5 @@
-package config;
+package openklaster.common.config;
 
-import model.EnergySourceCalculator;
 import parser.EnergySourceCalculatorParser;
 import service.EnergySourceCalculatorHandler;
 import service.MongoPersistenceService;

@@ -9,4 +9,5 @@ public class User {
     @JsonProperty("_id")
     private String username;
     private String password;
+    private String email;
 }

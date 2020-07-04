@@ -1,12 +1,13 @@
 package service;
 
-import config.NestedConfigAccessor;
+import openklaster.common.config.NestedConfigAccessor;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
-import io.vertx.ext.web.RoutingContext;
+import openklaster.common.messages.BusMessageReplyClient;
 import parser.EntityParser;
 
 public abstract class EntityHandler {
@@ -23,7 +24,7 @@ public abstract class EntityHandler {
         this.config = config;
     }
 
-    protected String getCollectionName(){
+    protected String getCollectionName() {
         return config.getString("mongo.collectionName");
     }
 
@@ -33,50 +34,47 @@ public abstract class EntityHandler {
                 handler -> {
                     if (handler.succeeded()) {
                         logger.debug(String.format("Entity added - %s", jsonObject.getString("_id")));
-                        busMessage.reply(Json.encodePrettily(jsonObject));
+                        BusMessageReplyClient.replyWithBodyAndStatus(busMessage, jsonObject, HttpResponseStatus.OK);
                     } else {
                         logger.warn(String.format("Problem with adding entity - %s", jsonObject.getString("_id")));
-                        busMessage.reply(HttpResponseStatus.BAD_REQUEST);
+                        BusMessageReplyClient.replyWithStatus(busMessage, HttpResponseStatus.BAD_REQUEST);
                     }
                 });
     }
 
-    public void findById(Message<JsonObject> busMessage ) {
-        String id = busMessage.body().getString("id");
-        if (id == null) {
-            busMessage.reply(HttpResponseStatus.BAD_REQUEST);
+    public void findById(Message<JsonObject> busMessage) {
+        JsonObject jsonObject = busMessage.body();
+        if (jsonObject.getString("_id") == null) {
+            BusMessageReplyClient.replyWithStatus(busMessage, HttpResponseStatus.BAD_REQUEST);
             return;
         }
-        JsonObject jsonObject = new JsonObject()
-                .put(ID_FIELD_KEY, id);
         persistenceService.findOneByQuery(jsonObject, getCollectionName(),
                 handler -> {
                     if (handler.succeeded()) {
                         logger.debug(String.format("Entity Found - %s", jsonObject.getString("_id")));
-                        busMessage.reply(Json.encodePrettily(parser.toEntity(handler.result())));
+                        BusMessageReplyClient.replyWithBodyAndStatus(busMessage, handler.result(),
+                                HttpResponseStatus.OK);
                     } else {
                         logger.warn(String.format("Problem Finding entity - %s", jsonObject.getString("_id")));
-                        busMessage.reply(HttpResponseStatus.NOT_FOUND);
+                        BusMessageReplyClient.replyWithStatus(busMessage, HttpResponseStatus.BAD_REQUEST);
                     }
                 });
     }
 
     public void delete(Message<JsonObject> busMessage) {
-        String id = busMessage.body().getString("id");
-        if (id == null) {
-            busMessage.reply(HttpResponseStatus.BAD_REQUEST);
+        JsonObject jsonObject = busMessage.body();
+        if (jsonObject.getString("_id") == null) {
+            BusMessageReplyClient.replyWithStatus(busMessage, HttpResponseStatus.BAD_REQUEST);
             return;
         }
-        JsonObject jsonObject = new JsonObject()
-                .put(ID_FIELD_KEY, id);
         persistenceService.removeByQuery(jsonObject, getCollectionName(),
                 handler -> {
                     if (handler.succeeded()) {
                         logger.debug(String.format("Entity deleted - %s", jsonObject.getString("_id")));
-                        busMessage.reply(HttpResponseStatus.NO_CONTENT);
+                        BusMessageReplyClient.replyWithStatus(busMessage, HttpResponseStatus.NO_CONTENT);
                     } else {
                         logger.warn(String.format("Problem with removing entity - %s", jsonObject.getString("_id")));
-                        busMessage.reply(HttpResponseStatus.NOT_FOUND);
+                        BusMessageReplyClient.replyWithStatus(busMessage, HttpResponseStatus.NOT_FOUND);
                     }
                 });
     }

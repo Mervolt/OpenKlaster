@@ -1,7 +1,6 @@
 package parser;
 
 import io.vertx.core.json.JsonObject;
-import model.Installation;
 import model.Load;
 
 public class LoadParser implements EntityParser<Load> {

@@ -1,4 +1,4 @@
-package config;
+package openklaster.common.config;
 
 import handler.EnergyMeasurementHandler;
 import io.vertx.core.json.JsonObject;

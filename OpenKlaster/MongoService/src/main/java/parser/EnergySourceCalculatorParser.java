@@ -2,7 +2,6 @@ package parser;
 
 import io.vertx.core.json.JsonObject;
 import model.EnergySourceCalculator;
-import model.Installation;
 
 public class EnergySourceCalculatorParser implements EntityParser<EnergySourceCalculator> {
     @Override

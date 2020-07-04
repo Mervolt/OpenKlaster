@@ -1,4 +1,4 @@
-package config;
+package openklaster.common.config;
 
 import io.vertx.config.ConfigRetriever;
 import io.vertx.config.ConfigRetrieverOptions;

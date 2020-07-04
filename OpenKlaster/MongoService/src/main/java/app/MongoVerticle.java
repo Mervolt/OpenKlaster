@@ -1,4 +1,6 @@
-import config.*;
+package app;
+
+import openklaster.common.config.*;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -10,17 +12,13 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.mongo.MongoClient;
-import io.vertx.ext.web.Router;
-import io.vertx.ext.web.handler.BodyHandler;
-import model.Installation;
+import lombok.Getter;
 import parser.*;
 import service.EntityHandler;
 import service.MongoPersistenceService;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MongoVerticle extends AbstractVerticle {
 
@@ -31,6 +29,8 @@ public class MongoVerticle extends AbstractVerticle {
     private final ConfigRetriever configRetriever;
     private static final Logger logger = LoggerFactory.getLogger(MongoVerticle.class);
     private NestedConfigAccessor configAccessor;
+
+
 
     public MongoVerticle(Vertx vertx, ConfigRetriever configRetriever) {
         this.configRetriever = configRetriever;
@@ -43,16 +43,18 @@ public class MongoVerticle extends AbstractVerticle {
         this.configRetriever.getConfig(config -> {
             if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
-                handlePostConfig();
+                handlePostConfig(promise);
             } else {
-                logger.error("Could not retrieve MongoVerticle config!");
+                logger.error("Could not retrieve app.MongoVerticle openklaster.common.config!");
                 logger.error(config.cause());
                 vertx.close();
             }
         });
+
     }
 
-    private void handlePostConfig() {
+
+    private void handlePostConfig(Promise<Void> promise) {
         this.client = MongoClient.createShared(vertx, this.configAccessor.getJsonObject("database.mongo"));
         this.persistenceService = new MongoPersistenceService(client);
 
@@ -64,6 +66,7 @@ public class MongoVerticle extends AbstractVerticle {
                 new UserConfig(persistenceService, new UserParser(), configAccessor.getPathConfigAccessor("user"))
         );
         eventBusConfig();
+        promise.complete();
     }
 
     private void eventBusConfig() {

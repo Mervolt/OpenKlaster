@@ -2,7 +2,6 @@ package parser;
 
 import io.vertx.core.json.JsonObject;
 import model.Installation;
-import model.InstallationType;
 
 public class InstallationParser implements EntityParser<Installation> {
     @Override

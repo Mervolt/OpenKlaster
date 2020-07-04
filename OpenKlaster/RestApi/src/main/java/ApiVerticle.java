@@ -1,7 +1,7 @@
-import config.EndpointConfig;
-import config.EnergyMeasurementConfig;
-import config.NestedConfigAccessor;
-import config.PowerMeasurementConfig;
+import openklaster.common.config.EndpointConfig;
+import openklaster.common.config.EnergyMeasurementConfig;
+import openklaster.common.config.NestedConfigAccessor;
+import openklaster.common.config.PowerMeasurementConfig;
 import handler.EnergyMeasurementHandler;
 import handler.PowerMeasurementHandler;
 import io.vertx.config.ConfigRetriever;
@@ -14,7 +14,6 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.client.WebClient;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ApiVerticle extends AbstractVerticle {

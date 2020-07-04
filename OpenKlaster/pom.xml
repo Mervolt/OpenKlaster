@@ -20,9 +20,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.5.2</version>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-unit</artifactId>
+            <version>3.9.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.openklaster</groupId>
@@ -63,6 +64,12 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-service-discovery</artifactId>
             <version>3.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -1,6 +1,6 @@
 package handler;
 
-import config.NestedConfigAccessor;
+import openklaster.common.config.NestedConfigAccessor;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;

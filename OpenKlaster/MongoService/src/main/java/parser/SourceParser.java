@@ -1,7 +1,6 @@
 package parser;
 
 import io.vertx.core.json.JsonObject;
-import model.Installation;
 import model.Source;
 
 public class SourceParser implements EntityParser<Source> {

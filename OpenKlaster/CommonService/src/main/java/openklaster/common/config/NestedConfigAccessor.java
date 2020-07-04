@@ -1,10 +1,10 @@
-package config;
+package openklaster.common.config;
 
 import io.vertx.core.json.JsonObject;
 
 /**
  * This class is a wrapper to access configs in nested forms as they were .properties files.
- * io.vertx.config.ConfigRetriever returns nested objects for yaml/json config files so they cannot be accessed
+ * io.vertx.openklaster.common.config.ConfigRetriever returns nested objects for yaml/json openklaster.common.config files so they cannot be accessed
  * like getValue({key1}.{key2}).
  */
 public class NestedConfigAccessor {

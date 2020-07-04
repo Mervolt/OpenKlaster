@@ -32,7 +32,7 @@ public class CommonVerticle extends AbstractVerticle {
     /***This should wait for Microservice implementation***/
 //    private Promise<Void> publishEndpoint(String name, String host, int port){
 //        Record record = HttpEndpoint.createRecord(name, host, port, "/",
-//                new JsonObject().put("api.name", config().getString("api.name", ""))
+//                new JsonObject().put("api.name", openklaster.common.config().getString("api.name", ""))
 //        );
 //        return publish(record);
 //    }

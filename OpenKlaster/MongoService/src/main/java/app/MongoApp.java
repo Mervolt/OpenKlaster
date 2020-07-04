@@ -1,4 +1,6 @@
-import config.ConfigFilesManager;
+package app;
+
+import openklaster.common.config.ConfigFilesManager;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.spi.cluster.ClusterManager;
@@ -15,7 +17,6 @@ public class MongoApp {
             Vertx vertx = res.result();
             MongoVerticle myMongoVerticle = new MongoVerticle(vertx,configFilesManager.getConfig(vertx));
             vertx.deployVerticle(myMongoVerticle);
-
         });
     }
 }

@@ -1,4 +1,4 @@
-package config;
+package openklaster.common.config;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;

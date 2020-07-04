@@ -1,4 +1,4 @@
-package config;
+package openklaster.common.config;
 
 import parser.EntityParser;
 import service.EntityHandler;
