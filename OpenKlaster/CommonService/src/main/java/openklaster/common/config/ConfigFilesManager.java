@@ -10,7 +10,7 @@ public class ConfigFilesManager {
 
     ConfigRetrieverOptions configRetrieverOptions;
     private static final String fileType = "file";
-    private static final String propertiesFormat = "properties";
+    private static final String propertiesFormat = "com.openklaster.api.properties";
     private static final String yamlFormat = "yaml";
     private static final String jsonFormat = "json";
     private static final String defaultConfigFile = "openklaster.rest.config.yaml";

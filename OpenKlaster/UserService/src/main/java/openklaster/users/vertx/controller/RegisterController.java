@@ -25,7 +25,6 @@ public class RegisterController {
         router.route().handler(BodyHandler.create());
         router.post().handler(CorsHandler.create("*"));
         router.post("/users/").consumes("application/json").handler(request -> {
-            System.out.println("HALO");
             storeUser(request.getBodyAsJson());
 
             request.response().end();

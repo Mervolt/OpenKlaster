@@ -42,7 +42,7 @@ public class DemoClient implements IClient{
     }
 
     private void handleGetMeasurementFailure(int id){
-        //TODO create proper failure openklaster.rest.handler...
+        //TODO create proper failure openklaster.rest.com.openklaster.api.handler...
         throw new RuntimeException("Could not collect data for id: " + id);
     }
 
@@ -92,7 +92,7 @@ public class DemoClient implements IClient{
     }
 
     private void handlePostMeasurementFailure(String id){
-        //TODO create proper failure openklaster.rest.handler...
+        //TODO create proper failure openklaster.rest.com.openklaster.api.handler...
         throw new RuntimeException("Could not post measurement data for id: " + id);
     }
 
