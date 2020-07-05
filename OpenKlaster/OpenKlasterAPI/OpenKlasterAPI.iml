@@ -12,13 +12,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-web-client:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-web-common:3.9.0" level="project" />
-    <orderEntry type="library" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.5.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apiguardian:apiguardian-api:1.1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.junit.platform:junit-platform-engine:1.5.2" level="project" />
-    <orderEntry type="library" name="Maven: org.opentest4j:opentest4j:1.2.0" level="project" />
-    <orderEntry type="library" name="Maven: org.junit.platform:junit-platform-commons:1.5.2" level="project" />
-    <orderEntry type="library" name="Maven: org.junit.jupiter:junit-jupiter-api:5.5.2" level="project" />
-    <orderEntry type="module" module-name="CommonService" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-hazelcast:3.9.0" level="project" />
+    <orderEntry type="library" name="Maven: com.hazelcast:hazelcast:3.12.2" level="project" />
+    <orderEntry type="module" module-name="CommonService" exported="" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.12" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-core:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.48.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.48.Final" level="project" />
