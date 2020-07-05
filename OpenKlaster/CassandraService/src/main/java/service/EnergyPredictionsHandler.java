@@ -2,8 +2,9 @@ package service;
 
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.Mapper;
-import io.vertx.core.Handler;
-import io.vertx.ext.web.RoutingContext;
+import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.LoggerFactory;
 import model.EnergyPredictions;
 
 import java.util.Date;
@@ -11,30 +12,24 @@ import java.util.Date;
 public class EnergyPredictionsHandler extends CassandraHandler {
     private final Mapper<EnergyPredictions> mapper;
 
-    public EnergyPredictionsHandler(CassandraClient cassandraClient) {
-        super(cassandraClient, "/energypredictions", "energypredictions", "installationId");
+    public EnergyPredictionsHandler(CassandraClient cassandraClient, JsonObject configObject) {
+        super(cassandraClient, configObject);
+        this.logger = LoggerFactory.getLogger(EnergyPredictionsHandler.class);
         this.mapper = mappingManager.mapper(EnergyPredictions.class);
     }
 
-    public Handler<RoutingContext> postHandler() {
-        return routingContext -> {
-            String receiverIdString = routingContext.request().getParam(idType);
-            String source = routingContext.request().getParam("source");
-            String type = routingContext.request().getParam("type");
-            String description = routingContext.request().getParam("description");
+    @Override
+    public void createPostHandler(Message<JsonObject> message) {
+        try {
+            int id = message.body().getInteger(idType);
+            String source = message.body().getString("source");
+            String type = message.body().getString("type");
+            String description = message.body().getString("description");
 
-            int installationId;
-            try {
-                installationId = Integer.parseInt(receiverIdString);
-            } catch(NumberFormatException | NullPointerException e) {
-                routingContext.response()
-                        .setStatusCode(400)
-                        .end();
-                return;
-            }
-
-            EnergyPredictions energyPredictions = new EnergyPredictions(new Date(), installationId, source, type, description);
-            mapper.save(energyPredictions, handler(routingContext));
-        };
+            EnergyPredictions energyPredictions = new EnergyPredictions(new Date(), id, source, type, description);
+            mapper.save(energyPredictions, handler(message, energyPredictions.toString()));
+        } catch (Exception e) {
+            parsingArgumentsError(message);
+        }
     }
 }

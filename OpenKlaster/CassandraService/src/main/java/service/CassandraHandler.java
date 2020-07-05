@@ -1,12 +1,16 @@
 package service;
 
 import com.datastax.driver.core.Row;
+import config.NestedConfigAccessor;
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.MappingManager;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import io.vertx.ext.web.RoutingContext;
-
+import io.vertx.core.eventbus.DeliveryOptions;
+import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,108 +18,106 @@ import java.util.List;
 
 
 public abstract class CassandraHandler {
-    public static final String keyspace = "openklaster";
+    public static final String OK = "200";
+    public static final String BAD_REQUEST = "400";
+    private static final String dateFormat = "yyyy-MM-dd HH:mm:ss";
+    private static final String select = "SELECT JSON * FROM %s WHERE %s = %d AND timestamp >= '%s' AND timestamp <= '%s' ALLOW FILTERING";
+    protected static Logger logger;
     protected final CassandraClient cassandraClient;
     protected final MappingManager mappingManager;
-    protected String route;
-    protected String table;
-    protected String idType;
+    protected final NestedConfigAccessor config;
+    protected final String address;
+    protected final String table;
+    protected final String idType;
 
-    public CassandraHandler(CassandraClient cassandraClient, String route, String table, String idType) {
+    public CassandraHandler(CassandraClient cassandraClient, JsonObject configObject) {
         this.cassandraClient = cassandraClient;
         this.mappingManager = MappingManager.create(cassandraClient);
-        this.route = route;
-        this.table = table;
-        this.idType = idType;
+        this.config = new NestedConfigAccessor(configObject);
+        this.address = config.getString("address");
+        this.table = config.getString("table");
+        this.idType = config.getString("idtype");
     }
 
-
-    public String getRoute(){return this.route;}
-
-    public abstract Handler<RoutingContext> postHandler();
-
-    public Handler<RoutingContext> getHandler() {
-        return routingContext -> {
-            String receiverIdString = routingContext.request().getParam(idType);
-            String startDateUserFormat = routingContext.request().getParam("startDate");
-            String endDateUserFormat = routingContext.request().getParam("endDate");
-
-            int receiverId;
-            String startDate;
-            String endDate;
-            try {
-                receiverId = Integer.parseInt(receiverIdString);
-            } catch(NumberFormatException | NullPointerException e) {
-                routingContext.response()
-                        .setStatusCode(400)
-                        .end();
-                return;
-            }
-            if (startDateUserFormat == null) startDate = "2000-01-01";
-            else startDate = parseDate(startDateUserFormat);
-            if (endDateUserFormat == null) {
-                SimpleDateFormat cassandraFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date now = new Date();
-                endDate = cassandraFormat.format(now);
-            }
-            else endDate = parseDate(endDateUserFormat);
-
-            String query = "SELECT JSON * FROM " + keyspace + " . " + table  + " WHERE " + idType.toLowerCase() +
-                    " = "+ + receiverId + " AND timestamp >= '" +startDate + "' AND timestamp <= '" +endDate + "' ALLOW FILTERING";
-            cassandraClient.executeWithFullFetch(query, resultHandler(routingContext));
-        };
+    public String getAddress() {
+        return this.address;
     }
 
+    public abstract void createPostHandler(Message<JsonObject> message);
 
-    protected Handler<AsyncResult<Void>> handler(RoutingContext routingContext){
-        return voidAsyncResult -> {
-            if (voidAsyncResult.succeeded()) {
-                System.out.println("Executed successfully");
-                routingContext.response()
-                        .setStatusCode(200)
-                        .end();
-            } else {
-                System.out.println("Unable to execute");
-                routingContext.response()
-                        .setStatusCode(400)
-                        .end();
-            }
-        };
-    }
-
-    protected Handler<AsyncResult<List<Row>>> resultHandler(RoutingContext routingContext) {
-        return listAsyncResult -> {
-            if (listAsyncResult.succeeded()) {
-                List<Row> rows = listAsyncResult.result();
-                StringBuilder result = new StringBuilder();
-                result.append("[");
-                for (int i = 0; i < rows.size(); i++) {
-                    if (i > 0) result.append(",");
-                    result.append(rows.get(i).getString(0));
-                }
-                result.append("]");
-                System.out.println("Executed successfully");
-                routingContext.response()
-                        .putHeader("content-type", "application/json; charset=utf-8")
-                        .end(result.toString());
-            } else {
-                System.out.println("Unable to execute");
-                routingContext.response()
-                        .setStatusCode(400)
-                        .end();
-            }
-        };
-    }
-
-    protected String parseDate(String userDate) {
-        SimpleDateFormat userFormat = new SimpleDateFormat("dd-MM-yyyy");
-        SimpleDateFormat cassandraFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String cassandraDate = "";
+    public void createGetHandler(Message<JsonObject> message) {
         try {
-            cassandraDate = cassandraFormat.format(userFormat.parse(userDate));
-        } catch (ParseException e) {
-            e.printStackTrace();
+            int id = message.body().getInteger(idType);
+            String startDate = valdateDate(message, "startDate");
+            String endDate =  valdateDate(message,"endDate");
+            String query = String.format(select, table, idType.toLowerCase(), id, startDate, endDate);
+
+            cassandraClient.executeWithFullFetch(query, listAsyncResult -> {
+                DeliveryOptions deliveryOptions = new DeliveryOptions();
+                if (listAsyncResult.succeeded()) {
+                    List<Row> rows = listAsyncResult.result();
+                    JsonArray response = getJsonResponse(rows);
+                    logger.debug("Status code for GET request " + OK);
+                    deliveryOptions.addHeader("statusCode", OK);
+                    message.reply(response, deliveryOptions);
+                } else {
+                    logger.error("Status code for GET request " + BAD_REQUEST);
+                    deliveryOptions.addHeader("statusCode", BAD_REQUEST);
+                    message.reply(new JsonObject(), deliveryOptions);
+                }
+            });
+        } catch (Exception e) {
+            parsingArgumentsError(message);
         }
-        return cassandraDate;
+    }
+
+    protected Handler<AsyncResult<Void>> handler(Message<JsonObject> message, String object) {
+        return voidAsyncResult -> {
+            DeliveryOptions deliveryOptions = new DeliveryOptions();
+            if (voidAsyncResult.succeeded()) {
+                logger.debug("New entry in the database " + object);
+                deliveryOptions.addHeader("statusCode", OK);
+                message.reply(new JsonObject(), deliveryOptions);
+            } else {
+                logger.error("Unable to add entry to the database " + object);
+                deliveryOptions.addHeader("statusCode", BAD_REQUEST);
+                message.reply(new JsonObject(), deliveryOptions);
+            }
+        };
+    }
+
+    private JsonArray getJsonResponse(List<Row> rows) {
+        JsonArray jsonArray = new JsonArray();
+        for (Row row : rows) {
+            jsonArray.add(new JsonObject(row.getString(0)));
+        }
+        return jsonArray;
+    }
+
+    protected String valdateDate(Message<JsonObject> message, String param) throws ParseException {
+        String dateToValidate = message.body().getString(param);
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+        formatter.setLenient(false);
+        Date parsedDate = formatter.parse(dateToValidate);
+        return formatter.format(parsedDate);
+    }
+
+    protected Date parseTimestamp(Message<JsonObject> message) throws ParseException {
+        String timestamp = message.body().getString("timestamp");
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+        formatter.setLenient(false);
+        if (timestamp != null) {
+            return formatter.parse(timestamp);
+        }
+        else {
+            return new Date();
+        }
+    }
+
+    public void parsingArgumentsError(Message<JsonObject> message) {
+        logger.error("Problem with parsing arguments");
+        DeliveryOptions deliveryOptions = new DeliveryOptions();
+        deliveryOptions.addHeader("statusCode", BAD_REQUEST);
+        message.reply(new JsonObject(), deliveryOptions);
     }
 }

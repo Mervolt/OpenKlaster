@@ -1,4 +1,4 @@
-import config.ConfigFilesManager;
+import openklaster.common.config.ConfigFilesManager;
 import io.vertx.core.Vertx;
 
 public class OpenKlasterAPILauncher {

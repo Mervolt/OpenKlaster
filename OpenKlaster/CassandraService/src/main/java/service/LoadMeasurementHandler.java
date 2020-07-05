@@ -2,8 +2,9 @@ package service;
 
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.Mapper;
-import io.vertx.core.Handler;
-import io.vertx.ext.web.RoutingContext;
+import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.LoggerFactory;
 import model.LoadMeasurement;
 
 import java.util.Date;
@@ -11,32 +12,26 @@ import java.util.Date;
 public class LoadMeasurementHandler extends CassandraHandler {
     private final Mapper<LoadMeasurement> mapper;
 
-    public LoadMeasurementHandler(CassandraClient cassandraClient) {
-        super(cassandraClient, "/loadmeasurement", "loadmeasurement", "receiverId");
+    public LoadMeasurementHandler(CassandraClient cassandraClient, JsonObject configObject) {
+        super(cassandraClient, configObject);
+        this.logger = LoggerFactory.getLogger(LoadMeasurementHandler.class);
         this.mapper = mappingManager.mapper(LoadMeasurement.class);
     }
 
-    public Handler<RoutingContext> postHandler() {
-        return routingContext -> {
-            String receiverIdString = routingContext.request().getParam(idType);
-            String valueString = routingContext.request().getParam("value");
-            String cumulativelyString = routingContext.request().getParam("cumulatively");
 
-            int receiverId;
-            double value;
-            try {
-                receiverId = Integer.parseInt(receiverIdString);
-                value = Double.parseDouble(valueString);
-            } catch(NumberFormatException | NullPointerException e) {
-                routingContext.response()
-                        .setStatusCode(400)
-                        .end();
-                return;
-            }
-            String unit = cumulativelyString != null && cumulativelyString.equals("yes") ? "kWH" : "kW";
+    @Override
+    public void createPostHandler(Message<JsonObject> message) {
+        try {
+            int id = message.body().getInteger(idType);
+            float value = message.body().getFloat("value");
+            // Todo It will be done, but first we must determine how to do it. I leave "kW" for now
+            String unit = "kW";
+            Date timestamp = parseTimestamp(message);
 
-            LoadMeasurement loadMeasurement = new LoadMeasurement(receiverId, new Date(), unit, value);
-            mapper.save(loadMeasurement, handler(routingContext));
-        };
+            LoadMeasurement loadMeasurement = new LoadMeasurement(id, timestamp, unit, value);
+            mapper.save(loadMeasurement, handler(message, loadMeasurement.toString()));
+        } catch (Exception e) {
+            parsingArgumentsError(message);
+        }
     }
 }

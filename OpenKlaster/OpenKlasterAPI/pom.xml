@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>RestApi</artifactId>
+    <artifactId>OpenKlasterAPI</artifactId>
     <dependencies>
         <dependency>
             <groupId>io.vertx</groupId>
