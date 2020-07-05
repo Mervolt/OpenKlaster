@@ -7,7 +7,7 @@
     <groupId>org.openklaster</groupId>
     <artifactId>OpenKlaster</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>${openklaster.version}</version>
     <modules>
         <module>OpenKlasterCore</module>
         <module>UserService</module>
@@ -17,64 +17,72 @@
         <module>CommonService</module>
     </modules>
 
+    <properties>
+        <openklaster.version>1.0</openklaster.version>
+        <vertx.version>3.9.0</vertx.version>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <junit.version>4.12</junit.version>
+        <lombok.version>1.18.12</lombok.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-unit</artifactId>
-            <version>3.9.0</version>
+            <version>${vertx.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.openklaster</groupId>
             <artifactId>CommonService</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${openklaster.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
-            <version>3.9.0</version>
+            <version>${vertx.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-config-yaml</artifactId>
-            <version>3.9.0</version>
+            <version>${vertx.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-config</artifactId>
-            <version>3.9.0</version>
+            <version>${vertx.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
-            <version>3.9.0</version>
+            <version>${vertx.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-jdbc-client</artifactId>
-            <version>3.9.0</version>
+            <version>${vertx.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-mongo-client</artifactId>
-            <version>3.9.0</version>
+            <version>${vertx.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-service-discovery</artifactId>
-            <version>3.9.0</version>
+            <version>${vertx.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-hazelcast</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
     </dependencies>
-
-    <properties>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
-
 </project>
