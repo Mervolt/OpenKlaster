@@ -1,13 +1,10 @@
-package openklaster.rest;
-
 import openklaster.common.config.ConfigFilesManager;
 import io.vertx.core.Vertx;
 
-public class App {
+public class OpenKlasterAPILauncher {
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
-        ConfigFilesManager configFilesManager = new ConfigFilesManager();
-        ApiVerticle verticle = new ApiVerticle(vertx, configFilesManager.getConfig(vertx));
+        OpenKlasterAPIVerticle verticle = new OpenKlasterAPIVerticle();
         vertx.deployVerticle(verticle);
     }
 }

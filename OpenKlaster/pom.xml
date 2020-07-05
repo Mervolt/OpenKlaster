@@ -13,10 +13,9 @@
         <module>UserService</module>
         <module>MongoService</module>
         <module>CassandraService</module>
-        <module>RestApi</module>
+        <module>OpenKlasterAPI</module>
         <module>CommonService</module>
     </modules>
-
 
     <dependencies>
         <dependency>

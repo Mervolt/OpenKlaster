@@ -15,6 +15,11 @@
             <artifactId>vertx-web-client</artifactId>
             <version>3.9.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-hazelcast</artifactId>
+            <version>3.9.0</version>
+        </dependency>
     </dependencies>
     <artifactId>OpenKlasterCore</artifactId>
 
