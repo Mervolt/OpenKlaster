@@ -13,7 +13,7 @@ import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import openklaster.common.config.NestedConfigAccessor;
+import com.openklaster.common.config.NestedConfigAccessor;
 
 import java.util.Arrays;
 import java.util.List;

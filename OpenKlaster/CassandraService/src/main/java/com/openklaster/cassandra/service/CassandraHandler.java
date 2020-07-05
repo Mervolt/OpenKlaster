@@ -10,7 +10,7 @@ import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
-import openklaster.common.config.NestedConfigAccessor;
+import com.openklaster.common.config.NestedConfigAccessor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
