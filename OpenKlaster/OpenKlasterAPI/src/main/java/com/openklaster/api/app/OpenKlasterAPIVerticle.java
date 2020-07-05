@@ -3,7 +3,7 @@ package com.openklaster.api.app;
 
 import com.openklaster.api.handler.DefaultHandler;
 import com.openklaster.api.handler.Handler;
-import com.openklaster.common.model.*;
+import com.openklaster.api.model.*;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.*;
 import io.vertx.core.eventbus.EventBus;

@@ -12,7 +12,7 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.RoutingContext;
 import com.openklaster.common.config.NestedConfigAccessor;
-import com.openklaster.common.model.Model;
+import com.openklaster.api.model.Model;
 import com.openklaster.api.parser.IParseStrategy;
 
 import java.util.List;

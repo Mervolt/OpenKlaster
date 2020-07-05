@@ -1,4 +1,4 @@
-package com.openklaster.common.model;
+package com.openklaster.api.model;
 
 public enum InstallationType {
     Solar,
