@@ -5,6 +5,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.mongo.MongoClientDeleteResult;
+import io.vertx.ext.mongo.MongoClientUpdateResult;
 
 public class MongoPersistenceService {
 
@@ -25,4 +26,14 @@ public class MongoPersistenceService {
     public void removeByQuery(JsonObject removeQuery, String collectionName,Handler<AsyncResult<MongoClientDeleteResult>> resultHandler ){
         client.removeDocuments(collectionName,removeQuery,resultHandler);
     }
+
+    public void insertByQuery(JsonObject insertQuery, String collectionName, Handler<AsyncResult<String>> resultHandler){
+        client.insert(collectionName,insertQuery, resultHandler);
+    }
+
+    public void updateByQuery(JsonObject updateQuery, JsonObject updateData, String collectionName, Handler<AsyncResult<MongoClientUpdateResult>> resultHandler){
+        client.updateCollection(collectionName, updateQuery,updateData, resultHandler);
+    }
+
+
 }

@@ -50,7 +50,7 @@ public class MongoVerticle extends AbstractVerticle {
                 this.configAccessor = new NestedConfigAccessor(config.result());
                 handlePostConfig(promise);
             } else {
-                logger.error("Could not retrieve app.MongoVerticle openklaster.common.openklaster.rest.config!");
+                logger.error("Could not retrieve app.MongoVerticle config!");
                 logger.error(config.cause());
                 vertx.close();
             }
@@ -87,7 +87,7 @@ public class MongoVerticle extends AbstractVerticle {
                 handler.add(msg);
                 break;
             case "remove":
-                handler.delete(msg);
+                handler.remove(msg);
                 break;
             case "find":
                 handler.findById(msg);

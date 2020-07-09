@@ -1,4 +1,4 @@
-package com.openklaster.mongo.model;
+package com.openklaster.common.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

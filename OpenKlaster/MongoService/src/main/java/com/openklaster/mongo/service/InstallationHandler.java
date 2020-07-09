@@ -1,6 +1,6 @@
 package com.openklaster.mongo.service;
 
-import com.openklaster.mongo.model.Installation;
+import com.openklaster.common.model.Installation;
 import com.openklaster.mongo.parser.EntityParser;
 import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.core.logging.LoggerFactory;

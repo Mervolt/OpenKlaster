@@ -1,62 +1,47 @@
 package com.openklaster.core.vertx.app;
 
-import io.vertx.core.MultiMap;
-import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
+import com.openklaster.common.config.NestedConfigAccessor;
+import io.vertx.config.ConfigRetriever;
+import io.vertx.core.*;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 
-public class CoreVerticle {
+public class CoreVerticle extends AbstractVerticle {
 
-    public static void main(String[] args) {
+    private ConfigRetriever configRetriever;
+    private static final Logger logger = LoggerFactory.getLogger(CoreVerticle.class);
+    private EventBus eventBus;
+    private NestedConfigAccessor configAccessor;
 
-        ClusterManager clusterManager = new HazelcastClusterManager();
-        VertxOptions options = new VertxOptions().setClusterManager(clusterManager);
-        Vertx.clusteredVertx(options, result -> {
+    public CoreVerticle(Vertx vertx, ConfigRetriever configRetriever) {
+        this.vertx = vertx;
+        this.configRetriever = configRetriever;
+        this.eventBus = vertx.eventBus();
+    }
+
+    @Override
+    public void start(Promise<Void> promise) {
+        this.configRetriever.getConfig(result -> {
             if (result.succeeded()) {
-                Vertx vertx = result.result();
-                EventBus eventBus = vertx.eventBus();
-
-                eventBus.<JsonObject>consumer("openKlaster.core.user", message -> {
-                    MultiMap headers = message.headers();
-                    if(!headers.contains("method"))
-                        /*
-                        * handle unprocessable..
-                        */
-                        message.reply(null);
-                    JsonObject json = message.body();
-                    message.reply(json);
-                });
-
-
-                eventBus.<JsonObject>consumer("openKlaster.core.load", message -> {
-                    JsonObject json = message.body();
-                    message.reply(json);
-                });
-
-                eventBus.<JsonObject>consumer("openKlaster.core.source", message -> {
-                    JsonObject json = message.body();
-                    message.reply(json);
-                });
-
-                eventBus.<JsonObject>consumer("openKlaster.core.inverter", message -> {
-                    JsonObject json = message.body();
-                    message.reply(json);
-                });
-
-                eventBus.<JsonObject>consumer("openKlaster.core.installation", message -> {
-                    JsonObject json = message.body();
-                    message.reply(json);
-                });
-
-                eventBus.<JsonObject>consumer("openKlaster.core.energySourceCalculator", message -> {
-                    JsonObject json = message.body();
-                    message.reply(json);
-                });
-
+                this.configAccessor = new NestedConfigAccessor(result.result());
+                handlePostConfig(promise);
+            } else {
+                logger.error("Could not retrieve CoreVerticle config");
+                logger.error(result.cause());
+                vertx.close();
+                promise.complete();
             }
         });
+    }
+
+    private void handlePostConfig(Promise<Void> promise) {
+
+
+        promise.complete();
+
     }
 }

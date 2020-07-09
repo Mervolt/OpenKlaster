@@ -1,6 +1,6 @@
 package com.openklaster.mongo.parser;
 
-import com.openklaster.mongo.model.Source;
+import com.openklaster.common.model.Source;
 import io.vertx.core.json.JsonObject;
 
 public class SourceParser implements EntityParser<Source> {

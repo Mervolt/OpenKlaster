@@ -1,0 +1,4 @@
+eventbus:
+  mongo:
+    address: "mongo.users"
+
