@@ -60,26 +60,27 @@ public class UserServiceTest extends MongoServiceTest {
         eventBus.<JsonObject>request(userAddress, JsonObject.mapFrom(alreadyExistsUser), options, result -> {
             async.complete();
         });
-        async.awaitSuccess();
 
+        async.awaitSuccess();
         Async async2 = context.async();
+
         eventBus.<JsonObject>request(userAddress, JsonObject.mapFrom(alreadyExistsUser), options, result -> {
             assertBusFail(HttpResponseStatus.BAD_REQUEST,userAlreadyExistsMsg(alreadyExistsUser.getUsername()), result);
             async2.complete();
         });
-        async2.awaitSuccess();
+        async2.await();
 
         JsonObject request = new JsonObject().put("_id", alreadyExistsUser.getUsername());
-        options = new DeliveryOptions().addHeader("method", "remove");
+        DeliveryOptions options2 = new DeliveryOptions().addHeader("method", "remove");
         Async async3 = context.async();
-        eventBus.<JsonObject>request(userAddress, request, options, result -> {
+        eventBus.<JsonObject>request(userAddress, request, options2, result -> {
             async3.complete();
         });
         async3.awaitSuccess();
     }
 
     private String userAlreadyExistsMsg(String userName){
-        return String.format("User %s already exists.", userName);
+        return String.format("Problem with adding entity. Duplicated key - %s", userName);
     }
 
     @Test
@@ -105,7 +106,7 @@ public class UserServiceTest extends MongoServiceTest {
         options = new DeliveryOptions().addHeader("method", "remove");
         Async async3 = context.async();
         eventBus.<JsonObject>request(userAddress, request, options, result -> {
-            assertBusResult(HttpResponseStatus.NO_CONTENT, null, result);
+            assertBusResult(HttpResponseStatus.OK, prepareRemovedEntities(1), result);
             async3.complete();
         });
         async3.awaitSuccess(testTimeoutMillis);

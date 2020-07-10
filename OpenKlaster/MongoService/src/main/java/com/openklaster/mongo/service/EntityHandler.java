@@ -33,7 +33,7 @@ public abstract class EntityHandler {
 
     public void add(Message<JsonObject> busMessage) {
         JsonObject jsonObject = busMessage.body();
-        persistenceService.upsertByQuery(jsonObject, this.getCollectionName(),
+        persistenceService.insertByQuery(jsonObject, this.getCollectionName(),
                 handler -> {
                     if (handler.succeeded()) {
                         logger.debug(String.format("Entity added - %s", jsonObject.getString("_id")));
@@ -88,7 +88,7 @@ public abstract class EntityHandler {
                     }
                 });
     }
-    private void handleFailedQuery(Object id, Message<JsonObject> busMessage, Throwable cause, String logMessage){
+    protected void handleFailedQuery(Object id, Message<JsonObject> busMessage, Throwable cause, String logMessage){
         Pair<HttpResponseStatus,String> handledErrorResult =
                 exceptionHandler.getStatusAndMessageForException(cause);
 

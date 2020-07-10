@@ -27,7 +27,6 @@ public class MongoError  {
     private final HttpResponseStatus responseStatus;
 
     private MongoError(@NotNull int errorCode, @NotNull String errorMessage, @NotNull HttpResponseStatus status) {
-        assert (errorCode >= 0);
         assert (StringUtils.nonEmptyString(errorMessage));
 
         this.errorCode = errorCode;

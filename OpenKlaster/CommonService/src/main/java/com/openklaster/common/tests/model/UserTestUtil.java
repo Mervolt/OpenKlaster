@@ -1,8 +1,9 @@
 package com.openklaster.common.tests.model;
 
+import com.openklaster.common.authentication.ITokenGenerator;
+import com.openklaster.common.authentication.TokenGenerator;
 import com.openklaster.common.model.User;
 import com.openklaster.common.model.UserToken;
-import org.apache.commons.lang3.RandomStringUtils;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -24,6 +25,8 @@ public class UserTestUtil {
     }
 
     private static UserToken prepareToken() {
-        return new UserToken(RandomStringUtils.random(12), LocalDate.now());
+        ITokenGenerator generator = new TokenGenerator();
+
+        return new UserToken(generator.generateToken(3), LocalDate.now());
     }
 }
