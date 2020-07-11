@@ -21,6 +21,7 @@ public abstract class Handler {
         this.eventBus = eventBus;
         this.nestedConfigAccessor = nestedConfigAccessor;
         this.parseStrategy = parseStrategy;
+        System.out.println(route + " " + coreRoute);
     }
 
     public abstract void post(RoutingContext context);

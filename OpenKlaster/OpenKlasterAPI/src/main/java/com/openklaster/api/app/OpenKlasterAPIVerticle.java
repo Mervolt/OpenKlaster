@@ -46,7 +46,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
     private void prepareDeploy(Promise<Void> deployPrepared){
         Promise<Void> promise = Promise.promise();
-        createClusteredVertx(promise);;
+        createClusteredVertx(promise);
         promise.future().onComplete(result ->{
             configRetriever = new ConfigFilesManager().getConfig(vertx);
             deployPrepared.complete();
@@ -93,29 +93,29 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                 .requestHandler(router)
                 .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
         handlers = Arrays.asList(
-                new DefaultHandler(configAccessor.getString(EndpointRouteProperties.userCoreAddressKey),
-                        configAccessor.getString(EventBusAddressProperties.userEndpointRouteKey),
+                new DefaultHandler(configAccessor.getString(EventBusAddressProperties.userEndpointRouteKey),
+                        configAccessor.getString(EndpointRouteProperties.userCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<User>(User.class)),
 
-                new DefaultHandler(configAccessor.getString(EndpointRouteProperties.loadCoreAddressKey),
-                        configAccessor.getString(EventBusAddressProperties.loadEndpointRouteKey),
+                new DefaultHandler(configAccessor.getString(EventBusAddressProperties.loadEndpointRouteKey),
+                        configAccessor.getString(EndpointRouteProperties.loadCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Load>(Load.class)),
 
-                new DefaultHandler(configAccessor.getString(EndpointRouteProperties.sourceCoreAddressKey),
-                        configAccessor.getString(EventBusAddressProperties.sourceEndpointRouteKey), eventBus, configAccessor,
-                        new DefaultParseStrategy<Source>(Source.class)),
+                new DefaultHandler(configAccessor.getString(EventBusAddressProperties.sourceEndpointRouteKey),
+                        configAccessor.getString(EndpointRouteProperties.sourceCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<Source>(Source.class)),
 
-                new DefaultHandler(configAccessor.getString(EndpointRouteProperties.inverterCoreAddressKey),
-                        configAccessor.getString(EventBusAddressProperties.inverterEndpointRouteKey), eventBus, configAccessor,
-                        new DefaultParseStrategy<Inverter>(Inverter.class)),
+                new DefaultHandler(configAccessor.getString(EventBusAddressProperties.inverterEndpointRouteKey),
+                        configAccessor.getString(EndpointRouteProperties.inverterCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<Inverter>(Inverter.class)),
 
-                new DefaultHandler(configAccessor.getString(EndpointRouteProperties.installationCoreAddressKey),
-                        configAccessor.getString(EventBusAddressProperties.installationEndpointRouteKey), eventBus, configAccessor,
-                        new DefaultParseStrategy<Installation>(Installation.class)),
+                new DefaultHandler(configAccessor.getString(EventBusAddressProperties.installationEndpointRouteKey),
+                        configAccessor.getString(EndpointRouteProperties.installationCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<Installation>(Installation.class)),
 
-                new DefaultHandler(configAccessor.getString(EndpointRouteProperties.energyCoreAddressKey),
-                        configAccessor.getString(EventBusAddressProperties.energyEndpointRouteKey), eventBus, configAccessor,
-                        new DefaultParseStrategy<EnergySourceCalculator>(EnergySourceCalculator.class)));
+                new DefaultHandler(configAccessor.getString(EventBusAddressProperties.energyEndpointRouteKey),
+                        configAccessor.getString(EndpointRouteProperties.energyCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<EnergySourceCalculator>(EnergySourceCalculator.class)));
 
         routerConfig(router);
     }
