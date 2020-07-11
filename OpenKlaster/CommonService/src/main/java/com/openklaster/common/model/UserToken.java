@@ -11,6 +11,4 @@ public class UserToken {
 
     private String data;
     private LocalDate expirationDate;
-
-
 }

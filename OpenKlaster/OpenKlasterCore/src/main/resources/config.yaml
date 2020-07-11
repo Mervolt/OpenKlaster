@@ -1,4 +1,8 @@
 eventbus:
-  mongo:
-    address: "mongo.users"
+  in:
+    userManagement:
+      address: "core.users"
+  out:
+    mongo:
+      address: "mongo.users"
 

@@ -1,4 +1,4 @@
-package com.openklaster.common.authentication;
+package com.openklaster.common.authentication.password;
 
 import org.mindrot.jbcrypt.BCrypt;
 

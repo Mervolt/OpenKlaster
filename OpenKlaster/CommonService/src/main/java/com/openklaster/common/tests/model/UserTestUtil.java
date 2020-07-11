@@ -1,7 +1,7 @@
 package com.openklaster.common.tests.model;
 
-import com.openklaster.common.authentication.ITokenGenerator;
-import com.openklaster.common.authentication.TokenGenerator;
+import com.openklaster.common.authentication.tokens.TokenGenerator;
+import com.openklaster.common.authentication.tokens.BasicTokenGenerator;
 import com.openklaster.common.model.User;
 import com.openklaster.common.model.UserToken;
 
@@ -25,7 +25,7 @@ public class UserTestUtil {
     }
 
     private static UserToken prepareToken() {
-        ITokenGenerator generator = new TokenGenerator();
+        TokenGenerator generator = new BasicTokenGenerator();
 
         return new UserToken(generator.generateToken(3), LocalDate.now());
     }

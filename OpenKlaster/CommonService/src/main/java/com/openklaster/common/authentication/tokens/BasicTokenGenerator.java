@@ -1,4 +1,4 @@
-package com.openklaster.common.authentication;
+package com.openklaster.common.authentication.tokens;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
  * Those strings are chosen from 4 groups - upperCase chars, lowerCase chars, digits and
  * special characters (ascii values from 33 to 47).
  */
-public class TokenGenerator implements ITokenGenerator {
+public class BasicTokenGenerator implements TokenGenerator {
 
     private final SecureRandom secureRandom;
 
-    public TokenGenerator() {
+    public BasicTokenGenerator() {
         this.secureRandom = new SecureRandom();
     }
 

@@ -1,17 +1,19 @@
 package com.openklaster.common.authentication;
 
+import com.openklaster.common.authentication.tokens.BasicTokenGenerator;
+import com.openklaster.common.authentication.tokens.TokenGenerator;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class TokenGeneratorTest {
+public class BasicTokenGeneratorTest {
 
-    ITokenGenerator generator;
+    TokenGenerator generator;
 
     @Before
     public void setup() {
-        this.generator = new TokenGenerator();
+        this.generator = new BasicTokenGenerator();
     }
 
     @Test
