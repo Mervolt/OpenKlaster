@@ -3,9 +3,8 @@ package com.openklaster.api.model;
 import lombok.Data;
 
 @Data
-public class Inverter extends Model {
-    private String _id;
-    private String installationId;
+public class Inverter {
+
     private String description;
     private String manufacturer;
     private String credentials;

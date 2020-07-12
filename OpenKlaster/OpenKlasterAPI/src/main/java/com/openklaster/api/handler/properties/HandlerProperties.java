@@ -9,5 +9,6 @@ public class HandlerProperties {
     public static String putMethodHeader = "put";
     public static String getMethodHeader = "get";
     public static String deleteMethodHeader = "delete";
-
+    public static String apiToken = "apiToken";
+    public static String sessionToken = "sessionToken";
 }

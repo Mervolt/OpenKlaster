@@ -18,17 +18,23 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-cassandra-client</artifactId>
-            <version>${vertx.version}</version>
+            <version>3.9.1</version>
         </dependency>
         <dependency>
             <groupId>com.datastax.cassandra</groupId>
             <artifactId>cassandra-driver-mapping</artifactId>
-            <version>${vertx.version}</version>
+            <version>3.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${google-gson.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>com.google</artifactId>
+                    <groupId>guava</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
