@@ -8,4 +8,5 @@ public interface UserManager {
     void handleMessage(Message<JsonObject> message);
 
     String usernameKey = "username";
+    String passwordKey = "password";
 }

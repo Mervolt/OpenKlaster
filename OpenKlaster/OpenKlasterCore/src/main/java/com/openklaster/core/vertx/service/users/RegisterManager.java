@@ -4,6 +4,7 @@ import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
@@ -12,6 +13,8 @@ import io.vertx.core.logging.LoggerFactory;
 
 public class RegisterManager implements UserManager {
     private static final String methodName = "register";
+    private static final String successMessage = "User registered - %s";
+    private static final String failureMessage = "Could not register user - %s(%s)";
     private static final Logger logger = LoggerFactory.getLogger(RegisterManager.class);
     private final AuthenticationClient authenticationClient;
 
@@ -26,25 +29,33 @@ public class RegisterManager implements UserManager {
 
     @Override
     public void handleMessage(Message<JsonObject> message) {
-        User user = processUser(message.body());
-        addUser(user).future().onComplete(handler -> {
+        User user = getUserWithHashedPassword(message.body());
+        addUser(user).onComplete(handler -> {
             if (handler.succeeded()) {
-                logger.debug(String.format("User registered - %s", user.getUsername()));
-                BusMessageReplyUtils.replyWithStatus(message, HttpResponseStatus.OK);
+                handleSuccess(user, message);
             } else {
-                logger.error(String.format("Could not register user - %s(%s)",
-                        user.getUsername(),handler.cause().getMessage()));
-                BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST,
-                        handler.cause().getMessage());
+                handleFailure(user, message, handler.cause().getMessage());
             }
         });
     }
 
-    private Promise<User> addUser(User user) {
-        return Promise.promise();
+    private void handleSuccess(User user, Message<JsonObject> message) {
+        logger.debug(String.format(successMessage, user.getUsername()));
+        BusMessageReplyUtils.replyWithStatus(message, HttpResponseStatus.OK);
     }
 
-    User processUser(JsonObject userJson) {
+    private void handleFailure(User user, Message<JsonObject> message, String reason) {
+        logger.error(String.format(failureMessage,
+                user.getUsername(), reason));
+        BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST,
+                reason);
+    }
+
+    private Future<Void> addUser(User user) {
+        return Future.succeededFuture();
+    }
+
+    private User getUserWithHashedPassword(JsonObject userJson) {
         User user = userJson.mapTo(User.class);
         user.setPassword(authenticationClient.hashUserPassword(user.getPassword()));
         return user;

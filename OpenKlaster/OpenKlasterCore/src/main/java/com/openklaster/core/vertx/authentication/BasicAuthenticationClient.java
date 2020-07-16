@@ -4,6 +4,7 @@ import com.openklaster.common.authentication.password.PasswordHandler;
 import com.openklaster.common.authentication.tokens.TokenHandler;
 import com.openklaster.common.authentication.tokens.TokenValidationResult;
 import com.openklaster.common.model.User;
+import com.openklaster.common.model.UserToken;
 
 public class BasicAuthenticationClient implements AuthenticationClient {
     private final PasswordHandler passwordHandler;
@@ -29,9 +30,15 @@ public class BasicAuthenticationClient implements AuthenticationClient {
     public AuthenticationResult authenticateWithSessionToken(User user, String token) {
         AuthenticationResult result = authenticateWithToken(user, token);
         if (result.succeeded()) {
-            result = new SuccessfulSessionAuthentication(tokenHandler.getRefreshedSessionToken(user.getSessionToken()));
+            UserToken refreshedToken = tokenHandler.getRefreshedSessionToken(user.getSessionToken());
+            result = new SuccessfulSessionAuthentication(refreshedToken);
+            persistSessionToken(user, refreshedToken);
         }
         return result;
+    }
+
+    private void persistSessionToken(User user, UserToken refreshedToken) {
+        //TODO
     }
 
     private AuthenticationResult authenticationTokenResult(TokenValidationResult result, User user) {
@@ -51,7 +58,7 @@ public class BasicAuthenticationClient implements AuthenticationClient {
     public AuthenticationResult authenticateWithPassword(User user, String password) {
         try {
             if (passwordHandler.authenticatePassword(password, user.getPassword())) {
-                return new SuccessfulAuthentication();
+                return new SuccessfulSessionAuthentication(tokenHandler.generateUserToken());
             } else {
                 return new FailedAuthentication(failedPasswordAuth(user.getUsername()));
             }

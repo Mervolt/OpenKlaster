@@ -13,6 +13,11 @@ public class SuccessfulSessionAuthentication implements AuthenticationResult {
         return true;
     }
 
+    @Override
+    public Throwable getCause() {
+        return null;
+    }
+
     public SuccessfulSessionAuthentication(UserToken sessionToken) {
         this.sessionToken = sessionToken;
     }

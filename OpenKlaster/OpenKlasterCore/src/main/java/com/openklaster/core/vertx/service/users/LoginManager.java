@@ -1,21 +1,27 @@
 package com.openklaster.core.vertx.service.users;
 
+import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
-import io.vertx.core.Promise;
+import com.openklaster.core.vertx.authentication.AuthenticationResult;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.Future;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
-public class LoginManager implements  UserManager {
+public class LoginManager implements UserManager {
     private static final String methodName = "register";
+    private static final String successMessage = "User logged in - %s";
+    private static final String failedMessage = "Cannot login - %s";
     private static final Logger logger = LoggerFactory.getLogger(LoginManager.class);
     private final AuthenticationClient authenticationClient;
 
-    public LoginManager(AuthenticationClient authenticationClient){
+    public LoginManager(AuthenticationClient authenticationClient) {
         this.authenticationClient = authenticationClient;
     }
+
     @Override
     public String getMethodsName() {
         return methodName;
@@ -23,17 +29,57 @@ public class LoginManager implements  UserManager {
 
     @Override
     public void handleMessage(Message<JsonObject> message) {
-        getUser(message.body()).future().onComplete(handler -> {
-            if(handler.succeeded()){
-
-            }else{
-
+        authenticateUser(message.body()).onComplete(handler -> {
+            if (handler.succeeded()) {
+                handleSuccess(handler.result(), message);
+            } else {
+                handleFailure(handler.cause().getMessage(), message);
             }
         });
     }
 
-    private Promise<User> getUser(JsonObject body) {
+    private void handleFailure(String reason, Message<JsonObject> message) {
+        logger.error(String.format(failedMessage,reason));
+        BusMessageReplyUtils.replyWithError(message,HttpResponseStatus.UNAUTHORIZED, reason);
+    }
+
+    private void handleSuccess(AuthenticationResult result, Message<JsonObject> message) {
+        logger.debug(String.format(successMessage, result));
+        BusMessageReplyUtils.replyWithBodyAndStatus(message,JsonObject.mapFrom(result), HttpResponseStatus.OK);
+    }
+
+    private Future<AuthenticationResult> authenticateUser(JsonObject body) {
         String username = body.getString(usernameKey);
-        return Promise.promise();
+        String password = body.getString(passwordKey);
+
+        return getUser(username)
+                .map(user -> authenticationClient.authenticateWithPassword(user, password))
+                .compose(result -> storeToken(result, username));
+    }
+
+    private Future<User> getUser(String username) {
+        return Future.succeededFuture();
+    }
+
+    private Future<AuthenticationResult> storeToken(AuthenticationResult result, String username) {
+        if (result.succeeded()) {
+            return handleSuccessfulAuthenticationResult(result, username);
+        } else {
+            return handleFailedAuthenticationResult(result);
+        }
+    }
+
+    private Future<AuthenticationResult> handleFailedAuthenticationResult(AuthenticationResult result) {
+        return Future.failedFuture(result.getCause());
+    }
+
+    private Future<AuthenticationResult> handleSuccessfulAuthenticationResult(AuthenticationResult result,
+                                                                              String username) {
+        Future<AuthenticationResult> resultFuture = Future.succeededFuture(result);
+        return persistSessionToken(username).compose(res -> resultFuture);
+    }
+
+    private Future<Void> persistSessionToken(String username){
+        return Future.succeededFuture();
     }
 }

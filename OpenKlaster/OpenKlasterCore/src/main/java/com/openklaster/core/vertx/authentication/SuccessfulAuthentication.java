@@ -6,4 +6,9 @@ public class SuccessfulAuthentication implements  AuthenticationResult{
     public boolean succeeded() {
         return true;
     }
+
+    @Override
+    public Throwable getCause() {
+        return null;
+    }
 }

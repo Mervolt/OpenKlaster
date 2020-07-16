@@ -36,10 +36,10 @@ public class UserManagementHandler extends EndpointService {
         LoginManager loginManager = new LoginManager(authenticationClient);
         userManagerMap.put(loginManager.getMethodsName(), loginManager);
 
-        InformationManager informationManager = new InformationManager();
+        InformationManager informationManager = new InformationManager(authenticationClient);
         userManagerMap.put(informationManager.getMethodsName(), informationManager);
 
-        GenerateTokenManager generateTokenManager = new GenerateTokenManager();
+        GenerateTokenManager generateTokenManager = new GenerateTokenManager(authenticationClient);
         userManagerMap.put(generateTokenManager.getMethodsName(), generateTokenManager);
 
         DeleteTokenManager deleteTokenManager = new DeleteTokenManager();
