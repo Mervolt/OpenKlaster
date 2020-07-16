@@ -52,6 +52,7 @@ public class RegisterManager implements UserManager {
     }
 
     private Future<Void> addUser(User user) {
+
         return Future.succeededFuture();
     }
 
