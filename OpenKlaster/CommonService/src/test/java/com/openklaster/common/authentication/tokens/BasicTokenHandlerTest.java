@@ -15,10 +15,12 @@ public class BasicTokenHandlerTest {
 
     TokenHandler tokenHandler;
     int charsCountPerType = 3;
+    int tokenDaysLifetime = 7;
+    int sessionTokenLifetime = 30;
 
     @Before
     public void setup() {
-        this.tokenHandler = new BasicTokenHandler(charsCountPerType);
+        this.tokenHandler = new BasicTokenHandler(charsCountPerType, tokenDaysLifetime, sessionTokenLifetime);
     }
 
     @Test

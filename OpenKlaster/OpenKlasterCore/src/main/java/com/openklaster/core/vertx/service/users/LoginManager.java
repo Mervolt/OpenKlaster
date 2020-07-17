@@ -4,6 +4,8 @@ import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.authentication.AuthenticationResult;
+import com.openklaster.core.vertx.authentication.SuccessfulSessionAuthentication;
+import com.openklaster.core.vertx.messages.repository.Repository;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.Message;
@@ -17,9 +19,11 @@ public class LoginManager implements UserManager {
     private static final String failedMessage = "Cannot login - %s";
     private static final Logger logger = LoggerFactory.getLogger(LoginManager.class);
     private final AuthenticationClient authenticationClient;
+    private final Repository<User> userRepository;
 
-    public LoginManager(AuthenticationClient authenticationClient) {
+    public LoginManager(AuthenticationClient authenticationClient, Repository<User> userRepository) {
         this.authenticationClient = authenticationClient;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -39,13 +43,13 @@ public class LoginManager implements UserManager {
     }
 
     private void handleFailure(String reason, Message<JsonObject> message) {
-        logger.error(String.format(failedMessage,reason));
-        BusMessageReplyUtils.replyWithError(message,HttpResponseStatus.UNAUTHORIZED, reason);
+        logger.error(String.format(failedMessage, reason));
+        BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.UNAUTHORIZED, reason);
     }
 
     private void handleSuccess(AuthenticationResult result, Message<JsonObject> message) {
         logger.debug(String.format(successMessage, result));
-        BusMessageReplyUtils.replyWithBodyAndStatus(message,JsonObject.mapFrom(result), HttpResponseStatus.OK);
+        BusMessageReplyUtils.replyWithBodyAndStatus(message, JsonObject.mapFrom(result), HttpResponseStatus.OK);
     }
 
     private Future<AuthenticationResult> authenticateUser(JsonObject body) {
@@ -58,7 +62,7 @@ public class LoginManager implements UserManager {
     }
 
     private Future<User> getUser(String username) {
-        return Future.succeededFuture();
+        return userRepository.get(username);
     }
 
     private Future<AuthenticationResult> storeToken(AuthenticationResult result, String username) {
@@ -76,10 +80,17 @@ public class LoginManager implements UserManager {
     private Future<AuthenticationResult> handleSuccessfulAuthenticationResult(AuthenticationResult result,
                                                                               String username) {
         Future<AuthenticationResult> resultFuture = Future.succeededFuture(result);
-        return persistSessionToken(username).compose(res -> resultFuture);
+        return persistSessionToken(username, result).compose(res -> resultFuture);
     }
 
-    private Future<Void> persistSessionToken(String username){
-        return Future.succeededFuture();
+    private Future<User> persistSessionToken(String username, AuthenticationResult result) {
+
+        SuccessfulSessionAuthentication sessionAuthResult = (SuccessfulSessionAuthentication) result;
+
+        return userRepository.get(username)
+                .compose(userResult -> {
+                    userResult.setSessionToken(sessionAuthResult.getSessionToken());
+                    return userRepository.update(userResult);
+                });
     }
 }

@@ -2,5 +2,5 @@ package com.openklaster.core.vertx.authentication;
 
 public interface AuthenticationResult {
     boolean succeeded();
-    Throwable getCause();
+    Exception getCause();
 }

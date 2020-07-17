@@ -8,7 +8,7 @@ public class SuccessfulAuthentication implements  AuthenticationResult{
     }
 
     @Override
-    public Throwable getCause() {
+    public Exception getCause() {
         return null;
     }
 }

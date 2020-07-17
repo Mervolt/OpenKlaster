@@ -3,9 +3,9 @@ package com.openklaster.core.vertx.service.users;
 import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
+import com.openklaster.core.vertx.messages.repository.Repository;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
@@ -17,14 +17,16 @@ public class RegisterManager implements UserManager {
     private static final String failureMessage = "Could not register user - %s(%s)";
     private static final Logger logger = LoggerFactory.getLogger(RegisterManager.class);
     private final AuthenticationClient authenticationClient;
+    private final Repository<User> userRepository;
 
     @Override
     public String getMethodsName() {
         return methodName;
     }
 
-    public RegisterManager(AuthenticationClient authenticationClient) {
+    public RegisterManager(AuthenticationClient authenticationClient, Repository<User> userRepository) {
         this.authenticationClient = authenticationClient;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class RegisterManager implements UserManager {
         User user = getUserWithHashedPassword(message.body());
         addUser(user).onComplete(handler -> {
             if (handler.succeeded()) {
-                handleSuccess(user, message);
+                handleSuccess(handler.result(), message);
             } else {
                 handleFailure(user, message, handler.cause().getMessage());
             }
@@ -51,9 +53,8 @@ public class RegisterManager implements UserManager {
                 reason);
     }
 
-    private Future<Void> addUser(User user) {
-
-        return Future.succeededFuture();
+    private Future<User> addUser(User user) {
+        return userRepository.add(user);
     }
 
     private User getUserWithHashedPassword(JsonObject userJson) {

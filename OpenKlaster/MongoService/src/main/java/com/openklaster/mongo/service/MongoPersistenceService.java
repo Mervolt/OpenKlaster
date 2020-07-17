@@ -31,8 +31,8 @@ public class MongoPersistenceService {
         client.insert(collectionName,insertQuery, resultHandler);
     }
 
-    public void updateByQuery(JsonObject updateQuery, JsonObject updateData, String collectionName, Handler<AsyncResult<MongoClientUpdateResult>> resultHandler){
-        client.updateCollection(collectionName, updateQuery,updateData, resultHandler);
+    public void replaceByQuery(JsonObject updateQuery, JsonObject updateData, String collectionName, Handler<AsyncResult<JsonObject>> resultHandler){
+        client.findOneAndReplace(collectionName, updateQuery,updateData, resultHandler);
     }
 
 

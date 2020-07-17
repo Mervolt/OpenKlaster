@@ -14,7 +14,7 @@ public class SuccessfulSessionAuthentication implements AuthenticationResult {
     }
 
     @Override
-    public Throwable getCause() {
+    public Exception getCause() {
         return null;
     }
 

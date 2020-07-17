@@ -98,4 +98,25 @@ public abstract class EntityHandler {
         BusMessageReplyUtils.replyWithError(busMessage,handledErrorResult.getLeft(),
                 exceptionHandler.getReplyFailureMessage(id,logMessage + " " +handledErrorResult.getRight()));
     }
+
+    public void update(Message<JsonObject> busMessage) {
+        JsonObject updateBody = busMessage.body();
+        String id = updateBody.getString(ID_KEY);
+        if (id == null) {
+            BusMessageReplyUtils.replyWithError(busMessage, HttpResponseStatus.BAD_REQUEST, "No _id provided");
+            return;
+        }
+        JsonObject findQuery = new JsonObject().put(ID_KEY,id);
+
+        persistenceService.replaceByQuery(findQuery, updateBody, this.getCollectionName(),
+                handler -> {
+                    if (handler.succeeded()) {
+                        logger.debug(String.format("Entity updated - %s", updateBody));
+                        BusMessageReplyUtils.replyWithBodyAndStatus(busMessage, updateBody, HttpResponseStatus.OK);
+                    } else {
+                        handleFailedQuery(id,busMessage,handler.cause(),
+                                "Problem with adding entity.");
+                    }
+                });
+    }
 }

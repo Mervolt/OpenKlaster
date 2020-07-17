@@ -15,6 +15,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     private final static String addKey = "add";
     private final static String getKey = "find";
     private final static String deleteKey = "remove";
+    private final static String updateKey = "update";
 
     public MongoRepository(Class<T> modelClass, EventBus eventBus, String address) {
         this.modelClass = modelClass;
@@ -35,7 +36,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public Future<T> update(T content) {
-        return Future.failedFuture("TODO update");
+        return handleWithContent(updateKey, JsonObject.mapFrom(content));
     }
 
     @Override

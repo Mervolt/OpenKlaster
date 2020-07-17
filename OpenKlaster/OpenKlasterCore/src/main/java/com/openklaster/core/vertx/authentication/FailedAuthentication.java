@@ -2,10 +2,10 @@ package com.openklaster.core.vertx.authentication;
 
 public class FailedAuthentication implements AuthenticationResult {
 
-    private final Throwable cause;
+    private final Exception cause;
 
     @Override
-    public Throwable getCause() {
+    public Exception getCause() {
         return cause;
     }
 
@@ -13,7 +13,7 @@ public class FailedAuthentication implements AuthenticationResult {
         this(new FailedAuthenticationException(message));
     }
 
-    public FailedAuthentication(Throwable cause) {
+    public FailedAuthentication(Exception cause) {
         this.cause = cause;
     }
 

@@ -1,5 +1,6 @@
 package com.openklaster.core.vertx.service;
 
+import com.openklaster.common.authentication.tokens.TokenHandler;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.service.users.*;
@@ -16,17 +17,20 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 public class UserManagementHandler extends EndpointService {
 
+    //Note that new User Manager should be added to this map in order to work
     private Map<String, UserManager> userManagerMap;
     private final AuthenticationClient authenticationClient;
+    private final TokenHandler tokenHandler;
 
-    public UserManagementHandler(NestedConfigAccessor config, AuthenticationClient authenticationClient) {
+    public UserManagementHandler(NestedConfigAccessor config, AuthenticationClient authenticationClient,
+                                 TokenHandler tokenHandler) {
         super(config);
         logger = LoggerFactory.getLogger(UserManagementHandler.class);
         prepareManagers();
         this.authenticationClient = authenticationClient;
+        this.tokenHandler = tokenHandler;
     }
 
-    //Note that new User Manager should be added to this map in order to work
     private void prepareManagers() {
         this.userManagerMap = new HashMap<>();
 
@@ -39,13 +43,13 @@ public class UserManagementHandler extends EndpointService {
         InformationManager informationManager = new InformationManager(authenticationClient);
         userManagerMap.put(informationManager.getMethodsName(), informationManager);
 
-        GenerateTokenManager generateTokenManager = new GenerateTokenManager(authenticationClient);
+        GenerateTokenManager generateTokenManager = new GenerateTokenManager(authenticationClient, tokenHandler);
         userManagerMap.put(generateTokenManager.getMethodsName(), generateTokenManager);
 
-        DeleteTokenManager deleteTokenManager = new DeleteTokenManager();
+        DeleteTokenManager deleteTokenManager = new DeleteTokenManager(authenticationClient);
         userManagerMap.put(deleteTokenManager.getMethodsName(), deleteTokenManager);
 
-        DeleteAllTokensManager deleteAllTokensManager = new DeleteAllTokensManager();
+        DeleteAllTokensManager deleteAllTokensManager = new DeleteAllTokensManager(authenticationClient);
         userManagerMap.put(deleteAllTokensManager.getMethodsName(), deleteAllTokensManager);
     }
 

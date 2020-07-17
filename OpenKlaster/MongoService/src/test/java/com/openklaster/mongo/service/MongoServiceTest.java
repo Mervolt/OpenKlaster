@@ -13,7 +13,7 @@ public abstract class MongoServiceTest {
 
     protected Vertx vertx;
     protected EventBus eventBus;
-    protected long testTimeoutMillis = 2000L;
+    protected long testTimeoutMillis = 12000L;
     protected static String removedEntitiesKey = "removed_count";
 
     @Before

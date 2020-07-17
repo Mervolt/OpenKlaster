@@ -14,4 +14,12 @@ public class User {
     private String email;
     private List<UserToken> userTokens;
     private UserToken sessionToken;
+
+    public void addUserToken(UserToken token) {
+        this.userTokens.add(token);
+    }
+
+    public boolean deleteToken(String token) {
+        return userTokens.removeIf(userToken -> userToken.getData().equals(token));
+    }
 }

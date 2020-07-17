@@ -3,34 +3,34 @@ package com.openklaster.core.vertx.service.users;
 import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
+import com.openklaster.core.vertx.authentication.AuthenticationResult;
+import com.openklaster.core.vertx.messages.repository.Repository;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
+import lombok.SneakyThrows;
 
-import java.util.function.Function;
+public abstract class AuthenticatedManager implements UserManager {
 
-public class AuthenticatedManager {
+    protected final Logger logger;
+    protected final AuthenticationClient authenticationClient;
+    protected final Repository<User> userRepository;
+    private static final String sessionTokenKey = "sessionToken";
+    private static final String apiTokenKey = "apiToken";
+    private static final String noTokenMsg = "No token was provided to authenticate user %s";
 
-    private final Logger logger;
-    private final AuthenticationClient authenticationClient;
-    private static final String usernameKey = "username";
-    private final String successMessage;
-    private final String failureMessage;
-
-    public AuthenticatedManager(Logger logger, AuthenticationClient authenticationClient, String successMessage,
-                                String failureMessage) {
+    public AuthenticatedManager(Logger logger, AuthenticationClient authenticationClient, Repository<User> userRepository) {
         this.logger = logger;
         this.authenticationClient = authenticationClient;
-        this.successMessage = successMessage;
-        this.failureMessage = failureMessage;
+        this.userRepository = userRepository;
     }
 
-    public void handleMessage(Message<JsonObject> message, Function<User, Future<JsonObject>> handlerFun) {
+    public void handleMessage(Message<JsonObject> message) {
         authenticate(message.headers(), message.body().getString(usernameKey))
-                .compose(handlerFun)
+                .compose(this::processUser)
                 .onComplete(handler -> {
                     if (handler.succeeded()) {
                         handleSuccess(handler.result(), message);
@@ -40,31 +40,44 @@ public class AuthenticatedManager {
                 });
     }
 
-    public void handleMessage(Message<JsonObject> message, Future<JsonObject> futureToHandle) {
-        authenticate(message.headers(), message.body().getString(usernameKey))
-                .compose(res -> futureToHandle)
-                .onComplete(handler -> {
-                    if (handler.succeeded()) {
-                        handleSuccess(handler.result(), message);
-                    } else {
-                        handleFailure(handler.cause().getMessage(), message);
-                    }
-                });
-    }
+    protected abstract Future<JsonObject> processUser(User user);
 
-    private void handleFailure(String reason, Message<JsonObject> message) {
-        logger.error(String.format(failureMessage, reason));
+    protected void handleFailure(String reason, Message<JsonObject> message) {
+        logger.error(getFailureMessage(reason));
         BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST,
                 reason);
     }
 
-    private void handleSuccess(JsonObject result, Message<JsonObject> message) {
-        logger.debug(String.format(successMessage, result));
+    protected void handleSuccess(JsonObject result, Message<JsonObject> message) {
+        logger.debug(getSuccessMessage(result));
         BusMessageReplyUtils.replyWithStatus(message, HttpResponseStatus.OK);
     }
 
-    private Future<User> authenticate(MultiMap map, String username) {
-        return Future.succeededFuture();
+    protected abstract String getSuccessMessage(JsonObject result);
+
+    protected abstract String getFailureMessage(String reason);
+
+    protected Future<User> authenticate(MultiMap map, String username) {
+        return userRepository.get(username)
+                .map(user -> authenticateUser(map, user));
+    }
+
+    private User authenticateUser(MultiMap map, User user) {
+        AuthenticationResult authenticationResult;
+        if (map.contains(apiTokenKey)) {
+            authenticationResult = authenticationClient.authenticateWithToken(user, map.get(apiTokenKey));
+        } else if (map.contains(sessionTokenKey)) {
+            authenticationResult = authenticationClient.authenticateWithSessionToken(user, map.get(sessionTokenKey));
+        } else throw new IllegalArgumentException(String.format(noTokenMsg, user.getUsername()));
+
+        return resolveAuthenticationResult(authenticationResult, user);
+    }
+
+    @SneakyThrows
+    private User resolveAuthenticationResult(AuthenticationResult authenticationResult, User user) {
+        if (authenticationResult.succeeded()) {
+            return user;
+        } else throw authenticationResult.getCause();
     }
 
 }

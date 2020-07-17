@@ -9,4 +9,6 @@ public interface UserManager {
 
     String usernameKey = "username";
     String passwordKey = "password";
+    String emailKey = "email";
+    String userTokensKey = "userTokens";
 }

@@ -2,23 +2,19 @@ package com.openklaster.core.vertx.service.users;
 
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
+import com.openklaster.core.vertx.messages.repository.Repository;
 import io.vertx.core.Future;
-import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
-public class DeleteAllTokensManager implements UserManager {
+public class DeleteAllTokensManager extends AuthenticatedManager {
     private static final String methodName = "deleteAllTokens";
     private static final String successMessage = "Tokens deleted - %s";
     private static final String failureMessage = "Could not delete all tokens - %s";
-    private static final Logger logger = LoggerFactory.getLogger(DeleteAllTokensManager.class);
-    private final AuthenticatedManager authenticatedManager;
-    private final AuthenticationClient authenticationClient;
+    private static final String deletedTokensAmountKey = "tokensDeleted";
 
-    public DeleteAllTokensManager(AuthenticationClient authenticationClient) {
-        this.authenticationClient = authenticationClient;
-        this.authenticatedManager = new AuthenticatedManager(logger, authenticationClient, successMessage, failureMessage);
+    public DeleteAllTokensManager(AuthenticationClient authenticationClient, Repository<User> userRepository) {
+        super(LoggerFactory.getLogger(DeleteAllTokensManager.class), authenticationClient, userRepository);
     }
 
     @Override
@@ -27,11 +23,19 @@ public class DeleteAllTokensManager implements UserManager {
     }
 
     @Override
-    public void handleMessage(Message<JsonObject> message) {
-        authenticatedManager.handleMessage(message, this::deleteAllTokens);
+    protected Future<JsonObject> processUser(User user) {
+        int tokensAmount = user.getUserTokens().size();
+        user.getUserTokens().clear();
+        return userRepository.update(user).map(new JsonObject().put(deletedTokensAmountKey, tokensAmount));
     }
 
-    private Future<JsonObject> deleteAllTokens(User user){
-        return Future.succeededFuture();
+    @Override
+    protected String getSuccessMessage(JsonObject result) {
+        return String.format(successMessage, result);
+    }
+
+    @Override
+    protected String getFailureMessage(String reason) {
+        return String.format(failureMessage, reason);
     }
 }
