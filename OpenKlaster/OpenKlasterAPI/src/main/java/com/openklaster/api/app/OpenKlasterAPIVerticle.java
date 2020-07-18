@@ -8,6 +8,7 @@ import com.openklaster.api.properties.EndpointRouteProperties;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.*;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.core.spi.cluster.ClusterManager;
@@ -62,7 +63,6 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                 vertx = result.result();
                 eventBus = vertx.eventBus();
                 promise.complete();
-
             }
             else
                 handleClusteredVertxFailure();
@@ -108,6 +108,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                 new GetHandler(configAccessor.getString(EndpointRouteProperties.userEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
+
                 new PostAndReturnJsonHandler(configAccessor.getString(EndpointRouteProperties.tokenEndpoint),
                         configAccessor.getString(EventBusAddressProperties.tokenCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),

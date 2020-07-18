@@ -11,6 +11,13 @@
 
     <artifactId>OpenKlasterAPI</artifactId>
     <dependencies>
+
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-unit</artifactId>
+            <version>3.9.1</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web-client</artifactId>

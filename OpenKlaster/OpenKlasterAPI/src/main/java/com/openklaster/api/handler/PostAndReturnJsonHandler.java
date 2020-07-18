@@ -6,6 +6,7 @@ import com.openklaster.api.parser.IParseStrategy;
 import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
