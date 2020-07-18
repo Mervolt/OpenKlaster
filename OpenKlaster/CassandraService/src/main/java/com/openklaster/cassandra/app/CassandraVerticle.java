@@ -65,19 +65,7 @@ public class CassandraVerticle extends AbstractVerticle {
     private void eventBusConfig() {
         handlers.forEach(config -> {
             MessageConsumer<JsonObject> consumer = eventBus.consumer(config.getAddress());
-            consumer.handler(message -> {
-                System.out.println(message.headers());
-                System.out.println(message.body());
-
-                DeliveryOptions deliveryOptions = new DeliveryOptions();
-                deliveryOptions.addHeader("statusCode", "200");
-                message.reply(new JsonObject("{\n" +
-                        "    \"timestamp\": \"2010-10-10 02:10:10\",\n" +
-                        "    \"value\": 22.2,\n" +
-                        "    \"receiverId\": 42\n" +
-                        "}"), deliveryOptions);
-                handlerMap(config, message);
-            });
+            consumer.handler(message -> handlerMap(config, message));
         });
     }
 
