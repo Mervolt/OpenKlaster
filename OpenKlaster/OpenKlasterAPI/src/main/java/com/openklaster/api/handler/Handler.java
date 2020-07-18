@@ -1,6 +1,7 @@
 package com.openklaster.api.handler;
 
 import com.openklaster.api.handler.properties.HandlerProperties;
+import com.openklaster.api.model.Measurement;
 import com.openklaster.api.parser.IParseStrategy;
 import com.sun.org.apache.xpath.internal.operations.Mult;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -50,6 +51,7 @@ public abstract class Handler {
 
 
     protected void sendPutPostRequest(RoutingContext context, String methodHeader) {
+
         DeliveryOptions deliveryOptions = createRequestDeliveryOptions(methodHeader, context);
 
         if(isPutPostRequestInvalid(context)) {
@@ -58,7 +60,6 @@ public abstract class Handler {
         }
 
         JsonObject jsonModel = context.getBodyAsJson();
-
         eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
             if(coreResponse.succeeded() && coreResponse.result().headers().get("statusCode").equals("200")){
                 handleSuccessfulRequest(context.response());
@@ -84,7 +85,7 @@ public abstract class Handler {
             return true;
         }
         catch(IllegalArgumentException ex){
-            System.out.println(ex.getMessage().substring(0, ex.getMessage().indexOf(" (class")));
+            ex.printStackTrace();
 
             return false;
         }
