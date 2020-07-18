@@ -1,8 +1,14 @@
+security:
+  tokens:
+    charsPerType: 4 #how many chars included in generated token per type /number/upper/lower/special
+    apiTokenLifetime: 180 #for how many days api token is valid
+    sessionTokenLifetime: 30 #for how many minutes session token is valid
 eventbus:
   in:
     userManagement:
       address: "core.users"
   out:
     mongo:
-      address: "mongo.users"
+      users:
+        address: "mongo.users"
 

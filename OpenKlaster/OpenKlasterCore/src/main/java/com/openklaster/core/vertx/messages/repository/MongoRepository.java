@@ -6,7 +6,7 @@ import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 
-public abstract class MongoRepository<T> implements Repository<T> {
+public class MongoRepository<T> implements Repository<T> {
     private final Class<T> modelClass;
     private final EventBus eventBus;
     private final String address;

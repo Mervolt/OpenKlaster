@@ -1,14 +1,29 @@
 package com.openklaster.core.vertx.app;
 
+import com.openklaster.common.authentication.password.BCryptPasswordHandler;
+import com.openklaster.common.authentication.password.PasswordHandler;
+import com.openklaster.common.authentication.tokens.BasicTokenHandler;
+import com.openklaster.common.authentication.tokens.TokenHandler;
 import com.openklaster.common.config.NestedConfigAccessor;
+import com.openklaster.common.model.User;
+import com.openklaster.core.vertx.authentication.AuthenticationClient;
+import com.openklaster.core.vertx.authentication.BasicAuthenticationClient;
+import com.openklaster.core.vertx.messages.repository.MongoRepository;
+import com.openklaster.core.vertx.messages.repository.Repository;
+import com.openklaster.core.vertx.service.EndpointService;
+import com.openklaster.core.vertx.service.UserManagementHandler;
 import io.vertx.config.ConfigRetriever;
-import io.vertx.core.*;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Promise;
+import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.core.spi.cluster.ClusterManager;
-import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static com.openklaster.core.vertx.app.CoreVerticleProperties.*;
 
 public class CoreVerticle extends AbstractVerticle {
 
@@ -16,6 +31,8 @@ public class CoreVerticle extends AbstractVerticle {
     private static final Logger logger = LoggerFactory.getLogger(CoreVerticle.class);
     private EventBus eventBus;
     private NestedConfigAccessor configAccessor;
+    private List<EndpointService> servicesList;
+
 
     public CoreVerticle(Vertx vertx, ConfigRetriever configRetriever) {
         this.vertx = vertx;
@@ -39,9 +56,41 @@ public class CoreVerticle extends AbstractVerticle {
     }
 
     private void handlePostConfig(Promise<Void> promise) {
-
-
+        configureEndpoints();
         promise.complete();
 
+    }
+
+    private void configureEndpoints() {
+        EndpointService userService = configureUserManagement();
+
+        this.servicesList = Arrays.asList(userService);//more services to be added here
+    }
+
+    private EndpointService configureUserManagement() {
+        TokenHandler tokenHandler = configureNewTokenHandler(configAccessor.getPathConfigAccessor(tokenConfigPath));
+        PasswordHandler passwordHandler = configureNewPasswordHandler();
+        Repository<User> userRepository = configureNewUserRepository();
+        AuthenticationClient authenticationClient = new BasicAuthenticationClient(passwordHandler,
+                tokenHandler, userRepository);
+
+        return new UserManagementHandler(configAccessor.getPathConfigAccessor(userConfigPath),
+                authenticationClient, tokenHandler, userRepository);
+    }
+
+    private Repository<User> configureNewUserRepository() {
+        return new MongoRepository<>(User.class, eventBus, configAccessor.getString(mongoUserConfigPath));
+    }
+
+    private PasswordHandler configureNewPasswordHandler() {
+        return new BCryptPasswordHandler();
+    }
+
+    private TokenHandler configureNewTokenHandler(NestedConfigAccessor config) {
+        int charsPerType = config.getInteger("charsPerType");
+        int apiTokenLifetime = config.getInteger("apiTokenLifetime");
+        int sessionTokenLifetime = config.getInteger("sessionTokenLifetime");
+
+        return new BasicTokenHandler(charsPerType, apiTokenLifetime, sessionTokenLifetime);
     }
 }
