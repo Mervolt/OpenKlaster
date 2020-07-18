@@ -2,8 +2,7 @@ package com.openklaster.common.authentication.tokens;
 
 import com.openklaster.common.model.UserToken;
 
-import java.time.Duration;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +13,7 @@ public class BasicTokenHandler implements TokenHandler {
     private final int tokenDaysLifetime;
     private final int sessionTokenMinutesLifetime;
 
-    BasicTokenHandler(int charsCountPerType, int tokenDaysLifetime, int sessionTokenLifetime) {
+    public BasicTokenHandler(int charsCountPerType, int tokenDaysLifetime, int sessionTokenLifetime) {
         this.charsCountPerType = charsCountPerType;
         this.tokenGenerator = new BasicTokenGenerator();
         this.tokenDaysLifetime = tokenDaysLifetime;
@@ -24,11 +23,21 @@ public class BasicTokenHandler implements TokenHandler {
     @Override
     public UserToken generateUserToken() {
         String tokenData = tokenGenerator.generateToken(charsCountPerType);
-        return new UserToken(tokenData, createExpirationDate(tokenDaysLifetime));
+        return new UserToken(tokenData, createDaysExpirationDate(tokenDaysLifetime));
     }
 
-    private LocalDate createExpirationDate(int tokenDaysLifetime) {
-        return LocalDate.now().plusDays(tokenDaysLifetime);
+    @Override
+    public UserToken generateSessionToken() {
+        String tokenData = tokenGenerator.generateToken(charsCountPerType);
+        return new UserToken(tokenData, createMinutesExpirationDate(sessionTokenMinutesLifetime));
+    }
+
+    private LocalDateTime createDaysExpirationDate(int tokenDaysLifetime) {
+        return LocalDateTime.now().plusDays(tokenDaysLifetime);
+    }
+
+    private LocalDateTime createMinutesExpirationDate(int tokenMinutesLifetime) {
+        return LocalDateTime.now().plusMinutes(tokenMinutesLifetime);
     }
 
     @Override
@@ -53,11 +62,11 @@ public class BasicTokenHandler implements TokenHandler {
 
     @Override
     public UserToken getRefreshedSessionToken(UserToken token) {
-        return new UserToken(token.getData(),LocalDate.now().plus(Duration.ofMinutes(sessionTokenMinutesLifetime)));
+        return new UserToken(token.getData(),LocalDateTime.now().plusMinutes(sessionTokenMinutesLifetime));
     }
 
     private TokenValidationResult validateTokenDate(UserToken userToken) {
-        if (userToken.getExpirationDate().isAfter(LocalDate.now())) {
+        if (userToken.getExpirationDate().isAfter(LocalDateTime.now())) {
             return TokenValidationResult.VALID;
         } else {
             return TokenValidationResult.EXPIRED;

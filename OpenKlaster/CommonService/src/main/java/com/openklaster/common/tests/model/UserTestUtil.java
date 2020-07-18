@@ -6,10 +6,12 @@ import com.openklaster.common.model.User;
 import com.openklaster.common.model.UserToken;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 public class UserTestUtil {
+    private static int tokenLifetime = 30;
 
     public static User prepareUser(String name) {
         User testUser = new User();
@@ -27,6 +29,6 @@ public class UserTestUtil {
     private static UserToken prepareToken() {
         TokenGenerator generator = new BasicTokenGenerator();
 
-        return new UserToken(generator.generateToken(3), LocalDate.now());
+        return new UserToken(generator.generateToken(3), LocalDateTime.now().plusDays(tokenLifetime));
     }
 }

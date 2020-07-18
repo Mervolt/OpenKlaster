@@ -1,12 +1,9 @@
 package com.openklaster.common.tests.bus;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
-import io.vertx.core.MultiMap;
+import io.vertx.core.*;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.Message;
 import lombok.Builder;
-import lombok.Getter;
 
 public class FakeMessage<T> implements Message<T> {
 
@@ -22,11 +19,14 @@ public class FakeMessage<T> implements Message<T> {
         this.headers = headers;
         this.body = body;
         this.isSend = isSend;
+        this.messageReply = Promise.<FakeReply>promise();
     }
 
-    @Getter
-    private FakeReply messageReply;
+    private Promise<FakeReply> messageReply;
 
+    public Future<FakeReply> getMessageReply() {
+        return messageReply.future();
+    }
 
     @Override
     public String address() {
@@ -55,7 +55,7 @@ public class FakeMessage<T> implements Message<T> {
 
     @Override
     public void reply(Object replyContent) {
-        this.messageReply = successReply(replyContent, null);
+        this.messageReply.complete(successReply(replyContent, null));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class FakeMessage<T> implements Message<T> {
 
     @Override
     public void reply(Object replyContent, DeliveryOptions deliveryOptions) {
-        this.messageReply = successReply(replyContent, deliveryOptions);
+        this.messageReply.complete(successReply(replyContent, deliveryOptions));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class FakeMessage<T> implements Message<T> {
 
     @Override
     public void fail(int errorCode, String cause) {
-        this.messageReply = failReply(errorCode, cause);
+        this.messageReply.complete(failReply(errorCode, cause));
     }
 
     private FakeReply failReply(int errorCode, String cause) {

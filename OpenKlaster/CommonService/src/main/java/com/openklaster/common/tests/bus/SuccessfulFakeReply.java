@@ -1,14 +1,17 @@
 package com.openklaster.common.tests.bus;
 
 import io.vertx.core.eventbus.DeliveryOptions;
+import lombok.ToString;
 
+@ToString
 public class SuccessfulFakeReply implements FakeReply {
     @Override
     public boolean succeeded() {
         return true;
     }
-
+    @ToString.Include
     private final Object body;
+    @ToString.Include
     private final DeliveryOptions deliveryOptions;
 
     public SuccessfulFakeReply(Object body, DeliveryOptions deliveryOptions) {

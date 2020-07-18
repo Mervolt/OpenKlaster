@@ -11,6 +11,7 @@ public class FakeRepository<T> implements Repository<T> {
     private Map<String, T> modelMap;
     private final static String idKey = "_id";
     private final static String noIdMsg = "No id provided!";
+    private final static String duplicateMsg = "Problem with adding entity. Duplicated key - %s";
 
     public FakeRepository() {
         this.modelMap = new HashMap<>();
@@ -21,6 +22,9 @@ public class FakeRepository<T> implements Repository<T> {
         JsonObject obj = JsonObject.mapFrom(content);
         if (!obj.containsKey(idKey)) {
             return Future.failedFuture(noIdMsg);
+        }
+        if (modelMap.containsKey(obj.getString(idKey))){
+            return Future.failedFuture(String.format(duplicateMsg,obj.getString(idKey)));
         }
         modelMap.put(obj.getString(idKey), content);
         return Future.succeededFuture(content);

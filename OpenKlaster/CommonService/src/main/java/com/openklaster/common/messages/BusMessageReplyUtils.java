@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 public class BusMessageReplyUtils {
 
     public static final String STATUS_CODE = "statusCode";
-    public static final String METHOD_KEY = "statusCode";
+    public static final String METHOD_KEY = "method";
 
     public static <T> void replyWithBodyAndStatus(Message<T> busMessage, T replyBody, HttpResponseStatus status) {
         busMessage.reply(replyBody, getOptionsForStatus(status));
@@ -22,8 +22,8 @@ public class BusMessageReplyUtils {
         return new DeliveryOptions().addHeader(STATUS_CODE, String.valueOf(status.code()));
     }
 
-    public static <T> void replyWithError(Message<T> busMessage, HttpResponseStatus status, String message) {
-        busMessage.fail(status.code(), message);
+    public static <T> void replyWithError(Message<T> busMessage, HttpResponseStatus status, String reason) {
+        busMessage.fail(status.code(), reason);
     }
 
     public static HttpResponseStatus statusFromMessage(Message<?> busMessage) {

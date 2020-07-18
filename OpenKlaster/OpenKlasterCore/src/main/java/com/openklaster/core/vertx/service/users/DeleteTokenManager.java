@@ -55,7 +55,7 @@ public class DeleteTokenManager extends AuthenticatedManager {
     }
 
     private Future<JsonObject> deleteToken(User user, String token) {
-        boolean deleted = user.deleteToken(token);
+        boolean deleted = user.deleteUserToken(token);
         if (deleted) {
             return userRepository.update(user).map(new JsonObject().put(tokenKey, token));
         } else return Future.failedFuture(String.format(noTokenFoundMsg, token, user.getUsername()));

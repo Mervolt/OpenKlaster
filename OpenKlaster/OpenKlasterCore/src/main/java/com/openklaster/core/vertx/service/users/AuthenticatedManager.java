@@ -50,7 +50,7 @@ public abstract class AuthenticatedManager implements UserManager {
 
     protected void handleSuccess(JsonObject result, Message<JsonObject> message) {
         logger.debug(getSuccessMessage(result));
-        BusMessageReplyUtils.replyWithStatus(message, HttpResponseStatus.OK);
+        BusMessageReplyUtils.replyWithBodyAndStatus(message,result, HttpResponseStatus.OK);
     }
 
     protected abstract String getSuccessMessage(JsonObject result);

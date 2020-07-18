@@ -25,7 +25,7 @@ public class DeleteAllTokensManager extends AuthenticatedManager {
     @Override
     protected Future<JsonObject> processUser(User user) {
         int tokensAmount = user.getUserTokens().size();
-        user.getUserTokens().clear();
+        user.deleteAllUserTokens();
         return userRepository.update(user).map(new JsonObject().put(deletedTokensAmountKey, tokensAmount));
     }
 

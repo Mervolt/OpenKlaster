@@ -44,7 +44,8 @@ public class LoginManager implements UserManager {
 
     private void handleFailure(String reason, Message<JsonObject> message) {
         logger.error(String.format(failedMessage, reason));
-        BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.UNAUTHORIZED, reason);
+        BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.UNAUTHORIZED,
+                String.format(failedMessage, reason));
     }
 
     private void handleSuccess(AuthenticationResult result, Message<JsonObject> message) {
