@@ -2,22 +2,25 @@ package com.openklaster.api.app;
 
 
 import com.openklaster.api.handler.*;
-import com.openklaster.api.handler.Handler;
 import com.openklaster.api.model.*;
+import com.openklaster.api.parser.DefaultParseStrategy;
 import com.openklaster.api.properties.EndpointRouteProperties;
+import com.openklaster.api.properties.EventBusAddressProperties;
+import com.openklaster.common.config.ConfigFilesManager;
+import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.config.ConfigRetriever;
-import io.vertx.core.*;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Promise;
+import io.vertx.core.Vertx;
+import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
-import com.openklaster.common.config.ConfigFilesManager;
-import com.openklaster.common.config.NestedConfigAccessor;
-import com.openklaster.api.parser.DefaultParseStrategy;
-import com.openklaster.api.properties.EventBusAddressProperties;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,11 +34,11 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
     private EventBus eventBus;
     private List<Handler> handlers;
 
-    public OpenKlasterAPIVerticle(){
+    public OpenKlasterAPIVerticle() {
     }
 
     @Override
-    public void start(Promise<Void> promise){
+    public void start(Promise<Void> promise) {
         Promise<Void> deployPrepared = Promise.promise();
         prepareDeploy(deployPrepared);
         deployPrepared.future().onComplete(result -> {
@@ -44,10 +47,10 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
         });
     }
 
-    private void prepareDeploy(Promise<Void> deployPrepared){
+    private void prepareDeploy(Promise<Void> deployPrepared) {
         Promise<Void> promise = Promise.promise();
         createClusteredVertx(promise);
-        promise.future().onComplete(result ->{
+        promise.future().onComplete(result -> {
             configRetriever = new ConfigFilesManager().getConfig(vertx);
             deployPrepared.complete();
         });
@@ -56,14 +59,13 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
     private void createClusteredVertx(Promise<Void> promise) {
         ClusterManager clusterManager = new HazelcastClusterManager();
         VertxOptions options = new VertxOptions().setClusterManager(clusterManager);
-        Vertx.clusteredVertx(options, result ->{
-            if(result.succeeded()) {
+        Vertx.clusteredVertx(options, result -> {
+            if (result.succeeded()) {
                 logger.info("Succeeded during launching clustered VertX");
                 vertx = result.result();
                 eventBus = vertx.eventBus();
                 promise.complete();
-            }
-            else
+            } else
                 handleClusteredVertxFailure();
         });
 
@@ -73,20 +75,19 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
         logger.error("Failure during launching clustered VertX");
     }
 
-    private void prepareConfig(){
-        configRetriever.getConfig(config ->{
-            if(config.succeeded()){
+    private void prepareConfig() {
+        configRetriever.getConfig(config -> {
+            if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
                 startVerticle();
-            }
-            else{
+            } else {
                 logger.error(config.cause());
                 vertx.close();
             }
         });
     }
 
-    private void startVerticle(){
+    private void startVerticle() {
         Router router = Router.router(vertx);
         vertx.createHttpServer()
                 .requestHandler(router)
@@ -170,13 +171,12 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
         );
 
 
-
         routerConfig(router);
     }
 
-    private void routerConfig(Router router){
+    private void routerConfig(Router router) {
         handlers.forEach(handler -> {
-            router.route().handler(BodyHandler.create());
+            configureRouteHandler(router);
             switch (handler.getMethod()) {
                 case "get":
                     router.get(handler.getRoute()).handler(handler::handle);
@@ -192,6 +192,12 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                     break;
             }
         });
+    }
+
+    private void configureRouteHandler(Router router) {
+        router.route().handler(BodyHandler.create())
+                .handler(CorsHandler.create("*")
+                        .allowedHeader("Content-Type"));
     }
 
     public static String buildEndpoint(NestedConfigAccessor configAccessor, int version, String route) {
