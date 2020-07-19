@@ -1,10 +1,6 @@
 package com.openklaster.api;
 
 import com.openklaster.api.app.OpenKlasterAPIVerticle;
-import com.openklaster.api.model.Installation;
-import com.openklaster.api.model.Inverter;
-import com.openklaster.api.model.Load;
-import com.openklaster.api.model.Source;
 import com.openklaster.api.properties.EndpointRouteProperties;
 import com.openklaster.api.properties.EventBusAddressProperties;
 import com.openklaster.common.config.ConfigFilesManager;
@@ -17,7 +13,6 @@ import io.vertx.core.VertxOptions;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.MessageConsumer;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.ext.unit.Async;
@@ -30,15 +25,16 @@ import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Timeout;
 import org.junit.runner.RunWith;
 
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
+
+import static com.openklaster.api.app.OpenKlasterAPIVerticle.buildEndpoint;
 
 @RunWith(VertxUnitRunner.class)
 public class APITest {
     private static final String ADDRESS = "localhost";
+    private static final int VERSION1 = 1;
     private int port;
     private ConfigRetriever configRetriever;
     private NestedConfigAccessor configAccessor;
@@ -54,8 +50,8 @@ public class APITest {
         verticle = new OpenKlasterAPIVerticle();
 
         configRetriever = new ConfigFilesManager().getConfig(vertx);
-        configRetriever.getConfig(config ->{
-            if(config.succeeded()){
+        configRetriever.getConfig(config -> {
+            if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
                 port = configAccessor.getInteger(EndpointRouteProperties.listeningPortKey);
                 vertx.deployVerticle(verticle, result -> async1.complete());
@@ -66,8 +62,8 @@ public class APITest {
         Async async2 = context.async();
         clusterManager = new HazelcastClusterManager();
         VertxOptions options = new VertxOptions().setClusterManager(clusterManager);
-        Vertx.clusteredVertx(options, result ->{
-            if(result.succeeded()) {
+        Vertx.clusteredVertx(options, result -> {
+            if (result.succeeded()) {
                 vertx = result.result();
                 eventBus = vertx.eventBus();
                 async2.complete();
@@ -85,11 +81,11 @@ public class APITest {
         HashMap<String, Object> params = new HashMap<>();
         params.put("username", "test");
         params.put("password", "test");
-        String route = configAccessor.getString(EndpointRouteProperties.loginEndpoint);
+        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.loginEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.loginCoreAddressKey);
 
         WebClient.create(vertx).post(port, ADDRESS, route).sendJsonObject(prepareJsonObject(params), handler(context));
-        receiveMessageFromEventhandler(context,address, params);
+        receiveMessageFromEventhandler(context, address, params);
     }
 
 
@@ -100,7 +96,7 @@ public class APITest {
         params.put("password", "test");
         params.put("email", "test@test");
 
-        String route = configAccessor.getString(EndpointRouteProperties.userEndpoint);
+        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.userCoreAddressKey);
 
         WebClient.create(vertx).post(port, ADDRESS, route).sendJsonObject(prepareJsonObject(params), handler(context));
@@ -115,7 +111,7 @@ public class APITest {
         params.put("newPassword", "newTest");
         params.put("email", "test@test");
 
-        String route = configAccessor.getString(EndpointRouteProperties.userEndpoint);
+        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.userCoreAddressKey);
 
         WebClient.create(vertx).put(port, ADDRESS, route).sendJsonObject(prepareJsonObject(params), handler(context));
@@ -127,7 +123,7 @@ public class APITest {
         HashMap<String, Object> params = new HashMap<>();
         params.put("username", "test");
 
-        String route = configAccessor.getString(EndpointRouteProperties.userEndpoint);
+        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.userCoreAddressKey);
 
         addQueryParams(WebClient.create(vertx).get(port, ADDRESS, route), params).send(handler(context));
@@ -138,11 +134,11 @@ public class APITest {
     public void testGenerateToken(TestContext context) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("username", "test");
-        String route = configAccessor.getString(EndpointRouteProperties.tokenEndpoint);
+        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.tokenCoreAddressKey);
 
         WebClient.create(vertx).post(port, ADDRESS, route).sendJsonObject(prepareJsonObject(params), handler(context));
-        receiveMessageFromEventhandler(context,address, params);
+        receiveMessageFromEventhandler(context, address, params);
     }
 
     @Test
@@ -150,7 +146,7 @@ public class APITest {
         HashMap<String, Object> params = new HashMap<>();
         params.put("tokenId", 1);
 
-        String route = configAccessor.getString(EndpointRouteProperties.tokenEndpoint);
+        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.tokenCoreAddressKey);
 
         addQueryParams(WebClient.create(vertx).delete(port, ADDRESS, route), params).send(handler(context));
@@ -162,7 +158,7 @@ public class APITest {
         HashMap<String, Object> params = new HashMap<>();
         params.put("installationId", 1);
 
-        String route = configAccessor.getString(EndpointRouteProperties.installationEndpoint);
+        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey);
 
         addQueryParams(WebClient.create(vertx).get(port, ADDRESS, route), params).send(handler(context));
@@ -185,7 +181,7 @@ public class APITest {
         HashMap<String, Object> params = new HashMap<>();
         params.put("installationId", 1);
 
-        String route = configAccessor.getString(EndpointRouteProperties.installationEndpoint);
+        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey);
 
         addQueryParams(WebClient.create(vertx).delete(port, ADDRESS, route), params).send(handler(context));
@@ -204,7 +200,7 @@ public class APITest {
         params.put("timestamp", "2020-07-18T20:10:08.904Z");
         params.put("unit", "test");
         params.put("value", 1.1);
-        String route = configAccessor.getString(EndpointRouteProperties.powerconsumptionEndpoint);
+        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey);
         WebClient.create(vertx).post(port, ADDRESS, route).sendJsonObject(prepareJsonObject(params), handler(context));
         receiveMessageFromEventhandler(context, address, params);

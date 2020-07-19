@@ -11,8 +11,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 public class GetHandler extends Handler{
-    public GetHandler(String route, String coreRoute, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
-        super(HandlerProperties.getMethodHeader, route, coreRoute, eventBus, nestedConfigAccessor, parseStrategy);
+    public GetHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
+        super(HandlerProperties.getMethodHeader, route, address, eventBus, nestedConfigAccessor, parseStrategy);
     }
 
     @Override
@@ -26,8 +26,8 @@ public class GetHandler extends Handler{
 
         JsonObject jsonModel = convertMultiMapToJson(context.queryParams().entries());
 
-        eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
-            if(coreResponse.succeeded() && coreResponse.result().headers().get("statusCode").equals("200")){
+        eventBus.request(address, jsonModel, deliveryOptions, coreResponse -> {
+            if(gotCorrectResponse(coreResponse)){
                 context.response().end(Json.encodePrettily(coreResponse.result().body()));
             }
             else{

@@ -8,7 +8,6 @@ import com.openklaster.api.properties.EndpointRouteProperties;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.*;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.core.spi.cluster.ClusterManager;
@@ -25,7 +24,7 @@ import java.util.List;
 
 public class OpenKlasterAPIVerticle extends AbstractVerticle {
     private static final Logger logger = LoggerFactory.getLogger(OpenKlasterAPIVerticle.class);
-
+    private static final int VERSION1 = 1;
     private ConfigRetriever configRetriever;
     private NestedConfigAccessor configAccessor;
     private Vertx vertx;
@@ -93,75 +92,75 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                 .requestHandler(router)
                 .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
         handlers = Arrays.asList(
-                new PostAndReturnJsonHandler(configAccessor.getString(EndpointRouteProperties.loginEndpoint),
+                new PostAndReturnJsonHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.loginEndpoint),
                         configAccessor.getString(EventBusAddressProperties.loginCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
 
-                new PostHandler(configAccessor.getString(EndpointRouteProperties.userEndpoint),
+                new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<Register>(Register.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<RegisterRequest>(RegisterRequest.class)),
 
-                new PutHandler(configAccessor.getString(EndpointRouteProperties.userEndpoint),
+                new PutHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<UpdateUser>(UpdateUser.class)),
 
-                new GetHandler(configAccessor.getString(EndpointRouteProperties.userEndpoint),
+                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
 
-                new PostAndReturnJsonHandler(configAccessor.getString(EndpointRouteProperties.tokenEndpoint),
+                new PostAndReturnJsonHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
                         configAccessor.getString(EventBusAddressProperties.tokenCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
 
-                new DeleteHandler(configAccessor.getString(EndpointRouteProperties.tokenEndpoint),
+                new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
                         configAccessor.getString(EventBusAddressProperties.tokenCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<TokenId>(TokenId.class)),
 
-                new GetHandler(configAccessor.getString(EndpointRouteProperties.installationEndpoint),
+                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
 
-                new PostHandler(configAccessor.getString(EndpointRouteProperties.installationEndpoint),
+                new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Installation>(Installation.class)),
 
-                new PutHandler(configAccessor.getString(EndpointRouteProperties.installationEndpoint),
+                new PutHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Installation>(Installation.class)),
 
-                new DeleteHandler(configAccessor.getString(EndpointRouteProperties.installationEndpoint),
+                new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
 
-                new GetHandler(configAccessor.getString(EndpointRouteProperties.powerconsumptionEndpoint),
+                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint),
                         configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
 
-                new PostHandler(configAccessor.getString(EndpointRouteProperties.powerconsumptionEndpoint),
+                new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint),
                         configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Measurement>(Measurement.class)),
 
-                new GetHandler(configAccessor.getString(EndpointRouteProperties.powerproductionEndpoint),
+                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint),
                         configAccessor.getString(EventBusAddressProperties.powerproductionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
 
-                new PostHandler(configAccessor.getString(EndpointRouteProperties.powerproductionEndpoint),
+                new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint),
                         configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Measurement>(Measurement.class)),
 
-                new GetHandler(configAccessor.getString(EndpointRouteProperties.energyconsumedEndpoint),
+                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
                         configAccessor.getString(EventBusAddressProperties.energyconsumedCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
 
-                new PostHandler(configAccessor.getString(EndpointRouteProperties.energyconsumedEndpoint),
+                new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
                         configAccessor.getString(EventBusAddressProperties.energyconsumedCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Measurement>(Measurement.class)),
 
-                new GetHandler(configAccessor.getString(EndpointRouteProperties.energyproducedEndpoint),
+                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
                         configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
 
-                new PostHandler(configAccessor.getString(EndpointRouteProperties.energyproducedEndpoint),
+                new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
                         configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Measurement>(Measurement.class))
         );
@@ -189,5 +188,10 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                     break;
             }
         });
+    }
+
+    public static String buildEndpoint(NestedConfigAccessor configAccessor, int version, String route) {
+        return configAccessor.getString(EndpointRouteProperties.prefix) +
+                "/" + version + configAccessor.getString(route);
     }
 }

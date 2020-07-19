@@ -1,15 +1,16 @@
 http:
   port: 8082
+  prefix: "/api"
   endpoint:
     route:
-      login: "/api/1/user/login"
-      user: "/api/1/user"
-      token: "/api/1/token"
-      installation: "/api/1/installations"
-      powerconsumption: "/api/1/powerConsumption"
-      powerproduction: "/api/1/powerConsumption"
-      energyconsumed: "/api/1/energyConsumed"
-      energyproduced: "/api/1/energyProduced"
+      login: "/user/login"
+      user: "/user"
+      token: "/token"
+      installation: "/installations"
+      powerconsumption: "/powerConsumption"
+      powerproduction: "/powerConsumption"
+      energyconsumed: "/energyConsumed"
+      energyproduced: "/energyProduced"
 
 core:
   route:

@@ -1,6 +1,7 @@
 package com.openklaster.api.properties;
 
 public class EndpointRouteProperties {
+    public static final String prefix = "http.prefix";
     public static final String listeningPortKey = "http.port";
     public static final String loginEndpoint = "http.endpoint.route.login";
     public static final String userEndpoint = "http.endpoint.route.user";

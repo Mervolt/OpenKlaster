@@ -10,8 +10,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 public class DeleteHandler extends Handler{
-    public DeleteHandler(String route, String coreRoute, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
-        super(HandlerProperties.deleteMethodHeader, route, coreRoute, eventBus, nestedConfigAccessor, parseStrategy);
+    public DeleteHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
+        super(HandlerProperties.deleteMethodHeader, route, address, eventBus, nestedConfigAccessor, parseStrategy);
     }
 
     @Override
@@ -25,8 +25,8 @@ public class DeleteHandler extends Handler{
 
         JsonObject jsonModel = convertMultiMapToJson(context.queryParams().entries());
 
-        eventBus.request(coreRoute, jsonModel, deliveryOptions, coreResponse -> {
-            if(coreResponse.succeeded()){
+        eventBus.request(address, jsonModel, deliveryOptions, coreResponse -> {
+            if(gotCorrectResponse(coreResponse)){
                 handleSuccessfulRequest(context.response());
             }
             else{
