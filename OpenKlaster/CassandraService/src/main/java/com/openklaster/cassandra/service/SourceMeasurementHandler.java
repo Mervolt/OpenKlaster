@@ -21,7 +21,7 @@ public class SourceMeasurementHandler extends CassandraHandler {
     @Override
     public void createPostHandler(Message<JsonObject> message) {
         try {
-            int id = message.body().getInteger(idType);
+            String id = message.body().getString(idType);
             float value = message.body().getFloat("value");
             // Todo It will be done, but first we must determine how to do it. I leave "kW" for now
             String unit = "kW";

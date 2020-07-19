@@ -21,7 +21,7 @@ public class WeatherConditionsHandler extends CassandraHandler {
     @Override
     public void createPostHandler(Message<JsonObject> message) {
         try {
-            int id = message.body().getInteger(idType);
+            String id = message.body().getString(idType);
             String source = message.body().getString("source");
             String type = message.body().getString("type");
             String description = message.body().getString("description");

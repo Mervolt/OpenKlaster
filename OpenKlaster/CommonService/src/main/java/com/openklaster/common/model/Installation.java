@@ -1,5 +1,6 @@
 package com.openklaster.common.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Installation {
-
+    @JsonAlias({ "installationId", "_id" })
     @JsonProperty("_id")
     private String _id;
     private String username;

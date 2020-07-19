@@ -20,7 +20,7 @@ public abstract class ModelManager<T> extends AuthManager {
     protected final static String updateMethodName = "put";
     protected final static String addMethodName = "post";
     protected final static String deleteMethodName = "delete";
-    protected final static String idKey = "id";
+    protected final static String idKey = "installationId";
 
     public ModelManager(Logger logger, AuthenticationClient authClient,
                         Class<T> modelClass, UserRetriever userRetriever) {
