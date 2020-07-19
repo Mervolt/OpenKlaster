@@ -1,4 +1,4 @@
-package com.openklaster.cassandra.model;
+package com.openklaster.common.model;
 
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
@@ -9,12 +9,12 @@ import java.util.Date;
 public class SourceMeasurement {
     @PartitionKey
     private Date timestamp;
-    private int inverterId;
+    private int installationId;
     private String unit;
     private double value;
 
-    public SourceMeasurement(int inverterId, Date timestamp, String unit, double value) {
-        this.inverterId = inverterId;
+    public SourceMeasurement(int installationId, Date timestamp, String unit, double value) {
+        this.installationId = installationId;
         this.timestamp = timestamp;
         this.unit = unit;
         this.value = value;
@@ -24,7 +24,7 @@ public class SourceMeasurement {
     public String toString() {
         return "SourceMeasurement{" +
                 "timestamp=" + timestamp +
-                ", inverterId=" + inverterId +
+                ", inverterId=" + installationId +
                 ", unit='" + unit + '\'' +
                 ", value=" + value +
                 '}';

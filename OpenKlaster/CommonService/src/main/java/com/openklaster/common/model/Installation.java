@@ -1,10 +1,12 @@
 package com.openklaster.common.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class Installation {
 
+    @JsonProperty("_id")
     private String _id;
     private String username;
     private Inverter inverter;

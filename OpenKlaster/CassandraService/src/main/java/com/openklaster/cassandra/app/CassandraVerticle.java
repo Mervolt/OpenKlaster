@@ -19,6 +19,8 @@ import com.openklaster.common.config.NestedConfigAccessor;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
+
 
 public class CassandraVerticle extends AbstractVerticle {
     private CassandraClientOptions options;
@@ -70,7 +72,7 @@ public class CassandraVerticle extends AbstractVerticle {
     }
 
     private void handlerMap(CassandraHandler handler, Message<JsonObject> message) {
-        switch (message.headers().get("method")) {
+        switch (message.headers().get(METHOD_KEY)) {
             case "get":
                 handler.createGetHandler(message);
                 break;

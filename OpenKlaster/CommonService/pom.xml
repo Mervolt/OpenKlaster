@@ -20,6 +20,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.datastax.cassandra</groupId>
+            <artifactId>cassandra-driver-mapping</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>

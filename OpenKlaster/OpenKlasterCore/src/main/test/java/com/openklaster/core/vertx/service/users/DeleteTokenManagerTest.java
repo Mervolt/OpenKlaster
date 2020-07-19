@@ -15,8 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
-
 import static com.openklaster.common.messages.BusMessageReplyUtils.STATUS_CODE;
 
 @RunWith(VertxUnitRunner.class)
@@ -27,7 +25,7 @@ public class DeleteTokenManagerTest extends UserManagerTest {
     @Before
     public void setup() {
         commonSetup();
-        this.userManager = new DeleteTokenManager(authenticationClient, userRepository);
+        this.userManager = new DeleteTokenManager(authenticationClient, userCrudRepository);
     }
 
     @Test
@@ -46,7 +44,7 @@ public class DeleteTokenManagerTest extends UserManagerTest {
         userManager.handleMessage(fakeMessage);
 
         Future<Pair<User, FakeReply>> result = fakeMessage.getMessageReply().compose(reply -> {
-            Future<User> storedUser = userRepository.get(existingUser.getUsername());
+            Future<User> storedUser = userCrudRepository.get(existingUser.getUsername());
             return storedUser.map(userRes -> Pair.of(userRes, reply));
         });
 

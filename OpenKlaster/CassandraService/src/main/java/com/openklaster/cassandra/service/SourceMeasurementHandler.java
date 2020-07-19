@@ -5,7 +5,7 @@ import io.vertx.cassandra.Mapper;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.LoggerFactory;
-import com.openklaster.cassandra.model.SourceMeasurement;
+import com.openklaster.common.model.SourceMeasurement;
 
 import java.util.Date;
 

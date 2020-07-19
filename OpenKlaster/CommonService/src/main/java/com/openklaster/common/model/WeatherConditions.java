@@ -1,12 +1,12 @@
-package com.openklaster.cassandra.model;
+package com.openklaster.common.model;
 
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
 import java.util.Date;
 
-@Table(keyspace = "openklaster", name = "energypredictions")
-public class EnergyPredictions {
+@Table(keyspace = "openklaster", name = "weatherconditions")
+public class WeatherConditions {
   @PartitionKey
   private Date timestamp;
   private int installationId;
@@ -14,7 +14,7 @@ public class EnergyPredictions {
   private String type;
   private String description;
 
-  public EnergyPredictions(Date timestamp, int installationId, String source, String type, String description) {
+  public WeatherConditions(Date timestamp, int installationId, String source, String type, String description) {
     this.timestamp = timestamp;
     this.installationId = installationId;
     this.source = source;
@@ -24,7 +24,7 @@ public class EnergyPredictions {
 
   @Override
   public String toString() {
-    return "EnergyPredictions{" +
+    return "WeatherConditions{" +
             "timestamp=" + timestamp +
             ", installationId=" + installationId +
             ", source='" + source + '\'' +

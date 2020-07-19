@@ -5,7 +5,7 @@ import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.authentication.AuthenticationResult;
 import com.openklaster.core.vertx.authentication.SuccessfulSessionAuthentication;
-import com.openklaster.core.vertx.messages.repository.Repository;
+import com.openklaster.core.vertx.messages.repository.CrudRepository;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.Message;
@@ -19,11 +19,11 @@ public class LoginManager implements UserManager {
     private static final String failedMessage = "Cannot login - %s";
     private static final Logger logger = LoggerFactory.getLogger(LoginManager.class);
     private final AuthenticationClient authenticationClient;
-    private final Repository<User> userRepository;
+    private final CrudRepository<User> userCrudRepository;
 
-    public LoginManager(AuthenticationClient authenticationClient, Repository<User> userRepository) {
+    public LoginManager(AuthenticationClient authenticationClient, CrudRepository<User> userCrudRepository) {
         this.authenticationClient = authenticationClient;
-        this.userRepository = userRepository;
+        this.userCrudRepository = userCrudRepository;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class LoginManager implements UserManager {
     }
 
     private Future<User> getUser(String username) {
-        return userRepository.get(username);
+        return userCrudRepository.get(username);
     }
 
     private Future<AuthenticationResult> storeToken(AuthenticationResult result, String username) {
@@ -88,10 +88,10 @@ public class LoginManager implements UserManager {
 
         SuccessfulSessionAuthentication sessionAuthResult = (SuccessfulSessionAuthentication) result;
 
-        return userRepository.get(username)
+        return userCrudRepository.get(username)
                 .compose(userResult -> {
                     userResult.setSessionToken(sessionAuthResult.getSessionToken());
-                    return userRepository.update(userResult);
+                    return userCrudRepository.update(userResult);
                 });
     }
 }

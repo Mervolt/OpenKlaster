@@ -23,7 +23,7 @@ public class GenerateTokenManagerTest extends UserManagerTest {
     @Before
     public void setup() {
         commonSetup();
-        this.userManager = new GenerateTokenManager(authenticationClient, tokenHandler, userRepository);
+        this.userManager = new GenerateTokenManager(authenticationClient, tokenHandler, userCrudRepository);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class GenerateTokenManagerTest extends UserManagerTest {
         userManager.handleMessage(fakeMessage);
 
         Future<Pair<User, FakeReply>> result = fakeMessage.getMessageReply().compose(reply -> {
-            Future<User> storedUser = userRepository.get(existingUser.getUsername());
+            Future<User> storedUser = userCrudRepository.get(existingUser.getUsername());
             return storedUser.map(userRes -> Pair.of(userRes, reply));
         });
 

@@ -1,7 +1,6 @@
 package com.openklaster.core.vertx.service.users;
 
 import com.openklaster.common.model.User;
-import com.openklaster.common.model.UserToken;
 import com.openklaster.common.tests.bus.FakeMessage;
 import com.openklaster.common.tests.bus.FakeReply;
 import io.vertx.core.Future;
@@ -16,7 +15,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static com.openklaster.common.messages.BusMessageReplyUtils.STATUS_CODE;
-import static org.junit.Assert.*;
 
 @RunWith(VertxUnitRunner.class)
 public class DeleteAllTokensManagerTest extends UserManagerTest {
@@ -24,7 +22,7 @@ public class DeleteAllTokensManagerTest extends UserManagerTest {
     @Before
     public void setup() {
         commonSetup();
-        this.userManager = new DeleteAllTokensManager(authenticationClient, userRepository);
+        this.userManager = new DeleteAllTokensManager(authenticationClient, userCrudRepository);
     }
 
     @Test
@@ -40,7 +38,7 @@ public class DeleteAllTokensManagerTest extends UserManagerTest {
         userManager.handleMessage(fakeMessage);
 
         Future<Pair<User, FakeReply>> result = fakeMessage.getMessageReply().compose(reply -> {
-            Future<User> storedUser = userRepository.get(existingUser.getUsername());
+            Future<User> storedUser = userCrudRepository.get(existingUser.getUsername());
             return storedUser.map(userRes -> Pair.of(userRes, reply));
         });
 

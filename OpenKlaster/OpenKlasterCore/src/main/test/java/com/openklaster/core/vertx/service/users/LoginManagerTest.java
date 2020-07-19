@@ -24,7 +24,7 @@ public class LoginManagerTest extends UserManagerTest {
     @Before
     public void setup() {
         commonSetup();
-        this.userManager = new LoginManager(authenticationClient, userRepository);
+        this.userManager = new LoginManager(authenticationClient, userCrudRepository);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class LoginManagerTest extends UserManagerTest {
         userManager.handleMessage(fakeMessage);
 
         Future<Pair<User, FakeReply>> result = fakeMessage.getMessageReply().compose(reply -> {
-            Future<User> storedUser = userRepository.get(existingUser.getUsername());
+            Future<User> storedUser = userCrudRepository.get(existingUser.getUsername());
             return storedUser.map(userRes -> Pair.of(userRes, reply));
         });
 
@@ -66,7 +66,7 @@ public class LoginManagerTest extends UserManagerTest {
         userManager.handleMessage(fakeMessage);
 
         Future<Pair<User, FakeReply>> result = fakeMessage.getMessageReply().compose(reply -> {
-            Future<User> storedUser = userRepository.get(existingUser.getUsername());
+            Future<User> storedUser = userCrudRepository.get(existingUser.getUsername());
             return storedUser.map(userRes -> Pair.of(userRes, reply));
         });
 
