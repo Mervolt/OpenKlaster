@@ -7,6 +7,9 @@ import com.openklaster.common.model.User;
 import com.openklaster.common.model.UserToken;
 import com.openklaster.core.vertx.messages.repository.CrudRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BasicAuthenticationClient implements AuthenticationClient {
     private final PasswordHandler passwordHandler;
     private final TokenHandler tokenHandler;
@@ -21,8 +24,14 @@ public class BasicAuthenticationClient implements AuthenticationClient {
 
     @Override
     public AuthenticationResult authenticateWithToken(User user, String token) {
+        // Todo To be corrected because I made a mess with debugging
         try {
-            TokenValidationResult result = tokenHandler.validateToken(token, user.getUserTokens());
+            List<UserToken> tokens = new ArrayList<>();
+            if (user.getUserTokens() != null)
+                tokens.addAll(user.getUserTokens());
+            if (user.getSessionToken() != null)
+                tokens.add(user.getSessionToken());
+            TokenValidationResult result = tokenHandler.validateToken(token, tokens);
             return authenticationTokenResult(result, user);
         } catch (Exception e) {
             return new FailedAuthentication(e);

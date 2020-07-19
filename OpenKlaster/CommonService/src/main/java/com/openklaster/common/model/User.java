@@ -1,5 +1,6 @@
 package com.openklaster.common.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class User {
-
+    @JsonAlias({ "username", "_id" })
     @JsonProperty("_id")
     private String username;
     private String password;
@@ -23,7 +24,13 @@ public class User {
         //I know i should add to userTokens instead of replacing
         //but even with changed Jackson deserializer to ArrayList for userTokens it still throws
         //UnsupportedOperationException when trying to add
-        ArrayList<UserToken> newList = new ArrayList<>(userTokens);
+        ArrayList<UserToken> newList;
+
+        if (userTokens != null)
+            newList = new ArrayList<>(userTokens);
+        else
+            newList = new ArrayList<>();
+
         newList.add(token);
         setUserTokens(newList);
     }

@@ -20,7 +20,7 @@ public class DeleteHandler extends Handler{
 
     @Override
     public void handle(RoutingContext context) {
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.deleteMethodHeader, context);
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, context);
 
         if(isGetDeleteRequestInvalid(context)) {
             handleUnprocessableRequest(context.response());

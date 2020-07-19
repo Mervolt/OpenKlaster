@@ -72,7 +72,6 @@ public class CoreVerticle extends AbstractVerticle {
     //TODO DI, some beans to configure ??? It will be hard as some things depends on configs which are loaded
     // some time after verticle starts
     private void configureEndpoints() {
-
         TokenHandler tokenHandler = configureNewTokenHandler(configAccessor.getPathConfigAccessor(tokenConfigPath));
         PasswordHandler passwordHandler = configureNewPasswordHandler();
         CrudRepository<User> userCrudRepository = configureNewUserRepository();
@@ -95,6 +94,7 @@ public class CoreVerticle extends AbstractVerticle {
         EndpointService powerLoadMeasurementService = configureLoadMeasurementService(loadMeasurementMeasurementManager);
 
 
+        userService.configureEndpoints(eventBus);
         this.servicesList = Arrays.asList(userService, installationService, powerSourceMeasurementService,
                 powerLoadMeasurementService);//more services to be added here
     }

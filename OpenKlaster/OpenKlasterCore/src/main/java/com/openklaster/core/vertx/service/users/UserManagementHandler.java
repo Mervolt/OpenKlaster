@@ -29,10 +29,11 @@ public class UserManagementHandler extends EndpointService {
                                  TokenHandler tokenHandler, CrudRepository<User> userCrudRepository) {
         super(config);
         logger = LoggerFactory.getLogger(UserManagementHandler.class);
-        prepareManagers();
+
         this.authenticationClient = authenticationClient;
         this.tokenHandler = tokenHandler;
         this.userCrudRepository = userCrudRepository;
+        prepareManagers();
     }
 
     private void prepareManagers() {
@@ -66,6 +67,7 @@ public class UserManagementHandler extends EndpointService {
     private void handlerMap(Message<JsonObject> message) {
         String methodName = message.headers().get(METHOD_KEY);
         UserManager manager = userManagerMap.get(methodName);
+
         if (manager == null) {
             handleUnknownMethod(message, methodName);
         } else {

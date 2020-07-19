@@ -20,7 +20,7 @@ import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.Map;
-
+import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 public abstract class Handler {
     private static final String requestDefaultTimeout = "eventBus.timeout";
@@ -135,8 +135,7 @@ public abstract class Handler {
             deliveryOptions.addHeader(HandlerProperties.sessionToken, context.queryParams().get(HandlerProperties.sessionToken));
             context.queryParams().remove(HandlerProperties.sessionToken);
         }
-
-        deliveryOptions.addHeader(HandlerProperties.methodKeyHeader, eventbusMethod);
+        deliveryOptions.addHeader(METHOD_KEY, eventbusMethod);
         deliveryOptions.setSendTimeout(nestedConfigAccessor.getInteger(requestDefaultTimeout));
         return deliveryOptions;
     }
@@ -148,7 +147,7 @@ public abstract class Handler {
 
     protected boolean gotCorrectResponse(AsyncResult<Message<Object>> coreResponse) {
         boolean gotResponse = coreResponse.succeeded();
-        boolean isResponseCorrect = coreResponse.result().headers().get("statusCode").equals("200");
-        return gotResponse && isResponseCorrect;
+;
+        return gotResponse;
     }
 }

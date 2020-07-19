@@ -42,6 +42,7 @@ public class BasicTokenHandler implements TokenHandler {
 
     @Override
     public TokenValidationResult validateToken(String token, UserToken userToken) {
+
         if (userToken.getData().equals(token)) {
             return validateTokenDate(userToken);
         } else {
@@ -52,7 +53,6 @@ public class BasicTokenHandler implements TokenHandler {
     @Override
     public TokenValidationResult validateToken(String token, List<UserToken> userTokens) {
         Optional<UserToken> matchingToken = findMatchingToken(token, userTokens);
-
         if (matchingToken.isPresent()) {
             return validateTokenDate(matchingToken.get());
         } else {
