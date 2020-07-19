@@ -83,7 +83,9 @@ public class MongoVerticle extends AbstractVerticle {
     }
 
     private void handlerMap(EntityHandler handler, Message<JsonObject> msg) {
-        switch (msg.headers().get("method")) {
+        System.out.println(msg.headers());
+        System.out.println(msg.body());
+        switch (msg.headers().get("methodName")) {
             case "add":
                 handler.add(msg);
                 break;

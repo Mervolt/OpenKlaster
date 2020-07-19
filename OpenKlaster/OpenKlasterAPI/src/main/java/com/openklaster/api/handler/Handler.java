@@ -58,20 +58,25 @@ public abstract class Handler {
 
 
     protected void sendPutPostRequest(RoutingContext context, String eventbusMethod) {
-
         DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, context);
 
+        System.out.println("A");
         if(isPutPostRequestInvalid(context)) {
+            System.out.println("B");
             handleUnprocessableRequest(context.response());
             return;
         }
+        System.out.println("C");
 
         JsonObject jsonModel = context.getBodyAsJson();
+        System.out.println(address + " " + jsonModel +  " " + deliveryOptions.getHeaders());
         eventBus.request(address, jsonModel, deliveryOptions, coreResponse -> {
             if(gotCorrectResponse(coreResponse)){
+                System.out.println("XD1");
                 handleSuccessfulRequest(context.response());
             }
             else{
+                System.out.println("XD2");
                 handleProcessingError(context.response());
             }
         });
@@ -93,7 +98,7 @@ public abstract class Handler {
             return true;
         }
         catch(IllegalArgumentException ex){
-            logger.error(ex.getMessage().substring(0, ex.getMessage().indexOf(" (class")));
+            //logger.error(ex.getMessage().substring(0, ex.getMessage().indexOf(" (class")));
             ex.printStackTrace();
             return false;
         }
