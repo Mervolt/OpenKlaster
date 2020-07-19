@@ -8,7 +8,7 @@ import com.openklaster.common.model.User;
 import com.openklaster.common.tests.model.UserTestUtil;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.authentication.BasicAuthenticationClient;
-import com.openklaster.core.vertx.messages.repository.FakeRepository;
+import com.openklaster.core.vertx.messages.repository.InMemoryRepository;
 import com.openklaster.core.vertx.messages.repository.Repository;
 
 public class UserManagerTest {
@@ -30,7 +30,7 @@ public class UserManagerTest {
     protected User existingUser;
 
     protected void commonSetup() {
-        this.userRepository = new FakeRepository<>();
+        this.userRepository = new InMemoryRepository<>();
         this.passwordHandler = new BCryptPasswordHandler();
         this.tokenHandler = new BasicTokenHandler(tokenHandlerArg, tokenHandlerArg, tokenHandlerArg);
         this.authenticationClient = new BasicAuthenticationClient(passwordHandler, tokenHandler, userRepository);

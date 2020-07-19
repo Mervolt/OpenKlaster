@@ -6,9 +6,9 @@ security:
 eventbus:
   in:
     userManagement:
-      address: "core.users"
+      address: "openklaster.core.user"
   out:
     mongo:
       users:
-        address: "mongo.users"
+        address: "openklaster.mongo.user"
 

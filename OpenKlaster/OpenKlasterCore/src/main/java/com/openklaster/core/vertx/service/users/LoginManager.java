@@ -14,7 +14,7 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
 public class LoginManager implements UserManager {
-    private static final String methodName = "register";
+    private static final String methodName = "login";
     private static final String successMessage = "User logged in - %s";
     private static final String failedMessage = "Cannot login - %s";
     private static final Logger logger = LoggerFactory.getLogger(LoginManager.class);
@@ -27,7 +27,7 @@ public class LoginManager implements UserManager {
     }
 
     @Override
-    public String getMethodsName() {
+    public String getMethodName() {
         return methodName;
     }
 

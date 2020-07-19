@@ -22,7 +22,7 @@ public class GenerateTokenManager extends AuthenticatedManager {
     }
 
     @Override
-    public String getMethodsName() {
+    public String getMethodName() {
         return methodName;
     }
 

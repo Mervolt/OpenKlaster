@@ -17,7 +17,7 @@ public class InformationManager extends AuthenticatedManager {
     }
 
     @Override
-    public String getMethodsName() {
+    public String getMethodName() {
         return methodName;
     }
 

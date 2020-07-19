@@ -2,12 +2,11 @@ package com.openklaster.common.tests.bus;
 
 import io.vertx.core.eventbus.DeliveryOptions;
 import lombok.ToString;
+
 @ToString
 public class FailureFakeReply implements FakeReply {
 
-    @ToString.Include
     private final String cause;
-    @ToString.Include
     private final int errorCode;
 
     public FailureFakeReply(String cause, int errorCode) {

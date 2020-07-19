@@ -20,7 +20,7 @@ public class RegisterManager implements UserManager {
     private final Repository<User> userRepository;
 
     @Override
-    public String getMethodsName() {
+    public String getMethodName() {
         return methodName;
     }
 

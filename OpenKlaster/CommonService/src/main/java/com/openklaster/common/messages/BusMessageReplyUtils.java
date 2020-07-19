@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 public class BusMessageReplyUtils {
 
     public static final String STATUS_CODE = "statusCode";
-    public static final String METHOD_KEY = "method";
+    public static final String METHOD_KEY = "methodName";
 
     public static <T> void replyWithBodyAndStatus(Message<T> busMessage, T replyBody, HttpResponseStatus status) {
         busMessage.reply(replyBody, getOptionsForStatus(status));

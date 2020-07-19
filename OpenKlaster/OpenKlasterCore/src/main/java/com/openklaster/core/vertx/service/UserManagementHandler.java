@@ -39,22 +39,22 @@ public class UserManagementHandler extends EndpointService {
         this.userManagerMap = new HashMap<>();
 
         RegisterManager registerManager = new RegisterManager(authenticationClient, userRepository);
-        userManagerMap.put(registerManager.getMethodsName(), registerManager);
+        userManagerMap.put(registerManager.getMethodName(), registerManager);
 
         LoginManager loginManager = new LoginManager(authenticationClient, userRepository);
-        userManagerMap.put(loginManager.getMethodsName(), loginManager);
+        userManagerMap.put(loginManager.getMethodName(), loginManager);
 
         InformationManager informationManager = new InformationManager(authenticationClient, userRepository);
-        userManagerMap.put(informationManager.getMethodsName(), informationManager);
+        userManagerMap.put(informationManager.getMethodName(), informationManager);
 
         GenerateTokenManager generateTokenManager = new GenerateTokenManager(authenticationClient, tokenHandler, userRepository);
-        userManagerMap.put(generateTokenManager.getMethodsName(), generateTokenManager);
+        userManagerMap.put(generateTokenManager.getMethodName(), generateTokenManager);
 
         DeleteTokenManager deleteTokenManager = new DeleteTokenManager(authenticationClient, userRepository);
-        userManagerMap.put(deleteTokenManager.getMethodsName(), deleteTokenManager);
+        userManagerMap.put(deleteTokenManager.getMethodName(), deleteTokenManager);
 
         DeleteAllTokensManager deleteAllTokensManager = new DeleteAllTokensManager(authenticationClient, userRepository);
-        userManagerMap.put(deleteAllTokensManager.getMethodsName(), deleteAllTokensManager);
+        userManagerMap.put(deleteAllTokensManager.getMethodName(), deleteAllTokensManager);
     }
 
     @Override

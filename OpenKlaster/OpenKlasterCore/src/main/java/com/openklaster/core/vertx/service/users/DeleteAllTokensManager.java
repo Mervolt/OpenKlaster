@@ -18,7 +18,7 @@ public class DeleteAllTokensManager extends AuthenticatedManager {
     }
 
     @Override
-    public String getMethodsName() {
+    public String getMethodName() {
         return methodName;
     }
 

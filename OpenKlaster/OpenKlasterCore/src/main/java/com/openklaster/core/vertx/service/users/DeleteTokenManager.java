@@ -9,7 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.LoggerFactory;
 
 public class DeleteTokenManager extends AuthenticatedManager {
-    private static final String methodName = "generateToken";
+    private static final String methodName = "deleteToken";
     private static final String successMessage = "Token deleted - %s";
     private static final String failureMessage = "Could not delete token - %s";
     private static final String tokenKey = "token";
@@ -22,7 +22,7 @@ public class DeleteTokenManager extends AuthenticatedManager {
     }
 
     @Override
-    public String getMethodsName() {
+    public String getMethodName() {
         return methodName;
     }
 
