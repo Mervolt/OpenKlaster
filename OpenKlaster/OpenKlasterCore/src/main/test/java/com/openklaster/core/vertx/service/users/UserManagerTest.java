@@ -8,8 +8,8 @@ import com.openklaster.common.model.User;
 import com.openklaster.common.tests.model.UserTestUtil;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.authentication.BasicAuthenticationClient;
-import com.openklaster.core.vertx.messages.repository.InMemoryRepository;
-import com.openklaster.core.vertx.messages.repository.Repository;
+import com.openklaster.core.vertx.messages.repository.InMemoryCrudRepository;
+import com.openklaster.core.vertx.messages.repository.CrudRepository;
 
 public class UserManagerTest {
 
@@ -22,7 +22,7 @@ public class UserManagerTest {
 
     protected UserManager userManager;
     protected AuthenticationClient authenticationClient;
-    protected Repository<User> userRepository;
+    protected CrudRepository<User> userCrudRepository;
     protected PasswordHandler passwordHandler;
     protected TokenHandler tokenHandler;
     protected int tokenHandlerArg = 3;
@@ -30,10 +30,10 @@ public class UserManagerTest {
     protected User existingUser;
 
     protected void commonSetup() {
-        this.userRepository = new InMemoryRepository<>();
+        this.userCrudRepository = new InMemoryCrudRepository<>();
         this.passwordHandler = new BCryptPasswordHandler();
         this.tokenHandler = new BasicTokenHandler(tokenHandlerArg, tokenHandlerArg, tokenHandlerArg);
-        this.authenticationClient = new BasicAuthenticationClient(passwordHandler, tokenHandler, userRepository);
+        this.authenticationClient = new BasicAuthenticationClient(passwordHandler, tokenHandler, userCrudRepository);
         this.testUser = UserTestUtil.prepareUser("test");
 
         repoSetup();
@@ -42,7 +42,7 @@ public class UserManagerTest {
     private void repoSetup() {
         existingUser = UserTestUtil.prepareUser("existing");
         existingUser.setPassword(passwordHandler.hashPassword(existingUser.getPassword()));
-        userRepository.add(existingUser);
+        userCrudRepository.add(existingUser);
     }
 
 }

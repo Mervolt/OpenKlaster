@@ -4,7 +4,7 @@ import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.authentication.AuthenticationResult;
-import com.openklaster.core.vertx.messages.repository.Repository;
+import com.openklaster.core.vertx.messages.repository.CrudRepository;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -17,15 +17,15 @@ public abstract class AuthenticatedManager implements UserManager {
 
     protected final Logger logger;
     protected final AuthenticationClient authenticationClient;
-    protected final Repository<User> userRepository;
+    protected final CrudRepository<User> userCrudRepository;
     private static final String sessionTokenKey = "sessionToken";
     private static final String apiTokenKey = "apiToken";
     private static final String noTokenMsg = "No token was provided to authenticate user %s";
 
-    public AuthenticatedManager(Logger logger, AuthenticationClient authenticationClient, Repository<User> userRepository) {
+    public AuthenticatedManager(Logger logger, AuthenticationClient authenticationClient, CrudRepository<User> userCrudRepository) {
         this.logger = logger;
         this.authenticationClient = authenticationClient;
-        this.userRepository = userRepository;
+        this.userCrudRepository = userCrudRepository;
     }
 
     public void handleMessage(Message<JsonObject> message) {
@@ -58,7 +58,7 @@ public abstract class AuthenticatedManager implements UserManager {
     protected abstract String getFailureMessage(String reason);
 
     protected Future<User> authenticate(MultiMap map, String username) {
-        return userRepository.get(username)
+        return userCrudRepository.get(username)
                 .map(user -> authenticateUser(map, user));
     }
 

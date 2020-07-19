@@ -1,11 +1,11 @@
-package com.openklaster.core.vertx.service;
+package com.openklaster.core.vertx.service.users;
 
 import com.openklaster.common.authentication.tokens.TokenHandler;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
-import com.openklaster.core.vertx.messages.repository.Repository;
-import com.openklaster.core.vertx.service.users.*;
+import com.openklaster.core.vertx.messages.repository.CrudRepository;
+import com.openklaster.core.vertx.service.EndpointService;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.eventbus.MessageConsumer;
@@ -23,39 +23,38 @@ public class UserManagementHandler extends EndpointService {
     private Map<String, UserManager> userManagerMap;
     private final AuthenticationClient authenticationClient;
     private final TokenHandler tokenHandler;
-    private final Repository<User> userRepository;
+    private final CrudRepository<User> userCrudRepository;
 
     public UserManagementHandler(NestedConfigAccessor config, AuthenticationClient authenticationClient,
-                                 TokenHandler tokenHandler, Repository<User> userRepository) {
+                                 TokenHandler tokenHandler, CrudRepository<User> userCrudRepository) {
         super(config);
         logger = LoggerFactory.getLogger(UserManagementHandler.class);
 
         this.authenticationClient = authenticationClient;
         this.tokenHandler = tokenHandler;
-        this.userRepository = userRepository;
-
+        this.userCrudRepository = userCrudRepository;
         prepareManagers();
     }
 
     private void prepareManagers() {
         this.userManagerMap = new HashMap<>();
 
-        RegisterManager registerManager = new RegisterManager(authenticationClient, userRepository);
+        RegisterManager registerManager = new RegisterManager(authenticationClient, userCrudRepository);
         userManagerMap.put(registerManager.getMethodName(), registerManager);
 
-        LoginManager loginManager = new LoginManager(authenticationClient, userRepository);
+        LoginManager loginManager = new LoginManager(authenticationClient, userCrudRepository);
         userManagerMap.put(loginManager.getMethodName(), loginManager);
 
-        InformationManager informationManager = new InformationManager(authenticationClient, userRepository);
+        InformationManager informationManager = new InformationManager(authenticationClient, userCrudRepository);
         userManagerMap.put(informationManager.getMethodName(), informationManager);
 
-        GenerateTokenManager generateTokenManager = new GenerateTokenManager(authenticationClient, tokenHandler, userRepository);
+        GenerateTokenManager generateTokenManager = new GenerateTokenManager(authenticationClient, tokenHandler, userCrudRepository);
         userManagerMap.put(generateTokenManager.getMethodName(), generateTokenManager);
 
-        DeleteTokenManager deleteTokenManager = new DeleteTokenManager(authenticationClient, userRepository);
+        DeleteTokenManager deleteTokenManager = new DeleteTokenManager(authenticationClient, userCrudRepository);
         userManagerMap.put(deleteTokenManager.getMethodName(), deleteTokenManager);
 
-        DeleteAllTokensManager deleteAllTokensManager = new DeleteAllTokensManager(authenticationClient, userRepository);
+        DeleteAllTokensManager deleteAllTokensManager = new DeleteAllTokensManager(authenticationClient, userCrudRepository);
         userManagerMap.put(deleteAllTokensManager.getMethodName(), deleteAllTokensManager);
     }
 

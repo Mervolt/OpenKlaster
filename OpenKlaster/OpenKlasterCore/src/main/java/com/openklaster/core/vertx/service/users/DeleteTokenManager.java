@@ -2,7 +2,7 @@ package com.openklaster.core.vertx.service.users;
 
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
-import com.openklaster.core.vertx.messages.repository.Repository;
+import com.openklaster.core.vertx.messages.repository.CrudRepository;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
@@ -17,8 +17,8 @@ public class DeleteTokenManager extends AuthenticatedManager {
     private static final String unsupportedOperationMsg =
             "Method processUser is not supported for DeleteTokenManager class!";
 
-    public DeleteTokenManager(AuthenticationClient authenticationClient, Repository<User> userRepository) {
-        super(LoggerFactory.getLogger(DeleteTokenManager.class), authenticationClient, userRepository);
+    public DeleteTokenManager(AuthenticationClient authenticationClient, CrudRepository<User> userCrudRepository) {
+        super(LoggerFactory.getLogger(DeleteTokenManager.class), authenticationClient, userCrudRepository);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class DeleteTokenManager extends AuthenticatedManager {
     private Future<JsonObject> deleteToken(User user, String token) {
         boolean deleted = user.deleteUserToken(token);
         if (deleted) {
-            return userRepository.update(user).map(new JsonObject().put(tokenKey, token));
+            return userCrudRepository.update(user).map(new JsonObject().put(tokenKey, token));
         } else return Future.failedFuture(String.format(noTokenFoundMsg, token, user.getUsername()));
     }
 }

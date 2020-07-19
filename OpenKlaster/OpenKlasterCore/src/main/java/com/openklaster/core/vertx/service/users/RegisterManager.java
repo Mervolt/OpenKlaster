@@ -3,7 +3,7 @@ package com.openklaster.core.vertx.service.users;
 import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
-import com.openklaster.core.vertx.messages.repository.Repository;
+import com.openklaster.core.vertx.messages.repository.CrudRepository;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.Message;
@@ -17,16 +17,16 @@ public class RegisterManager implements UserManager {
     private static final String failureMessage = "Could not register user - %s(%s)";
     private static final Logger logger = LoggerFactory.getLogger(RegisterManager.class);
     private final AuthenticationClient authenticationClient;
-    private final Repository<User> userRepository;
+    private final CrudRepository<User> userCrudRepository;
 
     @Override
     public String getMethodName() {
         return methodName;
     }
 
-    public RegisterManager(AuthenticationClient authenticationClient, Repository<User> userRepository) {
+    public RegisterManager(AuthenticationClient authenticationClient, CrudRepository<User> userCrudRepository) {
         this.authenticationClient = authenticationClient;
-        this.userRepository = userRepository;
+        this.userCrudRepository = userCrudRepository;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class RegisterManager implements UserManager {
     }
 
     private Future<User> addUser(User user) {
-        return userRepository.add(user);
+        return userCrudRepository.add(user);
     }
 
     private User getUserWithHashedPassword(JsonObject userJson) {

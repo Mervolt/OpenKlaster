@@ -1,30 +1,27 @@
-package com.openklaster.cassandra.model;
+package com.openklaster.common.model;
 
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Table(keyspace = "openklaster", name = "loadmeasurement")
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoadMeasurement {
     @PartitionKey
     private Date timestamp;
-    private int receiverId;
+    private int installationId;
     private String unit;
     private double value;
-
-    public LoadMeasurement(int receiverId, Date timestamp, String unit, double value) {
-        this.receiverId = receiverId;
-        this.timestamp = timestamp;
-        this.unit = unit;
-        this.value = value;
-    }
 
     @Override
     public String toString() {
         return "LoadMeasurement{" +
                 "timestamp=" + timestamp +
-                ", receiverId=" + receiverId +
+                ", receiverId=" + installationId +
                 ", unit='" + unit + '\'' +
                 ", value=" + value +
                 '}';

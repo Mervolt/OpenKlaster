@@ -23,7 +23,7 @@ public class InformationManagerTest extends UserManagerTest {
     @Before
     public void setup() {
         commonSetup();
-        this.userManager = new InformationManager(authenticationClient, userRepository);
+        this.userManager = new InformationManager(authenticationClient, userCrudRepository);
     }
 
     @Test

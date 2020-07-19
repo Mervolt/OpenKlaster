@@ -3,12 +3,14 @@ package com.openklaster.common.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class User {
     @JsonAlias({ "username", "_id" })
     @JsonProperty("_id")

@@ -21,7 +21,7 @@ public class RegisterManagerTest extends UserManagerTest {
     @Before
     public void setup() {
         commonSetup();
-        this.userManager = new RegisterManager(authenticationClient,userRepository);
+        this.userManager = new RegisterManager(authenticationClient, userCrudRepository);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class RegisterManagerTest extends UserManagerTest {
         this.userManager.handleMessage(fakeMessage);
 
         Future<Pair<User, FakeReply>> result = fakeMessage.getMessageReply().compose(reply -> {
-            Future<User> storedUser = userRepository.get(testUser.getUsername());
+            Future<User> storedUser = userCrudRepository.get(testUser.getUsername());
             return storedUser.map(userRes -> Pair.of(userRes, reply));
         });
 

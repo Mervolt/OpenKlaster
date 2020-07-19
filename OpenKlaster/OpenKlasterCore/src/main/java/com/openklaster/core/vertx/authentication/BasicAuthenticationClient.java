@@ -5,7 +5,7 @@ import com.openklaster.common.authentication.tokens.TokenHandler;
 import com.openklaster.common.authentication.tokens.TokenValidationResult;
 import com.openklaster.common.model.User;
 import com.openklaster.common.model.UserToken;
-import com.openklaster.core.vertx.messages.repository.Repository;
+import com.openklaster.core.vertx.messages.repository.CrudRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +13,13 @@ import java.util.List;
 public class BasicAuthenticationClient implements AuthenticationClient {
     private final PasswordHandler passwordHandler;
     private final TokenHandler tokenHandler;
-    private final Repository<User> userRepository;
+    private final CrudRepository<User> userCrudRepository;
 
     public BasicAuthenticationClient(PasswordHandler passwordHandler,
-                                     TokenHandler tokenHandler, Repository<User> userRepository) {
+                                     TokenHandler tokenHandler, CrudRepository<User> userCrudRepository) {
         this.passwordHandler = passwordHandler;
         this.tokenHandler = tokenHandler;
-        this.userRepository=userRepository;
+        this.userCrudRepository = userCrudRepository;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class BasicAuthenticationClient implements AuthenticationClient {
 
     private void persistSessionToken(User user, UserToken refreshedToken) {
         user.setSessionToken(refreshedToken);
-        userRepository.update(user);
+        userCrudRepository.update(user);
     }
 
     private AuthenticationResult authenticationTokenResult(TokenValidationResult result, User user) {

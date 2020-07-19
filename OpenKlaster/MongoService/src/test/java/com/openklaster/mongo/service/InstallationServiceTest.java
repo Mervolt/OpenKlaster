@@ -19,20 +19,22 @@ public class InstallationServiceTest extends MongoServiceTest {
 
     private static final String installationAddress = "mongo.installations";
     private Installation testInstallation;
+    private Installation noIdInstallation;
     private Inverter testInverter;
     private Load testLoad;
     private Source testSource;
 
     @Before
     public void setupInstallation() {
-        this.testInstallation = prepareInstallation();
+        this.testInstallation = prepareInstallation("test");
+        this.noIdInstallation = prepareInstallation();
         this.testInverter = testInstallation.getInverter();
         this.testLoad = testInstallation.getLoad();
         this.testSource = testInstallation.getSource();
     }
 
     @Test
-    public void CRDInstallation(TestContext context){
+    public void CRDInstallation(TestContext context) {
         DeliveryOptions options = new DeliveryOptions().addHeader("method", "add");
         Async async = context.async();
         eventBus.<JsonObject>request(installationAddress, JsonObject.mapFrom(testInstallation), options, result -> {
@@ -60,4 +62,21 @@ public class InstallationServiceTest extends MongoServiceTest {
         async3.awaitSuccess();
     }
 
+    @Test
+    public void addInstallationWithoutId(TestContext context) {
+        DeliveryOptions options = new DeliveryOptions().addHeader("method", "add");
+        Async async = context.async();
+        eventBus.<JsonObject>request(installationAddress, JsonObject.mapFrom(noIdInstallation), options, result -> {
+            context.assertTrue(result.succeeded());
+            Installation installationResult = result.result().body().mapTo(Installation.class);
+            assertLastIdCharIsDigit(installationResult.get_id(), context);
+            async.complete();
+        });
+        async.awaitSuccess();
+    }
+
+    private void assertLastIdCharIsDigit(String id, TestContext context) {
+        int lastCharIndex = id.length() - 1;
+        context.assertTrue(Character.isDigit(id.charAt(lastCharIndex)));
+    }
 }

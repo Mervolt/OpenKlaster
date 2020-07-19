@@ -2,7 +2,7 @@ package com.openklaster.core.vertx.service.users;
 
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
-import com.openklaster.core.vertx.messages.repository.Repository;
+import com.openklaster.core.vertx.messages.repository.CrudRepository;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.LoggerFactory;
@@ -12,8 +12,8 @@ public class InformationManager extends AuthenticatedManager {
     private static final String failureMessage = "Could not get user info - %s";
     private static final String successMessage = "User info retrieved - %s";
 
-    public InformationManager(AuthenticationClient authenticationClient, Repository<User> userRepository) {
-        super(LoggerFactory.getLogger(InformationManager.class), authenticationClient, userRepository);
+    public InformationManager(AuthenticationClient authenticationClient, CrudRepository<User> userCrudRepository) {
+        super(LoggerFactory.getLogger(InformationManager.class), authenticationClient, userCrudRepository);
     }
 
     @Override

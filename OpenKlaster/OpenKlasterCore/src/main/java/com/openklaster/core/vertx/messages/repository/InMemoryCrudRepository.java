@@ -6,14 +6,14 @@ import io.vertx.core.json.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemoryRepository<T> implements Repository<T> {
+public class InMemoryCrudRepository<T> implements CrudRepository<T> {
 
     private Map<String, T> modelMap;
     private final static String idKey = "_id";
     private final static String noIdMsg = "No id provided!";
     private final static String duplicateMsg = "Problem with adding entity. Duplicated key - %s";
 
-    public InMemoryRepository() {
+    public InMemoryCrudRepository() {
         this.modelMap = new HashMap<>();
     }
 

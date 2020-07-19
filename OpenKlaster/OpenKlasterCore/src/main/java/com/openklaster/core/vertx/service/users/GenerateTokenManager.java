@@ -4,7 +4,7 @@ import com.openklaster.common.authentication.tokens.TokenHandler;
 import com.openklaster.common.model.User;
 import com.openklaster.common.model.UserToken;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
-import com.openklaster.core.vertx.messages.repository.Repository;
+import com.openklaster.core.vertx.messages.repository.CrudRepository;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.LoggerFactory;
@@ -16,8 +16,8 @@ public class GenerateTokenManager extends AuthenticatedManager {
     private final TokenHandler tokenHandler;
 
     public GenerateTokenManager(AuthenticationClient authenticationClient, TokenHandler tokenHandler,
-                                Repository<User> userRepository) {
-        super(LoggerFactory.getLogger(GenerateTokenManager.class), authenticationClient, userRepository);
+                                CrudRepository<User> userCrudRepository) {
+        super(LoggerFactory.getLogger(GenerateTokenManager.class), authenticationClient, userCrudRepository);
         this.tokenHandler = tokenHandler;
     }
 
@@ -44,6 +44,6 @@ public class GenerateTokenManager extends AuthenticatedManager {
 
     private Future<JsonObject> storeToken(User user, UserToken token) {
         user.addUserToken(token);
-        return userRepository.update(user).map(userResult -> JsonObject.mapFrom(token));
+        return userCrudRepository.update(user).map(userResult -> JsonObject.mapFrom(token));
     }
 }
