@@ -12,13 +12,16 @@ export class TokenPanelService {
   constructor(public http: HttpClient) { }
 
   getTokens(cookies: CookieService): Observable<any>{
-    let params = new HttpParams().set('username', cookies.get('username'));
+    let params = new HttpParams()
+      .set('username', cookies.get('username'))
+      .set('sessionToken', cookies.get('sessionToken'));
+
     return this.http.get("http://localhost:8082/api/1/user",{params : params})
   }
 
-  addToken(): Observable<any>{
-    let params = new HttpParams().set('sessionToken', 'sessionToken');
+  addToken(cookies: CookieService): Observable<any>{
+    let params = new HttpParams().set('sessionToken', cookies.get('sessionToken'));
     return this.http.post("http://localhost:8082/api/1/token",
-      {'username' : 'username'},{params : params});
+      {'username' : cookies.get('username')},{params : params});
   }
 }

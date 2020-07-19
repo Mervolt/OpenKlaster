@@ -9,15 +9,20 @@ import {AppComponent} from '../app.component';
 })
 export class TokenPanelComponent implements OnInit {
   tokens;
+  cookieService;
 
-  constructor(service: TokenPanelService, public appComp: AppComponent) {
-    this.tokens = service.getTokens(appComp.cookieService);
-    this.tokens.subscribe(response =>{
-      return response.body.tokens;
+  constructor(public service: TokenPanelService, public appComp: AppComponent) {
+    this.cookieService = appComp.cookieService;
+    let request = service.getTokens(appComp.cookieService);
+    request.subscribe(response =>{
+      this.tokens = response["userTokens"]
     })
   }
 
   ngOnInit(): void {
   }
 
+  addToken() {
+    this.service.addToken(this.cookieService).subscribe();
+  }
 }

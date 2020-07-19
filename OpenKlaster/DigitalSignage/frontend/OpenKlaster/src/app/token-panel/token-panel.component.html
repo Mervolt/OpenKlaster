@@ -3,9 +3,9 @@
   <p>Your tokens</p>
   <ul>
     <li *ngFor="let token of tokens">
-      {{token}}
+      {{token.data}}
     </li>
   </ul>
   <p>Generate new token</p>
-  <button type="submit" class="btn btn-primary">Generate token</button>
+  <button type="submit" class="btn btn-primary" (click)="addToken()">Generate token</button>
 </div>

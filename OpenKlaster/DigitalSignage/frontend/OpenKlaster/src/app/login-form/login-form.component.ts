@@ -18,11 +18,11 @@ export class LoginFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit() {
-    let success = this.service.getToken(this.model);
-    this.appComp.cookieService.set('username', this.model.username);
+  async onSubmit() {
+    let success = await this.service.getToken(this.model, this.appComp.cookieService);
+
     if(success)
-      this.router.navigate(['/user']);
+      this.router.navigate(['/user']).then()
   }
 
   redirectToRegister() {

@@ -197,7 +197,8 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
     private void configureRouteHandler(Router router) {
         router.route().handler(BodyHandler.create())
                 .handler(CorsHandler.create("*")
-                        .allowedHeader("Content-Type"));
+                        .allowedHeader("Content-Type")
+                        .allowedHeader("responseType"));
     }
 
     public static String buildEndpoint(NestedConfigAccessor configAccessor, int version, String route) {

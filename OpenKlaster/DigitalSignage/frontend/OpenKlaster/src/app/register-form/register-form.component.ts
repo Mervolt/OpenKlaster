@@ -20,10 +20,10 @@ export class RegisterFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(){
-    let success = this.service.addUser(this.model);
+  async onSubmit(){
+    let success = await this.service.addUser(this.model);
     if(success)
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).then();
   }
 
   redirectToLogin() {

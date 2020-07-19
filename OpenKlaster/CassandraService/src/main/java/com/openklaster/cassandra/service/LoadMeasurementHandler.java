@@ -28,7 +28,7 @@ public class LoadMeasurementHandler extends CassandraHandler {
             String unit = "kW";
             Date timestamp = parseTimestamp(message);
 
-            LoadMeasurement loadMeasurement = new LoadMeasurement(id, timestamp, unit, value);
+            LoadMeasurement loadMeasurement = new LoadMeasurement(timestamp, id, unit, value);
             mapper.save(loadMeasurement, handler(message, loadMeasurement.toString()));
         } catch (Exception e) {
             parsingArgumentsError(message);

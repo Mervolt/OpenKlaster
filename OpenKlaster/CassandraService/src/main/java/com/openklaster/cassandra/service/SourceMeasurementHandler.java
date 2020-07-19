@@ -27,7 +27,7 @@ public class SourceMeasurementHandler extends CassandraHandler {
             String unit = "kW";
             Date timestamp = parseTimestamp(message);
 
-            SourceMeasurement sourceMeasurement = new SourceMeasurement(id, timestamp, unit, value);
+            SourceMeasurement sourceMeasurement = new SourceMeasurement(timestamp, id, unit, value);
             mapper.save(sourceMeasurement, handler(message, sourceMeasurement.toString()));
         } catch (Exception e) {
             parsingArgumentsError(message);
