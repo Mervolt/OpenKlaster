@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
 
@@ -15,7 +15,7 @@ import { TokenPanelComponent } from './token-panel/token-panel.component';
 import { MeasurementPanelComponent } from './measurement-panel/measurement-panel.component';
 import { InstallationPanelComponent } from './installation-panel/installation-panel.component';
 import { TokenComponent } from './token/token.component';
-import {TokenPanelService} from './token-panel.service';
+import { TokenPanelService } from './token-panel.service';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,7 @@ import {TokenPanelService} from './token-panel.service';
       {path: 'installations', component: InstallationPanelComponent}
     ]),
     ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [
     RegisterFormService,

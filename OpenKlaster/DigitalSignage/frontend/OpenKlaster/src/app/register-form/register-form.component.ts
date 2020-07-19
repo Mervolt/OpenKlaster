@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+
 import { RegisterFormService } from '../register-form.service';
-import { FormBuilder } from '@angular/forms';
+import { User } from '../model/User';
+
 
 @Component({
   selector: 'app-register-form',
@@ -8,20 +11,22 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./register-form.component.css']
 })
 export class RegisterFormComponent implements OnInit {
-  registerForm;
+  model = new User('', '', '');
 
-  constructor(public service: RegisterFormService, private formBuilder: FormBuilder) {
-    this.registerForm = this.formBuilder.group({
-      username: '',
-      password: ''
-    });
-  }
+  constructor(public service: RegisterFormService, private router: Router) {
 
-  onSubmit(event){
-    console.log(event);
   }
 
   ngOnInit(): void {
   }
 
+  onSubmit(){
+    let success = this.service.addUser(this.model);
+    if(success)
+      this.router.navigate(['/user']);
+  }
+
+  redirectToLogin() {
+    this.router.navigate(['login']);
+  }
 }

@@ -1,15 +1,17 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit($event)">
-  <div>
-    <hr>
-    <h1>Register</h1>
-    <label>
-      <input type="text" placeholder="Username" name="username" required>
-    </label>
-    <br>
-    <label>
-      <input class="form-control" type="password" placeholder="Password" name="password" required>
-    </label>
-    <hr>
-    <button class="button" type="submit">Register</button>
-  </div>
-</form>
+<div class="container">
+  <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" class="form-control" id="email" name="email" required [(ngModel)]="model.email">
+
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" name="username" required [(ngModel)]="model.username">
+
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" name="password" required [(ngModel)]="model.password">
+
+      <button type="submit" class="btn btn-primary">Register</button>
+      <button type="button" class="btn btn-info" (click)="redirectToLogin()">Already have an account?</button>
+    </div>
+  </form>
+</div>
