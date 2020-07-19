@@ -63,7 +63,8 @@ public class CoreVerticle extends AbstractVerticle {
 
     private void configureEndpoints() {
         EndpointService userService = configureUserManagement();
-
+        // Todo
+        userService.configureEndpoints(eventBus);
         this.servicesList = Arrays.asList(userService);//more services to be added here
     }
 
@@ -73,7 +74,6 @@ public class CoreVerticle extends AbstractVerticle {
         Repository<User> userRepository = configureNewUserRepository();
         AuthenticationClient authenticationClient = new BasicAuthenticationClient(passwordHandler,
                 tokenHandler, userRepository);
-
         return new UserManagementHandler(configAccessor.getPathConfigAccessor(userConfigPath),
                 authenticationClient, tokenHandler, userRepository);
     }

@@ -21,7 +21,7 @@ public class PostAndReturnJsonHandler extends Handler {
 
     @Override
     public void handle(RoutingContext context) {
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.postMethodHeader, context);
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, context);
 
         if(isPutPostRequestInvalid(context)) {
             handleUnprocessableRequest(context.response());

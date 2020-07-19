@@ -21,15 +21,13 @@ public class GetHandler extends Handler{
 
     @Override
     public void handle(RoutingContext context) {
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(HandlerProperties.getMethodHeader, context);
-
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, context);
         if(isGetDeleteRequestInvalid(context)) {
             handleUnprocessableRequest(context.response());
             return;
         }
 
         JsonObject jsonModel = convertMultiMapToJson(context.queryParams().entries());
-
         eventBus.request(address, jsonModel, deliveryOptions, coreResponse -> {
             if(gotCorrectResponse(coreResponse)){
                 context.response().end(Json.encodePrettily(coreResponse.result().body()));
