@@ -1,0 +1,15 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit($event)">
+  <div>
+    <hr>
+    <h1>Register</h1>
+    <label>
+      <input type="text" placeholder="Username" name="username" required>
+    </label>
+    <br>
+    <label>
+      <input class="form-control" type="password" placeholder="Password" name="password" required>
+    </label>
+    <hr>
+    <button class="button" type="submit">Register</button>
+  </div>
+</form>
