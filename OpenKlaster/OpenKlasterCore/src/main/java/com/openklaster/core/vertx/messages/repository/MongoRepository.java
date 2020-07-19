@@ -71,6 +71,7 @@ public class MongoRepository<T> implements Repository<T> {
             if (handler.succeeded()) {
                 resultPromise.complete(handler.result().body().mapTo(this.modelClass));
             } else {
+                System.out.println(handler.cause());
                 resultPromise.fail(handler.cause());
             }
         });

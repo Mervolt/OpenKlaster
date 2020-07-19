@@ -20,4 +20,4 @@ user:
   mongo:
     collectionName: "userz"
   bus:
-    address: "mongo.users"
+    address: "openklaster.mongo.user"
