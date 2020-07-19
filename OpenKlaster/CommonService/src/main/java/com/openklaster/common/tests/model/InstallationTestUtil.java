@@ -29,13 +29,16 @@ public class InstallationTestUtil {
         return inverter;
     }
 
-    public static Installation prepareInstallation() {
+    public static Installation prepareInstallation(String id) {
         Installation installation = new Installation(
-                "instId", InstallationType.Solar, prepareInverter(), prepareLoad(), prepareSource());
+                id, InstallationType.Solar, prepareInverter(), prepareLoad(), prepareSource());
         installation.setUsername("userName");
         installation.setLongitude(0D);
         installation.setLatitude(0D);
         installation.setDescription("instDescr");
         return installation;
+    }
+    public static Installation prepareInstallation() {
+        return prepareInstallation(null);
     }
 }
