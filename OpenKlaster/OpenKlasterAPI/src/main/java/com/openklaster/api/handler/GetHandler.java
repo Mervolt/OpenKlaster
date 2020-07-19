@@ -12,7 +12,11 @@ import io.vertx.ext.web.RoutingContext;
 
 public class GetHandler extends Handler{
     public GetHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
-        super(HandlerProperties.getMethodHeader, route, address, eventBus, nestedConfigAccessor, parseStrategy);
+        super(HandlerProperties.getMethodHeader, route, HandlerProperties.deleteMethodHeader, address, eventBus, nestedConfigAccessor, parseStrategy);
+    }
+
+    public GetHandler(String route, String address, String eventbusMethod, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
+        super(HandlerProperties.getMethodHeader, route, eventbusMethod, address, eventBus, nestedConfigAccessor, parseStrategy);
     }
 
     @Override

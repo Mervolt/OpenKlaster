@@ -12,7 +12,11 @@ import io.vertx.ext.web.RoutingContext;
 
 public class PostAndReturnJsonHandler extends Handler {
     public PostAndReturnJsonHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
-        super(HandlerProperties.postMethodHeader, route, address, eventBus, nestedConfigAccessor, parseStrategy);
+        super(HandlerProperties.postMethodHeader, route, HandlerProperties.deleteMethodHeader, address, eventBus, nestedConfigAccessor, parseStrategy);
+    }
+
+    public PostAndReturnJsonHandler(String route, String address, String eventbusMethod, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
+        super(HandlerProperties.postMethodHeader, route, eventbusMethod, address, eventBus, nestedConfigAccessor, parseStrategy);
     }
 
     @Override

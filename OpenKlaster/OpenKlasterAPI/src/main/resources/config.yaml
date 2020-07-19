@@ -14,9 +14,7 @@ http:
 
 core:
   route:
-    login: "openklaster.core.login"
     user: "openklaster.core.user"
-    token: "openklaster.core.token"
     installation: "openklaster.core.installation"
     powerconsumption: "openklaster.core.powerconsumption"
     powerproduction: "openklaster.core.powerproduction"

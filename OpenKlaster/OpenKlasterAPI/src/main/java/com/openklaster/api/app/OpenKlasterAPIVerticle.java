@@ -93,27 +93,31 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                 .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
         handlers = Arrays.asList(
                 new PostAndReturnJsonHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.loginEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.loginCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "login",
                         eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "register",
                         eventBus, configAccessor, new DefaultParseStrategy<RegisterRequest>(RegisterRequest.class)),
 
                 new PutHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "updateUser",
                         eventBus, configAccessor, new DefaultParseStrategy<UpdateUser>(UpdateUser.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "info",
                         eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
 
                 new PostAndReturnJsonHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.tokenCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "generateToken",
                         eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
 
                 new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.tokenCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "deleteToken",
+                        eventBus, configAccessor, new DefaultParseStrategy<TokenId>(TokenId.class)),
+
+                new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint) + "/all",
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "deleteAllTokens",
                         eventBus, configAccessor, new DefaultParseStrategy<TokenId>(TokenId.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),

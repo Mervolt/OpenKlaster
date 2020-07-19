@@ -22,15 +22,17 @@ public abstract class Handler {
 
     String method;
     String route;
+    String eventbusMethod;
     String address;
     EventBus eventBus;
     IParseStrategy<? extends Model> parseStrategy;
     NestedConfigAccessor nestedConfigAccessor;
 
-    public Handler(String method, String route, String address, EventBus eventBus,
+    public Handler(String method, String route, String eventbusMethod, String address, EventBus eventBus,
                    NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
         this.method = method;
         this.route = route;
+        this.eventbusMethod = eventbusMethod;
         this.address = address;
         this.eventBus = eventBus;
         this.nestedConfigAccessor = nestedConfigAccessor;
@@ -49,9 +51,9 @@ public abstract class Handler {
 
 
 
-    protected void sendPutPostRequest(RoutingContext context, String methodHeader) {
+    protected void sendPutPostRequest(RoutingContext context, String eventbusMethod) {
 
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(methodHeader, context);
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, context);
 
         if(isPutPostRequestInvalid(context)) {
             handleUnprocessableRequest(context.response());
@@ -115,7 +117,7 @@ public abstract class Handler {
         return jsonModel;
     }
 
-    protected DeliveryOptions createRequestDeliveryOptions(String requestMethod, RoutingContext context){
+    protected DeliveryOptions createRequestDeliveryOptions(String eventbusMethod, RoutingContext context){
         DeliveryOptions deliveryOptions = new DeliveryOptions();
         if (context.queryParams().contains(HandlerProperties.apiToken)) {
             deliveryOptions.addHeader(HandlerProperties.apiToken, context.queryParams().get(HandlerProperties.apiToken));
@@ -126,7 +128,7 @@ public abstract class Handler {
             context.queryParams().remove(HandlerProperties.sessionToken);
         }
 
-        deliveryOptions.addHeader(HandlerProperties.methodKeyHeader, requestMethod);
+        deliveryOptions.addHeader(HandlerProperties.methodKeyHeader, eventbusMethod);
         deliveryOptions.setSendTimeout(nestedConfigAccessor.getInteger(requestDefaultTimeout));
         return deliveryOptions;
     }

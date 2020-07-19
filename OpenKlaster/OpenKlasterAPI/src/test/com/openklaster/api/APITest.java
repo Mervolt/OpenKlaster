@@ -82,7 +82,7 @@ public class APITest {
         params.put("username", "test");
         params.put("password", "test");
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.loginEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.loginCoreAddressKey);
+        String address = configAccessor.getString(EventBusAddressProperties.userCoreAddressKey);
 
         WebClient.create(vertx).post(port, ADDRESS, route).sendJsonObject(prepareJsonObject(params), handler(context));
         receiveMessageFromEventhandler(context, address, params);
@@ -135,7 +135,7 @@ public class APITest {
         HashMap<String, Object> params = new HashMap<>();
         params.put("username", "test");
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.tokenCoreAddressKey);
+        String address = configAccessor.getString(EventBusAddressProperties.userCoreAddressKey);
 
         WebClient.create(vertx).post(port, ADDRESS, route).sendJsonObject(prepareJsonObject(params), handler(context));
         receiveMessageFromEventhandler(context, address, params);
@@ -147,7 +147,7 @@ public class APITest {
         params.put("tokenId", 1);
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.tokenCoreAddressKey);
+        String address = configAccessor.getString(EventBusAddressProperties.userCoreAddressKey);
 
         addQueryParams(WebClient.create(vertx).delete(port, ADDRESS, route), params).send(handler(context));
         receiveMessageFromEventhandler(context, address, params);
