@@ -1,6 +1,6 @@
 package com.openklaster.mongo.parser;
 
-import com.openklaster.mongo.model.Inverter;
+import com.openklaster.common.model.Inverter;
 import io.vertx.core.json.JsonObject;
 
 public class InverterParser implements EntityParser<Inverter> {

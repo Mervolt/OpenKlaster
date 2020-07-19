@@ -7,6 +7,7 @@ import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.eventbus.MessageConsumer;
@@ -17,6 +18,8 @@ import com.openklaster.common.config.NestedConfigAccessor;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 
 public class CassandraVerticle extends AbstractVerticle {
@@ -69,10 +72,9 @@ public class CassandraVerticle extends AbstractVerticle {
     }
 
     private void handlerMap(CassandraHandler handler, Message<JsonObject> message) {
-        switch (message.headers().get("method")) {
+        switch (message.headers().get(METHOD_KEY)) {
             case "get":
                 handler.createGetHandler(message);
-                ;
                 break;
             case "post":
                 handler.createPostHandler(message);

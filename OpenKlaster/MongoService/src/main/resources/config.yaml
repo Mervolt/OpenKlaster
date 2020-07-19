@@ -2,6 +2,7 @@ database:
   mongo:
     host: "localhost"
     port: 27017
+  mongoAuth:
 
 calculator:
   mongo:
@@ -19,4 +20,4 @@ user:
   mongo:
     collectionName: "userz"
   bus:
-    address: "mongo.users"
+    address: "openklaster.mongo.user"

@@ -1,8 +1,8 @@
 package com.openklaster.mongo.service;
 
 import com.openklaster.common.config.NestedConfigAccessor;
-import io.vertx.core.logging.LoggerFactory;
 import com.openklaster.mongo.parser.UserParser;
+import io.vertx.core.logging.LoggerFactory;
 
 public class UserHandler extends EntityHandler {
 
@@ -10,5 +10,4 @@ public class UserHandler extends EntityHandler {
         super(parser,service, config);
         logger = LoggerFactory.getLogger(UserHandler.class);
     }
-
 }

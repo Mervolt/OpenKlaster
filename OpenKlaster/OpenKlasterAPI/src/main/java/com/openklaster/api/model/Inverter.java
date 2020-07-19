@@ -1,11 +1,14 @@
 package com.openklaster.api.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class Inverter extends Model {
-    private String _id;
-    private String installationId;
+public class Inverter {
+
     private String description;
     private String manufacturer;
     private String credentials;

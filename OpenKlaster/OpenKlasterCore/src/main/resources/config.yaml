@@ -1,0 +1,27 @@
+security:
+  tokens:
+    charsPerType: 4 #how many chars included in generated token per type /number/upper/lower/special
+    apiTokenLifetime: 180 #for how many days api token is valid
+    sessionTokenLifetime: 30 #for how many minutes session token is valid
+eventbus:
+  in:
+    userManagement:
+      address: "openklaster.core.user"
+    installations:
+      address: "openklaster.core.installation"
+    sourceMeasurements:
+      address: "openklaster.core.powerproduction"
+    loadMeasurements:
+      address: "openklaster.core.powerconsumption"
+  out:
+    mongo:
+      users:
+        address: "openklaster.mongo.user"
+      installation:
+        address: "openklaster.mongo.installation"
+    cassandra:
+      loadmeasurement:
+        address: "openklaster.cassandraservice.loadmeasurement"
+      sourcemeasurement:
+        address: "openklaster.cassandraservice.sourcemeasurement"
+

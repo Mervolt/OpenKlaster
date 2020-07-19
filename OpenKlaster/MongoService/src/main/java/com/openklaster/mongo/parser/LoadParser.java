@@ -1,6 +1,6 @@
 package com.openklaster.mongo.parser;
 
-import com.openklaster.mongo.model.Load;
+import com.openklaster.common.model.Load;
 import io.vertx.core.json.JsonObject;
 
 public class LoadParser implements EntityParser<Load> {

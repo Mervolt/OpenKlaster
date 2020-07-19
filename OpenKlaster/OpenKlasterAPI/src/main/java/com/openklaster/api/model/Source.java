@@ -1,13 +1,15 @@
 package com.openklaster.api.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class Source extends Model{
-    private String _id;
+@AllArgsConstructor
+public class Source {
+
     private Integer azimuth;
-    private String inverterId;
     private Integer tilt;
     private Integer capacity;
     private String description;
+
 }
