@@ -31,6 +31,8 @@ import java.util.HashMap;
 
 import static com.openklaster.api.app.OpenKlasterAPIVerticle.buildEndpoint;
 
+// Todo tests need general refactor. Each subsequent test case increases the cluster, so not all tests are performed
+//  because there is not enough space, in this iteration there was not enough time for it
 @RunWith(VertxUnitRunner.class)
 public class APITest {
     private static final String ADDRESS = "localhost";
@@ -261,6 +263,7 @@ public class APITest {
         };
     }
 
+    // Todo the method should be split into 2, separate for query params and separate for body params so that you don't have to use trycatch
     private void receiveMessageFromEventhandler(TestContext context, String address, HashMap<String, Object> messageBody) {
         Async async2 = context.async();
         MessageConsumer<JsonObject> consumer = eventBus.consumer(address);

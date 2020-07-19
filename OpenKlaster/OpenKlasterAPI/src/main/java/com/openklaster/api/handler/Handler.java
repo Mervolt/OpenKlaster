@@ -1,5 +1,6 @@
 package com.openklaster.api.handler;
 
+import com.openklaster.api.app.OpenKlasterAPIVerticle;
 import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.api.parser.IParseStrategy;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -10,15 +11,20 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.RoutingContext;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.api.model.Model;
+import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.Map;
 
+
 public abstract class Handler {
     private static final String requestDefaultTimeout = "eventBus.timeout";
+    private static final Logger logger = LoggerFactory.getLogger(Handler.class);;
 
     String method;
     String route;
@@ -80,12 +86,14 @@ public abstract class Handler {
         return !isJsonModelValid(jsonModel);
     }
 
+    // Todo
     protected boolean isJsonModelValid(JsonObject jsonModel) {
         try{
             parseStrategy.parseToModel(jsonModel);
             return true;
         }
         catch(IllegalArgumentException ex){
+            logger.error(ex.getMessage().substring(0, ex.getMessage().indexOf(" (class")));
             ex.printStackTrace();
             return false;
         }
