@@ -12,11 +12,12 @@ export class TokenPanelService {
 
   getTokens(): Observable<any>{
     let params = new HttpParams().set('username', 'username');
-    return this.http.get("localhost:8082/api/1/user",{params : params})
+    return this.http.get("http://localhost:8082/api/1/user",{params : params})
   }
 
   addToken(): Observable<any>{
-    let params = new HttpParams().set('username', 'username');
-    return this.http.post("localhost:8082", null,{params : params});
+    let params = new HttpParams().set('sessionToken', 'sessionToken');
+    return this.http.post("http://localhost:8082/api/1/token",
+      {'username' : 'username'},{params : params});
   }
 }

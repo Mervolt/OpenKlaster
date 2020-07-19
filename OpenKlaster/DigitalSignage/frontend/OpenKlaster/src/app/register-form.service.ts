@@ -13,8 +13,7 @@ export class RegisterFormService {
   }
 
   addUser(user: User): boolean {
-    let params = new HttpParams();
-    this.http.post<User>("localhost:8082/api/1/user", user,{params : params})
+    this.http.post<User>("http://localhost:8082/api/1/user", user)
       .pipe(
         catchError(this.handleError)
       )

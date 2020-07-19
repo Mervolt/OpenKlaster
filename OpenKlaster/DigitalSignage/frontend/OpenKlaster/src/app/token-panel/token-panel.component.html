@@ -1,9 +1,11 @@
-<app-navbar></app-navbar>
-<p>Your tokens</p>
-<ul>
-  <li *ngFor="let token of tokens">
-    {{token}}
-  </li>
-</ul>
-<p>Generate new token</p>
-<button type="submit" class="registerbtn">Generate token</button>
+<div class="container">
+  <app-navbar></app-navbar>
+  <p>Your tokens</p>
+  <ul>
+    <li *ngFor="let token of tokens">
+      {{token}}
+    </li>
+  </ul>
+  <p>Generate new token</p>
+  <button type="submit" class="btn btn-primary">Generate token</button>
+</div>
