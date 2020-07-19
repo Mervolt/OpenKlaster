@@ -7,6 +7,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.eventbus.MessageConsumer;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
@@ -50,7 +51,7 @@ public class MongoVerticle extends AbstractVerticle {
                 this.configAccessor = new NestedConfigAccessor(config.result());
                 handlePostConfig(promise);
             } else {
-                logger.error("Could not retrieve app.MongoVerticle openklaster.common.openklaster.rest.config!");
+                logger.error("Could not retrieve app.MongoVerticle config!");
                 logger.error(config.cause());
                 vertx.close();
             }
@@ -87,10 +88,13 @@ public class MongoVerticle extends AbstractVerticle {
                 handler.add(msg);
                 break;
             case "remove":
-                handler.delete(msg);
+                handler.remove(msg);
                 break;
             case "find":
                 handler.findById(msg);
+                break;
+            case "update":
+                handler.update(msg);
                 break;
         }
     }

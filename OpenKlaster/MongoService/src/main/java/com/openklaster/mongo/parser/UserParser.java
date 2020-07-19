@@ -1,6 +1,6 @@
 package com.openklaster.mongo.parser;
 
-import com.openklaster.mongo.model.User;
+import com.openklaster.common.model.User;
 import io.vertx.core.json.JsonObject;
 
 public class UserParser implements EntityParser<User> {
