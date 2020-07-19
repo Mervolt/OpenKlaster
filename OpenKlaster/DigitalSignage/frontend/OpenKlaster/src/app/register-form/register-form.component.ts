@@ -23,7 +23,7 @@ export class RegisterFormComponent implements OnInit {
   onSubmit(){
     let success = this.service.addUser(this.model);
     if(success)
-      this.router.navigate(['/user']);
+      this.router.navigate(['/login']);
   }
 
   redirectToLogin() {

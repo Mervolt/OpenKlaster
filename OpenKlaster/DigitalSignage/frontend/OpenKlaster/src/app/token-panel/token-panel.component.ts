@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenPanelService } from '../token-panel.service';
+import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-token-panel',
@@ -9,8 +10,8 @@ import { TokenPanelService } from '../token-panel.service';
 export class TokenPanelComponent implements OnInit {
   tokens;
 
-  constructor(service: TokenPanelService) {
-    this.tokens = service.getTokens()
+  constructor(service: TokenPanelService, public appComp: AppComponent) {
+    this.tokens = service.getTokens(appComp.cookieService);
     this.tokens.subscribe(response =>{
       return response.body.tokens;
     })

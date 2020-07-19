@@ -16,6 +16,9 @@ import { MeasurementPanelComponent } from './measurement-panel/measurement-panel
 import { InstallationPanelComponent } from './installation-panel/installation-panel.component';
 import { TokenComponent } from './token/token.component';
 import { TokenPanelService } from './token-panel.service';
+import { InstallationPanelService } from './installation-panel.service';
+import { CookieService } from 'ngx-cookie-service';
+import { LoginFormService } from './login-form.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +47,10 @@ import { TokenPanelService } from './token-panel.service';
   ],
   providers: [
     RegisterFormService,
-    TokenPanelService
+    LoginFormService,
+    TokenPanelService,
+    InstallationPanelService,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })
