@@ -2,23 +2,20 @@ package com.openklaster.common.model;
 
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Table(keyspace = "openklaster", name = "loadmeasurement")
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoadMeasurement {
     @PartitionKey
     private Date timestamp;
     private int installationId;
     private String unit;
     private double value;
-
-    public LoadMeasurement(int installationId, Date timestamp, String unit, double value) {
-        this.installationId = installationId;
-        this.timestamp = timestamp;
-        this.unit = unit;
-        this.value = value;
-    }
 
     @Override
     public String toString() {

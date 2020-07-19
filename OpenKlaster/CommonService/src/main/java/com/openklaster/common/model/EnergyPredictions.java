@@ -2,10 +2,14 @@ package com.openklaster.common.model;
 
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Table(keyspace = "openklaster", name = "energypredictions")
+@NoArgsConstructor
+@AllArgsConstructor
 public class EnergyPredictions {
   @PartitionKey
   private Date timestamp;
@@ -13,14 +17,6 @@ public class EnergyPredictions {
   private String source;
   private String type;
   private String description;
-
-  public EnergyPredictions(Date timestamp, int installationId, String source, String type, String description) {
-    this.timestamp = timestamp;
-    this.installationId = installationId;
-    this.source = source;
-    this.type = type;
-    this.description = description;
-  }
 
   @Override
   public String toString() {

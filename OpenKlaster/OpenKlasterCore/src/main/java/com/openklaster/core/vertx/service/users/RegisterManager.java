@@ -58,9 +58,6 @@ public class RegisterManager implements UserManager {
     }
 
     private User getUserWithHashedPassword(JsonObject userJson) {
-        if (userJson.containsKey(usernameKey)) {
-
-        }
         User user = userJson.mapTo(User.class);
         user.setPassword(authenticationClient.hashUserPassword(user.getPassword()));
         return user;
