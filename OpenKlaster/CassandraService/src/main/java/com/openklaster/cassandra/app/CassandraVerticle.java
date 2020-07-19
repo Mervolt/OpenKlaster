@@ -7,6 +7,7 @@ import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.eventbus.MessageConsumer;
@@ -72,7 +73,6 @@ public class CassandraVerticle extends AbstractVerticle {
         switch (message.headers().get("method")) {
             case "get":
                 handler.createGetHandler(message);
-                ;
                 break;
             case "post":
                 handler.createPostHandler(message);

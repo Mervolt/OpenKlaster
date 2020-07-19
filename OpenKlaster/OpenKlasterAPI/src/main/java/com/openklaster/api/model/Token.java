@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Inverter {
-
-    private String description;
-    private String manufacturer;
-    private String credentials;
-    private String modelType;
+public class Token extends Model {
+    private String data;
+    private String expires;
 }

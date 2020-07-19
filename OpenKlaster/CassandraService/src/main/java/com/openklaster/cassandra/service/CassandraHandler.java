@@ -48,7 +48,7 @@ public abstract class CassandraHandler {
 
     public void createGetHandler(Message<JsonObject> message) {
         try {
-            int id = message.body().getInteger(idType);
+            int id = Integer.parseInt(message.body().getString(idType));
             String startDate = valdateDate(message, "startDate");
             String endDate = valdateDate(message, "endDate");
             String query = String.format(select, table, idType.toLowerCase(), id, startDate, endDate);
@@ -68,6 +68,7 @@ public abstract class CassandraHandler {
                 }
             });
         } catch (Exception e) {
+            e.printStackTrace();
             parsingArgumentsError(message);
         }
     }

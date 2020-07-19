@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Inverter {
-
-    private String description;
-    private String manufacturer;
-    private String credentials;
-    private String modelType;
+public class Measurement extends Model {
+    private String timestamp;
+    private int installationId;
+    private String unit;
+    private double value;
 }
+

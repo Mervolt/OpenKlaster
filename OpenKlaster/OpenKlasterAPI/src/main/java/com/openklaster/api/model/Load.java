@@ -1,11 +1,13 @@
 package com.openklaster.api.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class Load extends Model{
-    private String _id;
-    private String installationId;
+public class Load {
     private String name;
     private String description;
 }
