@@ -1,6 +1,6 @@
 package com.openklaster.mongo.parser;
 
-import com.openklaster.mongo.model.EnergySourceCalculator;
+import com.openklaster.common.model.EnergySourceCalculator;
 import io.vertx.core.json.JsonObject;
 
 public class EnergySourceCalculatorParser implements EntityParser<EnergySourceCalculator> {

@@ -2,6 +2,7 @@ database:
   mongo:
     host: "localhost"
     port: 27017
+  mongoAuth:
 
 calculator:
   mongo:
