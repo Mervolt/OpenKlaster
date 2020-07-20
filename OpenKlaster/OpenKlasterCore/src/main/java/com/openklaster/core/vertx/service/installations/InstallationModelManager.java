@@ -16,7 +16,7 @@ public class InstallationModelManager extends ModelManager<Installation> {
 
     public InstallationModelManager(AuthenticationClient authClient, CrudRepository<Installation> entityCrudRepository,
                                     UserRetriever userRetriever) {
-        super(LoggerFactory.getLogger(InstallationModelManager.class), authClient, Installation.class, userRetriever);
+        super(LoggerFactory.getLogger(InstallationModelManager.class), authClient, Installation.class, userRetriever);;
         this.installationCrudRepository = entityCrudRepository;
     }
 
@@ -25,7 +25,7 @@ public class InstallationModelManager extends ModelManager<Installation> {
         System.out.println("processAuthenticatedMessage");
         System.out.println("header" + message.headers());
         System.out.println("body" + message.body());
-        System.out.println("methodNAme" + methodName);
+        System.out.println("methodName" + methodName);
         switch (methodName) {
             case getMethodName:
                 return get(message.body().getString(idKey)).map(JsonObject::mapFrom);
