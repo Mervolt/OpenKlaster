@@ -24,7 +24,7 @@ import java.util.List;
 public abstract class CassandraHandler {
     public static final String OK = "200";
     public static final String BAD_REQUEST = "400";
-    private static final String dateFormat = "yyyy-MM-dd HH:mm:ss";
+    private static final String dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     private static final String select = "SELECT JSON * FROM %s WHERE %s = '%s' AND timestamp >= '%s' AND timestamp <= '%s' ALLOW FILTERING";
     protected Logger logger;
     protected final CassandraClient cassandraClient;
@@ -62,7 +62,6 @@ public abstract class CassandraHandler {
                     JsonArray response = getJsonResponse(rows);
                     logger.debug("Status code for GET request " + OK);
                     deliveryOptions.addHeader("statusCode", OK);
-                    System.out.println(response);
                     message.reply(response, deliveryOptions);
                 } else {
                     logger.error("Status code for GET request " + BAD_REQUEST);
@@ -109,7 +108,7 @@ public abstract class CassandraHandler {
     protected Date parseTimestamp(Message<JsonObject> message) throws ParseException {
         Long timestamp = message.body().getLong("timestamp");
         if (timestamp != null) {
-            return new Date(timestamp*1000);
+            return new Date(timestamp);
         } else {
             return new Date();
         }

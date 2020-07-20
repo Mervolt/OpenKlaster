@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Installation {
-    @JsonAlias({ "installationId", "_id" })
+    @JsonAlias({ "installationId", "_id", "installationid" })
     @JsonProperty("_id")
     private String _id;
     private String username;

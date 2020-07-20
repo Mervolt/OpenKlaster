@@ -13,9 +13,6 @@ public class PasswordHandlerTest {
         String hashedPassword = BCrypt.hashpw(password,BCrypt.gensalt());
         String hashedPassword2 = BCrypt.hashpw(password,BCrypt.gensalt());
 
-
-        System.out.println(hashedPassword);
-
         assertTrue(BCrypt.checkpw(password,hashedPassword));
         assertTrue(BCrypt.checkpw(password,hashedPassword2));
         assertNotEquals(hashedPassword,hashedPassword2);

@@ -22,10 +22,6 @@ public class InstallationModelManager extends ModelManager<Installation> {
 
     @Override
     protected Future<JsonObject> processAuthenticatedMessage(JsonObject authResult, Message<JsonObject> message, String methodName) {
-        System.out.println("processAuthenticatedMessage");
-        System.out.println("header" + message.headers());
-        System.out.println("body" + message.body());
-        System.out.println("methodName" + methodName);
         switch (methodName) {
             case getMethodName:
                 return get(message.body().getString(idKey)).map(JsonObject::mapFrom);

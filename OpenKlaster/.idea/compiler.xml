@@ -9,7 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="OpenKlasterCore" />
         <module name="MongoService" />
-        <module name="UserService" />
         <module name="starter" />
         <module name="OpenKlasterAPI" />
         <module name="CommonService" />

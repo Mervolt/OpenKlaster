@@ -23,8 +23,6 @@ public class GetHandler extends Handler{
     public void handle(RoutingContext context) {
         DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, context);
 
-        System.out.println(context.getBody());
-
         if(isGetDeleteRequestInvalid(context)) {
             handleUnprocessableRequest(context.response());
             return;

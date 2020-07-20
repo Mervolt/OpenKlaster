@@ -5,10 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/CassandraService/CassandraService.iml" filepath="$PROJECT_DIR$/CassandraService/CassandraService.iml" />
       <module fileurl="file://$PROJECT_DIR$/CommonService/CommonService.iml" filepath="$PROJECT_DIR$/CommonService/CommonService.iml" />
       <module fileurl="file://$PROJECT_DIR$/MongoService/MongoService.iml" filepath="$PROJECT_DIR$/MongoService/MongoService.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/OpenKlaster.iml" filepath="$PROJECT_DIR$/.idea/OpenKlaster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OpenKlaster.iml" filepath="$PROJECT_DIR$/OpenKlaster.iml" />
       <module fileurl="file://$PROJECT_DIR$/OpenKlasterAPI/OpenKlasterAPI.iml" filepath="$PROJECT_DIR$/OpenKlasterAPI/OpenKlasterAPI.iml" />
       <module fileurl="file://$PROJECT_DIR$/OpenKlasterCore/OpenKlasterCore.iml" filepath="$PROJECT_DIR$/OpenKlasterCore/OpenKlasterCore.iml" />
-      <module fileurl="file://$PROJECT_DIR$/UserService/UserService.iml" filepath="$PROJECT_DIR$/UserService/UserService.iml" />
       <module fileurl="file://$PROJECT_DIR$/CassandraService/starter.iml" filepath="$PROJECT_DIR$/CassandraService/starter.iml" />
     </modules>
   </component>
