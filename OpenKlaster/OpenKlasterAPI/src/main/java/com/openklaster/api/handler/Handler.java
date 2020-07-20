@@ -58,7 +58,6 @@ public abstract class Handler {
 
 
     protected void sendPutPostRequest(RoutingContext context, String eventbusMethod) {
-
         DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, context);
 
         if(isPutPostRequestInvalid(context)) {
@@ -93,7 +92,7 @@ public abstract class Handler {
             return true;
         }
         catch(IllegalArgumentException ex){
-            logger.error(ex.getMessage().substring(0, ex.getMessage().indexOf(" (class")));
+            //logger.error(ex.getMessage().substring(0, ex.getMessage().indexOf(" (class")));
             ex.printStackTrace();
             return false;
         }

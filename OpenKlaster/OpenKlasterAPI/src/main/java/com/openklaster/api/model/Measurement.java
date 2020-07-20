@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Measurement extends Model {
     private String timestamp;
-    private int installationId;
+    private String installationId;
     private String unit;
     private double value;
 }

@@ -47,8 +47,7 @@ public class BasicTokenGenerator implements TokenGenerator {
     private String accumulateChars(int uppperCount, int lowerCount, int digitscount, int specialCount) {
         return upperCaseLetters(uppperCount)
                 .concat(lowerCaseLetters(lowerCount))
-                .concat(digits(digitscount))
-                .concat(specialChars(specialCount));
+                .concat(digits(digitscount));
     }
 
     private List<Character> getCharactersList(int uppperCount, int lowerCount, int digitscount, int specialCount) {

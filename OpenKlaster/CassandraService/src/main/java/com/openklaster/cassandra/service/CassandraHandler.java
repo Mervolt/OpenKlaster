@@ -1,6 +1,8 @@
 package com.openklaster.cassandra.service;
 
 import com.datastax.driver.core.Row;
+import com.openklaster.common.messages.BusMessageReplyUtils;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.MappingManager;
 import io.vertx.core.AsyncResult;
@@ -11,19 +13,20 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import com.openklaster.common.config.NestedConfigAccessor;
+import lombok.ToString;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-
+// Todo PARSOWANIE!
+@ToString
 public abstract class CassandraHandler {
     public static final String OK = "200";
     public static final String BAD_REQUEST = "400";
-    private static final String dateFormat = "yyyy-MM-dd HH:mm:ss";
-    private static final String select = "SELECT JSON * FROM %s WHERE %s = %d AND timestamp >= '%s' AND timestamp <= '%s' ALLOW FILTERING";
-    protected static Logger logger;
+    private static final String dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    private static final String select = "SELECT JSON * FROM %s WHERE %s = '%s' AND timestamp >= '%s' AND timestamp <= '%s' ALLOW FILTERING";
+    protected Logger logger;
     protected final CassandraClient cassandraClient;
     protected final MappingManager mappingManager;
     protected final NestedConfigAccessor config;
@@ -48,11 +51,10 @@ public abstract class CassandraHandler {
 
     public void createGetHandler(Message<JsonObject> message) {
         try {
-            int id = Integer.parseInt(message.body().getString(idType));
+            String id = message.body().getString(idType);
             String startDate = valdateDate(message, "startDate");
             String endDate = valdateDate(message, "endDate");
             String query = String.format(select, table, idType.toLowerCase(), id, startDate, endDate);
-
             cassandraClient.executeWithFullFetch(query, listAsyncResult -> {
                 DeliveryOptions deliveryOptions = new DeliveryOptions();
                 if (listAsyncResult.succeeded()) {
@@ -63,8 +65,7 @@ public abstract class CassandraHandler {
                     message.reply(response, deliveryOptions);
                 } else {
                     logger.error("Status code for GET request " + BAD_REQUEST);
-                    deliveryOptions.addHeader("statusCode", BAD_REQUEST);
-                    message.reply(new JsonObject(), deliveryOptions);
+                    BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, "TODO");
                 }
             });
         } catch (Exception e) {
@@ -105,11 +106,9 @@ public abstract class CassandraHandler {
     }
 
     protected Date parseTimestamp(Message<JsonObject> message) throws ParseException {
-        String timestamp = message.body().getString("timestamp");
-        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
-        formatter.setLenient(false);
+        Long timestamp = message.body().getLong("timestamp");
         if (timestamp != null) {
-            return formatter.parse(timestamp);
+            return new Date(timestamp);
         } else {
             return new Date();
         }

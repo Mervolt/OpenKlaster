@@ -1,0 +1,15 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+    <div class="form-group">
+
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" name="username" required [(ngModel)]="model.username">
+
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" name="password" required [(ngModel)]="model.password">
+
+      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="button" class="btn btn-info" (click)="redirectToRegister()">Dont have account yet?</button>
+    </div>
+  </form>
+</div>

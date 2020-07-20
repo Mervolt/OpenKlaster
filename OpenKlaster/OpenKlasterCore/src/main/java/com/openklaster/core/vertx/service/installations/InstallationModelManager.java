@@ -16,7 +16,7 @@ public class InstallationModelManager extends ModelManager<Installation> {
 
     public InstallationModelManager(AuthenticationClient authClient, CrudRepository<Installation> entityCrudRepository,
                                     UserRetriever userRetriever) {
-        super(LoggerFactory.getLogger(InstallationModelManager.class), authClient, Installation.class, userRetriever);
+        super(LoggerFactory.getLogger(InstallationModelManager.class), authClient, Installation.class, userRetriever);;
         this.installationCrudRepository = entityCrudRepository;
     }
 

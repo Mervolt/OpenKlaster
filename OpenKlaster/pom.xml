@@ -10,7 +10,6 @@
     <version>${openklaster.version}</version>
     <modules>
         <module>OpenKlasterCore</module>
-        <module>UserService</module>
         <module>MongoService</module>
         <module>CassandraService</module>
         <module>OpenKlasterAPI</module>

@@ -125,7 +125,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
 
-                new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
+                new PostAndReturnJsonHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Installation>(Installation.class)),
 
@@ -197,7 +197,8 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
     private void configureRouteHandler(Router router) {
         router.route().handler(BodyHandler.create())
                 .handler(CorsHandler.create("*")
-                        .allowedHeader("Content-Type"));
+                        .allowedHeader("Content-Type")
+                        .allowedHeader("responseType"));
     }
 
     public static String buildEndpoint(NestedConfigAccessor configAccessor, int version, String route) {

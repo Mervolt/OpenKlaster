@@ -26,6 +26,8 @@ import com.openklaster.mongo.service.MongoPersistenceService;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
+
 public class MongoVerticle extends AbstractVerticle {
 
     private MongoClient client;
@@ -83,7 +85,7 @@ public class MongoVerticle extends AbstractVerticle {
     }
 
     private void handlerMap(EntityHandler handler, Message<JsonObject> msg) {
-        switch (msg.headers().get("method")) {
+        switch (msg.headers().get(METHOD_KEY)) {
             case "add":
                 handler.add(msg);
                 break;

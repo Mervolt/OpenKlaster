@@ -8,13 +8,13 @@ calculator:
   mongo:
     collectionName: "calculators"
   bus:
-    address: "mongo.calculators"
+    address: "openklaster.mongo.calculators"
 
 installation:
   mongo:
     collectionName: "installations"
   bus:
-    address: "mongo.installations"
+    address: "openklaster.mongo.installation"
 
 user:
   mongo:
