@@ -1,46 +1,47 @@
 package com.openklaster.cassandra.service;
 
+import com.datastax.driver.core.ColumnDefinitions;
 import com.datastax.driver.core.Row;
+import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.messages.BusMessageReplyUtils;
+import com.openklaster.common.model.CassandraGetRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.cassandra.CassandraClient;
+import io.vertx.cassandra.Mapper;
 import io.vertx.cassandra.MappingManager;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
-import com.openklaster.common.config.NestedConfigAccessor;
-import lombok.ToString;
+import io.vertx.core.logging.LoggerFactory;
 
-import java.text.ParseException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-// Todo PARSOWANIE!
-@ToString
-public abstract class CassandraHandler {
-    public static final String OK = "200";
-    public static final String BAD_REQUEST = "400";
-    private static final String dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    private static final String select = "SELECT JSON * FROM %s WHERE %s = '%s' AND timestamp >= '%s' AND timestamp <= '%s' ALLOW FILTERING";
-    protected Logger logger;
+
+public abstract class CassandraHandler<T> {
     protected final CassandraClient cassandraClient;
     protected final MappingManager mappingManager;
     protected final NestedConfigAccessor config;
+    protected final Class<T> modelClass;
+    protected final Logger logger;
+    protected final Mapper<T> mapper;
     protected final String address;
     protected final String table;
-    protected final String idType;
 
-    public CassandraHandler(CassandraClient cassandraClient, JsonObject configObject) {
+    public CassandraHandler(CassandraClient cassandraClient, JsonObject configObject, Class<T> modelClass) {
         this.cassandraClient = cassandraClient;
         this.mappingManager = MappingManager.create(cassandraClient);
         this.config = new NestedConfigAccessor(configObject);
+        this.modelClass = modelClass;
+        this.logger = LoggerFactory.getLogger(modelClass);
+        this.mapper = mappingManager.mapper(modelClass);
         this.address = config.getString("address");
         this.table = config.getString("table");
-        this.idType = config.getString("idtype");
     }
 
     public String getAddress() {
@@ -51,73 +52,54 @@ public abstract class CassandraHandler {
 
     public void createGetHandler(Message<JsonObject> message) {
         try {
-            String id = message.body().getString(idType);
-            String startDate = valdateDate(message, "startDate");
-            String endDate = valdateDate(message, "endDate");
-            String query = String.format(select, table, idType.toLowerCase(), id, startDate, endDate);
+            CassandraGetRequest cassandraGetRequest = message.body().mapTo(CassandraGetRequest.class);
+            String query = buildQuery(cassandraGetRequest);
             cassandraClient.executeWithFullFetch(query, listAsyncResult -> {
-                DeliveryOptions deliveryOptions = new DeliveryOptions();
-                if (listAsyncResult.succeeded()) {
-                    List<Row> rows = listAsyncResult.result();
-                    JsonArray response = getJsonResponse(rows);
-                    logger.debug("Status code for GET request " + OK);
-                    deliveryOptions.addHeader("statusCode", OK);
-                    message.reply(response, deliveryOptions);
+                    logger.debug("GET request executed successfully");
+                    BusMessageReplyUtils.replyWithBodyAndStatus(message, response, HttpResponseStatus.OK);
                 } else {
-                    logger.error("Status code for GET request " + BAD_REQUEST);
-                    BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, "TODO");
+                    logger.error(listAsyncResult.cause());
+                    BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, listAsyncResult.cause().toString());
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
-            parsingArgumentsError(message);
+            handleFailure(message, e.getMessage());
         }
     }
 
-    protected Handler<AsyncResult<Void>> handler(Message<JsonObject> message, String object) {
+    protected Handler<AsyncResult<Void>> addToDatabaseResultHandler(Message<JsonObject> message, JsonObject response) {
         return voidAsyncResult -> {
-            DeliveryOptions deliveryOptions = new DeliveryOptions();
             if (voidAsyncResult.succeeded()) {
-                logger.debug("New entry in the database " + object);
-                deliveryOptions.addHeader("statusCode", OK);
-                message.reply(new JsonObject(), deliveryOptions);
+                logger.debug("New entry in the database " + response);
+                BusMessageReplyUtils.replyWithBodyAndStatus(message, response, HttpResponseStatus.OK);
             } else {
-                logger.error("Unable to add entry to the database " + object);
-                deliveryOptions.addHeader("statusCode", BAD_REQUEST);
-                message.reply(new JsonObject(), deliveryOptions);
+                logger.error(voidAsyncResult.cause());
+                BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, voidAsyncResult.cause().toString());
+
             }
         };
     }
 
     private JsonArray getJsonResponse(List<Row> rows) {
-        JsonArray jsonArray = new JsonArray();
-        for (Row row : rows) {
-            jsonArray.add(new JsonObject(row.getString(0)));
-        }
-        return jsonArray;
+        return rows.stream()
+                .map(row -> new JsonObject(row.getString(0)))
+                .collect(JsonArray::new, JsonArray::add, JsonArray::add);
     }
 
-    protected String valdateDate(Message<JsonObject> message, String param) throws ParseException {
-        String dateToValidate = message.body().getString(param);
-        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
-        formatter.setLenient(false);
-        Date parsedDate = formatter.parse(dateToValidate);
-        return formatter.format(parsedDate);
+    public void handleFailure(Message<JsonObject> message, String errorMessage) {
+        logger.error(errorMessage);
+        BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, errorMessage);
     }
 
-    protected Date parseTimestamp(Message<JsonObject> message) throws ParseException {
-        Long timestamp = message.body().getLong("timestamp");
-        if (timestamp != null) {
-            return new Date(timestamp);
-        } else {
-            return new Date();
-        }
+    public String buildQuery(CassandraGetRequest cassandraGetRequest) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
+        return "SELECT JSON * FROM " + table + " " + "WHERE installationid = '" + cassandraGetRequest.getInstallationId() + "'" +
+                (cassandraGetRequest.getStartDate() != null ? " AND timestamp >= '" + dateFormat.format(cassandraGetRequest.getStartDate()) + "'" : "") +
+                (cassandraGetRequest.getEndDate() != null ? " AND timestamp <= '" + dateFormat.format(cassandraGetRequest.getEndDate()) + "'" : "") +
+                " ALLOW FILTERING";
     }
 
-    public void parsingArgumentsError(Message<JsonObject> message) {
-        logger.error("Problem with parsing arguments");
-        DeliveryOptions deliveryOptions = new DeliveryOptions();
-        deliveryOptions.addHeader("statusCode", BAD_REQUEST);
-        message.reply(new JsonObject(), deliveryOptions);
+    public T parseToModel(JsonObject jsonObject) {
+        return jsonObject.mapTo(this.modelClass);
     }
 }

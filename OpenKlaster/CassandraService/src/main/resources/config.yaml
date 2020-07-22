@@ -5,19 +5,15 @@ cassandra:
 sourcemeasurement:
   address: "openklaster.cassandraservice.sourcemeasurement"
   table: "sourcemeasurement"
-  idtype: "installationId"
 
 loadmeasurement:
   address: "openklaster.cassandraservice.loadmeasurement"
   table: "loadmeasurement"
-  idtype: "installationId"
 
 energypredictions:
   address: "openklaster.cassandraservice.energypredictions"
   table: "energypredictions"
-  idtype: "installationId"
 
 weatherconditions:
   address: "openklaster.cassandraservice.weatherconditions"
   table: "weatherconditions"
-  idtype: "installationId"
