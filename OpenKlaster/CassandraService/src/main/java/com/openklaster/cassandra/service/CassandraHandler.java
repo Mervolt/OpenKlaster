@@ -54,7 +54,6 @@ public abstract class CassandraHandler<T> {
             cassandraClient.executeWithFullFetch(query, listAsyncResult -> {
                 if (listAsyncResult.succeeded()) {
                     JsonArray response = getJsonResponse(listAsyncResult.result());
-                    System.out.println(response);
                     logger.debug("GET request executed successfully");
                     BusMessageReplyUtils.replyWithBodyAndStatus(message, response, HttpResponseStatus.OK);
                 } else {
