@@ -2,9 +2,9 @@ package com.openklaster.cassandra.service;
 
 import com.datastax.driver.core.ColumnDefinitions;
 import com.datastax.driver.core.Row;
+import com.openklaster.cassandra.service.properties.CassandraProperties;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.messages.BusMessageReplyUtils;
-import com.openklaster.common.model.CassandraGetRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.Mapper;
@@ -19,8 +19,6 @@ import io.vertx.core.logging.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public abstract class CassandraHandler<T> {
@@ -40,8 +38,8 @@ public abstract class CassandraHandler<T> {
         this.modelClass = modelClass;
         this.logger = LoggerFactory.getLogger(modelClass);
         this.mapper = mappingManager.mapper(modelClass);
-        this.address = config.getString("address");
-        this.table = config.getString("table");
+        this.address = config.getString(CassandraProperties.ADDRESS);
+        this.table = config.getString(CassandraProperties.TABLE);
     }
 
     public String getAddress() {
@@ -52,9 +50,11 @@ public abstract class CassandraHandler<T> {
 
     public void createGetHandler(Message<JsonObject> message) {
         try {
-            CassandraGetRequest cassandraGetRequest = message.body().mapTo(CassandraGetRequest.class);
-            String query = buildQuery(cassandraGetRequest);
+            String query = buildQuery(message);
             cassandraClient.executeWithFullFetch(query, listAsyncResult -> {
+                if (listAsyncResult.succeeded()) {
+                    JsonArray response = getJsonResponse(listAsyncResult.result());
+                    System.out.println(response);
                     logger.debug("GET request executed successfully");
                     BusMessageReplyUtils.replyWithBodyAndStatus(message, response, HttpResponseStatus.OK);
                 } else {
@@ -82,20 +82,45 @@ public abstract class CassandraHandler<T> {
 
     private JsonArray getJsonResponse(List<Row> rows) {
         return rows.stream()
-                .map(row -> new JsonObject(row.getString(0)))
+                .map(this::parseRow)
                 .collect(JsonArray::new, JsonArray::add, JsonArray::add);
     }
+
+    private JsonObject parseRow(Row row) {
+        DateFormat dateFormat = new SimpleDateFormat(CassandraProperties.DATE_FORMAT);
+        JsonObject jsonObject = new JsonObject();
+        for (ColumnDefinitions.Definition column : row.getColumnDefinitions()) {
+            switch(column.getType().toString()) {
+                case "timestamp":
+                    jsonObject.put(column.getName(), dateFormat.format(row.getTimestamp(column.getName())));
+                    break;
+                case "varchar":
+                    jsonObject.put(column.getName(), row.getString(column.getName()));
+                    break;
+                case "double":
+                    jsonObject.put(column.getName(), row.getDouble(column.getName()));
+                    break;
+                default:
+                    break;
+            }
+        }
+        return jsonObject;
+    }
+
 
     public void handleFailure(Message<JsonObject> message, String errorMessage) {
         logger.error(errorMessage);
         BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, errorMessage);
     }
 
-    public String buildQuery(CassandraGetRequest cassandraGetRequest) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
-        return "SELECT JSON * FROM " + table + " " + "WHERE installationid = '" + cassandraGetRequest.getInstallationId() + "'" +
-                (cassandraGetRequest.getStartDate() != null ? " AND timestamp >= '" + dateFormat.format(cassandraGetRequest.getStartDate()) + "'" : "") +
-                (cassandraGetRequest.getEndDate() != null ? " AND timestamp <= '" + dateFormat.format(cassandraGetRequest.getEndDate()) + "'" : "") +
+    public String buildQuery(Message<JsonObject> message) {
+        String installationId = message.body().getString(CassandraProperties.INSTALLATION_ID);
+        String startDate = message.body().getString("startDate");
+        String endDate = message.body().getString("endDate");
+
+        return "SELECT * FROM " + table + " " + "WHERE " + CassandraProperties.INSTALLATION_ID.toLowerCase() + " = '" + installationId + "'" +
+                (startDate != null ? " AND timestamp >= '" + startDate + "'" : "") +
+                (endDate != null ? " AND timestamp <= '" + endDate + "'" : "") +
                 " ALLOW FILTERING";
     }
 

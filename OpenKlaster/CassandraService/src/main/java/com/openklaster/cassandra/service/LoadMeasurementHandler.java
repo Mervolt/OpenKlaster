@@ -18,7 +18,6 @@ public class LoadMeasurementHandler extends CassandraHandler<LoadMeasurement> {
             LoadMeasurement loadMeasurement = parseToModel(message.body());
             if (loadMeasurement.getTimestamp() == null)
                 loadMeasurement.setTimestamp(new Date());
-            System.out.println(loadMeasurement.getTimestamp());
             mapper.save(loadMeasurement, addToDatabaseResultHandler(message, JsonObject.mapFrom(loadMeasurement)));
         } catch (Exception e) {
             handleFailure(message, e.getMessage());
