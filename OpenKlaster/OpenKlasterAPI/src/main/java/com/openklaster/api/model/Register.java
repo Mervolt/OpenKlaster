@@ -8,12 +8,11 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @TokenNotRequired
-public class UpdateUser extends Model{
+public class Register extends Model {
     @NotBlank(message = ModelValidationErrorMessages.USERNAME)
     private String username;
     @NotBlank(message = ModelValidationErrorMessages.PASSWORD)
     private String password;
-    private String newPassword;
     @NotBlank(message = ModelValidationErrorMessages.EMAIL)
     private String email;
 }

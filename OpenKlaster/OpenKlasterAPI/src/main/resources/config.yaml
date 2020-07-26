@@ -12,6 +12,13 @@ http:
       energyconsumed: "/energyConsumed"
       energyproduced: "/energyProduced"
 
+getPowerConsumption:
+  method: "get"
+  route: "/user/login"
+  address: "openklaster.core.user"
+  eventbusMethod: "get"
+
+
 core:
   route:
     user: "openklaster.core.user"

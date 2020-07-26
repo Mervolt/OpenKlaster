@@ -9,6 +9,8 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
+import java.util.Map;
+
 public class DeleteHandler extends Handler{
     public DeleteHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
         super(HandlerProperties.deleteMethodHeader, route, HandlerProperties.deleteMethodHeader, address, eventBus, nestedConfigAccessor, parseStrategy);
@@ -20,7 +22,8 @@ public class DeleteHandler extends Handler{
 
     @Override
     public void handle(RoutingContext context) {
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, context);
+        Map<String, String> tokens = retrieveTokensFromContex(context);
+        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, tokens);
 
         if(isGetDeleteRequestInvalid(context)) {
             handleUnprocessableRequest(context.response());

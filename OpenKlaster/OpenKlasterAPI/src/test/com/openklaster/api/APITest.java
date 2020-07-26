@@ -31,10 +31,10 @@ import java.util.HashMap;
 
 import static com.openklaster.api.app.OpenKlasterAPIVerticle.buildEndpoint;
 
-// Todo tests need general refactor. Each subsequent test case increases the cluster, so not all tests are performed
-//  because there is not enough space, in this iteration there was not enough time for it
+// Todo
 @RunWith(VertxUnitRunner.class)
 public class APITest {
+    Async async3;
     private static final String ADDRESS = "localhost";
     private static final int VERSION1 = 1;
     private int port;
@@ -47,30 +47,28 @@ public class APITest {
 
     @Before
     public void setUp(TestContext context) {
-        Async async1 = context.async();
+        Async async = context.async();
+        ConfigFilesManager configFilesManager = new ConfigFilesManager();
         vertx = Vertx.vertx();
-        verticle = new OpenKlasterAPIVerticle();
+        configRetriever =  configFilesManager.getConfig(vertx);
+        verticle = new OpenKlasterAPIVerticle(vertx, configFilesManager.getConfig(vertx));
+        vertx.deployVerticle(verticle, result -> {
+            async.complete();
+        });
+        this.eventBus = vertx.eventBus();
 
-        configRetriever = new ConfigFilesManager().getConfig(vertx);
+        Async asyn2c = context.async();
         configRetriever.getConfig(config -> {
             if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
                 port = configAccessor.getInteger(EndpointRouteProperties.listeningPortKey);
-                vertx.deployVerticle(verticle, result -> async1.complete());
+                asyn2c.complete();
+            } else {
+                vertx.close();
+                asyn2c.complete();
             }
         });
 
-
-        Async async2 = context.async();
-        clusterManager = new HazelcastClusterManager();
-        VertxOptions options = new VertxOptions().setClusterManager(clusterManager);
-        Vertx.clusteredVertx(options, result -> {
-            if (result.succeeded()) {
-                vertx = result.result();
-                eventBus = vertx.eventBus();
-                async2.complete();
-            }
-        });
     }
 
     @After
@@ -80,14 +78,15 @@ public class APITest {
 
     @Test
     public void testLogin(TestContext context) {
+
         HashMap<String, Object> params = new HashMap<>();
         params.put("username", "test");
         params.put("password", "test");
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.loginEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.userCoreAddressKey);
-
         WebClient.create(vertx).post(port, ADDRESS, route).sendJsonObject(prepareJsonObject(params), handler(context));
         receiveMessageFromEventhandler(context, address, params);
+        System.out.println(port);
     }
 
 
@@ -145,6 +144,7 @@ public class APITest {
 
     @Test
     public void testDeleteToken(TestContext context) {
+
         HashMap<String, Object> params = new HashMap<>();
         params.put("tokenId", 1);
 
@@ -200,7 +200,6 @@ public class APITest {
         HashMap<String, Object> params = new HashMap<>();
         params.put("installationId", 1);
         params.put("timestamp", "2020-07-18T20:10:08.904Z");
-        params.put("unit", "test");
         params.put("value", 1.1);
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey);
@@ -265,9 +264,10 @@ public class APITest {
 
     // Todo the method should be split into 2, separate for query params and separate for body params so that you don't have to use trycatch
     private void receiveMessageFromEventhandler(TestContext context, String address, HashMap<String, Object> messageBody) {
-        Async async2 = context.async();
+        Async async = context.async();
         MessageConsumer<JsonObject> consumer = eventBus.consumer(address);
         consumer.handler(message -> {
+            System.out.println(message);
             for (String entry : messageBody.keySet()) {
                 try {
                     context.assertEquals(message.body().getString(entry), messageBody.get(entry).toString());
@@ -276,8 +276,9 @@ public class APITest {
                         context.assertEquals(message.body().getInteger(entry), messageBody.get(entry));
                     }
                 }
+
             }
-            async2.complete();
+            async.complete();
         });
     }
 }

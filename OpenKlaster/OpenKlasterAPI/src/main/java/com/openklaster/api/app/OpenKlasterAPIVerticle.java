@@ -6,7 +6,6 @@ import com.openklaster.api.model.*;
 import com.openklaster.api.parser.DefaultParseStrategy;
 import com.openklaster.api.properties.EndpointRouteProperties;
 import com.openklaster.api.properties.EventBusAddressProperties;
-import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
@@ -34,7 +33,11 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
     private EventBus eventBus;
     private List<Handler> handlers;
 
-    public OpenKlasterAPIVerticle() {
+
+    public OpenKlasterAPIVerticle(Vertx vertx, ConfigRetriever configRetriever) {
+        this.vertx = vertx;
+        this.configRetriever = configRetriever;
+        this.eventBus = vertx.eventBus();
     }
 
     @Override
@@ -49,30 +52,8 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
     private void prepareDeploy(Promise<Void> deployPrepared) {
         Promise<Void> promise = Promise.promise();
-        createClusteredVertx(promise);
-        promise.future().onComplete(result -> {
-            configRetriever = new ConfigFilesManager().getConfig(vertx);
-            deployPrepared.complete();
-        });
-    }
-
-    private void createClusteredVertx(Promise<Void> promise) {
-        ClusterManager clusterManager = new HazelcastClusterManager();
-        VertxOptions options = new VertxOptions().setClusterManager(clusterManager);
-        Vertx.clusteredVertx(options, result -> {
-            if (result.succeeded()) {
-                logger.info("Succeeded during launching clustered VertX");
-                vertx = result.result();
-                eventBus = vertx.eventBus();
-                promise.complete();
-            } else
-                handleClusteredVertxFailure();
-        });
-
-    }
-
-    private void handleClusteredVertxFailure() {
-        logger.error("Failure during launching clustered VertX");
+        //createClusteredVertx(promise);
+        deployPrepared.complete();
     }
 
     private void prepareConfig() {
@@ -93,13 +74,13 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                 .requestHandler(router)
                 .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
         handlers = Arrays.asList(
-                new PostAndReturnJsonHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.loginEndpoint),
+                new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.loginEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "login",
                         eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "register",
-                        eventBus, configAccessor, new DefaultParseStrategy<RegisterRequest>(RegisterRequest.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<Register>(Register.class)),
 
                 new PutHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "updateUser",
@@ -107,25 +88,25 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "info",
-                        eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
-                new PostAndReturnJsonHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
+                new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "generateToken",
-                        eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "deleteToken",
-                        eventBus, configAccessor, new DefaultParseStrategy<TokenId>(TokenId.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<Model>(Model.class)),
 
                 new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint) + "/all",
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "deleteAllTokens",
-                        eventBus, configAccessor, new DefaultParseStrategy<TokenId>(TokenId.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<Model>(Model.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
 
-                new PostAndReturnJsonHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
+                new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Installation>(Installation.class)),
 
@@ -143,7 +124,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint),
                         configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<Measurement>(Measurement.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint),
                         configAccessor.getString(EventBusAddressProperties.powerproductionCoreAddressKey),
@@ -151,7 +132,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint),
                         configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<Measurement>(Measurement.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
                         configAccessor.getString(EventBusAddressProperties.energyconsumedCoreAddressKey),
@@ -159,7 +140,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
                         configAccessor.getString(EventBusAddressProperties.energyconsumedCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<Measurement>(Measurement.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
                         configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey),
@@ -167,7 +148,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
                         configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<Measurement>(Measurement.class))
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class))
         );
 
 

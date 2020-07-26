@@ -28,8 +28,6 @@ public abstract class AuthManager {
                 .compose(authResult -> processAuthenticatedMessage(authResult, message, methodName))
                 .onComplete(handler -> {
                     if (handler.succeeded()) {
-                        System.out.println("HALOOOO");
-                        System.out.println(handler.result());
                         handleSuccess(methodName, handler.result(), message);
                     } else {
                         handleFailure(methodName, handler.cause(), message);

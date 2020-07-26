@@ -11,9 +11,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Installation extends Model {
-    @NotBlank(message = ModelValidationErrorMessages.INSTALLATION_ID)
-    private String installationId;
+public class PostInstallation extends Model {
+
     @NotBlank(message = ModelValidationErrorMessages.USERNAME)
     private String username;
     @NotNull(message = ModelValidationErrorMessages.INVERTER)
@@ -28,6 +27,6 @@ public class Installation extends Model {
     private Double longitude;
     @NotNull(message = ModelValidationErrorMessages.LATITUDE)
     private Double latitude;
-    @NotNull(message = ModelValidationErrorMessages.DESCRIPTION)
+    @NotBlank(message = ModelValidationErrorMessages.DESCRIPTION)
     private String description;
 }

@@ -3,11 +3,20 @@ package com.openklaster.api.handler;
 import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.api.model.Model;
 import com.openklaster.api.parser.IParseStrategy;
+import com.openklaster.api.validation.ValidationException;
 import com.openklaster.common.config.NestedConfigAccessor;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
-public class PostHandler extends Handler{
+import java.util.Map;
+
+import static com.openklaster.api.validation.ValidationExecutor.validate;
+
+public class PostHandler extends Handler {
     public PostHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
         super(HandlerProperties.postMethodHeader, route, HandlerProperties.postMethodHeader, address, eventBus, nestedConfigAccessor, parseStrategy);
     }
@@ -18,6 +27,26 @@ public class PostHandler extends Handler{
 
     @Override
     public void handle(RoutingContext context) {
-        sendPutPostRequest(context, eventbusMethod);
+        try {
+            Map<String, String> tokens = retrieveTokensFromContex(context);
+            JsonObject jsonModel = context.getBodyAsJson();
+
+            Model model = parseStrategy.parseToModel(jsonModel);
+            validate(model, tokens);
+            JsonObject validatedModel = JsonObject.mapFrom(model);
+            DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, tokens);
+
+            eventBus.request(address, validatedModel, deliveryOptions, coreResponse -> {
+                if(gotCorrectResponse(coreResponse)){
+                    context.response().end(Json.encodePrettily(coreResponse.result().body()));
+                }
+                else{
+                    handleProcessingError(context.response());
+                }
+            });
+        } catch (ValidationException e) {
+            context.response().setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+            context.response().end(e.getMessage());
+        }
     }
 }
