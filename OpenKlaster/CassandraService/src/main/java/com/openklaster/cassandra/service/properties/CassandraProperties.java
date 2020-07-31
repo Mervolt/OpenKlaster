@@ -8,4 +8,6 @@ public class CassandraProperties {
     public final static String ADDRESS = "address";
 
     public final static String TABLE = "table";
+
+    public final static String WRONG_DATE = "Invalid date format";
 }

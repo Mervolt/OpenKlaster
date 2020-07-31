@@ -18,7 +18,11 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.TemporalAccessor;
 import java.util.List;
 
 public abstract class CassandraHandler<T> {
@@ -114,8 +118,9 @@ public abstract class CassandraHandler<T> {
 
     public String buildQuery(Message<JsonObject> message) {
         String installationId = message.body().getString(CassandraProperties.INSTALLATION_ID);
-        String startDate = message.body().getString("startDate");
-        String endDate = message.body().getString("endDate");
+        String startDate = getValidatedDate(message, "startDate");
+        String endDate = getValidatedDate(message, "endDate");
+
 
         return "SELECT * FROM " + table + " " + "WHERE " + CassandraProperties.INSTALLATION_ID.toLowerCase() + " = '" + installationId + "'" +
                 (startDate != null ? " AND timestamp >= '" + startDate + "'" : "") +
@@ -125,5 +130,24 @@ public abstract class CassandraHandler<T> {
 
     public T parseToModel(JsonObject jsonObject) {
         return jsonObject.mapTo(this.modelClass);
+    }
+
+    private String getValidatedDate(Message<JsonObject> message, String dateProperty) {
+        String date = message.body().getString(dateProperty);
+        if (date == null) return null;
+
+        try {
+            DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                    .appendPattern("[yyyy-MM-dd HH:mm:ss]")
+                    .appendPattern("[yyyy-MM-dd HH:mm]")
+                    .appendPattern("[yyyy-MM-dd HH]")
+                    .appendPattern("[yyyy-MM-dd]")
+                    .toFormatter();
+            formatter.parse(date);
+        } catch (Exception e) {
+            BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, CassandraProperties.WRONG_DATE);
+        }
+
+        return date;
     }
 }
