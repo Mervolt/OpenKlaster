@@ -18,10 +18,12 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.*;
 @RunWith(VertxUnitRunner.class)
 public class RegisterManagerTest extends UserManagerTest {
 
+    private RegisterManager registerManager;
+
     @Before
     public void setup() {
         commonSetup();
-        this.userManager = new RegisterManager(authenticationClient, userCrudRepository);
+        this.registerManager = new RegisterManager(authenticationClient, userCrudRepository);
     }
 
     @Test
@@ -31,7 +33,7 @@ public class RegisterManagerTest extends UserManagerTest {
         userJson.remove("userTokens");
         userJson.remove("sessionToken");
         FakeMessage<JsonObject> fakeMessage = FakeMessage.<JsonObject>builder().body(userJson).build();
-        this.userManager.handleMessage(fakeMessage);
+        this.registerManager.handleMessage(fakeMessage);
 
         Future<Pair<User, FakeReply>> result = fakeMessage.getMessageReply().compose(reply -> {
             Future<User> storedUser = userCrudRepository.get(testUser.getUsername());

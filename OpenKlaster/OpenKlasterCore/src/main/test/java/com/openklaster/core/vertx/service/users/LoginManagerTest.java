@@ -1,5 +1,6 @@
 package com.openklaster.core.vertx.service.users;
 
+import com.openklaster.common.model.SessionToken;
 import com.openklaster.common.model.User;
 import com.openklaster.common.model.UserToken;
 import com.openklaster.common.tests.bus.FakeMessage;
@@ -21,10 +22,12 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.STATUS_CODE;
 @RunWith(VertxUnitRunner.class)
 public class LoginManagerTest extends UserManagerTest {
 
+    private LoginManager loginManager;
+
     @Before
     public void setup() {
         commonSetup();
-        this.userManager = new LoginManager(authenticationClient, userCrudRepository);
+        loginManager = new LoginManager(authenticationClient, userCrudRepository);
     }
 
     @Test
@@ -35,7 +38,7 @@ public class LoginManagerTest extends UserManagerTest {
                 .put(usernameKey, existingUser.getUsername())
                 .put(passwordKey, "1234");
         FakeMessage<JsonObject> fakeMessage = FakeMessage.<JsonObject>builder().body(credentials).build();
-        userManager.handleMessage(fakeMessage);
+        loginManager.handleMessage(fakeMessage);
 
         Future<Pair<User, FakeReply>> result = fakeMessage.getMessageReply().compose(reply -> {
             Future<User> storedUser = userCrudRepository.get(existingUser.getUsername());
@@ -63,7 +66,7 @@ public class LoginManagerTest extends UserManagerTest {
                 .put(usernameKey, existingUser.getUsername())
                 .put(passwordKey, "1235");
         FakeMessage<JsonObject> fakeMessage = FakeMessage.<JsonObject>builder().body(credentials).build();
-        userManager.handleMessage(fakeMessage);
+        loginManager.handleMessage(fakeMessage);
 
         Future<Pair<User, FakeReply>> result = fakeMessage.getMessageReply().compose(reply -> {
             Future<User> storedUser = userCrudRepository.get(existingUser.getUsername());
@@ -81,13 +84,13 @@ public class LoginManagerTest extends UserManagerTest {
         async.awaitSuccess();
     }
 
-    private void assertSessionTokenInResult(UserToken expectedToken, Object body, TestContext context) {
+    private void assertSessionTokenInResult(SessionToken expectedToken, Object body, TestContext context) {
         JsonObject result = JsonObject.mapFrom(body).getJsonObject(sessionTokenKey);
-        UserToken actualToken = result.mapTo(UserToken.class);
+        SessionToken actualToken = result.mapTo(SessionToken.class);
         context.assertEquals(expectedToken, actualToken);
     }
 
-    private void assertSessionTokenExpiration(UserToken userToken, TestContext context) {
+    private void assertSessionTokenExpiration(SessionToken userToken, TestContext context) {
         LocalDateTime expirationDate = userToken.getExpirationDate();
         LocalDateTime expiredDate = LocalDateTime.now().plusMinutes(tokenHandlerArg);
         context.assertTrue(expirationDate.isBefore(expiredDate));

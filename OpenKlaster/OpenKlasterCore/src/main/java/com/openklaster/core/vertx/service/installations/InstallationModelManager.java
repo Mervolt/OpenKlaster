@@ -1,6 +1,7 @@
 package com.openklaster.core.vertx.service.installations;
 
 import com.openklaster.common.model.Installation;
+import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.CrudRepository;
 import com.openklaster.core.vertx.service.ModelManager;
@@ -21,7 +22,7 @@ public class InstallationModelManager extends ModelManager<Installation> {
     }
 
     @Override
-    protected Future<JsonObject> processAuthenticatedMessage(JsonObject authResult, Message<JsonObject> message, String methodName) {
+    protected Future<JsonObject> processAuthenticatedMessage(User authenticatedUser, Message<JsonObject> message, String methodName) {
         switch (methodName) {
             case getMethodName:
                 return get(message.body().getString(idKey)).map(JsonObject::mapFrom);

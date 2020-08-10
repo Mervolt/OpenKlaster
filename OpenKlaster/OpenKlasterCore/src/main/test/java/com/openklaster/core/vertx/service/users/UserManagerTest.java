@@ -20,7 +20,7 @@ public class UserManagerTest {
     protected static final String userTokensKey = "userTokens";
     protected static final String sessionTokenKey = "sessionToken";
 
-    protected UserManager userManager;
+    protected AuthenticatedUserManager authenticatedUserManager;
     protected AuthenticationClient authenticationClient;
     protected CrudRepository<User> userCrudRepository;
     protected PasswordHandler passwordHandler;
@@ -29,13 +29,14 @@ public class UserManagerTest {
     protected User testUser;
     protected User existingUser;
 
-    protected void commonSetup() {
+    protected  void commonSetup() {
         this.userCrudRepository = new InMemoryCrudRepository<>();
         this.passwordHandler = new BCryptPasswordHandler();
-        this.tokenHandler = new BasicTokenHandler(tokenHandlerArg, tokenHandlerArg, tokenHandlerArg);
+        this.tokenHandler = new BasicTokenHandler(tokenHandlerArg, tokenHandlerArg);
         this.authenticationClient = new BasicAuthenticationClient(passwordHandler, tokenHandler, userCrudRepository);
         this.testUser = UserTestUtil.prepareUser("test");
-
+        this.authenticatedUserManager = new AuthenticatedUserManager(authenticationClient, userCrudRepository);
+        prepareAuthManager();
         repoSetup();
     }
 
@@ -44,5 +45,20 @@ public class UserManagerTest {
         existingUser.setPassword(passwordHandler.hashPassword(existingUser.getPassword()));
         userCrudRepository.add(existingUser);
     }
+
+    private void prepareAuthManager(){
+        DeleteAllTokensManager deleteAllTokensManager = new DeleteAllTokensManager(userCrudRepository);
+        this.authenticatedUserManager.addMethodHelper(deleteAllTokensManager.getMethodName(),deleteAllTokensManager);
+
+        DeleteTokenManager deleteTokenManager = new DeleteTokenManager(userCrudRepository);
+        this.authenticatedUserManager.addMethodHelper(deleteTokenManager.getMethodName(),deleteTokenManager);
+
+        GenerateTokenManager generateTokenManager = new GenerateTokenManager(tokenHandler, userCrudRepository);
+        this.authenticatedUserManager.addMethodHelper(generateTokenManager.getMethodName(),generateTokenManager);
+
+        InformationManager informationManager = new InformationManager();
+        this.authenticatedUserManager.addMethodHelper(informationManager.getMethodName(),informationManager);
+    }
+
 
 }

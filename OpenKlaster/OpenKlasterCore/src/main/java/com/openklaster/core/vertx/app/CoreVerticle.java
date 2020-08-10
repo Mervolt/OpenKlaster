@@ -27,6 +27,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.spi.logging.LogDelegate;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,9 +36,9 @@ import static com.openklaster.core.vertx.app.CoreVerticleProperties.*;
 
 public class CoreVerticle extends AbstractVerticle {
 
-    private ConfigRetriever configRetriever;
+    private final ConfigRetriever configRetriever;
     private static final Logger logger = LoggerFactory.getLogger(CoreVerticle.class);
-    private EventBus eventBus;
+    private final EventBus eventBus;
     private NestedConfigAccessor configAccessor;
     private List<EndpointService> servicesList;
 
@@ -61,6 +62,13 @@ public class CoreVerticle extends AbstractVerticle {
                 promise.complete();
             }
         });
+        LogDelegate lol = logger.getDelegate();
+        logger.info("!");
+        logger.info("!");
+        boolean eh = logger.isDebugEnabled();
+        boolean eh2 = logger.isInfoEnabled();
+        boolean eh3 = logger.isTraceEnabled();
+        boolean eh4 = logger.isWarnEnabled();
     }
 
     private void handlePostConfig(Promise<Void> promise) {
@@ -137,13 +145,13 @@ public class CoreVerticle extends AbstractVerticle {
     private EndpointService configureLoadMeasurementService(
             MeasurementManager<LoadMeasurement> loadMeasurementMeasurementManager) {
 
-        return new MeasurementServiceHandler<LoadMeasurement>(
+        return new MeasurementServiceHandler<>(
                 configAccessor.getPathConfigAccessor(loadMeasurementConfigPath), loadMeasurementMeasurementManager);
     }
 
     private EndpointService configureSourceMeasurementService(
             MeasurementManager<SourceMeasurement> sourceMeasurementMeasurementManager) {
-        return new MeasurementServiceHandler<SourceMeasurement>(
+        return new MeasurementServiceHandler<>(
                 configAccessor.getPathConfigAccessor(sourceMeasurementConfigPath), sourceMeasurementMeasurementManager);
     }
 
@@ -174,9 +182,8 @@ public class CoreVerticle extends AbstractVerticle {
 
     private TokenHandler configureNewTokenHandler(NestedConfigAccessor config) {
         int charsPerType = config.getInteger("charsPerType");
-        int apiTokenLifetime = config.getInteger("apiTokenLifetime");
         int sessionTokenLifetime = config.getInteger("sessionTokenLifetime");
 
-        return new BasicTokenHandler(charsPerType, apiTokenLifetime, sessionTokenLifetime);
+        return new BasicTokenHandler(charsPerType, sessionTokenLifetime);
     }
 }

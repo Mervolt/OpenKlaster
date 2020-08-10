@@ -3,6 +3,7 @@ package com.openklaster.core.vertx.authentication;
 import com.openklaster.common.authentication.password.PasswordHandler;
 import com.openklaster.common.authentication.tokens.TokenHandler;
 import com.openklaster.common.authentication.tokens.TokenValidationResult;
+import com.openklaster.common.model.SessionToken;
 import com.openklaster.common.model.User;
 import com.openklaster.common.model.UserToken;
 import com.openklaster.core.vertx.messages.repository.CrudRepository;
@@ -23,15 +24,9 @@ public class BasicAuthenticationClient implements AuthenticationClient {
     }
 
     @Override
-    public AuthenticationResult authenticateWithToken(User user, String token) {
-        // Todo To be corrected because I made a mess with debugging
+    public AuthenticationResult authenticateWithApiToken(User user, String tokenData) {
         try {
-            List<UserToken> tokens = new ArrayList<>();
-            if (user.getUserTokens() != null)
-                tokens.addAll(user.getUserTokens());
-            if (user.getSessionToken() != null)
-                tokens.add(user.getSessionToken());
-            TokenValidationResult result = tokenHandler.validateToken(token, tokens);
+            TokenValidationResult result = tokenHandler.validateApiToken(tokenData, user.getUserTokens());
             return authenticationTokenResult(result, user);
         } catch (Exception e) {
             return new FailedAuthentication(e);
@@ -39,17 +34,22 @@ public class BasicAuthenticationClient implements AuthenticationClient {
     }
 
     @Override
-    public AuthenticationResult authenticateWithSessionToken(User user, String token) {
-        AuthenticationResult result = authenticateWithToken(user, token);
-        if (result.succeeded()) {
-            UserToken refreshedToken = tokenHandler.getRefreshedSessionToken(user.getSessionToken());
-            result = new SuccessfulSessionAuthentication(refreshedToken);
-            persistSessionToken(user, refreshedToken);
+    public AuthenticationResult authenticateWithSessionToken(User user, String tokenData) {
+        try{
+            TokenValidationResult result = tokenHandler.validateSessionToken(tokenData, user.getSessionToken());
+            if (result == TokenValidationResult.VALID) {
+                SessionToken refreshedToken = tokenHandler.getRefreshedSessionToken(user.getSessionToken());
+                persistSessionToken(user, refreshedToken);
+                return new SuccessfulSessionAuthentication(refreshedToken);
+            } else {
+                return new FailedAuthentication(failedTokenAuth(user.getUsername()));
+            }
+        } catch (Exception e ) {
+            return new FailedAuthentication(e);
         }
-        return result;
     }
 
-    private void persistSessionToken(User user, UserToken refreshedToken) {
+    private void persistSessionToken(User user, SessionToken refreshedToken) {
         user.setSessionToken(refreshedToken);
         userCrudRepository.update(user);
     }
