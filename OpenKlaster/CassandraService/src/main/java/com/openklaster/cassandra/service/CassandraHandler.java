@@ -18,11 +18,9 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.TemporalAccessor;
 import java.util.List;
 
 public abstract class CassandraHandler<T> {
@@ -54,13 +52,14 @@ public abstract class CassandraHandler<T> {
 
     public void createGetHandler(Message<JsonObject> message) {
         try {
-            String query = buildQuery(message);
+            String query = getMeasurementsQuery(message);
             cassandraClient.executeWithFullFetch(query, listAsyncResult -> {
                 if (listAsyncResult.succeeded()) {
                     JsonArray response = getJsonResponse(listAsyncResult.result());
                     logger.debug("GET request executed successfully");
                     BusMessageReplyUtils.replyWithBodyAndStatus(message, response, HttpResponseStatus.OK);
                 } else {
+                    // Todo nie pamiętam co to wypisuje xd można dodać coś ze dla geta jesli nie ma teraz xd
                     logger.error(listAsyncResult.cause());
                     BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, listAsyncResult.cause().toString());
                 }
@@ -116,7 +115,7 @@ public abstract class CassandraHandler<T> {
         BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, errorMessage);
     }
 
-    public String buildQuery(Message<JsonObject> message) {
+    public String getMeasurementsQuery(Message<JsonObject> message) {
         String installationId = message.body().getString(CassandraProperties.INSTALLATION_ID);
         String startDate = getValidatedDate(message, "startDate");
         String endDate = getValidatedDate(message, "endDate");

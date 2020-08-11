@@ -108,7 +108,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<Installation>(Installation.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<PostInstallation>(PostInstallation.class)),
 
                 new PutHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),

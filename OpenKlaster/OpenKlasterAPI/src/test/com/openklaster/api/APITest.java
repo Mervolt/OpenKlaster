@@ -34,7 +34,6 @@ import static com.openklaster.api.app.OpenKlasterAPIVerticle.buildEndpoint;
 // Todo
 @RunWith(VertxUnitRunner.class)
 public class APITest {
-    Async async3;
     private static final String ADDRESS = "localhost";
     private static final int VERSION1 = 1;
     private int port;
@@ -43,7 +42,6 @@ public class APITest {
     private Vertx vertx;
     private OpenKlasterAPIVerticle verticle;
     private EventBus eventBus;
-    private ClusterManager clusterManager;
 
     @Before
     public void setUp(TestContext context) {
@@ -78,7 +76,6 @@ public class APITest {
 
     @Test
     public void testLogin(TestContext context) {
-
         HashMap<String, Object> params = new HashMap<>();
         params.put("username", "test");
         params.put("password", "test");
@@ -86,7 +83,7 @@ public class APITest {
         String address = configAccessor.getString(EventBusAddressProperties.userCoreAddressKey);
         WebClient.create(vertx).post(port, ADDRESS, route).sendJsonObject(prepareJsonObject(params), handler(context));
         receiveMessageFromEventhandler(context, address, params);
-        System.out.println(port);
+
     }
 
 
@@ -122,6 +119,7 @@ public class APITest {
     @Test
     public void testGetUsers(TestContext context) {
         HashMap<String, Object> params = new HashMap<>();
+        params.put("apiToken", "token");
         params.put("username", "test");
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint);
@@ -133,20 +131,25 @@ public class APITest {
 
     @Test
     public void testGenerateToken(TestContext context) {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("username", "test");
+        HashMap<String, Object> queryParams = new HashMap<>();
+        queryParams.put("apiToken", "token");
+
+        HashMap<String, Object> bodyParams = new HashMap<>();
+        bodyParams.put("username", "test");
+
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.userCoreAddressKey);
 
-        WebClient.create(vertx).post(port, ADDRESS, route).sendJsonObject(prepareJsonObject(params), handler(context));
-        receiveMessageFromEventhandler(context, address, params);
+        HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).post(port, ADDRESS, route), queryParams);
+        request.sendJsonObject(prepareJsonObject(bodyParams), handler(context));
+        receiveMessageFromEventhandler(context, address, bodyParams);
     }
 
     @Test
     public void testDeleteToken(TestContext context) {
 
         HashMap<String, Object> params = new HashMap<>();
-        params.put("tokenId", 1);
+        params.put("apiToken", "token");
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.userCoreAddressKey);
@@ -157,14 +160,16 @@ public class APITest {
 
     @Test
     public void testGetInstallations(TestContext context) {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("installationId", 1);
+        HashMap<String, Object> queryParams = new HashMap<>();
+        queryParams.put("apiToken", "token");
+        queryParams.put("installationId", "installation:1");
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey);
 
-        addQueryParams(WebClient.create(vertx).get(port, ADDRESS, route), params).send(handler(context));
-        receiveMessageFromEventhandler(context, address, params);
+        HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).get(port, ADDRESS, route), queryParams);
+        request.sendJsonObject(prepareJsonObject(queryParams), handler(context));
+        receiveMessageFromEventhandler(context, address, queryParams);
     }
 
     @Test
@@ -179,15 +184,15 @@ public class APITest {
 
     @Test
     public void testDeleteInstallations(TestContext context) {
-        // Todo problem here
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("installationId", 1);
+        HashMap<String, Object> queryParams = new HashMap<>();
+        queryParams.put("apiToken", "token");
+        queryParams.put("installationId", "installation:1");
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey);
 
-        addQueryParams(WebClient.create(vertx).delete(port, ADDRESS, route), params).send(handler(context));
-        receiveMessageFromEventhandler(context, address, params);
+        addQueryParams(WebClient.create(vertx).delete(port, ADDRESS, route), queryParams).send(handler(context));
+        receiveMessageFromEventhandler(context, address, queryParams);
     }
 
     @Test
@@ -197,14 +202,20 @@ public class APITest {
 
     @Test
     public void testAddPowerConsumption(TestContext context) {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("installationId", 1);
-        params.put("timestamp", "2020-07-18T20:10:08.904Z");
-        params.put("value", 1.1);
+        HashMap<String, Object> queryParams = new HashMap<>();
+        queryParams.put("apiToken", "token");
+
+        HashMap<String, Object> bodyParams = new HashMap<>();
+        bodyParams.put("installationId", "installation:1");
+        bodyParams.put("timestamp", "2020-07-18 20:10:08");
+        bodyParams.put("value", 1.1);
+
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey);
-        WebClient.create(vertx).post(port, ADDRESS, route).sendJsonObject(prepareJsonObject(params), handler(context));
-        receiveMessageFromEventhandler(context, address, params);
+
+        HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).post(port, ADDRESS, route), queryParams);
+        request.sendJsonObject(prepareJsonObject(bodyParams), handler(context));
+        receiveMessageFromEventhandler2(context, address, bodyParams);
     }
 
     @Test
@@ -262,21 +273,33 @@ public class APITest {
         };
     }
 
-    // Todo the method should be split into 2, separate for query params and separate for body params so that you don't have to use trycatch
-    private void receiveMessageFromEventhandler(TestContext context, String address, HashMap<String, Object> messageBody) {
+      private void receiveMessageFromEventhandler(TestContext context, String address, HashMap<String, Object> messageBody) {
         Async async = context.async();
         MessageConsumer<JsonObject> consumer = eventBus.consumer(address);
         consumer.handler(message -> {
-            System.out.println(message);
             for (String entry : messageBody.keySet()) {
-                try {
+                if (entry != "apiToken" && entry != "sessionToken") {
                     context.assertEquals(message.body().getString(entry), messageBody.get(entry).toString());
-                } catch (ClassCastException e) {
-                    if (messageBody.get(entry) instanceof Integer) {
-                        context.assertEquals(message.body().getInteger(entry), messageBody.get(entry));
-                    }
                 }
+            }
+            async.complete();
+        });
+    }
 
+    private void receiveMessageFromEventhandler2(TestContext context, String address, HashMap<String, Object> messageBody) {
+        Async async = context.async();
+        MessageConsumer<JsonObject> consumer = eventBus.consumer(address);
+        consumer.handler(message -> {
+            for (String entry : messageBody.keySet()) {
+                if (messageBody.get(entry) instanceof Double) {
+                    context.assertEquals(message.body().getDouble(entry), messageBody.get(entry));
+                }
+                if (messageBody.get(entry) instanceof Integer) {
+                    context.assertEquals(message.body().getInteger(entry), messageBody.get(entry));
+                }
+                if (messageBody.get(entry) instanceof String) {
+                    context.assertEquals(message.body().getString(entry), messageBody.get(entry));
+                }
             }
             async.complete();
         });

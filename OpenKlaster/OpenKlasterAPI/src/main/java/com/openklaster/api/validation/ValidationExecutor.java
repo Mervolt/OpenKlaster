@@ -24,7 +24,8 @@ public class ValidationExecutor {
     private static void validateToken(Object object, Map<String, String> tokens, List<String> messages) {
         Class<?> clazz = object.getClass();
         if (!clazz.isAnnotationPresent(TokenNotRequired.class) &&
-                ((!isTokenPresent(tokens, HandlerProperties.apiToken)) || !(isTokenPresent(tokens, HandlerProperties.apiToken)))) {
+           (!isTokenPresent(tokens, HandlerProperties.apiToken)) &&
+           (!isTokenPresent(tokens, HandlerProperties.sessionToken))) {
                 messages.add(ModelValidationErrorMessages.TOKEN_REQUIRED);
         }
     }
