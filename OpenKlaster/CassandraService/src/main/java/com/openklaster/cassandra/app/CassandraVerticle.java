@@ -1,5 +1,6 @@
 package com.openklaster.cassandra.app;
 
+import com.openklaster.cassandra.properties.CassandraProperties;
 import com.openklaster.cassandra.service.*;
 import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.cassandra.CassandraClient;
@@ -40,8 +41,8 @@ public class CassandraVerticle extends AbstractVerticle {
             if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
                 CassandraClientOptions options = new CassandraClientOptions()
-                        .setPort(configAccessor.getInteger("cassandra.port"))
-                        .setKeyspace(configAccessor.getString("cassandra.keyspace"));
+                        .setPort(configAccessor.getInteger(CassandraProperties.CASSANDRA_PORT))
+                        .setKeyspace(configAccessor.getString(CassandraProperties.CASSANDRA_KEYSPACE));
                 this.cassandraClient = CassandraClient.create(vertx, options);
 
                 List<CassandraHandler<?>> handlers = prepareHandlers();
@@ -57,10 +58,10 @@ public class CassandraVerticle extends AbstractVerticle {
 
     private List<CassandraHandler<?>> prepareHandlers() {
         return Arrays.asList(
-                new LoadMeasurementHandler(cassandraClient, configAccessor.getJsonObject("loadmeasurement")),
-                new SourceMeasurementHandler(cassandraClient, configAccessor.getJsonObject("sourcemeasurement")),
-                new EnergyPredictionsHandler(cassandraClient, configAccessor.getJsonObject("energypredictions")),
-                new WeatherConditionsHandler(cassandraClient, configAccessor.getJsonObject("weatherconditions"))
+                new LoadMeasurementHandler(cassandraClient, configAccessor.getJsonObject(CassandraProperties.LOAD_MEASUREMENT)),
+                new SourceMeasurementHandler(cassandraClient, configAccessor.getJsonObject(CassandraProperties.SOURCE_MEASUREMENT)),
+                new EnergyPredictionsHandler(cassandraClient, configAccessor.getJsonObject(CassandraProperties.ENERGY_PREDICTIONS)),
+                new WeatherConditionsHandler(cassandraClient, configAccessor.getJsonObject(CassandraProperties.WEATHER_CONDITIONS))
         );
     }
 
@@ -74,10 +75,10 @@ public class CassandraVerticle extends AbstractVerticle {
 
     private void handlerMap(CassandraHandler<?> handler, Message<JsonObject> message) {
         switch (message.headers().get(METHOD_KEY)) {
-            case "get":
+            case CassandraProperties.GET:
                 handler.createGetHandler(message);
                 break;
-            case "post":
+            case CassandraProperties.POST:
                 handler.createPostHandler(message);
                 break;
         }

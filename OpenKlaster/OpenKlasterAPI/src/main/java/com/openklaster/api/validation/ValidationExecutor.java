@@ -23,17 +23,26 @@ public class ValidationExecutor {
 
     private static void validateToken(Object object, Map<String, String> tokens, List<String> messages) {
         Class<?> clazz = object.getClass();
-        if (!clazz.isAnnotationPresent(TokenNotRequired.class) &&
-           (!isTokenPresent(tokens, HandlerProperties.apiToken)) &&
-           (!isTokenPresent(tokens, HandlerProperties.sessionToken))) {
+        if (shouldValidateToken(clazz, tokens)) {
                 messages.add(ModelValidationErrorMessages.TOKEN_REQUIRED);
         }
     }
 
+    private static boolean shouldValidateToken(Class<?> clazz, Map<String, String> tokens) {
+        return !clazz.isAnnotationPresent(TokenNotRequired.class) && isThereAtLeastOneToken(tokens);
+    }
+
+    private static boolean isThereAtLeastOneToken(Map<String, String> tokens) {
+        return (!isTokenPresent(tokens, HandlerProperties.apiToken)) &&
+                (!isTokenPresent(tokens, HandlerProperties.sessionToken));
+    }
+
     private static boolean isTokenPresent(Map<String, String> tokens, String tokenType) {
-        return tokens.containsKey(tokenType)
-                && tokens.get(tokenType) != null
-                && !tokens.get(tokenType).equals("");
+        return tokens.containsKey(tokenType) && isSpecified(tokens.get(tokenType));
+    }
+
+    private static boolean isSpecified(String s) {
+        return s != null && !s.equals("");
     }
 
 }

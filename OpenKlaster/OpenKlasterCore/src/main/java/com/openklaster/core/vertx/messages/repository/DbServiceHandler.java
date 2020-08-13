@@ -28,13 +28,10 @@ public class DbServiceHandler<T> {
     public Future<T> handleWithContent(String methodName, JsonObject content) {
         Promise<T> resultPromise = Promise.promise();
         DeliveryOptions options = getMethodOptions(methodName);
-        System.out.println(address  + " " + content + " " + options);
         eventBus.<JsonObject>request(address, content, options, handler -> {
             if (handler.succeeded()) {
-                System.out.println("succ");
                 resultPromise.complete(handler.result().body().mapTo(this.modelClass));
             } else {
-                System.out.println("dsa");
                 resultPromise.fail(handler.cause());
             }
         });
@@ -59,10 +56,8 @@ public class DbServiceHandler<T> {
         DeliveryOptions options = getMethodOptions(methodName);
         eventBus.<JsonArray>request(address, content, options, handler -> {
             if (handler.succeeded()) {
-                System.out.println(1);
                 resultPromise.complete(mapToListContent(handler.result().body()));
             } else {
-                System.out.println(2);
                 resultPromise.fail(handler.cause());
             }
         });

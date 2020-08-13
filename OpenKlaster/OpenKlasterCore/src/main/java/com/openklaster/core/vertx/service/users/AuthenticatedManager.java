@@ -58,7 +58,6 @@ public abstract class AuthenticatedManager implements UserManager {
     protected abstract String getFailureMessage(String reason);
 
     protected Future<User> authenticate(MultiMap map, String username) {
-        System.out.println(username);
         return userCrudRepository.get(username)
                 .map(user -> authenticateUser(map, user));
     }
