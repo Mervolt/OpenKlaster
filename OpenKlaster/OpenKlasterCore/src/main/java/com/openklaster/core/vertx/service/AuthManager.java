@@ -4,6 +4,7 @@ import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.authentication.AuthenticationResult;
+import com.openklaster.core.vertx.authentication.FailedAuthenticationException;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -38,8 +39,10 @@ public abstract class AuthManager {
     }
 
     protected void handleFailure(String methodName, Throwable reason, Message<JsonObject> message) {
-        logger.error(getFailureMessage(methodName, reason, message));
-        BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, reason.getMessage());
+        HttpResponseStatus response = reason instanceof FailedAuthenticationException ?
+                HttpResponseStatus.UNAUTHORIZED : HttpResponseStatus.BAD_REQUEST;
+        logger.error(getFailureMessage(methodName, reason, message), reason);
+        BusMessageReplyUtils.replyWithError(message, response, reason.getMessage());
     }
 
     protected void handleSuccess(String methodName, JsonObject result, Message<JsonObject> message) {
@@ -55,27 +58,36 @@ public abstract class AuthManager {
                                                                       Message<JsonObject> message, String methodName);
 
     protected Future<User> authenticate(MultiMap headers, Future<User> userFuture) {
-        return userFuture.map( user -> authenticateUser(headers,user));
+        return userFuture.map(user -> authenticateUser(headers, user));
     }
 
     protected abstract Future<User> getUser(JsonObject entity);
 
     private User authenticateUser(MultiMap headers, User user) {
         AuthenticationResult authenticationResult;
-        if (headers.contains(apiTokenKey)) {
-            authenticationResult = authenticationClient.authenticateWithApiToken(user, headers.get(apiTokenKey));
-        } else if (headers.contains(sessionTokenKey)) {
-            authenticationResult = authenticationClient.authenticateWithSessionToken(user, headers.get(sessionTokenKey));
-        } else throw new IllegalArgumentException(String.format(noTokenMsg, user.getUsername()));
+        try {
+            if (headers.contains(apiTokenKey)) {
+                authenticationResult = authenticationClient.authenticateWithApiToken(user, headers.get(apiTokenKey));
+            } else if (headers.contains(sessionTokenKey)) {
+                authenticationResult = authenticationClient.authenticateWithSessionToken(user, headers.get(sessionTokenKey));
+            } else throw new IllegalArgumentException(String.format(noTokenMsg, user.getUsername()));
 
-        return resolveAuthenticationResult(authenticationResult, user);
+            return resolveAuthenticationResult(authenticationResult, user);
+        } catch (Exception e) {
+            throw new FailedAuthenticationException(e);
+        }
     }
 
     @SneakyThrows
     private User resolveAuthenticationResult(AuthenticationResult authenticationResult, User user) {
         if (authenticationResult.succeeded()) {
             return user;
-        } else throw authenticationResult.getCause();
+        } else {
+            if (authenticationResult.getCause() instanceof FailedAuthenticationException) {
+                throw authenticationResult.getCause();
+            }
+            throw new FailedAuthenticationException(authenticationResult.getCause());
+        }
     }
 
 }

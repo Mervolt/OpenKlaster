@@ -62,13 +62,6 @@ public class CoreVerticle extends AbstractVerticle {
                 promise.complete();
             }
         });
-        LogDelegate lol = logger.getDelegate();
-        logger.info("!");
-        logger.info("!");
-        boolean eh = logger.isDebugEnabled();
-        boolean eh2 = logger.isInfoEnabled();
-        boolean eh3 = logger.isTraceEnabled();
-        boolean eh4 = logger.isWarnEnabled();
     }
 
     private void handlePostConfig(Promise<Void> promise) {
@@ -181,8 +174,8 @@ public class CoreVerticle extends AbstractVerticle {
     }
 
     private TokenHandler configureNewTokenHandler(NestedConfigAccessor config) {
-        int charsPerType = config.getInteger("charsPerType");
-        int sessionTokenLifetime = config.getInteger("sessionTokenLifetime");
+        int charsPerType = config.getInteger(tokenGeneratorCharsPerTypeKey);
+        int sessionTokenLifetime = config.getInteger(sessionTokenLifetimeKey);
 
         return new BasicTokenHandler(charsPerType, sessionTokenLifetime);
     }

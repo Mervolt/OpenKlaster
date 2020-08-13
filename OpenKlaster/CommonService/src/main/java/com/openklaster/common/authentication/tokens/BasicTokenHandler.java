@@ -33,6 +33,9 @@ public class BasicTokenHandler implements TokenHandler {
 
     @Override
     public TokenValidationResult validateSessionToken(String tokenData, SessionToken sessionToken) {
+        if (sessionToken == null) {
+            return TokenValidationResult.INVALID;
+        }
         if (sessionToken.getData().equals(tokenData)) {
             return validateTokenDate(sessionToken);
         } else {
@@ -52,7 +55,7 @@ public class BasicTokenHandler implements TokenHandler {
 
     @Override
     public SessionToken getRefreshedSessionToken(SessionToken token) {
-        return new SessionToken(token.getData(),LocalDateTime.now().plusMinutes(sessionTokenMinutesLifetime));
+        return new SessionToken(token.getData(), LocalDateTime.now().plusMinutes(sessionTokenMinutesLifetime));
     }
 
     private TokenValidationResult validateTokenDate(SessionToken sessionToken) {

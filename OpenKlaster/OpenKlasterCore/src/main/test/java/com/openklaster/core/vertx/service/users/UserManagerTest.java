@@ -4,12 +4,15 @@ import com.openklaster.common.authentication.password.BCryptPasswordHandler;
 import com.openklaster.common.authentication.password.PasswordHandler;
 import com.openklaster.common.authentication.tokens.BasicTokenHandler;
 import com.openklaster.common.authentication.tokens.TokenHandler;
+import com.openklaster.common.model.SessionToken;
 import com.openklaster.common.model.User;
 import com.openklaster.common.tests.model.UserTestUtil;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.authentication.BasicAuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.InMemoryCrudRepository;
 import com.openklaster.core.vertx.messages.repository.CrudRepository;
+
+import java.time.LocalDateTime;
 
 public class UserManagerTest {
 
@@ -42,6 +45,7 @@ public class UserManagerTest {
 
     private void repoSetup() {
         existingUser = UserTestUtil.prepareUser("existing");
+        existingUser.setSessionToken(new SessionToken("session", LocalDateTime.now().plusMinutes(10)));
         existingUser.setPassword(passwordHandler.hashPassword(existingUser.getPassword()));
         userCrudRepository.add(existingUser);
     }
@@ -59,6 +63,4 @@ public class UserManagerTest {
         InformationManager informationManager = new InformationManager();
         this.authenticatedUserManager.addMethodHelper(informationManager.getMethodName(),informationManager);
     }
-
-
 }

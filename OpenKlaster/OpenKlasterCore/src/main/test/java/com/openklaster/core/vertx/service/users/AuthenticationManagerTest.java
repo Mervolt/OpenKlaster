@@ -8,6 +8,7 @@ import com.openklaster.common.tests.bus.FakeReply;
 import com.openklaster.common.tests.model.UserBuilder;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
@@ -20,20 +21,23 @@ import java.time.LocalDateTime;
 
 
 @RunWith(VertxUnitRunner.class)
-public class AuthenticationManagerTest extends UserManagerTest{
+public class AuthenticationManagerTest extends UserManagerTest {
 
     private static final String methodName = "info";
+    private static final String statusCodeKey = "statusCode";
 
     private static final User emptyUser = UserBuilder.of("empty").build();
     private static final User noSessionTokenUser = UserBuilder.of("noSession")
-            .addApiToken(new UserToken("test"))
+            .addApiToken(new UserToken("api"))
             .build();
-    private static final User noApiTokenUser =  UserBuilder.of("noSession")
-            .setSessionToken(new SessionToken("test", LocalDateTime.now().plusDays(1)))
+    private static final User noApiTokenUser = UserBuilder.of("noApi")
+            .setSessionToken(new SessionToken("session", LocalDateTime.now().plusDays(1)))
             .build();
     private static final User expiredSessionTokenUser = UserBuilder.of("expired")
-            .setSessionToken(new SessionToken("test",LocalDateTime.now().minusMinutes(1)))
+            .setSessionToken(new SessionToken("session", LocalDateTime.now().minusMinutes(1)))
+            .addApiToken(new UserToken("api"))
             .build();
+
     @Before
     public void setup() {
         commonSetup();
@@ -44,33 +48,110 @@ public class AuthenticationManagerTest extends UserManagerTest{
     }
 
     @Test
-    public void testUserWithoutApiToken(TestContext context) {
-        testUserWithoutToken(context,apiTokenKey);
+    public void testEmptyUserWithApiTokenFail(TestContext context) {
+        testUserTokenFailure(context, apiTokenKey, emptyUser, "XD");
     }
 
     @Test
-    public void testUserWithoutSessionToken(TestContext context) {
-        testUserWithoutToken(context,sessionTokenKey);
+    public void testNoApiTokenUserWithApiTokenFail(TestContext context) {
+        testUserTokenFailure(context, apiTokenKey, noApiTokenUser, noApiTokenUser.getSessionToken().getData());
     }
 
-    private void testUserWithoutToken(TestContext context, String tokenKey) {
+    @Test
+    public void testEmptyUserWithSessionTokenFail(TestContext context) {
+        testUserTokenFailure(context, sessionTokenKey, emptyUser, "XD");
+    }
+
+    @Test
+    public void testNoSessionTokenUserWithSessionTokenFail(TestContext context) {
+        testUserTokenFailure(context, sessionTokenKey, noSessionTokenUser, getUserApiToken(noSessionTokenUser));
+    }
+
+    @Test
+    public void testExpiredSessionTokenUserWithSessionTokenFail(TestContext context) {
+        User user = expiredSessionTokenUser;
+        LocalDateTime previousExpirationTime = user.getSessionToken().getExpirationDate();
+
+        testUserTokenFailure(context, sessionTokenKey, user, user.getSessionToken().getData());
+
+        User refreshedUser = userCrudRepository.get(user.getUsername()).result();
+        context.assertEquals(previousExpirationTime, refreshedUser.getSessionToken().getExpirationDate());
+    }
+
+    @Test
+    public void testUserWithSessionTokenSuccess(TestContext context) {
+        User user = existingUser;
+        LocalDateTime previousExpirationTime = user.getSessionToken().getExpirationDate();
+
+        testUserTokenSuccess(context, sessionTokenKey, user, user.getSessionToken().getData());
+
+        User refreshedUser = userCrudRepository.get(user.getUsername()).result();
+        context.assertFalse(previousExpirationTime.isBefore(refreshedUser.getSessionToken().getExpirationDate()));
+    }
+
+    @Test
+    public void testNoApiTokenUserWithSessionTokenSuccess(TestContext context) {
+        testUserTokenSuccess(context, sessionTokenKey, noApiTokenUser, noApiTokenUser.getSessionToken().getData());
+    }
+
+    @Test
+    public void testExpireSessionTokenUserWithApiTokenSuccess(TestContext context) {
+        testUserTokenSuccess(context, apiTokenKey, expiredSessionTokenUser, getUserApiToken(expiredSessionTokenUser));
+    }
+
+    @Test
+    public void testNoSessionTokenUserWithApiTokenSuccess(TestContext context) {
+        testUserTokenSuccess(context, apiTokenKey, noSessionTokenUser, getUserApiToken(noSessionTokenUser));
+    }
+
+    @Test
+    public void testUserWithApiTokenSuccess(TestContext context) {
+        testUserTokenSuccess(context, apiTokenKey, existingUser, getUserApiToken(existingUser));
+    }
+
+    private void testUserTokenFailure(TestContext context, String tokenKey, User user, String tokenData) {
         Async async = context.async();
 
-        MultiMap headers = MultiMap.caseInsensitiveMultiMap();
-        headers.add(tokenKey, "XD");
-        JsonObject messageBody = new JsonObject()
-                .put(usernameKey, emptyUser.getUsername());
-        FakeMessage<JsonObject> fakeMessage = FakeMessage.<JsonObject>builder().body(messageBody).headers(headers).build();
-        authenticatedUserManager.handleMessage(fakeMessage, methodName);
-
-        Future<FakeReply> result = fakeMessage.getMessageReply();
+        Future<FakeReply> result = getResult(tokenKey, user, tokenData);
 
         result.onComplete(handler -> {
             FakeReply reply = handler.result();
             int statusCode = reply.errorCode();
-            context.assertEquals(400, statusCode);
+            context.assertEquals(401, statusCode);
             async.complete();
         });
         async.awaitSuccess();
+    }
+
+    private void testUserTokenSuccess(TestContext context, String tokenKey, User user, String tokenData) {
+        Async async = context.async();
+
+        Future<FakeReply> result = getResult(tokenKey, user, tokenData);
+
+        result.onComplete(handler -> {
+            FakeReply reply = handler.result();
+            int statusCode = getStatusFromDeliveryOptions(reply.deliveryOptions());
+            context.assertEquals(200, statusCode);
+            async.complete();
+        });
+        async.awaitSuccess();
+    }
+
+    private Future<FakeReply> getResult(String tokenKey, User user, String tokenData) {
+        MultiMap headers = MultiMap.caseInsensitiveMultiMap();
+        headers.add(tokenKey, tokenData);
+        JsonObject messageBody = new JsonObject()
+                .put(usernameKey, user.getUsername());
+        FakeMessage<JsonObject> fakeMessage = FakeMessage.<JsonObject>builder().body(messageBody).headers(headers).build();
+        authenticatedUserManager.handleMessage(fakeMessage, methodName);
+        return fakeMessage.getMessageReply();
+    }
+
+    private int getStatusFromDeliveryOptions(DeliveryOptions options) {
+        return Integer.parseInt(options.getHeaders().get(statusCodeKey));
+    }
+
+    private String getUserApiToken(User user) {
+        return user.getUserTokens().get(0).getData();
     }
 }

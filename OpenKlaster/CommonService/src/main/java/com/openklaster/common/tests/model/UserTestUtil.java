@@ -10,6 +10,8 @@ import java.util.List;
 
 public class UserTestUtil {
 
+    private static final int tokenGeneratorCharsCount = 3;
+
     public static User prepareUser(String name) {
         User testUser = new User();
         testUser.setUsername(name);
@@ -26,6 +28,6 @@ public class UserTestUtil {
     private static UserToken prepareToken() {
         TokenGenerator generator = new BasicTokenGenerator();
 
-        return new UserToken(generator.generateToken(3));
+        return new UserToken(generator.generateToken(tokenGeneratorCharsCount));
     }
 }
