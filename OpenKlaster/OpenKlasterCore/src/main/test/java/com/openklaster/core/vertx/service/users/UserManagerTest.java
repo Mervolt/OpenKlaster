@@ -45,7 +45,7 @@ public class UserManagerTest {
 
     private void repoSetup() {
         existingUser = UserTestUtil.prepareUser("existing");
-        existingUser.setSessionToken(new SessionToken("session", LocalDateTime.now().plusMinutes(10)));
+        existingUser.setSessionToken(new SessionToken("session", LocalDateTime.now().plusMinutes(1)));
         existingUser.setPassword(passwordHandler.hashPassword(existingUser.getPassword()));
         userCrudRepository.add(existingUser);
     }

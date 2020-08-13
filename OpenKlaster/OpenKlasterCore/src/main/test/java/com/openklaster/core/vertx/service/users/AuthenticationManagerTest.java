@@ -31,7 +31,7 @@ public class AuthenticationManagerTest extends UserManagerTest {
             .addApiToken(new UserToken("api"))
             .build();
     private static final User noApiTokenUser = UserBuilder.of("noApi")
-            .setSessionToken(new SessionToken("session", LocalDateTime.now().plusDays(1)))
+            .setSessionToken(new SessionToken("session", LocalDateTime.now().plusMinutes(1)))
             .build();
     private static final User expiredSessionTokenUser = UserBuilder.of("expired")
             .setSessionToken(new SessionToken("session", LocalDateTime.now().minusMinutes(1)))
@@ -86,7 +86,7 @@ public class AuthenticationManagerTest extends UserManagerTest {
         testUserTokenSuccess(context, sessionTokenKey, user, user.getSessionToken().getData());
 
         User refreshedUser = userCrudRepository.get(user.getUsername()).result();
-        context.assertFalse(previousExpirationTime.isBefore(refreshedUser.getSessionToken().getExpirationDate()));
+        context.assertTrue(previousExpirationTime.isBefore(refreshedUser.getSessionToken().getExpirationDate()));
     }
 
     @Test
