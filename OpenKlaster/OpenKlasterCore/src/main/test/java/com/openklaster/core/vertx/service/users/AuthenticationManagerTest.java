@@ -6,8 +6,6 @@ import com.openklaster.common.model.UserToken;
 import com.openklaster.common.tests.bus.FakeMessage;
 import com.openklaster.common.tests.bus.FakeReply;
 import com.openklaster.common.tests.model.UserBuilder;
-import com.openklaster.common.tests.model.UserTestUtil;
-import com.openklaster.core.vertx.service.AuthManager;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
@@ -20,7 +18,6 @@ import org.junit.runner.RunWith;
 
 import java.time.LocalDateTime;
 
-import static com.openklaster.common.messages.BusMessageReplyUtils.STATUS_CODE;
 
 @RunWith(VertxUnitRunner.class)
 public class AuthenticationManagerTest extends UserManagerTest{
@@ -71,7 +68,7 @@ public class AuthenticationManagerTest extends UserManagerTest{
         result.onComplete(handler -> {
             FakeReply reply = handler.result();
             int statusCode = reply.errorCode();
-            context.assertEquals(401, statusCode);
+            context.assertEquals(400, statusCode);
             async.complete();
         });
         async.awaitSuccess();
