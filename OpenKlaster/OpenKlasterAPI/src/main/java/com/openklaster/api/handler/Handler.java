@@ -66,7 +66,7 @@ public abstract class Handler {
 
     protected void sendPutPostRequest(RoutingContext context) {
         Map<String, String> tokens = retrieveTokensFromContex(context);
-        JsonObject jsonModel =context.getBodyAsJson();
+        JsonObject jsonModel = context.getBodyAsJson();
         handleRequest(context, tokens, jsonModel);
     }
 
@@ -86,6 +86,7 @@ public abstract class Handler {
                 }
             });
         } catch (ValidationException e) {
+            System.out.println(e.getMessage());
             handleBadRequestError(context.response(), e.getMessage());
         }
     }

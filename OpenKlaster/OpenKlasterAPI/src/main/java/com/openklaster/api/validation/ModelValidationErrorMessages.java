@@ -17,7 +17,7 @@ public class ModelValidationErrorMessages {
 
     public static final String SOURCE = "Source is required";
 
-    public static final String INSTALLATION_TYPE = "InstallationType is required. ";
+    public static final String INSTALLATION_TYPE = "InstallationType is required";
 
     public static final String LONGITUDE = "Longitude is required";
 
@@ -29,7 +29,7 @@ public class ModelValidationErrorMessages {
 
     public static final String CREDENTRAILS = "Credentials are required";
 
-    public static final String MODEL_TYPE = "MOdel type is required";
+    public static final String MODEL_TYPE = "Model type is required";
 
     public static final String NAME = "Name is required";
 

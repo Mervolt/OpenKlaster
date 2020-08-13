@@ -8,11 +8,9 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-
 public class MeasurementRequest extends Model {
     @NotBlank(message = ModelValidationErrorMessages.INSTALLATION_ID)
     private String installationId;

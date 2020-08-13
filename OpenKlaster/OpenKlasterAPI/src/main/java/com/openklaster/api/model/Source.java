@@ -1,5 +1,6 @@
 package com.openklaster.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.openklaster.api.validation.ModelValidationErrorMessages;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Source {
     @NotNull(message = ModelValidationErrorMessages.AZIMUTH)
     private Integer azimuth;

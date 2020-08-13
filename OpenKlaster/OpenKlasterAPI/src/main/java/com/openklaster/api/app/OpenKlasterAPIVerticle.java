@@ -131,7 +131,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.powerproductionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
@@ -140,7 +140,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
                         configAccessor.getString(EventBusAddressProperties.energyconsumedCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
                         configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey),
@@ -148,7 +148,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
                         configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class))
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class))
         );
 
 

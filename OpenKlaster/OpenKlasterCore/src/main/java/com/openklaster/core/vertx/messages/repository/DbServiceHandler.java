@@ -71,9 +71,6 @@ public class DbServiceHandler<T> {
     }
 
     private List<T> mapToListContent(JsonArray body) {
-        // Todo
-        System.out.println(body);
-        System.out.println(body.stream().map(result -> JsonObject.mapFrom(result).mapTo(modelClass)).collect(Collectors.toList()));
         return body.stream().map(result -> JsonObject.mapFrom(result).mapTo(modelClass)).collect(Collectors.toList());
     }
 

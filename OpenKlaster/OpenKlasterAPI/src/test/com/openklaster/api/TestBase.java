@@ -33,8 +33,7 @@ import static com.openklaster.api.app.OpenKlasterAPIVerticle.buildEndpoint;
 import static com.openklaster.api.utils.PrepareData.getInstallationJsonObject;
 import static com.openklaster.api.utils.PrepareData.getInstallationJsonObjectWithId;
 
-@RunWith(VertxUnitRunner.class)
-public class APITest {
+public class TestBase {
     protected static final String ADDRESS = "localhost";
     protected static final int VERSION1 = 1;
     protected int port;
@@ -75,139 +74,6 @@ public class APITest {
         vertx.close();
     }
 
-
-
-    @Test
-    public void testGetInstallations(TestContext context) {
-        HashMap<String, Object> queryParams = new HashMap<>();
-        queryParams.put("apiToken", "token");
-        queryParams.put("installationId", "installation:1");
-
-        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey);
-
-        HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).get(port, ADDRESS, route), queryParams);
-        request.sendJsonObject(prepareJsonObject(queryParams), handler(context));
-        receiveMessageFromEventhandler(context, address, queryParams);
-    }
-
-    @Test
-    public void testAddInstallation(TestContext context) {
-        HashMap<String, Object> queryParams = new HashMap<>();
-        queryParams.put("apiToken", "token");
-
-        HashMap<String, Object> bodyParams = getInstallationJsonObject();
-
-        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey);
-
-        HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).post(port, ADDRESS, route), queryParams);
-        request.sendJsonObject(prepareJsonObject(bodyParams), handler(context));
-        receiveMessageFromEventhandler(context, address, bodyParams);
-    }
-
-    @Test
-    public void testUpdateInstallation(TestContext context) {
-        HashMap<String, Object> queryParams = new HashMap<>();
-        queryParams.put("apiToken", "token");
-
-        HashMap<String, Object> bodyParams = getInstallationJsonObjectWithId();
-
-        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey);
-
-        HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).put(port, ADDRESS, route), queryParams);
-        request.sendJsonObject(prepareJsonObject(bodyParams), handler(context));
-        receiveMessageFromEventhandler(context, address, bodyParams);
-    }
-
-    @Test
-    public void testDeleteInstallations(TestContext context) {
-        HashMap<String, Object> queryParams = new HashMap<>();
-        queryParams.put("apiToken", "token");
-        queryParams.put("installationId", "installation:1");
-
-        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey);
-
-        addQueryParams(WebClient.create(vertx).delete(port, ADDRESS, route), queryParams).send(handler(context));
-        receiveMessageFromEventhandler(context, address, queryParams);
-    }
-
-    @Test
-    public void testGetPowerConsumption(TestContext context) {
-        HashMap<String, Object> queryParams = new HashMap<>();
-        queryParams.put("apiToken", "token");
-        queryParams.put("installationId", "installation:1");
-
-        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey);
-
-        HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).get(port, ADDRESS, route), queryParams);
-        request.sendJsonObject(prepareJsonObject(queryParams), handler(context));
-        receiveMessageFromEventhandler(context, address, queryParams);
-    }
-
-    @Test
-    public void testAddPowerConsumption(TestContext context) {
-        HashMap<String, Object> queryParams = new HashMap<>();
-        queryParams.put("apiToken", "token");
-
-        HashMap<String, Object> bodyParams = new HashMap<>();
-        bodyParams.put("installationId", "installation:1");
-        bodyParams.put("timestamp", "2020-07-18 20:10:08");
-        bodyParams.put("value", 1.1);
-
-        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey);
-
-        HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).post(port, ADDRESS, route), queryParams);
-        request.sendJsonObject(prepareJsonObject(bodyParams), handler(context));
-        receiveMessageFromEventhandler(context, address, bodyParams);
-    }
-
-    @Test
-    public void testGetPowerProduction(TestContext context) {
-        HashMap<String, Object> queryParams = new HashMap<>();
-        queryParams.put("apiToken", "token");
-
-        HashMap<String, Object> bodyParams = new HashMap<>();
-        bodyParams.put("installationId", "installation:1");
-        bodyParams.put("timestamp", "2020-07-18 20:10:08");
-        bodyParams.put("value", 1.1);
-
-        String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey);
-
-        HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).post(port, ADDRESS, route), queryParams);
-        request.sendJsonObject(prepareJsonObject(bodyParams), handler(context));
-        receiveMessageFromEventhandler(context, address, bodyParams);
-    }
-
-    @Test
-    public void testAddPowerProduction(TestContext context) {
-        // Todo
-    }
-
-    @Test
-    public void testGetEnergyConsumed(TestContext context) {
-        // Todo
-    }
-
-    @Test
-    public void testAddEnergyConsumed(TestContext context) {
-        // Todo
-    }
-
-    @Test
-    public void testGetEnergyProduced(TestContext context) {
-        // Todo
-    }
-
-    @Test
-    public void testAddEnergyProduced(TestContext context) {
-        // Todo
-    }
 
     protected JsonObject prepareJsonObject(HashMap<String, Object> bodyParams) {
         JsonObject jsonObject = new JsonObject();
