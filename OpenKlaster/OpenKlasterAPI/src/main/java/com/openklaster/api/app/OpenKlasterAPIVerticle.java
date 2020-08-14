@@ -2,24 +2,23 @@ package com.openklaster.api.app;
 
 
 import com.openklaster.api.handler.*;
+import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.api.model.*;
 import com.openklaster.api.parser.DefaultParseStrategy;
 import com.openklaster.api.properties.EndpointRouteProperties;
 import com.openklaster.api.properties.EventBusAddressProperties;
+import com.openklaster.api.properties.EventbusMethods;
 import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
-import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,25 +41,10 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
     @Override
     public void start(Promise<Void> promise) {
-        Promise<Void> deployPrepared = Promise.promise();
-        prepareDeploy(deployPrepared);
-        deployPrepared.future().onComplete(result -> {
-            prepareConfig();
-            promise.complete();
-        });
-    }
-
-    private void prepareDeploy(Promise<Void> deployPrepared) {
-        Promise<Void> promise = Promise.promise();
-        //createClusteredVertx(promise);
-        deployPrepared.complete();
-    }
-
-    private void prepareConfig() {
         configRetriever.getConfig(config -> {
             if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
-                startVerticle();
+                startVerticle(promise);
             } else {
                 logger.error(config.cause());
                 vertx.close();
@@ -68,38 +52,38 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
         });
     }
 
-    private void startVerticle() {
+    private void startVerticle(Promise<Void> promise) {
         Router router = Router.router(vertx);
         vertx.createHttpServer()
                 .requestHandler(router)
                 .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
         handlers = Arrays.asList(
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.loginEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "login",
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.LOGIN,
                         eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "register",
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.REGISTER,
                         eventBus, configAccessor, new DefaultParseStrategy<Register>(Register.class)),
 
                 new PutHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "updateUser",
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.UPDATE_USER,
                         eventBus, configAccessor, new DefaultParseStrategy<UpdateUser>(UpdateUser.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "info",
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.INFO,
                         eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "generateToken",
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.GENERATE_TOKEN,
                         eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "deleteToken",
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.DELETE_TOKEN,
                         eventBus, configAccessor, new DefaultParseStrategy<Model>(Model.class)),
 
-                new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint) + "/all",
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), "deleteAllTokens",
+                new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.allTokensEndpoint),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.DELETE_ALL_TOKENS,
                         eventBus, configAccessor, new DefaultParseStrategy<Model>(Model.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
@@ -152,27 +136,28 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
         );
 
 
-        routerConfig(router);
+        routerConfig(router, promise);
     }
 
-    private void routerConfig(Router router) {
+    private void routerConfig(Router router, Promise<Void> promise) {
         handlers.forEach(handler -> {
             configureRouteHandler(router);
             switch (handler.getMethod()) {
-                case "get":
+                case HandlerProperties.getMethodHeader:
                     router.get(handler.getRoute()).handler(handler::handle);
                     break;
-                case "post":
+                case HandlerProperties.postMethodHeader:
                     router.post(handler.getRoute()).consumes("application/json").handler(handler::handle);
                     break;
-                case "put":
+                case HandlerProperties.putMethodHeader:
                     router.put(handler.getRoute()).consumes("application/json").handler(handler::handle);
                     break;
-                case "delete":
+                case HandlerProperties.deleteMethodHeader:
                     router.delete(handler.getRoute()).handler(handler::handle);
                     break;
             }
         });
+        promise.complete();
     }
 
     private void configureRouteHandler(Router router) {

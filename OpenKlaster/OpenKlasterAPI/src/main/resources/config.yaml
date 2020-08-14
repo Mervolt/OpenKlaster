@@ -6,6 +6,7 @@ http:
       login: "/user/login"
       user: "/user"
       token: "/token"
+      alltokens: "/token/all"
       installation: "/installations"
       powerconsumption: "/powerConsumption"
       powerproduction: "/powerProduction"
