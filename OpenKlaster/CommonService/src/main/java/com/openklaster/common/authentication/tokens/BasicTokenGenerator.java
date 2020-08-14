@@ -70,12 +70,12 @@ public class BasicTokenGenerator implements TokenGenerator {
      *
      * @param uppperCount count of upper case chars in string
      * @param lowerCount count of lower  case chars in string
-     * @param digitscount count of digits in string
+     * @param digitsCount count of digits in string
      * @return random token with length of sum of params.
      */
     @Override
-    public String generateToken(int uppperCount, int lowerCount, int digitscount) {
-        List<Character> characterList = getCharactersList(uppperCount, lowerCount, digitscount);
+    public String generateToken(int uppperCount, int lowerCount, int digitsCount) {
+        List<Character> characterList = getCharactersList(uppperCount, lowerCount, digitsCount);
         Collections.shuffle(characterList);
         return characterList.stream()
                 .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
