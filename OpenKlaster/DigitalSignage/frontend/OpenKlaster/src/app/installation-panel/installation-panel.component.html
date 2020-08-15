@@ -326,10 +326,6 @@
           </div>
         </li>
       </ul>
-      <label for="apiTokenKey">API Token</label>
-      <input type="text" class="form-control" id="apiTokenKey" name="apiTokenKey" required
-             [(ngModel)]="formToken">
-
       <button type="submit" class="btn btn-primary">Display</button>
     </div>
   </form>
@@ -339,8 +335,6 @@
   <button type="submit" class="btn btn-warning" (click)="hideForm()">Hide form</button>
   <form (ngSubmit)="onSubmit()" #installationForm="ngForm" [hidden]="isFormHidden">
     <div class="form-group">
-      <label for="apiToken">API Token</label>
-      <input type="text" class="form-control" id="apiToken" name="apiToken" required [(ngModel)]="formModel.apiToken">
 
       <label for="installationType">Installation Type</label>
       <input type="text" class="form-control" id="installationType" name="installationType" required

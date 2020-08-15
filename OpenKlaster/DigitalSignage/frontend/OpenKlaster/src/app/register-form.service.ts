@@ -18,11 +18,9 @@ export class RegisterFormService {
     return this.http.post("http://localhost:8082/api/1/user", user, {responseType: 'text'})
       .toPromise()
       .then(response => {
-        console.log(response);
         return true;
       })
-      .catch((error:any) => {
-        console.log(error);
+      .catch((_:any) => {
         return false;
       })
   }
