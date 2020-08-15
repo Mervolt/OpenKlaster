@@ -89,7 +89,7 @@ public abstract class CassandraHandler<T> {
     }
 
     private JsonObject parseRow(Row row) {
-        DateFormat dateFormat = new SimpleDateFormat(CassandraProperties.DATE_FORMAT);
+        DateFormat dateFormat = new SimpleDateFormat(CassandraProperties.DATETIME_FORMAT);
         JsonObject jsonObject = new JsonObject();
         for (ColumnDefinitions.Definition column : row.getColumnDefinitions()) {
             switch(column.getType().toString()) {
@@ -135,10 +135,10 @@ public abstract class CassandraHandler<T> {
         String date = message.body().getString(dateProperty);
         if (date == null) return null;
 
-        String dateFormat = "[" +  CassandraProperties.DATE_FORMAT + "]";
-        String dateFormatWithoutSeconds = "[" +  CassandraProperties.DATE_FORMAT_WITHOUD_SECONDS + "]";
-        String dateFormatWithoutMinutes = "[" +  CassandraProperties.DATE_FORMAT_WITHOUT_MINUTES + "]";
-        String dateFormatWithoutHour = "[" +  CassandraProperties.DATE_FORMAT_WITHOUT_HOUR + "]";
+        String dateFormat = "[" +  CassandraProperties.DATETIME_FORMAT + "]";
+        String dateFormatWithoutSeconds = "[" +  CassandraProperties.DATE_FORMAT_MINUTES + "]";
+        String dateFormatWithoutMinutes = "[" +  CassandraProperties.DATE_FORMAT_HOURS + "]";
+        String dateFormatWithoutHour = "[" +  CassandraProperties.DATE_FORMAT + "]";
 
         try {
             DateTimeFormatter formatter = new DateTimeFormatterBuilder()

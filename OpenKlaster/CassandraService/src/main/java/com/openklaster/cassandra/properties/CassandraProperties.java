@@ -17,10 +17,10 @@ public class CassandraProperties {
 
     public final static String WEATHER_CONDITIONS = "weatherconditions";
 
-    public final static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    public final static String DATE_FORMAT_WITHOUD_SECONDS = "yyyy-MM-dd HH:mm";
-    public final static String DATE_FORMAT_WITHOUT_MINUTES = "yyyy-MM-dd HH";
-    public final static String DATE_FORMAT_WITHOUT_HOUR = "yyyy-MM-dd";
+    public final static String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public final static String DATE_FORMAT_MINUTES = "yyyy-MM-dd HH:mm";
+    public final static String DATE_FORMAT_HOURS = "yyyy-MM-dd HH";
+    public final static String DATE_FORMAT = "yyyy-MM-dd";
 
     public final static String INSTALLATION_ID = "installationId";
 
