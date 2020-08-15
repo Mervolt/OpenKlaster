@@ -13,6 +13,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
+import static com.openklaster.common.model.ModelProperties.passwordKey;
+import static com.openklaster.common.model.ModelProperties.usernameKey;
+
 public class LoginManager implements UserManager {
     private static final String methodName = "login";
     private static final String successMessage = "User logged in - %s";
@@ -43,7 +46,7 @@ public class LoginManager implements UserManager {
     }
 
     private void handleFailure(String reason, Message<JsonObject> message) {
-        logger.error(String.format(failedMessage, reason));
+        logger.error(String.format(failedMessage, reason), reason);
         BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.UNAUTHORIZED,
                 String.format(failedMessage, reason));
     }

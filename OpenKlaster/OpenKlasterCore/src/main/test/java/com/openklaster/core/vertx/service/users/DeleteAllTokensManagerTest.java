@@ -19,10 +19,11 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.STATUS_CODE;
 @RunWith(VertxUnitRunner.class)
 public class DeleteAllTokensManagerTest extends UserManagerTest {
 
+    private static final String methodName = "deleteAllTokens";
+
     @Before
     public void setup() {
         commonSetup();
-        this.userManager = new DeleteAllTokensManager(authenticationClient, userCrudRepository);
     }
 
     @Test
@@ -35,7 +36,7 @@ public class DeleteAllTokensManagerTest extends UserManagerTest {
         JsonObject usernameJson = new JsonObject().put(usernameKey, existingUser.getUsername());
 
         FakeMessage<JsonObject> fakeMessage = FakeMessage.<JsonObject>builder().body(usernameJson).headers(headers).build();
-        userManager.handleMessage(fakeMessage);
+        authenticatedUserManager.handleMessage(fakeMessage,methodName );
 
         Future<Pair<User, FakeReply>> result = fakeMessage.getMessageReply().compose(reply -> {
             Future<User> storedUser = userCrudRepository.get(existingUser.getUsername());
