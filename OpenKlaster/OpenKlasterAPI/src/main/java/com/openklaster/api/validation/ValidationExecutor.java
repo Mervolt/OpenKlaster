@@ -1,6 +1,7 @@
 package com.openklaster.api.validation;
 
 import com.openklaster.api.handler.properties.HandlerProperties;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.*;
 import java.util.List;
@@ -24,7 +25,7 @@ public class ValidationExecutor {
     private static void validateToken(Object object, Map<String, String> tokens, List<String> messages) {
         Class<?> clazz = object.getClass();
         if (shouldValidateToken(clazz, tokens)) {
-                messages.add(ModelValidationErrorMessages.TOKEN_REQUIRED);
+            messages.add(ModelValidationErrorMessages.TOKEN_REQUIRED);
         }
     }
 
@@ -38,11 +39,6 @@ public class ValidationExecutor {
     }
 
     private static boolean isTokenPresent(Map<String, String> tokens, String tokenType) {
-        return tokens.containsKey(tokenType) && isSpecified(tokens.get(tokenType));
+        return tokens.containsKey(tokenType) && StringUtils.isNotBlank(tokens.get(tokenType));
     }
-
-    private static boolean isSpecified(String s) {
-        return s != null && !s.equals("");
-    }
-
 }
