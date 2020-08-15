@@ -44,14 +44,14 @@ public class BasicTokenGenerator implements TokenGenerator {
         return RandomStringUtils.random(count, start, stop, true, true, null, secureRandom);
     }
 
-    private String accumulateChars(int uppperCount, int lowerCount, int digitscount) {
+    private String accumulateChars(int uppperCount, int lowerCount, int digitsCount) {
         return upperCaseLetters(uppperCount)
                 .concat(lowerCaseLetters(lowerCount))
-                .concat(digits(digitscount));
+                .concat(digits(digitsCount));
     }
 
-    private List<Character> getCharactersList(int uppperCount, int lowerCount, int digitscount) {
-        return accumulateChars(uppperCount, lowerCount, digitscount)
+    private List<Character> getCharactersList(int uppperCount, int lowerCount, int digitsCount) {
+        return accumulateChars(uppperCount, lowerCount, digitsCount)
                 .chars()
                 .mapToObj(c -> (char) c)
                 .collect(Collectors.toList());
