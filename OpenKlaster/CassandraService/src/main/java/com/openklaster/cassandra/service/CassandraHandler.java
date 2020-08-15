@@ -93,13 +93,13 @@ public abstract class CassandraHandler<T> {
         JsonObject jsonObject = new JsonObject();
         for (ColumnDefinitions.Definition column : row.getColumnDefinitions()) {
             switch(column.getType().toString()) {
-                case "timestamp":
+                case CassandraProperties.TIMESTAMP:
                     jsonObject.put(column.getName(), dateFormat.format(row.getTimestamp(column.getName())));
                     break;
-                case "varchar":
+                case CassandraProperties.VARCHAR:
                     jsonObject.put(column.getName(), row.getString(column.getName()));
                     break;
-                case "double":
+                case CassandraProperties.DOUBLE:
                     jsonObject.put(column.getName(), row.getDouble(column.getName()));
                     break;
                 default:
@@ -120,7 +120,7 @@ public abstract class CassandraHandler<T> {
         String startDate = getValidatedDate(message, "startDate");
         String endDate = getValidatedDate(message, "endDate");
 
-
+        // Todo maybe query builder
         return "SELECT * FROM " + table + " " + "WHERE " + CassandraProperties.INSTALLATION_ID.toLowerCase() + " = '" + installationId + "'" +
                 (startDate != null ? " AND timestamp >= '" + startDate + "'" : "") +
                 (endDate != null ? " AND timestamp <= '" + endDate + "'" : "") +
@@ -135,18 +135,22 @@ public abstract class CassandraHandler<T> {
         String date = message.body().getString(dateProperty);
         if (date == null) return null;
 
+        String dateFormat = "[" +  CassandraProperties.DATE_FORMAT + "]";
+        String dateFormatWithoutSeconds = "[" +  CassandraProperties.DATE_FORMAT_WITHOUD_SECONDS + "]";
+        String dateFormatWithoutMinutes = "[" +  CassandraProperties.DATE_FORMAT_WITHOUT_MINUTES + "]";
+        String dateFormatWithoutHour = "[" +  CassandraProperties.DATE_FORMAT_WITHOUT_HOUR + "]";
+
         try {
             DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                    .appendPattern("[yyyy-MM-dd HH:mm:ss]")
-                    .appendPattern("[yyyy-MM-dd HH:mm]")
-                    .appendPattern("[yyyy-MM-dd HH]")
-                    .appendPattern("[yyyy-MM-dd]")
+                    .appendPattern(dateFormat)
+                    .appendPattern(dateFormatWithoutSeconds)
+                    .appendPattern(dateFormatWithoutMinutes)
+                    .appendPattern(dateFormatWithoutHour)
                     .toFormatter();
             formatter.parse(date);
         } catch (Exception e) {
             BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, CassandraProperties.WRONG_DATE);
         }
-
         return date;
     }
 }

@@ -18,6 +18,9 @@ public class CassandraProperties {
     public final static String WEATHER_CONDITIONS = "weatherconditions";
 
     public final static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public final static String DATE_FORMAT_WITHOUD_SECONDS = "yyyy-MM-dd HH:mm";
+    public final static String DATE_FORMAT_WITHOUT_MINUTES = "yyyy-MM-dd HH";
+    public final static String DATE_FORMAT_WITHOUT_HOUR = "yyyy-MM-dd";
 
     public final static String INSTALLATION_ID = "installationId";
 
@@ -26,4 +29,10 @@ public class CassandraProperties {
     public final static String TABLE = "table";
 
     public final static String WRONG_DATE = "Invalid date format";
+
+    public final static String TIMESTAMP = "timestamp";
+
+    public final static String VARCHAR = "varchar";
+
+    public final static String DOUBLE = "double";
 }
