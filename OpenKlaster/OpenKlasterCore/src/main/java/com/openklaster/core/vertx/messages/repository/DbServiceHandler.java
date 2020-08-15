@@ -1,7 +1,5 @@
 package com.openklaster.core.vertx.messages.repository;
 
-import com.openklaster.common.model.Installation;
-import com.openklaster.common.model.LoadMeasurement;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.eventbus.DeliveryOptions;
@@ -11,7 +9,6 @@ import io.vertx.core.json.JsonObject;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
@@ -64,6 +61,7 @@ public class DbServiceHandler<T> {
                 resultPromise.fail(handler.cause());
             }
         });
+
         return resultPromise.future();
     }
 

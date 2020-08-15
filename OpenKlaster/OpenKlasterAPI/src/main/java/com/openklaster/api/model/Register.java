@@ -10,9 +10,11 @@ import javax.validation.constraints.NotBlank;
 @Data
 @TokenNotRequired
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Login extends Model{
+public class Register extends Model {
     @NotBlank(message = ModelValidationErrorMessages.USERNAME)
     private String username;
     @NotBlank(message = ModelValidationErrorMessages.PASSWORD)
     private String password;
+    @NotBlank(message = ModelValidationErrorMessages.EMAIL)
+    private String email;
 }

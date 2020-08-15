@@ -15,9 +15,4 @@ public class DefaultParseStrategy<T extends Model> implements IParseStrategy {
     public T parseToModel(JsonObject jsonObject) {
         return jsonObject.mapTo(this.modelClass);
     }
-
-    @Override
-    public JsonObject parseToJson(Model model) {
-        return JsonObject.mapFrom(model);
-    }
 }

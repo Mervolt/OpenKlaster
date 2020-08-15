@@ -7,7 +7,7 @@ import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.ext.web.RoutingContext;
 
-public class PostHandler extends Handler{
+public class PostHandler extends Handler {
     public PostHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
         super(HandlerProperties.postMethodHeader, route, HandlerProperties.postMethodHeader, address, eventBus, nestedConfigAccessor, parseStrategy);
     }
@@ -18,6 +18,6 @@ public class PostHandler extends Handler{
 
     @Override
     public void handle(RoutingContext context) {
-        sendPutPostRequest(context, eventbusMethod);
+        sendPutPostRequest(context);
     }
 }

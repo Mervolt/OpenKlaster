@@ -12,13 +12,12 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Inverter {
-    @NotBlank(message = ModelValidationErrorMessages.DESCRIPTION)
-    private String description;
-    @NotBlank(message = ModelValidationErrorMessages.MANUFACTURER)
-    private String manufacturer;
-    @NotBlank(message = ModelValidationErrorMessages.CREDENTRAILS)
-    private String credentials;
-    @NotBlank(message = ModelValidationErrorMessages.MODEL_TYPE)
-    private String modelType;
+public class MeasurementPower extends Model {
+    private String timestamp;
+    @NotBlank(message = ModelValidationErrorMessages.INSTALLATION_ID)
+    private String installationId;
+    private String unit = "kW";
+    @NotNull(message = ModelValidationErrorMessages.VALUE)
+    private double value;
 }
+

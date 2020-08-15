@@ -13,9 +13,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Installation extends Model {
-    @NotBlank(message = ModelValidationErrorMessages.INSTALLATION_ID)
-    private String installationId;
+public class PostInstallation extends Model {
+
     @NotBlank(message = ModelValidationErrorMessages.USERNAME)
     private String username;
     @Valid
@@ -24,8 +23,8 @@ public class Installation extends Model {
     @Valid
     @NotNull(message = ModelValidationErrorMessages.LOAD)
     private Load load;
-    @Valid
     @NotNull(message = ModelValidationErrorMessages.SOURCE)
+    @Valid
     private Source source;
     @NotBlank(message = ModelValidationErrorMessages.INSTALLATION_TYPE)
     private String installationType;
@@ -33,6 +32,6 @@ public class Installation extends Model {
     private Double longitude;
     @NotNull(message = ModelValidationErrorMessages.LATITUDE)
     private Double latitude;
-    @NotNull(message = ModelValidationErrorMessages.DESCRIPTION)
+    @NotBlank(message = ModelValidationErrorMessages.DESCRIPTION)
     private String description;
 }
