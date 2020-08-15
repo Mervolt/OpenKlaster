@@ -6,18 +6,19 @@ import com.openklaster.common.model.UserToken;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.CrudRepository;
 import io.vertx.core.Future;
+import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.LoggerFactory;
 
-public class GenerateTokenManager extends AuthenticatedManager {
+public class GenerateTokenManager extends UserManagerHelper {
     private static final String methodName = "generateToken";
     private static final String successMessage = "Token generated for user - %s";
-    private static final String failureMessage = "Could not generate token - %s";
+    private static final String failureMessage = "Could not generate token - %s.\nReason: %s";
     private final TokenHandler tokenHandler;
+    private final CrudRepository<User> userCrudRepository;
 
-    public GenerateTokenManager(AuthenticationClient authenticationClient, TokenHandler tokenHandler,
-                                CrudRepository<User> userCrudRepository) {
-        super(LoggerFactory.getLogger(GenerateTokenManager.class), authenticationClient, userCrudRepository);
+    public GenerateTokenManager(TokenHandler tokenHandler, CrudRepository<User> userCrudRepository) {
+        this.userCrudRepository = userCrudRepository;
         this.tokenHandler = tokenHandler;
     }
 
@@ -27,19 +28,19 @@ public class GenerateTokenManager extends AuthenticatedManager {
     }
 
     @Override
-    protected Future<JsonObject> processUser(User user) {
+    protected Future<JsonObject> processMessage(User authenticatedUser, Message<JsonObject> message) {
         UserToken token = tokenHandler.generateUserToken();
-        return storeToken(user, token);
+        return storeToken(authenticatedUser, token);
     }
 
     @Override
-    protected String getSuccessMessage(JsonObject result) {
-        return String.format(successMessage, result);
+    public String getFailureMessage(Throwable reason, Message<JsonObject> message) {
+        return String.format(failureMessage, message.toString(), reason.getMessage());
     }
 
     @Override
-    protected String getFailureMessage(String reason) {
-        return String.format(failureMessage, reason);
+    public String getSuccessMessage(JsonObject result, Message<JsonObject> message) {
+        return String.format(successMessage, result.toString());
     }
 
     private Future<JsonObject> storeToken(User user, UserToken token) {

@@ -23,9 +23,15 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.12</lombok.version>
+        <slf4j-simple.version>1.7.30</slf4j-simple.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j-simple.version}</version>
+        </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-unit</artifactId>

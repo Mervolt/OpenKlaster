@@ -48,7 +48,7 @@ public class RegisterManager implements UserManager {
 
     private void handleFailure(User user, Message<JsonObject> message, String reason) {
         logger.error(String.format(failureMessage,
-                user.getUsername(), reason));
+                user.getUsername(), reason), reason);
         BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST,
                 reason);
     }

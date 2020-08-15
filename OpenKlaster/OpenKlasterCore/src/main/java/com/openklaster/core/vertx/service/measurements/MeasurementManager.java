@@ -27,7 +27,7 @@ public class MeasurementManager<T> extends ModelManager<T> {
     }
 
     @Override
-    protected Future<JsonObject> processAuthenticatedMessage(JsonObject authResult, Message<JsonObject> message, String methodName) {
+    protected Future<JsonObject> processAuthenticatedMessage(User authenticatedUser, Message<JsonObject> message, String methodName) {
         switch (methodName) {
             case getMethodName:
                 return get(message.body()).map(JsonObject::mapFrom);

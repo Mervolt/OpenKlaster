@@ -66,7 +66,10 @@ public class DbServiceHandler<T> {
     }
 
     private List<T> mapToListContent(JsonArray body) {
-        return body.stream().map(result -> JsonObject.mapFrom(result).mapTo(modelClass)).collect(Collectors.toList());
+        return  body.stream().map(result -> {
+            JsonObject jsonObject = JsonObject.mapFrom(result);
+            return jsonObject.mapTo(modelClass);
+        }).collect(Collectors.toList());
     }
 
     private DeliveryOptions getMethodOptions(String methodName) {
