@@ -47,7 +47,11 @@ public abstract class AuthManager {
 
     protected void handleSuccess(String methodName, JsonObject result, Message<JsonObject> message) {
         logger.debug(getSuccessMessage(methodName, result, message));
-        BusMessageReplyUtils.replyWithBodyAndStatus(message, result, HttpResponseStatus.OK);
+        if (result.containsKey(BusMessageReplyUtils.RETURN_LIST))
+            BusMessageReplyUtils.replyWithBodyAndStatus(message, result.getJsonArray(BusMessageReplyUtils.RETURN_LIST), HttpResponseStatus.OK);
+        else
+            BusMessageReplyUtils.replyWithBodyAndStatus(message, result, HttpResponseStatus.OK);
+
     }
 
     protected abstract String getFailureMessage(String methodName, Throwable reason, Message<JsonObject> message);
