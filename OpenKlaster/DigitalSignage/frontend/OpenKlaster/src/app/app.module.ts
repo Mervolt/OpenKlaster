@@ -19,6 +19,11 @@ import { TokenPanelService } from './token-panel.service';
 import { InstallationPanelService } from './installation-panel.service';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginFormService } from './login-form.service';
+import { SingleInstallationPanelComponent } from './single-installation-panel/single-installation-panel.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSliderModule} from "@angular/material/slider";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -30,20 +35,26 @@ import { LoginFormService } from './login-form.service';
     TokenPanelComponent,
     MeasurementPanelComponent,
     InstallationPanelComponent,
-    TokenComponent
+    TokenComponent,
+    SingleInstallationPanelComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    MatSliderModule,
     RouterModule.forRoot([
       {path: '', component: RegisterFormComponent},
       {path: 'login', component: LoginFormComponent},
       {path: 'user', component: UserPanelComponent},
       {path: 'token', component: TokenPanelComponent},
-      {path: 'installations', component: InstallationPanelComponent}
+      {path: 'installations', component: InstallationPanelComponent},
+      {path: 'installations/:id', component: SingleInstallationPanelComponent}
     ]),
     ReactiveFormsModule,
     FormsModule,
+    BrowserAnimationsModule,
+    MatMenuModule,
+    MatIconModule,
   ],
   providers: [
     RegisterFormService,
