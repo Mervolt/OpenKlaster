@@ -1,13 +1,14 @@
 import json
+import sys
 import numpy
 import random
 import requests
 from datetime import date
 
+headers = {'content-type': 'application/json'}
 i = 0
 production_power_sum = 0
 load_power_sum = 0
-period_of_time = 60*5
 
 # If we get a positive value from the function, it is returned. If negative we draw a small number.
 def count_function(function, x):
@@ -15,38 +16,54 @@ def count_function(function, x):
     if y > 0:
         return y
     else:
-        return random.randint(1, 10) / 100
+        return random.randint(1, 10) / 1000
 
 
-def energy_production_function(x):
+def production_power_function(x):
     return numpy.sin(numpy.pi / 13 * (x - 4))
 
 
-def energy_load_function(x):
+def load_power_function(x):
     return numpy.sin(numpy.pi / 6 * x - 2)
 
 
-def post_power(id_type, id, energy, now):
-    if id_type == "inverterId":
-        url = 'http://localhost:8082/power/production'
-    elif id_type == "receiverId":
-        url = 'http://localhost:8082/power/consumption'
+def get_json_object(id, value, timestamp):
+    return {"installationId": id, 'value': round(value, 3), 'timestamp': timestamp}
 
-    obj = {id_type: id, 'value': round(energy, 3), 'timestamp': now}
-    headers = {'content-type': 'application/json'}
-    x = requests.post(url, data=json.dumps(obj), headers=headers)
+
+def get_params(token):
+    return {'apiToken': token}
+
+
+def post_power_production(params, obj):
+    global headers
+    url = 'http://localhost:8082/api/1/powerProduction'
+
+    x = requests.post(url, data=json.dumps(obj), headers=headers, params=params)
+
     if x.status_code == 200:
-        print("Post request sent " + str(obj))
+        print("Post request with power production sent: " + str(obj))
     else:
-        print("Problem with sending post request. Status code: " + str(x.status_code))
+        print("Problem with sending post request with power production. Status code: " + str(x.status_code))
+
+
+def post_power_consumption(params, obj):
+    global headers
+    url = 'http://localhost:8082/api/1/powerConsumption'
+
+    x = requests.post(url, data=json.dumps(obj), headers=headers, params=params)
+
+    if x.status_code == 200:
+        print("Post request with power consumption sent: " + str(obj))
+    else:
+        print("Problem with sending post request with power consumption. Status code: " + str(x.status_code))
 
 
 def house(hour, minute, second):
-    global period_of_time, i, production_power_sum, load_power_sum
-    production_power_sum += count_function(energy_production_function, hour + (minute * 60 + second) / 3600)
-    load_power_sum += count_function(energy_load_function, hour + (minute * 60 + second) / 3600)
+    global period_of_time, i, production_power_sum, load_power_sum, id
+    production_power_sum += count_function(production_power_function, hour + (minute * 60 + second) / 3600)
+    load_power_sum += count_function(load_power_function, hour + (minute * 60 + second) / 3600)
 
-    i += 1
     if i == period_of_time:
         if hour < 10:
             hour = "0" + str(hour)
@@ -63,18 +80,30 @@ def house(hour, minute, second):
         else:
             second = str(second)
 
-        now = str(date.today()) + "_" + hour + ":" + str(minute) + ":" + str(second)
+        now = str(date.today()) + " " + hour + ":" + str(minute) + ":" + str(second)
 
-        post_power("inverterId", 42, production_power_sum / i + 1, now)
-        post_power("receiverId", 23, load_power_sum / i + 1, now)
+        post_power_production(get_params(token), get_json_object(id, production_power_sum / (i + 1), now))
+        post_power_consumption(get_params(token), get_json_object(id, load_power_sum / (i + 1), now))
         i = 0
         production_power_sum = 0
         load_power_sum = 0
-
+    i += 1
 
 
 if __name__ == '__main__':
-    for hour in range(0, 24):
-        for minute in range(0, 60):
-            for second in range(0, 60):
-                house(hour, minute, second)
+    global token
+    global id
+    global period_of_time
+    if len(sys.argv) < 4:
+        print("As a parameter, enter a token and installationId and number specifying every how many seconds post request should be sent.")
+        print("Example: py house.py 5CS4hU55fWyy installation:0 1800")
+    else:
+        token = sys.argv[1]
+        id = sys.argv[2]
+        period_of_time = int(sys.argv[3])
+
+        for hour in range(0, 24):
+            for minute in range(0, 60):
+                for second in range(0, 60):
+                    house(hour, minute, second)
+
