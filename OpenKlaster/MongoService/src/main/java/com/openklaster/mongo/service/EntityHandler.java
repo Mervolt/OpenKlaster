@@ -6,6 +6,7 @@ import com.openklaster.mongo.exceptions.MongoExceptionHandler;
 import com.openklaster.mongo.parser.EntityParser;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import org.apache.commons.lang3.tuple.Pair;
@@ -19,6 +20,7 @@ public abstract class EntityHandler {
     protected MongoExceptionHandler exceptionHandler;
     private final String mongoCollectionNameKey = "mongo.collectionName";
     protected static String ID_KEY = "_id";
+    protected static String NAME_KEY = "username";
 
     public EntityHandler(EntityParser parser, MongoPersistenceService service, NestedConfigAccessor config) {
         this.parser = parser;
@@ -66,6 +68,31 @@ public abstract class EntityHandler {
                         }
                     } else {
                         handleFailedQuery(id,busMessage,handler.cause(),"Problem with finding entity.");
+                    }
+                });
+    }
+
+    public void findByName(Message<JsonObject> busMessage) {
+        JsonObject jsonObject = busMessage.body();
+        String name = jsonObject.getString(NAME_KEY);
+        if (name == null) {
+            BusMessageReplyUtils.replyWithError(busMessage, HttpResponseStatus.BAD_REQUEST, "No username provided");
+            return;
+        }
+        persistenceService.findAllByQuery(jsonObject, getCollectionName(),
+                handler -> {
+                    if (handler.succeeded()) {
+                        if (handler.result() == null) {
+                            logger.debug(String.format("Entities not found - %s", name));
+                            BusMessageReplyUtils.replyWithError(busMessage, HttpResponseStatus.NOT_FOUND,
+                                    String.format("Entities Not found %s _id", name));
+                        } else {
+                            JsonArray jsonArray = handler.result().stream().collect(JsonArray::new, JsonArray::add, JsonArray::add);
+                            logger.debug(String.format("Entities Found - %s", name));
+                            BusMessageReplyUtils.replyWithBodyAndStatus(busMessage, jsonArray, HttpResponseStatus.OK);
+                        }
+                    } else {
+                        handleFailedQuery(name,busMessage,handler.cause(),"Problem with finding entities.");
                     }
                 });
     }

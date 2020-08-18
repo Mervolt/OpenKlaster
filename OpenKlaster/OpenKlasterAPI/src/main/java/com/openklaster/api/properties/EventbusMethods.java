@@ -13,5 +13,8 @@ public class EventbusMethods {
 
     public static final String DELETE_TOKEN ="deleteToken";
 
-    public static final String DELETE_ALL_TOKENS ="deleteAllTokens";
+    public static final String DELETE_ALL_TOKENS = "deleteAllTokens";
+
+    public static final String GET_ALL = "getAll";
+
 }

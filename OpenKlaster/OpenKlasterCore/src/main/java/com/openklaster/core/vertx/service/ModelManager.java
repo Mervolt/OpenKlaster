@@ -12,10 +12,12 @@ public abstract class ModelManager<T> extends AuthManager {
     protected final Class<T> modelClass;
     protected final UserRetriever userRetriever;
     protected final static String getMethodName = "get";
+    protected final static String getAllMethodName = "getAll";
     protected final static String updateMethodName = "put";
     protected final static String addMethodName = "post";
     protected final static String deleteMethodName = "delete";
     protected final static String idKey = "installationId";
+    protected final static String userKey = "username";
 
     public ModelManager(Logger logger, AuthenticationClient authClient,
                         Class<T> modelClass, UserRetriever userRetriever) {
