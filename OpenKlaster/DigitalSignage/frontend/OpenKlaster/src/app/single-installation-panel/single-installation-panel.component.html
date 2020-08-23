@@ -1,0 +1,30 @@
+<mat-menu #tokenMenu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item (click)="navigateToYourTokens()">Your tokens</button>
+    <button mat-menu-item (click)="navigateToTokenGeneration()">Generate new token</button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #installationMenu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item (click)="navigateToYourInstallations()">Your installations</button>
+    <button mat-menu-item (click)="navigateToInstallationGeneration()">Add new installation</button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #measurementsMenu="matMenu">
+  <ng-template matMenuContent>
+  </ng-template>
+</mat-menu>
+
+<button mat-raised-button [matMenuTriggerFor]="tokenMenu">
+  <a>Tokens</a>
+</button>
+
+<button mat-raised-button [matMenuTriggerFor]="installationMenu">
+  <a>Installations</a>
+</button>
+
+<button mat-raised-button [matMenuTriggerFor]="measurementsMenu">
+  <a>Measurements</a>
+</button>

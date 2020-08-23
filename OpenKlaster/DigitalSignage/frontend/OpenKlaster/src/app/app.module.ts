@@ -24,6 +24,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSliderModule} from "@angular/material/slider";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import { TokenGenerationPanelComponent } from './token-generation-panel/token-generation-panel.component';
+import { SingleTokenPanelComponent } from './single-token-panel/single-token-panel.component';
+import { InstallationGenerationPanelComponent } from './installation-generation-panel/installation-generation-panel.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,10 @@ import {MatIconModule} from "@angular/material/icon";
     MeasurementPanelComponent,
     InstallationPanelComponent,
     TokenComponent,
-    SingleInstallationPanelComponent
+    SingleInstallationPanelComponent,
+    TokenGenerationPanelComponent,
+    SingleTokenPanelComponent,
+    InstallationGenerationPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -47,14 +54,17 @@ import {MatIconModule} from "@angular/material/icon";
       {path: 'login', component: LoginFormComponent},
       {path: 'user', component: UserPanelComponent},
       {path: 'token', component: TokenPanelComponent},
+      {path: 'tokenGeneration', component: TokenGenerationPanelComponent},
       {path: 'installations', component: InstallationPanelComponent},
-      {path: 'installations/:id', component: SingleInstallationPanelComponent}
+      {path: 'installations/:id', component: SingleInstallationPanelComponent},
+      {path: 'installationGeneration', component: InstallationGenerationPanelComponent}
     ]),
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
     MatMenuModule,
     MatIconModule,
+    MatButtonModule,
   ],
   providers: [
     RegisterFormService,
