@@ -5,4 +5,5 @@ public class ModelProperties {
     public static String emailKey = "email";
     public static String userTokensKey = "userTokens";
     public static String passwordKey = "password";
+    public static String newPasswordKey = "newPassword";
 }

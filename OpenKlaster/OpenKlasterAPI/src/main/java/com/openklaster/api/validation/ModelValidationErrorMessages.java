@@ -1,6 +1,8 @@
 package com.openklaster.api.validation;
 
 public class ModelValidationErrorMessages {
+    public static final String MESSAGE = "Validation problems were found: ";
+
     public static final String TOKEN_REQUIRED = "Token is required";
 
     public static final String USERNAME = "Username is required";
