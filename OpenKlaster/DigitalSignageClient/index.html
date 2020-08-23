@@ -73,23 +73,6 @@
             .attr("stroke", strokeColor)
             .attr('stroke-width', strokeWidth)
             .attr('d', line);
-
-/*        svg.selectAll("text")
-            .append('text')
-            .attr("x", (width / 2))
-            .attr("y", 0 - (margin.top / 2))
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .style("text-decoration", "underline")
-            .text(chartTitle)*/
-
-        /*console.log(chartTitle)
-        setTitle(chartTitle)*/
-    }
-
-    function setTitle(title) {
-        const titleDiv = document.getElementById('title');
-        titleDiv.innerText = title
     }
 
     function maxValue(data) {
@@ -143,9 +126,6 @@
         const strokeColor = config['colours']['strokeColor']
 
         draw(getMockData2(), fillColor, strokeColor, powerProductionTitle)
-        //await drawAsync(powerProductionUrl, installationId, now, prevDay, apiToken, fillColor, strokeColor)
-        // await new Promise(r => setTimeout(r, 2000));
-        // await drawAsync(powerConsumptionUrl, installationId, now, prevDay, apiToken, fillColor, strokeColor)
     }
 
     async function drawAsync(url, deviceId, deviceKey, now, prevDay, apiToken, fillColor, strokeColor) {
