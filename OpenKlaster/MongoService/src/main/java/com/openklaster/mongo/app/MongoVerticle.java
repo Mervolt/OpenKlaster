@@ -96,7 +96,7 @@ public class MongoVerticle extends AbstractVerticle {
                 handler.findById(msg);
                 break;
             case "findAll":
-                handler.findByName(msg);
+                handler.findAllByQuery(msg);
                 break;
             case "update":
                 handler.update(msg);

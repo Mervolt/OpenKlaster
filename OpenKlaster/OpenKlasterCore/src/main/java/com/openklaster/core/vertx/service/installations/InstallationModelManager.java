@@ -31,7 +31,7 @@ public class InstallationModelManager extends ModelManager<Installation> {
             case getMethodName:
                 return get(message.body().getString(idKey)).map(JsonObject::mapFrom);
             case getAllMethodName:
-                return getByUsername(message.body().getString(userKey)).map(list -> new JsonObject().put(BusMessageReplyUtils.RETURN_LIST, list));
+                return getAllByUsername(message.body().getString(userKey)).map(list -> new JsonObject().put(BusMessageReplyUtils.RETURN_LIST, list));
             case addMethodName:
                 return add(message.body().mapTo(modelClass)).map(JsonObject::mapFrom);
             case deleteMethodName:
@@ -47,9 +47,9 @@ public class InstallationModelManager extends ModelManager<Installation> {
         return installationCrudRepository.get(id);
     }
 
-    protected Future<List<Installation>> getByUsername(String username) {
+    protected Future<List<Installation>> getAllByUsername(String username) {
         MongoCrudRepository mongoCrudRepository = (MongoCrudRepository) installationCrudRepository;
-        return mongoCrudRepository.getByUsername(username);
+        return mongoCrudRepository.getAllByUsername(username);
     }
 
     protected Future<Installation> add(Installation entity) {

@@ -72,7 +72,7 @@ public abstract class EntityHandler {
                 });
     }
 
-    public void findByName(Message<JsonObject> busMessage) {
+    public void findAllByQuery(Message<JsonObject> busMessage) {
         JsonObject jsonObject = busMessage.body();
         String name = jsonObject.getString(NAME_KEY);
         if (name == null) {

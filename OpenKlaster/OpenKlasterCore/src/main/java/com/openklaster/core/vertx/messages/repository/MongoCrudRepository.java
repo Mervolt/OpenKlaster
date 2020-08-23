@@ -32,7 +32,7 @@ public class MongoCrudRepository<T> implements CrudRepository<T> {
         return dbServiceHandler.handleWithContent(getKey, content);
     }
 
-    public Future<List<T>> getByUsername(String username) {
+    public Future<List<T>> getAllByUsername(String username) {
         JsonObject content = new JsonObject().put(nameKey, username);
         return dbServiceHandler.handleWithListContent(getAllKey, content);
     }
