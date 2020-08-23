@@ -80,11 +80,11 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
                 new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.DELETE_TOKEN,
-                        eventBus, configAccessor, new DefaultParseStrategy<Model>(Model.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.allTokensEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.DELETE_ALL_TOKENS,
-                        eventBus, configAccessor, new DefaultParseStrategy<Model>(Model.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),

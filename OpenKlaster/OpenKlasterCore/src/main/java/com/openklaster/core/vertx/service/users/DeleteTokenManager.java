@@ -13,7 +13,7 @@ public class DeleteTokenManager extends UserManagerHelper {
     private static final String methodName = "deleteToken";
     private static final String successMessage = "Token deleted for entity- %s";
     private static final String failureMessage = "Could not delete token - %s.Reason: %s";
-    private static final String tokenKey = "token";
+    private static final String tokenKey = "apiToken";
     private static final String noTokenFoundMsg = "No token %s token found for user %s";
 
 
@@ -25,7 +25,7 @@ public class DeleteTokenManager extends UserManagerHelper {
 
     @Override
     protected Future<JsonObject> processMessage(User authenticatedUser, Message<JsonObject> message) {
-        String token = message.body().getString(tokenKey);
+        String token = message.headers().get(tokenKey);
         boolean deleted = authenticatedUser.deleteUserToken(token);
         if (deleted) {
             return userCrudRepository.update(authenticatedUser).map(new JsonObject().put(tokenKey, token));
