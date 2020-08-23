@@ -10,20 +10,23 @@
 <body>
 <div id="chart"></div>
 <script>
-    function promilOfWidth(percent) {
-        return window.innerWidth * (percent / 1000);
+    function promilOfWidth(promil) {
+        return window.innerWidth * (promil / 1000);
     }
 
-    function promilOfHeight(percent) {
-        return window.innerHeight * (percent / 1000);
+    function promilOfHeight(promil) {
+        return window.innerHeight * (promil / 1000);
     }
 
     const margin = {
-        top: promilOfHeight(30), right: promilOfWidth(80),
-        bottom: promilOfHeight(100), left: promilOfWidth(10)
+        top: promilOfHeight(30), right: promilOfWidth(50),
+        bottom: promilOfHeight(100), left: promilOfWidth(0)
     };
     const width = window.innerWidth - margin.left - margin.right;
     const height = window.innerHeight - margin.top - margin.bottom;
+
+    const powerConsumptionTitle = config['textTitles']['powerConsumptionTitle']
+    const powerProductionTitle = config['textTitles']['powerProductionTitle']
 
     const svg = d3
         .select('#chart')
@@ -33,7 +36,8 @@
         .append('g')
         .attr('transform', `translate(${margin['left']},  ${margin['top']})`);
 
-    function draw(data, color) {
+    function draw(data, fillColor, strokeColor, strokeWidth = '1.5', title) {
+        console.log(data)
         const xScale = d3.scaleTime()
             .domain([earliestDate(data), latestDate(data)])
             .range([0, width]);
@@ -64,9 +68,9 @@
         svg.append('path')
             .datum(data)
             .attr('id', 'priceChart')
-            .attr("fill", color)
-            .attr("stroke", "#73921f")
-            .attr('stroke-width', '1.5')
+            .attr("fill", fillColor)
+            .attr("stroke", strokeColor)
+            .attr('stroke-width', strokeWidth)
             .attr('d', line);
     }
 
@@ -115,13 +119,16 @@
 
         prevDay.setDate(now.getDate() - 1);
 
-        draw(getMockData2(), "#b13939")
-        //await drawAsync(powerProductionUrl, installationId, now, prevDay, apiToken, "#b13939")
-       // await new Promise(r => setTimeout(r, 2000));
-       // await drawAsync(powerConsumptionUrl, installationId, now, prevDay, apiToken, "#59bd2d")
+        const fillColor = config['fillColor']
+        const strokeColor = config['strokeColor']
+
+        draw(getMockData2(), fillColor, strokeColor, powerProductionTitle)
+        //await drawAsync(powerProductionUrl, installationId, now, prevDay, apiToken, fillColor, strokeColor)
+        // await new Promise(r => setTimeout(r, 2000));
+        // await drawAsync(powerConsumptionUrl, installationId, now, prevDay, apiToken, fillColor, strokeColor)
     }
 
-    async function drawAsync(url, deviceId, deviceKey, now, prevDay, apiToken, color) {
+    async function drawAsync(url, deviceId, deviceKey, now, prevDay, apiToken, fillColor, strokeColor) {
         const sendUrl = new URL(url);
         const params = {
             receiverId: deviceId,
@@ -149,13 +156,13 @@
                 output.sort((a, b) => {
                     return a.timestamp < b.timestamp ? -1 : 1
                 })
-                draw(output, color)
+                draw(output, fillColor, strokeColor)
             })
     }
 
     function getMockData() {
         let data = []
-        let parseDate = d3.timeParse('%Y-%m-%d %H:%M:%S.%L%Z')
+        let parseDate = d3.timeParse('%Y-%m-%dT%H:%M:%S.%L%Z')
         data.push({timestamp: parseDate('2020-06-01T17:25:34.399Z'), value: 12.5})
         data.push({timestamp: parseDate('2020-06-01T17:36:34.399Z'), value: 156.5})
         data.push({timestamp: parseDate('2020-06-01T17:42:34.399Z'), value: 32.5})
@@ -180,7 +187,7 @@
 
     function getMockData2() {
         let data = []
-        let parseDate = d3.timeParse('%Y-%m-%d %H:%M:%S.%L%Z')
+        let parseDate = d3.timeParse('%Y-%m-%dT%H:%M:%S.%L%Z')
         data.push({timestamp: parseDate('2020-06-01T17:20:34.399Z'), value: 35.5})
         data.push({timestamp: parseDate('2020-06-01T17:30:34.399Z'), value: 116.5})
         data.push({timestamp: parseDate('2020-06-01T17:49:34.399Z'), value: 322.5})
