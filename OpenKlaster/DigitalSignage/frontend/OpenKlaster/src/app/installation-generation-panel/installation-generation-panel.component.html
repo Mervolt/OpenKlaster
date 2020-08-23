@@ -1,4 +1,6 @@
-<form (ngSubmit)="onSubmit()" #installationForm="ngForm" [hidden]="isFormHidden">
+<div class="container">
+  <app-navbar></app-navbar>
+<form (ngSubmit)="onSubmit()" #installationForm="ngForm">
   <div class="form-group">
 
     <label for="installationType">Installation Type</label>
@@ -57,3 +59,4 @@
     <button type="submit" class="btn btn-primary">Submit installation</button>
   </div>
 </form>
+</div>

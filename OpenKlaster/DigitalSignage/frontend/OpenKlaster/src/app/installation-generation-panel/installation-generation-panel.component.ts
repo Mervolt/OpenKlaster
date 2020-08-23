@@ -17,7 +17,6 @@ export class InstallationGenerationPanelComponent implements OnInit {
     new Inverter('', '', '', ''), new Source(0, 0, 0, ''));
   formToken = '';
   cookieService;
-  isFormHidden = true;
 
   constructor(public tokenService: TokenPanelService, public service: InstallationPanelService,
               private appComp: AppComponent) {
@@ -42,13 +41,4 @@ export class InstallationGenerationPanelComponent implements OnInit {
   onSubmit() {
     this.service.addInstallation(this.formModel, this.cookieService);
   }
-
-  displayForm() {
-    this.isFormHidden = false;
-  }
-
-  hideForm() {
-    this.isFormHidden = true;
-  }
-
 }
