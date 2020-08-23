@@ -19,8 +19,8 @@
     }
 
     const margin = {
-        top: promilOfHeight(30), right: promilOfWidth(50),
-        bottom: promilOfHeight(100), left: promilOfWidth(0)
+        top: promilOfHeight(10), right: promilOfWidth(50),
+        bottom: promilOfHeight(50), left: promilOfWidth(0)
     };
     const width = window.innerWidth - margin.left - margin.right;
     const height = window.innerHeight - margin.top - margin.bottom;
@@ -31,12 +31,10 @@
     const svg = d3
         .select('#chart')
         .append('svg')
-        .attr('width', width + margin['left'] + margin['right'])
-        .attr('height', height + margin['top'] + margin['bottom'])
-        .append('g')
-        .attr('transform', `translate(${margin['left']},  ${margin['top']})`);
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
 
-    function draw(data, fillColor, strokeColor, strokeWidth = '1.5', title) {
+    function draw(data, fillColor, strokeColor, chartTitle, strokeWidth = '1.5') {
         console.log(data)
         const xScale = d3.scaleTime()
             .domain([earliestDate(data), latestDate(data)])
@@ -48,11 +46,13 @@
             .range([height, 0]);
 
         svg.append('g')
+            .attr('class', 'axis')
             .attr('id', 'xAxis')
             .attr('transform', `translate(0, ${height})`)
             .call(d3.axisBottom(xScale));
 
         svg.append('g')
+            .attr('class', 'axis')
             .attr('id', 'yAxis')
             .attr('transform', `translate(${width}, 0)`)
             .call(d3.axisRight(yScale));
@@ -65,6 +65,7 @@
             .y1(d => {
                 return yScale(d['value']);
             });
+
         svg.append('path')
             .datum(data)
             .attr('id', 'priceChart')
@@ -72,6 +73,23 @@
             .attr("stroke", strokeColor)
             .attr('stroke-width', strokeWidth)
             .attr('d', line);
+
+/*        svg.selectAll("text")
+            .append('text')
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text(chartTitle)*/
+
+        /*console.log(chartTitle)
+        setTitle(chartTitle)*/
+    }
+
+    function setTitle(title) {
+        const titleDiv = document.getElementById('title');
+        titleDiv.innerText = title
     }
 
     function maxValue(data) {
@@ -117,10 +135,12 @@
         now.setTime(now.getTime() + (h * 60 * 60 * 1000))
         const prevDay = new Date();
 
+        svg.selectAll("*").remove();
+
         prevDay.setDate(now.getDate() - 1);
 
-        const fillColor = config['fillColor']
-        const strokeColor = config['strokeColor']
+        const fillColor = config['colours']['fillColor']
+        const strokeColor = config['colours']['strokeColor']
 
         draw(getMockData2(), fillColor, strokeColor, powerProductionTitle)
         //await drawAsync(powerProductionUrl, installationId, now, prevDay, apiToken, fillColor, strokeColor)
