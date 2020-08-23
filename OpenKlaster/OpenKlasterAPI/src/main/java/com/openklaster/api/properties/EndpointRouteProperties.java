@@ -8,6 +8,7 @@ public class EndpointRouteProperties {
     public static final String tokenEndpoint = "http.endpoint.route.token";
     public static final String allTokensEndpoint = "http.endpoint.route.alltokens";
     public static final String installationEndpoint = "http.endpoint.route.installation";
+    public static final String allinstallationEndpoint = "http.endpoint.route.allinstallation";
     public static final String powerconsumptionEndpoint= "http.endpoint.route.powerconsumption";
     public static final String powerproductionEndpoint= "http.endpoint.route.powerproduction";
     public static final String energyconsumedEndpoint= "http.endpoint.route.energyconsumed";

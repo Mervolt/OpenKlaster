@@ -8,6 +8,7 @@ http:
       token: "/token"
       alltokens: "/token/all"
       installation: "/installations"
+      allinstallation: "/installations/all"
       powerconsumption: "/powerConsumption"
       powerproduction: "/powerProduction"
       energyconsumed: "/energyConsumed"

@@ -80,15 +80,19 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
                 new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.DELETE_TOKEN,
-                        eventBus, configAccessor, new DefaultParseStrategy<Model>(Model.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.allTokensEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.DELETE_ALL_TOKENS,
-                        eventBus, configAccessor, new DefaultParseStrategy<Model>(Model.class)),
+                        eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
+
+                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.allinstallationEndpoint),
+                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey), EventbusMethods.GET_ALL,
+                        eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
                         configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),

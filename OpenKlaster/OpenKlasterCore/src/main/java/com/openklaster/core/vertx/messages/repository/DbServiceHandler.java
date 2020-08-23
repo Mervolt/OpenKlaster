@@ -61,7 +61,6 @@ public class DbServiceHandler<T> {
                 resultPromise.fail(handler.cause());
             }
         });
-
         return resultPromise.future();
     }
 

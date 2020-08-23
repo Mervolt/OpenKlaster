@@ -10,6 +10,7 @@ public class BusMessageReplyUtils {
 
     public static final String STATUS_CODE = "statusCode";
     public static final String METHOD_KEY = "methodName";
+    public static final String RETURN_LIST = "returnList";
 
     public static <T> void replyWithBodyAndStatus(Message<T> busMessage, T replyBody, HttpResponseStatus status) {
         busMessage.reply(replyBody, getOptionsForStatus(status));

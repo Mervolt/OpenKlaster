@@ -97,7 +97,7 @@ public class CoreVerticle extends AbstractVerticle {
 
         userService.configureEndpoints(eventBus);
         installationService.configureEndpoints(eventBus);
-        powerLoadMeasurementService.configureEndpoints(eventBus);
+        powerSourceMeasurementService.configureEndpoints(eventBus);
         powerLoadMeasurementService.configureEndpoints(eventBus);
         this.servicesList = Arrays.asList(userService, installationService, powerSourceMeasurementService,
                 powerLoadMeasurementService);//more services to be added here

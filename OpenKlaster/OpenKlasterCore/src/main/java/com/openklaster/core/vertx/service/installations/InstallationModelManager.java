@@ -1,15 +1,19 @@
 package com.openklaster.core.vertx.service.installations;
 
+import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.Installation;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.CrudRepository;
+import com.openklaster.core.vertx.messages.repository.MongoCrudRepository;
 import com.openklaster.core.vertx.service.ModelManager;
 import com.openklaster.core.vertx.service.UserRetriever;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.LoggerFactory;
+
+import java.util.List;
 
 public class InstallationModelManager extends ModelManager<Installation> {
 
@@ -26,6 +30,8 @@ public class InstallationModelManager extends ModelManager<Installation> {
         switch (methodName) {
             case getMethodName:
                 return get(message.body().getString(idKey)).map(JsonObject::mapFrom);
+            case getAllMethodName:
+                return getAllByUsername(message.body().getString(userKey)).map(list -> new JsonObject().put(BusMessageReplyUtils.RETURN_LIST, list));
             case addMethodName:
                 return add(message.body().mapTo(modelClass)).map(JsonObject::mapFrom);
             case deleteMethodName:
@@ -39,6 +45,11 @@ public class InstallationModelManager extends ModelManager<Installation> {
 
     protected Future<Installation> get(String id) {
         return installationCrudRepository.get(id);
+    }
+
+    protected Future<List<Installation>> getAllByUsername(String username) {
+        MongoCrudRepository mongoCrudRepository = (MongoCrudRepository) installationCrudRepository;
+        return mongoCrudRepository.getAllByUsername(username);
     }
 
     protected Future<Installation> add(Installation entity) {

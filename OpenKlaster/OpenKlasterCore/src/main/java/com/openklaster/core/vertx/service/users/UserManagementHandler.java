@@ -47,6 +47,9 @@ public class UserManagementHandler extends EndpointService {
         LoginManager loginManager = new LoginManager(authenticationClient, userCrudRepository);
         userManagerMap.put(loginManager.getMethodName(), loginManager);
 
+        UpdateUserManager updateUserManager = new UpdateUserManager(authenticationClient, userCrudRepository);
+        userManagerMap.put(updateUserManager.getMethodName(), updateUserManager);
+
         InformationManager informationManager = new InformationManager();
         authUserManager.addMethodHelper(informationManager.getMethodName(), informationManager);
 

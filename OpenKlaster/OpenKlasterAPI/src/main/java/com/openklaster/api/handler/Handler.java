@@ -2,17 +2,15 @@ package com.openklaster.api.handler;
 
 import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.api.parser.IParseStrategy;
+import com.openklaster.api.validation.ModelValidationErrorMessages;
 import com.openklaster.api.validation.ValidationException;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.core.AsyncResult;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.eventbus.Message;
+import io.vertx.core.eventbus.ReplyException;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.RoutingContext;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.api.model.Model;
@@ -79,15 +77,18 @@ public abstract class Handler {
 
             eventBus.request(address, validatedModel, deliveryOptions, coreResponse -> {
                 if(coreResponse.succeeded()){
-                    context.response().end(Json.encodePrettily(coreResponse.result().body()));
+                    if (coreResponse.result().body() == null)
+                        handleSuccessfulRequest(context.response());
+                    else
+                        context.response().end(Json.encodePrettily(coreResponse.result().body()));
                 }
                 else{
-                    handleProcessingError(context.response());
+                    ReplyException replyException = (ReplyException) coreResponse.cause();
+                    handleProcessingError(context.response(), replyException.failureCode(), replyException.getMessage());
                 }
             });
         } catch (ValidationException e) {
-            System.out.println(e.getMessage());
-            handleBadRequestError(context.response(), e.getMessage());
+            handleValidationError(context.response(), e.getMessage());
         }
     }
 
@@ -122,13 +123,18 @@ public abstract class Handler {
         return deliveryOptions;
     }
 
-    private void handleProcessingError(HttpServerResponse response) {
-        response.setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
-        response.end(HandlerProperties.processingErrorMessage);
+    private void handleSuccessfulRequest(HttpServerResponse response) {
+        response.setStatusCode(HttpResponseStatus.OK.code());
+        response.end(HandlerProperties.successfulRequestMessage);
     }
 
-    private void handleBadRequestError(HttpServerResponse response, String message) {
-        response.setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+    private void handleProcessingError(HttpServerResponse response, final int code, final String message) {
+        response.setStatusCode(code);
         response.end(message);
+    }
+
+    private void handleValidationError(HttpServerResponse response, String message) {
+        response.setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+        response.end(ModelValidationErrorMessages.MESSAGE + message);
     }
 }
