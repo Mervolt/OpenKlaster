@@ -44,14 +44,14 @@ public class BasicTokenGenerator implements TokenGenerator {
         return RandomStringUtils.random(count, start, stop, true, true, null, secureRandom);
     }
 
-    private String accumulateChars(int uppperCount, int lowerCount, int digitscount, int specialCount) {
+    private String accumulateChars(int uppperCount, int lowerCount, int digitsCount) {
         return upperCaseLetters(uppperCount)
                 .concat(lowerCaseLetters(lowerCount))
-                .concat(digits(digitscount));
+                .concat(digits(digitsCount));
     }
 
-    private List<Character> getCharactersList(int uppperCount, int lowerCount, int digitscount, int specialCount) {
-        return accumulateChars(uppperCount, lowerCount, digitscount, specialCount)
+    private List<Character> getCharactersList(int uppperCount, int lowerCount, int digitsCount) {
+        return accumulateChars(uppperCount, lowerCount, digitsCount)
                 .chars()
                 .mapToObj(c -> (char) c)
                 .collect(Collectors.toList());
@@ -63,20 +63,19 @@ public class BasicTokenGenerator implements TokenGenerator {
      */
     @Override
     public String generateToken(int count) {
-        return generateToken(count, count, count, count);
+        return generateToken(count, count, count);
     }
 
     /**
      *
      * @param uppperCount count of upper case chars in string
      * @param lowerCount count of lower  case chars in string
-     * @param digitscount count of digits in string
-     * @param specialCount count of special characters in string
+     * @param digitsCount count of digits in string
      * @return random token with length of sum of params.
      */
     @Override
-    public String generateToken(int uppperCount, int lowerCount, int digitscount, int specialCount) {
-        List<Character> characterList = getCharactersList(uppperCount, lowerCount, digitscount, specialCount);
+    public String generateToken(int uppperCount, int lowerCount, int digitsCount) {
+        List<Character> characterList = getCharactersList(uppperCount, lowerCount, digitsCount);
         Collections.shuffle(characterList);
         return characterList.stream()
                 .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)

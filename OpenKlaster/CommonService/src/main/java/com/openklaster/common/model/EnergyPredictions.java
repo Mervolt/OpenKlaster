@@ -2,6 +2,8 @@ package com.openklaster.common.model;
 
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +16,9 @@ import java.util.Date;
 @Data
 public class EnergyPredictions {
   @PartitionKey
+  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="CET")
   private Date timestamp;
+  @JsonAlias({ "installationid" })
   private String installationId;
   private String source;
   private String type;

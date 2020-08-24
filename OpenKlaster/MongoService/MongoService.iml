@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" version="4">
+  <component name="CheckStyle-IDEA-Module">
+    <option name="configuration">
+      <map />
+    </option>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -11,12 +16,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.10.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.12" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-mongo-client:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-async:3.10.1" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:bson:3.10.1" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:3.10.1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.30" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: io.vertx:vertx-unit:3.9.0" level="project" />
     <orderEntry type="module" module-name="CommonService" />
     <orderEntry type="library" name="Maven: com.datastax.cassandra:cassandra-driver-mapping:3.5.0" level="project" />
@@ -34,7 +40,6 @@
     <orderEntry type="library" name="Maven: com.github.jnr:jnr-posix:3.0.44" level="project" />
     <orderEntry type="library" name="Maven: com.github.jnr:jnr-constants:0.9.9" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:19.0" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.10" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-text:1.8" level="project" />
     <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.4" level="project" />

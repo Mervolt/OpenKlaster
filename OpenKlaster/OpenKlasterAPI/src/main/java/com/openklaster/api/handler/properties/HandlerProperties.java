@@ -1,14 +1,13 @@
 package com.openklaster.api.handler.properties;
 
 public class HandlerProperties {
-    public static String processingErrorMessage = "Errors during processing the request";
-    public static String unprocessableEntityMessage = "Request entity is unprocessable for this request";
-    public static String successfulRequestMessage = "Successful request";
-    public static String methodKeyHeader = "method";
-    public static String postMethodHeader = "post";
-    public static String putMethodHeader = "put";
-    public static String getMethodHeader = "get";
-    public static String deleteMethodHeader = "delete";
-    public static String apiToken = "apiToken";
-    public static String sessionToken = "sessionToken";
+    public static final String processingErrorMessage = "Errors during processing the request";
+    public static final String unprocessableEntityMessage = "Request entity is unprocessable for this request";
+    public static final String successfulRequestMessage = "Successful request";
+    public static final String postMethodHeader = "post";
+    public static final String putMethodHeader = "put";
+    public static final String getMethodHeader = "get";
+    public static final String deleteMethodHeader = "delete";
+    public static final String apiToken = "apiToken";
+    public static final String sessionToken = "sessionToken";
 }

@@ -28,13 +28,10 @@ public class DbServiceHandler<T> {
     public Future<T> handleWithContent(String methodName, JsonObject content) {
         Promise<T> resultPromise = Promise.promise();
         DeliveryOptions options = getMethodOptions(methodName);
-        System.out.println(address  + " " + content + " " + options);
         eventBus.<JsonObject>request(address, content, options, handler -> {
             if (handler.succeeded()) {
-                System.out.println("succ");
                 resultPromise.complete(handler.result().body().mapTo(this.modelClass));
             } else {
-                System.out.println("dsa");
                 resultPromise.fail(handler.cause());
             }
         });
@@ -68,9 +65,10 @@ public class DbServiceHandler<T> {
     }
 
     private List<T> mapToListContent(JsonArray body) {
-        // Todo
-        System.out.println(body);
-        return body.stream().map(result -> JsonObject.mapFrom(result).mapTo(modelClass)).collect(Collectors.toList());
+        return  body.stream().map(result -> {
+            JsonObject jsonObject = JsonObject.mapFrom(result);
+            return jsonObject.mapTo(modelClass);
+        }).collect(Collectors.toList());
     }
 
     private DeliveryOptions getMethodOptions(String methodName) {

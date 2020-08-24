@@ -1,5 +1,6 @@
 package com.openklaster.common.authentication.tokens;
 
+import com.openklaster.common.model.SessionToken;
 import com.openklaster.common.model.UserToken;
 
 import java.util.List;
@@ -7,11 +8,11 @@ import java.util.List;
 public interface TokenHandler {
     UserToken generateUserToken();
 
-    UserToken generateSessionToken();
+    SessionToken generateSessionToken();
 
-    TokenValidationResult validateToken(String token, UserToken userToken);
+    TokenValidationResult validateSessionToken(String tokenData, SessionToken userToken);
 
-    TokenValidationResult validateToken(String token, List<UserToken> userToken);
+    TokenValidationResult validateApiToken(String tokenData, List<UserToken> userToken);
 
-    UserToken getRefreshedSessionToken(UserToken token);
+    SessionToken getRefreshedSessionToken(SessionToken token);
 }

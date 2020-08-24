@@ -1,4 +1,7 @@
 package com.openklaster.api.model;
 
-public abstract class Model {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Model {
 }

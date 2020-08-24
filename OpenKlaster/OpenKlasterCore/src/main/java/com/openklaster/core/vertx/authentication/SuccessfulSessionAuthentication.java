@@ -1,12 +1,13 @@
 package com.openklaster.core.vertx.authentication;
 
+import com.openklaster.common.model.SessionToken;
 import com.openklaster.common.model.UserToken;
 import lombok.Getter;
 
 public class SuccessfulSessionAuthentication implements AuthenticationResult {
 
     @Getter
-    private final UserToken sessionToken;
+    private final SessionToken sessionToken;
 
     @Override
     public boolean succeeded() {
@@ -18,7 +19,7 @@ public class SuccessfulSessionAuthentication implements AuthenticationResult {
         return null;
     }
 
-    public SuccessfulSessionAuthentication(UserToken sessionToken) {
+    public SuccessfulSessionAuthentication(SessionToken sessionToken) {
         this.sessionToken = sessionToken;
     }
 

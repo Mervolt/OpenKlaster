@@ -2,23 +2,26 @@ package com.openklaster.common.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.vertx.core.json.JsonObject;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
+import static com.openklaster.common.model.ModelProperties.*;
+
 @Data
-@NoArgsConstructor
 public class User {
-    @JsonAlias({ "username", "_id" })
+    @JsonAlias({"username", "_id"})
     @JsonProperty("_id")
     private String username;
     private String password;
     private String email;
     private List<UserToken> userTokens;
-    private UserToken sessionToken;
+    private SessionToken sessionToken;
 
     public void addUserToken(UserToken token) {
         //I know i should add to userTokens instead of replacing
@@ -44,5 +47,12 @@ public class User {
 
     public void deleteAllUserTokens() {
         setUserTokens(Collections.emptyList());
+    }
+
+    public JsonObject toUserInfo() {
+        return new JsonObject()
+                .put(usernameKey, username)
+                .put(emailKey, email)
+                .put(userTokensKey, userTokens);
     }
 }

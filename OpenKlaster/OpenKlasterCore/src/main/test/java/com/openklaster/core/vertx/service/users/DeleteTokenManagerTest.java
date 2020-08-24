@@ -21,11 +21,11 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.STATUS_CODE;
 public class DeleteTokenManagerTest extends UserManagerTest {
 
     private static final String tokenKey = "token";
+    private static final String methodName = "deleteToken";
 
     @Before
     public void setup() {
         commonSetup();
-        this.userManager = new DeleteTokenManager(authenticationClient, userCrudRepository);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class DeleteTokenManagerTest extends UserManagerTest {
                 .put(tokenKey,tokenToDelete.getData());
 
         FakeMessage<JsonObject> fakeMessage = FakeMessage.<JsonObject>builder().body(usernameJson).headers(headers).build();
-        userManager.handleMessage(fakeMessage);
+        authenticatedUserManager.handleMessage(fakeMessage, methodName);
 
         Future<Pair<User, FakeReply>> result = fakeMessage.getMessageReply().compose(reply -> {
             Future<User> storedUser = userCrudRepository.get(existingUser.getUsername());

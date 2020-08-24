@@ -3,7 +3,7 @@ package com.openklaster.core.vertx.authentication;
 import com.openklaster.common.model.User;
 
 public interface AuthenticationClient {
-    AuthenticationResult authenticateWithToken(User user, String token);
+    AuthenticationResult authenticateWithApiToken(User user, String token);
 
     AuthenticationResult authenticateWithSessionToken(User user, String token);
 

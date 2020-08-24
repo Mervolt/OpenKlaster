@@ -18,6 +18,6 @@ public class PutHandler extends Handler {
 
     @Override
     public void handle(RoutingContext context) {
-        sendPutPostRequest(context, eventbusMethod);
+        sendPutPostRequest(context);
     }
 }

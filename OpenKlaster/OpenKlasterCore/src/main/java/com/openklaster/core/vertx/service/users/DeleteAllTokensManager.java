@@ -1,20 +1,28 @@
 package com.openklaster.core.vertx.service.users;
 
 import com.openklaster.common.model.User;
-import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.CrudRepository;
 import io.vertx.core.Future;
+import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.LoggerFactory;
 
-public class DeleteAllTokensManager extends AuthenticatedManager {
+public class DeleteAllTokensManager extends UserManagerHelper {
     private static final String methodName = "deleteAllTokens";
-    private static final String successMessage = "Tokens deleted - %s";
-    private static final String failureMessage = "Could not delete all tokens - %s";
+    private static final String successMessage = "Tokens deleted for query: %s";
+    private static final String failureMessage = "Could not delete all tokens for entity: %s.\nReason: %s";
     private static final String deletedTokensAmountKey = "tokensDeleted";
 
-    public DeleteAllTokensManager(AuthenticationClient authenticationClient, CrudRepository<User> userCrudRepository) {
-        super(LoggerFactory.getLogger(DeleteAllTokensManager.class), authenticationClient, userCrudRepository);
+    private final CrudRepository<User> userCrudRepository;
+
+    public DeleteAllTokensManager(CrudRepository<User> userCrudRepository) {
+        this.userCrudRepository = userCrudRepository;
+    }
+
+    @Override
+    protected Future<JsonObject> processMessage(User authenticatedUser, Message<JsonObject> message) {
+        int tokensAmount = authenticatedUser.getUserTokens().size();
+        authenticatedUser.deleteAllUserTokens();
+        return userCrudRepository.update(authenticatedUser).map(new JsonObject().put(deletedTokensAmountKey, tokensAmount));
     }
 
     @Override
@@ -23,19 +31,12 @@ public class DeleteAllTokensManager extends AuthenticatedManager {
     }
 
     @Override
-    protected Future<JsonObject> processUser(User user) {
-        int tokensAmount = user.getUserTokens().size();
-        user.deleteAllUserTokens();
-        return userCrudRepository.update(user).map(new JsonObject().put(deletedTokensAmountKey, tokensAmount));
+    public String getFailureMessage(Throwable reason, Message<JsonObject> message) {
+        return String.format(failureMessage, message.toString(), reason.getMessage());
     }
 
     @Override
-    protected String getSuccessMessage(JsonObject result) {
-        return String.format(successMessage, result);
-    }
-
-    @Override
-    protected String getFailureMessage(String reason) {
-        return String.format(failureMessage, reason);
+    public String getSuccessMessage(JsonObject result, Message<JsonObject> message) {
+        return String.format(successMessage, result.toString());
     }
 }

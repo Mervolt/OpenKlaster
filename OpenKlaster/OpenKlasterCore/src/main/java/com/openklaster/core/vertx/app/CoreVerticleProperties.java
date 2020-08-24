@@ -15,4 +15,7 @@ public class CoreVerticleProperties {
     static final String cassandraLoadMeasurementAddressConfigPath = "eventbus.out.cassandra.loadmeasurement.address";
     static final String cassandraSourceMeasurementAddressConfigPath = "eventbus.out.cassandra.sourcemeasurement.address";
 
+    static final String tokenGeneratorCharsPerTypeKey = "charsPerType";
+    static final String sessionTokenLifetimeKey = "sessionTokenLifetime";
+
 }

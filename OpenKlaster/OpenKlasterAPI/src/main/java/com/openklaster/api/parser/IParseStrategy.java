@@ -5,6 +5,5 @@ import com.openklaster.api.model.Model;
 
 public interface IParseStrategy<T extends Model> {
     T parseToModel(JsonObject jsonObject);
-    JsonObject parseToJson(T model);
 }
 

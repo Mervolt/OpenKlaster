@@ -19,6 +19,7 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 public class UserManagementHandler extends EndpointService {
 
+    private AuthenticatedUserManager authUserManager;
     //Note that new User Manager should be added to this map in order to work
     private Map<String, UserManager> userManagerMap;
     private final AuthenticationClient authenticationClient;
@@ -38,6 +39,7 @@ public class UserManagementHandler extends EndpointService {
 
     private void prepareManagers() {
         this.userManagerMap = new HashMap<>();
+        this.authUserManager = new AuthenticatedUserManager(authenticationClient, userCrudRepository);
 
         RegisterManager registerManager = new RegisterManager(authenticationClient, userCrudRepository);
         userManagerMap.put(registerManager.getMethodName(), registerManager);
@@ -45,17 +47,20 @@ public class UserManagementHandler extends EndpointService {
         LoginManager loginManager = new LoginManager(authenticationClient, userCrudRepository);
         userManagerMap.put(loginManager.getMethodName(), loginManager);
 
-        InformationManager informationManager = new InformationManager(authenticationClient, userCrudRepository);
-        userManagerMap.put(informationManager.getMethodName(), informationManager);
+        UpdateUserManager updateUserManager = new UpdateUserManager(authenticationClient, userCrudRepository);
+        userManagerMap.put(updateUserManager.getMethodName(), updateUserManager);
 
-        GenerateTokenManager generateTokenManager = new GenerateTokenManager(authenticationClient, tokenHandler, userCrudRepository);
-        userManagerMap.put(generateTokenManager.getMethodName(), generateTokenManager);
+        InformationManager informationManager = new InformationManager();
+        authUserManager.addMethodHelper(informationManager.getMethodName(), informationManager);
 
-        DeleteTokenManager deleteTokenManager = new DeleteTokenManager(authenticationClient, userCrudRepository);
-        userManagerMap.put(deleteTokenManager.getMethodName(), deleteTokenManager);
+        GenerateTokenManager generateTokenManager = new GenerateTokenManager(tokenHandler, userCrudRepository);
+        authUserManager.addMethodHelper(generateTokenManager.getMethodName(), generateTokenManager);
 
-        DeleteAllTokensManager deleteAllTokensManager = new DeleteAllTokensManager(authenticationClient, userCrudRepository);
-        userManagerMap.put(deleteAllTokensManager.getMethodName(), deleteAllTokensManager);
+        DeleteTokenManager deleteTokenManager = new DeleteTokenManager(userCrudRepository);
+        authUserManager.addMethodHelper(deleteTokenManager.getMethodName(), deleteTokenManager);
+
+        DeleteAllTokensManager deleteAllTokensManager = new DeleteAllTokensManager(userCrudRepository);
+        authUserManager.addMethodHelper(deleteAllTokensManager.getMethodName(), deleteAllTokensManager);
     }
 
     @Override
@@ -69,7 +74,11 @@ public class UserManagementHandler extends EndpointService {
         UserManager manager = userManagerMap.get(methodName);
 
         if (manager == null) {
-            handleUnknownMethod(message, methodName);
+            if(!authUserManager.hasMessageHandler(methodName)){
+                handleUnknownMethod(message, methodName);
+            } else{
+                authUserManager.handleMessage(message, methodName);
+            }
         } else {
             manager.handleMessage(message);
         }

@@ -1,5 +1,6 @@
 package com.openklaster.common.authentication.tokens;
 
+import com.openklaster.common.model.SessionToken;
 import com.openklaster.common.model.UserToken;
 
 import java.time.LocalDateTime;
@@ -10,63 +11,55 @@ public class BasicTokenHandler implements TokenHandler {
 
     private final int charsCountPerType;
     private final TokenGenerator tokenGenerator;
-    private final int tokenDaysLifetime;
     private final int sessionTokenMinutesLifetime;
 
-    public BasicTokenHandler(int charsCountPerType, int tokenDaysLifetime, int sessionTokenLifetime) {
+    public BasicTokenHandler(int charsCountPerType, int sessionTokenLifetime) {
         this.charsCountPerType = charsCountPerType;
         this.tokenGenerator = new BasicTokenGenerator();
-        this.tokenDaysLifetime = tokenDaysLifetime;
         this.sessionTokenMinutesLifetime = sessionTokenLifetime;
     }
 
     @Override
     public UserToken generateUserToken() {
         String tokenData = tokenGenerator.generateToken(charsCountPerType);
-        return new UserToken(tokenData, createDaysExpirationDate(tokenDaysLifetime));
+        return new UserToken(tokenData);
     }
 
     @Override
-    public UserToken generateSessionToken() {
+    public SessionToken generateSessionToken() {
         String tokenData = tokenGenerator.generateToken(charsCountPerType);
-        return new UserToken(tokenData, createMinutesExpirationDate(sessionTokenMinutesLifetime));
-    }
-
-    private LocalDateTime createDaysExpirationDate(int tokenDaysLifetime) {
-        return LocalDateTime.now().plusDays(tokenDaysLifetime);
-    }
-
-    private LocalDateTime createMinutesExpirationDate(int tokenMinutesLifetime) {
-        return LocalDateTime.now().plusMinutes(tokenMinutesLifetime);
+        return new SessionToken(tokenData, createMinutesExpirationDate(sessionTokenMinutesLifetime));
     }
 
     @Override
-    public TokenValidationResult validateToken(String token, UserToken userToken) {
-
-        if (userToken.getData().equals(token)) {
-            return validateTokenDate(userToken);
+    public TokenValidationResult validateSessionToken(String tokenData, SessionToken sessionToken) {
+        if (sessionToken == null) {
+            return TokenValidationResult.INVALID;
+        }
+        if (sessionToken.getData().equals(tokenData)) {
+            return validateTokenDate(sessionToken);
         } else {
             return TokenValidationResult.INVALID;
         }
     }
 
     @Override
-    public TokenValidationResult validateToken(String token, List<UserToken> userTokens) {
-        Optional<UserToken> matchingToken = findMatchingToken(token, userTokens);
+    public TokenValidationResult validateApiToken(String tokenData, List<UserToken> userTokens) {
+        Optional<UserToken> matchingToken = findMatchingToken(tokenData, userTokens);
         if (matchingToken.isPresent()) {
-            return validateTokenDate(matchingToken.get());
+            return TokenValidationResult.VALID;
         } else {
             return TokenValidationResult.INVALID;
         }
     }
 
     @Override
-    public UserToken getRefreshedSessionToken(UserToken token) {
-        return new UserToken(token.getData(),LocalDateTime.now().plusMinutes(sessionTokenMinutesLifetime));
+    public SessionToken getRefreshedSessionToken(SessionToken token) {
+        return new SessionToken(token.getData(), LocalDateTime.now().plusMinutes(sessionTokenMinutesLifetime));
     }
 
-    private TokenValidationResult validateTokenDate(UserToken userToken) {
-        if (userToken.getExpirationDate().isAfter(LocalDateTime.now())) {
+    private TokenValidationResult validateTokenDate(SessionToken sessionToken) {
+        if (sessionToken.getExpirationDate().isAfter(LocalDateTime.now())) {
             return TokenValidationResult.VALID;
         } else {
             return TokenValidationResult.EXPIRED;
@@ -77,5 +70,9 @@ public class BasicTokenHandler implements TokenHandler {
         return userTokens.stream()
                 .filter(userToken -> userToken.getData().equals(token))
                 .findFirst();
+    }
+
+    private LocalDateTime createMinutesExpirationDate(int tokenMinutesLifetime) {
+        return LocalDateTime.now().plusMinutes(tokenMinutesLifetime);
     }
 }

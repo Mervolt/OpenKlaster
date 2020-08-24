@@ -1,30 +1,31 @@
 package com.openklaster.api.handler;
 
-import com.openklaster.api.app.OpenKlasterAPIVerticle;
 import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.api.parser.IParseStrategy;
+import com.openklaster.api.validation.ModelValidationErrorMessages;
+import com.openklaster.api.validation.ValidationException;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.MultiMap;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.eventbus.Message;
+import io.vertx.core.eventbus.ReplyException;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.RoutingContext;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.api.model.Model;
-import lombok.extern.java.Log;
+import lombok.AllArgsConstructor;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.openklaster.api.validation.ValidationExecutor.validate;
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
+@AllArgsConstructor
 public abstract class Handler {
     private static final String requestDefaultTimeout = "eventBus.timeout";
-    private static final Logger logger = LoggerFactory.getLogger(Handler.class);;
 
     String method;
     String route;
@@ -55,74 +56,42 @@ public abstract class Handler {
         return method;
     }
 
+    protected void sendGetDeleteRequest(RoutingContext context) {
+        Map<String, String> tokens = retrieveTokensFromContex(context);
+        JsonObject jsonModel = convertMultiMapToJson(context.queryParams().entries());
+        handleRequest(context, tokens, jsonModel);
+    }
 
-
-    protected void sendPutPostRequest(RoutingContext context, String eventbusMethod) {
-        DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, context);
-
-        System.out.println("A");
-        if(isPutPostRequestInvalid(context)) {
-            System.out.println("B");
-            handleUnprocessableRequest(context.response());
-            return;
-        }
-        System.out.println("C");
-
+    protected void sendPutPostRequest(RoutingContext context) {
+        Map<String, String> tokens = retrieveTokensFromContex(context);
         JsonObject jsonModel = context.getBodyAsJson();
-        System.out.println(address + " " + jsonModel +  " " + deliveryOptions.getHeaders());
-        eventBus.request(address, jsonModel, deliveryOptions, coreResponse -> {
-            if(gotCorrectResponse(coreResponse)){
-                System.out.println("XD1");
-                handleSuccessfulRequest(context.response());
-            }
-            else{
-                System.out.println("XD2");
-                handleProcessingError(context.response());
-            }
-        });
+        handleRequest(context, tokens, jsonModel);
     }
 
-    protected boolean isPutPostRequestInvalid(RoutingContext context){
-        JsonObject jsonModel = context.getBodyAsJson();
-        return isJsonModelUnprocessable(jsonModel);
-    }
+    private void handleRequest(RoutingContext context, Map<String, String> tokens, JsonObject jsonModel) {
+        try {
+            Model model = parseStrategy.parseToModel(jsonModel);
+            validate(model, tokens);
+            JsonObject validatedModel = JsonObject.mapFrom(model);
+            DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, tokens);
 
-    protected boolean isJsonModelUnprocessable(JsonObject jsonModel){
-        return !isJsonModelValid(jsonModel);
-    }
-
-    // Todo
-    protected boolean isJsonModelValid(JsonObject jsonModel) {
-        try{
-            parseStrategy.parseToModel(jsonModel);
-            return true;
-        }
-        catch(IllegalArgumentException ex){
-            //logger.error(ex.getMessage().substring(0, ex.getMessage().indexOf(" (class")));
-            ex.printStackTrace();
-            return false;
+            eventBus.request(address, validatedModel, deliveryOptions, coreResponse -> {
+                if(coreResponse.succeeded()){
+                    if (coreResponse.result().body() == null)
+                        handleSuccessfulRequest(context.response());
+                    else
+                        context.response().end(Json.encodePrettily(coreResponse.result().body()));
+                }
+                else{
+                    ReplyException replyException = (ReplyException) coreResponse.cause();
+                    handleProcessingError(context.response(), replyException.failureCode(), replyException.getMessage());
+                }
+            });
+        } catch (ValidationException e) {
+            handleValidationError(context.response(), e.getMessage());
         }
     }
 
-    protected void handleUnprocessableRequest(HttpServerResponse response){
-        response.setStatusCode(HttpResponseStatus.UNPROCESSABLE_ENTITY.code());
-        response.end(HandlerProperties.unprocessableEntityMessage);
-    }
-
-    protected void handleSuccessfulRequest(HttpServerResponse response) {
-        response.setStatusCode(HttpResponseStatus.OK.code());
-        response.end(HandlerProperties.successfulRequestMessage);
-    }
-
-    protected boolean isGetDeleteRequestInvalid(RoutingContext context){
-        MultiMap params = context.queryParams();
-        return areRequestParamsUnprocessable(params);
-    }
-
-    protected boolean areRequestParamsUnprocessable(MultiMap modelParams){
-        JsonObject jsonModel = convertMultiMapToJson(modelParams.entries());
-        return isJsonModelUnprocessable(jsonModel);
-    }
 
     protected JsonObject convertMultiMapToJson(List<Map.Entry<String, String>> modelParams) {
         JsonObject jsonModel = new JsonObject();
@@ -130,29 +99,42 @@ public abstract class Handler {
         return jsonModel;
     }
 
-    protected DeliveryOptions createRequestDeliveryOptions(String eventbusMethod, RoutingContext context){
-        DeliveryOptions deliveryOptions = new DeliveryOptions();
+    protected Map<String, String>  retrieveTokensFromContex(RoutingContext context){
+        Map<String, String> tokens = new HashMap<>();
         if (context.queryParams().contains(HandlerProperties.apiToken)) {
-            deliveryOptions.addHeader(HandlerProperties.apiToken, context.queryParams().get(HandlerProperties.apiToken));
+            tokens.put(HandlerProperties.apiToken, context.queryParams().get(HandlerProperties.apiToken));
             context.queryParams().remove(HandlerProperties.apiToken);
         }
         if (context.queryParams().contains(HandlerProperties.sessionToken)) {
-            deliveryOptions.addHeader(HandlerProperties.sessionToken, context.queryParams().get(HandlerProperties.sessionToken));
+            tokens.put(HandlerProperties.sessionToken, context.queryParams().get(HandlerProperties.sessionToken));
             context.queryParams().remove(HandlerProperties.sessionToken);
+        }
+        return tokens;
+    }
+
+
+    protected DeliveryOptions createRequestDeliveryOptions(String eventbusMethod, Map<String, String> tokens){
+        DeliveryOptions deliveryOptions = new DeliveryOptions();
+        for (String token : tokens.keySet()) {
+            deliveryOptions.addHeader(token, tokens.get(token));
         }
         deliveryOptions.addHeader(METHOD_KEY, eventbusMethod);
         deliveryOptions.setSendTimeout(nestedConfigAccessor.getInteger(requestDefaultTimeout));
         return deliveryOptions;
     }
 
-    protected void handleProcessingError(HttpServerResponse response) {
-        response.setStatusCode(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
-        response.end(HandlerProperties.processingErrorMessage);
+    private void handleSuccessfulRequest(HttpServerResponse response) {
+        response.setStatusCode(HttpResponseStatus.OK.code());
+        response.end(HandlerProperties.successfulRequestMessage);
     }
 
-    protected boolean gotCorrectResponse(AsyncResult<Message<Object>> coreResponse) {
-        boolean gotResponse = coreResponse.succeeded();
-;
-        return gotResponse;
+    private void handleProcessingError(HttpServerResponse response, final int code, final String message) {
+        response.setStatusCode(code);
+        response.end(message);
+    }
+
+    private void handleValidationError(HttpServerResponse response, String message) {
+        response.setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
+        response.end(ModelValidationErrorMessages.MESSAGE + message);
     }
 }

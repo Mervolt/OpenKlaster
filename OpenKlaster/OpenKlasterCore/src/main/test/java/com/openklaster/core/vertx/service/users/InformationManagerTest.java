@@ -20,10 +20,11 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.STATUS_CODE;
 @RunWith(VertxUnitRunner.class)
 public class InformationManagerTest extends UserManagerTest {
 
+    private  static final String methodName = "info";
+
     @Before
     public void setup() {
         commonSetup();
-        this.userManager = new InformationManager(authenticationClient, userCrudRepository);
     }
 
     @Test
@@ -35,7 +36,7 @@ public class InformationManagerTest extends UserManagerTest {
         JsonObject messageBody = new JsonObject()
                 .put(usernameKey, existingUser.getUsername());
         FakeMessage<JsonObject> fakeMessage = FakeMessage.<JsonObject>builder().body(messageBody).headers(headers).build();
-        userManager.handleMessage(fakeMessage);
+        authenticatedUserManager.handleMessage(fakeMessage, methodName);
 
         Future<FakeReply> result = fakeMessage.getMessageReply();
 

@@ -1,5 +1,6 @@
 package com.openklaster.core.vertx.service.measurements;
 
+import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.CassandraRepository;
@@ -27,10 +28,10 @@ public class MeasurementManager<T> extends ModelManager<T> {
     }
 
     @Override
-    protected Future<JsonObject> processAuthenticatedMessage(JsonObject authResult, Message<JsonObject> message, String methodName) {
+    protected Future<JsonObject> processAuthenticatedMessage(User authenticatedUser, Message<JsonObject> message, String methodName) {
         switch (methodName) {
             case getMethodName:
-                return get(message.body()).map(JsonObject::mapFrom);
+                return get(message.body()).map(list -> new JsonObject().put(BusMessageReplyUtils.RETURN_LIST, list));
             case addMethodName:
                 return add(message.body().mapTo(modelClass)).map(JsonObject::mapFrom);
             default:

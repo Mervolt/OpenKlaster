@@ -7,6 +7,8 @@ import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.mongo.MongoClientDeleteResult;
 import io.vertx.ext.mongo.MongoClientUpdateResult;
 
+import java.util.List;
+
 import static com.openklaster.mongo.service.EntityHandler.ID_KEY;
 import static com.openklaster.mongo.service.MongoQuery.updateQuery;
 
@@ -28,6 +30,11 @@ public class MongoPersistenceService {
     public void findOneByQuery(JsonObject findQuery, String collectionName, Handler<AsyncResult<JsonObject>> resultHandler) {
         client.findOne(collectionName, findQuery, null, resultHandler);
     }
+
+    public void findAllByQuery(JsonObject findQuery, String collectionName, Handler<AsyncResult<List<JsonObject>>> resultHandler) {
+        client.find(collectionName, findQuery, resultHandler);
+    }
+
 
     public void removeByQuery(JsonObject removeQuery, String collectionName, Handler<AsyncResult<MongoClientDeleteResult>> resultHandler) {
         client.removeDocuments(collectionName, removeQuery, resultHandler);
