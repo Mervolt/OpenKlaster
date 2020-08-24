@@ -1,8 +1,28 @@
-<mat-nav-list>
-  <mat-list-item *ngFor="let link of ['xd', 'xd']">
-    <a matLine href="...">{{ link }}</a>
-    <button mat-icon-button>
-      <mat-icon>info</mat-icon>
-    </button>
-  </mat-list-item>
-</mat-nav-list>
+<div class="container">
+  <app-navbar></app-navbar>
+  <h1>Your installations</h1>
+    <div class="card card-small">
+      {{installation.installationType}}
+      {{installation.description}}
+      {{installation.latitude}}
+      {{installation.longitude}}
+    </div>
+    <div class="card card-small">
+      Source:
+      {{installation.source.description}}
+      {{installation.source.capacity}}
+      {{installation.source.tilt}}
+      {{installation.source.azimuth}}
+    </div>
+    <div class="card card-small">
+      Inverter:
+      {{installation.inverter.description}}
+      {{installation.inverter.modelType}}
+      {{installation.inverter.manufacturer}}
+    </div>
+    <div class="card card-small">
+      Load:
+      {{installation.load.description}}
+      {{installation.load.name}}
+    </div>
+</div>

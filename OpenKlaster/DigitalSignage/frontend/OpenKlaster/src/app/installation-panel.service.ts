@@ -4,25 +4,28 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import {CookieService} from "ngx-cookie-service";
 import {Installation} from "./model/Installation";
+import {TokenPanelService} from "./token-panel.service";
+import {AppComponent} from "./app.component";
 
 @Injectable({
   providedIn: 'root'
 })
 export class InstallationPanelService {
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient, public tokenService: TokenPanelService) { }
 
   getInstallations(token: string){
-    let result = [];
-    for(let iterator = 0; iterator < 20; iterator++){
-      let params = new HttpParams().set('apiToken', token).set('installationId', 'installation:' + iterator);
-      result.push(this.http.get("http://localhost:8082/api/1/installations",{params : params}))
-    }
-    return result;
+    let params = new HttpParams().set('apiToken', token);
+    return this.http.get("http://localhost:8082/api/1/installations",{params : params})
   }
 
-  addInstallation(installation: Installation, cookieService: CookieService){
-    let params = new HttpParams().set('apiToken', installation.apiToken);
+  getInstallation(token: string, id: number){
+    let params = new HttpParams().set('apiToken', token).set('installationId', 'installation:' + id);
+    return this.http.get("http://localhost:8082/api/1/installations",{params : params});
+  }
+
+  addInstallation(installation: Installation, cookieService: CookieService, token: string){
+    let params = new HttpParams().set('apiToken', token);
     this.http.post("http://localhost:8082/api/1/installations", {
       'username': cookieService.get('username'),
       'installationType': installation.installationType,
@@ -47,4 +50,5 @@ export class InstallationPanelService {
       }
     }, {params : params}).subscribe();
   }
+
 }
