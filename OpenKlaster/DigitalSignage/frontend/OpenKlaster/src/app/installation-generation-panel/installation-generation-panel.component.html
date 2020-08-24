@@ -1,0 +1,64 @@
+<div class="container">
+  <app-navbar></app-navbar>
+  <h1>Add installation</h1>
+  <form (ngSubmit)="onSubmit()" #installationForm="ngForm">
+    <div class="form-group">
+
+      <label for="installationType">Installation Type</label>
+      <input type="text" class="form-control" id="installationType" name="installationType" required
+             [(ngModel)]="formModel.installationType">
+
+      <label for="longitude">Longitude</label>
+      <input type="text" class="form-control" id="longitude" name="longitude" required
+             [(ngModel)]="formModel.longitude">
+
+      <label for="latitude">Latitude</label>
+      <input type="text" class="form-control" id="latitude" name="latitude" required [(ngModel)]="formModel.latitude">
+
+      <label for="Description">Description</label>
+      <input type="text" class="form-control" id="description" name="description" required
+             [(ngModel)]="formModel.description">
+
+      <label for="loadName">Load Name</label>
+      <input type="text" class="form-control" id="loadName" name="loadName" required [(ngModel)]="formModel.load.name">
+
+      <label for="loadDescription">Load Description</label>
+      <input type="text" class="form-control" id="loadDescription" name="loadDescription" required
+             [(ngModel)]="formModel.load.description">
+
+      <label for="inverterManufacturer">Inverter Manufacturer</label>
+      <input type="text" class="form-control" id="inverterManufacturer" name="inverterManufacturer" required
+             [(ngModel)]="formModel.inverter.manufacturer">
+
+      <label for="inverterCredentials">Inverter Credentials</label>
+      <input type="text" class="form-control" id="inverterCredentials" name="inverterCredentials" required
+             [(ngModel)]="formModel.inverter.credentials">
+
+      <label for="inverterModelType">Inverter Model Type</label>
+      <input type="text" class="form-control" id="inverterModelType" name="inverterModelType" required
+             [(ngModel)]="formModel.inverter.modelType">
+
+      <label for="inverterDescription">Inverter Description</label>
+      <input type="text" class="form-control" id="inverterDescription" name="inverterDescription" required
+             [(ngModel)]="formModel.inverter.description">
+
+      <label for="sourceAzimuth">Source Azimuth</label>
+      <input type="text" class="form-control" id="sourceAzimuth" name="sourceAzimuth" required
+             [(ngModel)]="formModel.source.azimuth">
+
+      <label for="sourceCapacity">Source Capacity</label>
+      <input type="text" class="form-control" id="sourceCapacity" name="sourceCapacity" required
+             [(ngModel)]="formModel.source.capacity">
+
+      <label for="sourceTilt">Source Tilt</label>
+      <input type="text" class="form-control" id="sourceTilt" name="sourceTilt" required
+             [(ngModel)]="formModel.source.tilt">
+
+      <label for="sourceDescription">Source Description</label>
+      <input type="text" class="form-control" id="sourceDescription" name="sourceDescription" required
+             [(ngModel)]="formModel.source.description">
+
+      <button type="submit" class="btn btn-primary">Submit installation</button>
+    </div>
+  </form>
+</div>

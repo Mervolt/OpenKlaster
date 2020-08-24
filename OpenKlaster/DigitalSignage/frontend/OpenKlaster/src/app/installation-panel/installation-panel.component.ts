@@ -6,6 +6,7 @@ import {Load} from '../model/Load';
 import {Source} from '../model/Source';
 import {Inverter} from '../model/Inverter';
 import {AppComponent} from "../app.component";
+import {TokenPanelService} from "../token-panel.service";
 
 @Component({
   selector: 'app-installation-panel',
@@ -21,14 +22,25 @@ export class InstallationPanelComponent implements OnInit {
   cookieService;
   areInstallationsHidden = true;
 
-  constructor(public service: InstallationPanelService, appComp: AppComponent) {
+  constructor(public tokenService: TokenPanelService, public service: InstallationPanelService, private appComp: AppComponent) {
     this.cookieService=appComp.cookieService;
   }
 
   ngOnInit(): void {
+    if(this.formToken == '')
+      this.downloadToken()
   }
 
-  getInstallations() {
+  async downloadToken() {
+      await this.tokenService
+        .getTokens(this.appComp.cookieService)
+        .toPromise()
+        .then(
+          response => this.formToken = response['userTokens'][0]['data']
+        );
+  }
+
+  async getInstallations() {
     this.installations = []
     let observableInstallations = this.service.getInstallations(this.formToken);
     for(let install of observableInstallations){

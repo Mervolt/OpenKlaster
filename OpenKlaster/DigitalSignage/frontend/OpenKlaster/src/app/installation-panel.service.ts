@@ -14,7 +14,7 @@ export class InstallationPanelService {
 
   getInstallations(token: string){
     let result = [];
-    for(let iterator = 0; iterator < 10; iterator++){
+    for(let iterator = 0; iterator < 20; iterator++){
       let params = new HttpParams().set('apiToken', token).set('installationId', 'installation:' + iterator);
       result.push(this.http.get("http://localhost:8082/api/1/installations",{params : params}))
     }
