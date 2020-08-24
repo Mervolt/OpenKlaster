@@ -48,7 +48,7 @@ export class InstallationPanelComponent implements OnInit {
     observableInstallations.subscribe(response => {
       for (let install in response){
         install = response[install]
-        this.installations.push(new Installation(this.formToken, install['installationType'], install['longitude'],
+        this.installations.push(new Installation(install['_id'], install['installationType'], install['longitude'],
           install['latitude'], install['description'], install['load'], install['inverter'], install['source']))
       }})
   }

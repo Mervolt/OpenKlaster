@@ -4,6 +4,9 @@
   <li *ngFor="let installation of installations">
     <div class="card card-small">
       <a routerLink="xd"></a>
+      {{installation.installationId}}
+    </div>
+    <div class="card card-small">
       {{installation.installationType}}
       {{installation.description}}
       {{installation.latitude}}
