@@ -16,9 +16,7 @@ public class CassandraRepository<T> implements Repository<T> {
     }
 
     public Future<List<T>> getFromDates(JsonObject query) {
-        Future<List<T>> abc = dbServiceHandler.handleWithListContent(getKey, query);
-        System.out.println("getFromDates" + abc.succeeded());
-        return abc;
+        return  dbServiceHandler.handleWithListContent(getKey, query);
     }
 
     @Override

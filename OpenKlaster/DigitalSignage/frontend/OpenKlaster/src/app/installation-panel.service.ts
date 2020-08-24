@@ -12,11 +12,11 @@ import {AppComponent} from "./app.component";
 })
 export class InstallationPanelService {
 
-  constructor(public http: HttpClient, public tokenService: TokenPanelService) { }
+  constructor(public http: HttpClient) { }
 
-  getInstallations(token: string){
-    let params = new HttpParams().set('apiToken', token);
-    return this.http.get("http://localhost:8082/api/1/installations",{params : params})
+  getInstallations(cookieService: CookieService, token: string){
+    let params = new HttpParams().set('apiToken', token).set('username', cookieService.get('username'));
+    return this.http.get("http://localhost:8082/api/1/installations/all",{params : params})
   }
 
   getInstallation(token: string, id: number){

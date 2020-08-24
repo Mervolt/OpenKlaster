@@ -25,8 +25,6 @@ export class InstallationPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.formToken == '')
-      this.downloadToken();
     this.getInstallations();
   }
 
@@ -36,21 +34,22 @@ export class InstallationPanelComponent implements OnInit {
       .getTokens(this.appComp.cookieService)
       .toPromise()
       .then(
-        response => this.formToken = response['userTokens'][0]['data']
+        response => {
+          this.formToken = response['userTokens'][0]['data']
+          return this.formToken
+        }
       );
   }
 
   async getInstallations() {
+    await this.downloadToken();
     this.installations = []
-    let observableInstallations = this.service.getInstallations(this.formToken);
+    let observableInstallations = this.service.getInstallations(this.cookieService, this.formToken);
     observableInstallations.subscribe(response => {
       for (let install in response){
+        install = response[install]
         this.installations.push(new Installation(this.formToken, install['installationType'], install['longitude'],
-          install['latitude'], install['description'], new Load(install['load']['name'], install['load']['description']),
-          new Inverter(response['inverter']['description'], install['inverter']['manufacturer'],
-            install['inverter']['credentials'], install['inverter']['modelType']),
-          new Source(install['source']['azimuth'], install['source']['tilt'], install['source']['capacity'],
-            install['source']['description'])))
+          install['latitude'], install['description'], install['load'], install['inverter'], install['source']))
       }})
   }
 
