@@ -7,12 +7,9 @@ const config = {
       "powerConsumptionTitle" : "Zużycie mocy",
       "powerProductionTitle" : "Produkcja mocy"
     },
-    "installationId": "1",
-    "apiToken": "abecadlozpiecaspadlo",
-    "api": {
-        "rootUrl": "http://localhost:8082",
-        "powerProduction": "/power/production",
-        "powerConsumption": "/power/consumption"
-    }
+    "installationId": "installation:0",
+    "apiToken": "r2EI02DyOis5",
+    "powerConsumption": "http://localhost:8082/api/1/powerConsumption",
+    "powerProduction": "http://localhost:8082/api/1/powerProduction"
 
 }

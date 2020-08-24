@@ -21,7 +21,7 @@ def count_function(function, x):
     if y > 0:
         return y
     else:
-        return random.randint(1, 10) / 1000
+        return random.randint(1, 10) / 100
 
 
 def production_power_function(x):
