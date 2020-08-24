@@ -73,7 +73,8 @@ import {MatListModule} from "@angular/material/list";
     LoginFormService,
     TokenPanelService,
     InstallationPanelService,
-    CookieService
+    CookieService,
+    InstallationPanelComponent
   ],
   bootstrap: [AppComponent]
 })

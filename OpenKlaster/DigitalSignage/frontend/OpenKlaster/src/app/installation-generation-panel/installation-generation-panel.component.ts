@@ -39,6 +39,6 @@ export class InstallationGenerationPanelComponent implements OnInit {
   }
 
   onSubmit() {
-    this.service.addInstallation(this.formModel, this.cookieService);
+    this.service.addInstallation(this.formModel, this.cookieService, this.formToken);
   }
 }

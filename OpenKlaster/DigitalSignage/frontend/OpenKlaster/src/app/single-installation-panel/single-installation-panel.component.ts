@@ -1,7 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SingleInstallationPanelService} from "../single-installation-panel.service";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Installation} from "../model/Installation";
+import {Load} from "../model/Load";
+import {Inverter} from "../model/Inverter";
+import {Source} from "../model/Source";
+import {InstallationPanelService} from "../installation-panel.service";
+import {InstallationPanelComponent} from "../installation-panel/installation-panel.component";
 
 @Component({
   selector: 'app-single-installation-panel',
@@ -10,24 +16,26 @@ import {Router} from "@angular/router";
 })
 export class SingleInstallationPanelComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
-  constructor(public service: SingleInstallationPanelService,  private router: Router) { }
+  installationId;
+  installation;
+
+  constructor(public service: SingleInstallationPanelService,  private router: Router,
+              public installationsService: InstallationPanelService,
+              public installationPanelComponent: InstallationPanelComponent,
+              private route: ActivatedRoute) {
+    this.installationId = route.snapshot.paramMap.get('id');
+  }
 
   ngOnInit(): void {
+    let observableInstallation = this.installationsService.getInstallation(this.installationPanelComponent.formToken, this.installationId);
+    observableInstallation.subscribe(response =>{
+      this.installation = new Installation(this.installationPanelComponent.formToken, response['installationType'], response['longitude'],
+        response['latitude'], response['description'],new Load(response['load']['name'], response['load']['description']),
+        new Inverter(response['inverter']['description'], response['inverter']['manufacturer'],
+          response['inverter']['credentials'], response['inverter']['modelType']),
+        new Source(response['source']['azimuth'], response['source']['tilt'], response['source']['capacity'],
+          response['source']['description']))
+    })
   }
 
-  navigateToYourTokens(): void {
-    this.router.navigate(['token']).then();
-  }
-
-  navigateToTokenGeneration() {
-    this.router.navigate(['tokenGeneration']).then();
-  }
-
-  navigateToYourInstallations(): void {
-    this.router.navigate(['installations']).then();
-  }
-
-  navigateToInstallationGeneration(): void {
-    this.router.navigate(['installationGeneration']).then();
-  }
 }
