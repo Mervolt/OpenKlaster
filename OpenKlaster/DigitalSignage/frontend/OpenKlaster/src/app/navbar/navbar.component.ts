@@ -3,6 +3,7 @@ import {LoginFormComponent} from '../login-form/login-form.component';
 import {MatMenuTrigger} from "@angular/material/menu";
 import {SingleInstallationPanelService} from "../single-installation-panel.service";
 import {Router} from "@angular/router";
+import {AppComponent} from "../app.component";
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +12,7 @@ import {Router} from "@angular/router";
 })
 export class NavbarComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
-  constructor(public service: SingleInstallationPanelService,  private router: Router) { }
+  constructor(public service: SingleInstallationPanelService, private router: Router, private appComp: AppComponent) { }
 
   ngOnInit(): void {
   }
@@ -30,5 +31,10 @@ export class NavbarComponent implements OnInit {
 
   navigateToInstallationGeneration(): void {
     this.router.navigate(['installationGeneration']).then();
+  }
+
+  logout() {
+    this.appComp.cookieService.deleteAll();
+    this.router.navigate(['login']).then();
   }
 }
