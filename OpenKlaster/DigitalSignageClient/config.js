@@ -7,8 +7,8 @@ const config = {
       "powerConsumptionTitle" : "Zużycie mocy",
       "powerProductionTitle" : "Produkcja mocy"
     },
-    "installationId": "installation:0",
-    "apiToken": "r2EI02DyOis5",
+    "installationId": "installation:8",
+    "apiToken": "8M3E7oVn0Hvj",
     "powerConsumption": "http://localhost:8082/api/1/powerConsumption",
     "powerProduction": "http://localhost:8082/api/1/powerProduction"
 
