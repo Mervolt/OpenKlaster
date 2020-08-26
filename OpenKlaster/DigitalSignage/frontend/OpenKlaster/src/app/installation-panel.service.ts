@@ -10,6 +10,7 @@ import {AppComponent} from "./app.component";
 @Injectable({
   providedIn: 'root'
 })
+//TODO What 'Panel' means here?
 export class InstallationPanelService {
 
   constructor(public http: HttpClient) { }
@@ -25,6 +26,8 @@ export class InstallationPanelService {
   }
 
   addInstallation(installation: Installation, cookieService: CookieService, token: string){
+    //TODO  The only place we are using apiTokens for now is generating/deleting them.
+    // Our website must use sessionToken for authentication...!!!
     let params = new HttpParams().set('apiToken', token);
     this.http.post("http://localhost:8082/api/1/installations", {
       'username': cookieService.get('username'),

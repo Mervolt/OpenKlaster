@@ -3,6 +3,7 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 
+//Do we even need Java code here?
 public class DigitalSignageVerticle extends AbstractVerticle {
 
     private Vertx vertx;

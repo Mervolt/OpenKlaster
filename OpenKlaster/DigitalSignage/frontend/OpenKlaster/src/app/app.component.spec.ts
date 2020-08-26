@@ -1,6 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
+//TODO Propably generated but should those tests be here?
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({

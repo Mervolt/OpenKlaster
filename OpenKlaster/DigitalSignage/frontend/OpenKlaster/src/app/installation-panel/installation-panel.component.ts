@@ -14,12 +14,15 @@ import {TokenPanelService} from "../token-panel.service";
   styleUrls: ['./installation-panel.component.css']
 })
 export class InstallationPanelComponent implements OnInit {
+  //TODO unused formModel
   formModel = new Installation('', '', 0, 0, '', new Load('', ''),
     new Inverter('', '', '', ''), new Source(0, 0, 0, ''));
   formToken = '';
   installations: Installation[] = [];
+  //TODO ditto - value type
   cookieService;
 
+  //TODO installationService - more desriptive name
   constructor(public tokenService: TokenPanelService, public service: InstallationPanelService, private appComp: AppComponent) {
     this.cookieService = appComp.cookieService;
   }
@@ -29,8 +32,10 @@ export class InstallationPanelComponent implements OnInit {
   }
 
 
+  //TODO ditto -sesion token
   async downloadToken() {
     await this.tokenService
+      //Todo you have cookieService variable declared in this class
       .getTokens(this.appComp.cookieService)
       .toPromise()
       .then(
@@ -48,6 +53,7 @@ export class InstallationPanelComponent implements OnInit {
     observableInstallations.subscribe(response => {
       for (let install in response){
         install = response[install]
+        //TODO ditto - static keys
         this.installations.push(new Installation(install['_id'], install['installationType'], install['longitude'],
           install['latitude'], install['description'], install['load'], install['inverter'], install['source']))
       }})

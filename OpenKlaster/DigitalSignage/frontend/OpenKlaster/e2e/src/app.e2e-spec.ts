@@ -1,6 +1,7 @@
 import { AppPage } from './app.po';
 import { browser, logging } from 'protractor';
 
+//We have an empty tests for angular :(
 describe('workspace-project App', () => {
   let page: AppPage;
 

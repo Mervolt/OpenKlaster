@@ -15,6 +15,7 @@ export class RegisterFormService {
   }
 
   postUser(user: User):Promise<boolean> {
+    //TODO hardcoded
     return this.http.post("http://localhost:8082/api/1/user", user, {responseType: 'text'})
       .toPromise()
       .then(response => {

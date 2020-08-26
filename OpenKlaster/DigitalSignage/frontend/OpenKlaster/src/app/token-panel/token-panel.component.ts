@@ -11,6 +11,7 @@ export class TokenPanelComponent implements OnInit {
   tokens;
   cookieService;
 
+  //TODO change `service` variable name
   constructor(public service: TokenPanelService, public appComp: AppComponent) {
     this.cookieService = appComp.cookieService;
     let request = service.getTokens(appComp.cookieService);

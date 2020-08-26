@@ -27,6 +27,7 @@ export class RegisterFormComponent implements OnInit {
   }
 
   redirectToLogin() {
+    //TODO ditto navigation service
     this.router.navigate(['login']);
   }
 }

@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InstallationGenerationPanelComponent } from './installation-generation-panel.component';
 
+//TODO Even angular says : "Hey, test me man!"
 describe('InstallationGenerationPanelComponent', () => {
   let component: InstallationGenerationPanelComponent;
   let fixture: ComponentFixture<InstallationGenerationPanelComponent>;
