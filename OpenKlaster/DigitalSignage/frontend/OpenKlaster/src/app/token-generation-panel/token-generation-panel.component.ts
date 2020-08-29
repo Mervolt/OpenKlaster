@@ -7,6 +7,8 @@ import {AppComponent} from "../app.component";
   templateUrl: './token-generation-panel.component.html',
   styleUrls: ['./token-generation-panel.component.css']
 })
+//Todo RG It seems to me that it is more obvious for the user to generate a token from a button.
+//I would take this functionality beyond the dropdown
 export class TokenGenerationPanelComponent implements OnInit {
   cookieService;
 

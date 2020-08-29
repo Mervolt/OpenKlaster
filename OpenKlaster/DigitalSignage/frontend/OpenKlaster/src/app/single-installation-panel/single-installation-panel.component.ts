@@ -29,6 +29,11 @@ export class SingleInstallationPanelComponent implements OnInit {
     this.installationId = route.snapshot.paramMap.get('id');
   }
 
+  //TOdo RG Have you tested it? I'm pretty sure it won't work?
+  // For example insteal of new Inverter(response['inverter']['description'], response['inverter']['manufacturer'],
+  //           response['inverter']['credentials'], response['inverter']['modelType'])
+  // The 2nd parenthesis will throw an exception everywhere
+  // If you want inverter object just use response['inverter'] and you get the object
   ngOnInit(): void {
     let observableInstallation = this.installationsService.getInstallation(this.installationPanelComponent.formToken, this.installationId);
     observableInstallation.subscribe(response =>{

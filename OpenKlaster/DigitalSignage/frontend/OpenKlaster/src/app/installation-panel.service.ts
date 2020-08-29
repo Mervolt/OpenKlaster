@@ -29,6 +29,7 @@ export class InstallationPanelService {
     //TODO  The only place we are using apiTokens for now is generating/deleting them.
     // Our website must use sessionToken for authentication...!!!
     let params = new HttpParams().set('apiToken', token);
+    // Todo RG Why don't you just send an installation object that you already have?
     this.http.post("http://localhost:8082/api/1/installations", {
       'username': cookieService.get('username'),
       'installationType': installation.installationType,

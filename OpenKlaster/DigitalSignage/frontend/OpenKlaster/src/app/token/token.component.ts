@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './token.component.html',
   styleUrls: ['./token.component.css']
 })
+// Todo RG unused component
 export class TokenComponent implements OnInit {
   constructor() { }
 
