@@ -32,7 +32,6 @@
     }
   ],
   "schemes": [
-    "https",
     "http"
   ],
   "paths": {
@@ -230,6 +229,9 @@
         "summary": "Removes token with given Id",
         "description": "",
         "operationId": "deleteToken",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "query",

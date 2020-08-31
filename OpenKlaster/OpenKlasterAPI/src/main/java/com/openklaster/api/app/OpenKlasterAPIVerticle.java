@@ -2,7 +2,9 @@ package com.openklaster.api.app;
 
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.openklaster.api.handler.DeleteHandler;
 import com.openklaster.api.handler.GetHandler;
@@ -31,6 +33,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
@@ -202,10 +205,15 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
     }
 
     private void configureRouteHandler(Router router) {
+        Set<HttpMethod> allowedMethods = new HashSet<>();
+        allowedMethods.add(HttpMethod.PUT);
+        allowedMethods.add(HttpMethod.DELETE);
+
         router.route().handler(BodyHandler.create())
               .handler(CorsHandler.create("*")
                                   .allowedHeader("Content-Type")
-                                  .allowedHeader("responseType"));
+                                  .allowedHeader("responseType")
+                                  .allowedMethods(allowedMethods));
     }
 
     public static String buildEndpoint(NestedConfigAccessor configAccessor, int version, String route) {
