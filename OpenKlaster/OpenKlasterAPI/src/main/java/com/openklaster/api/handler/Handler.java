@@ -85,10 +85,10 @@ public abstract class Handler {
                 }
                 else{
                     ReplyException replyException = (ReplyException) coreResponse.cause();
-                    if (replyException.failureCode() > 0)
-                        handleProcessingError(context.response(), replyException.failureCode(), replyException.getMessage());
-                    else
+                    if (replyException.failureCode() == -1 || replyException.failureCode() == 500)
                         handleProcessingError(context.response(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code(), processingErrorMessage);
+                    else
+                        handleProcessingError(context.response(), replyException.failureCode(), replyException.getMessage());
                 }
             });
         } catch (ValidationException e) {

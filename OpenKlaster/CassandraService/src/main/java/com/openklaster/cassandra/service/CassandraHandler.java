@@ -61,7 +61,7 @@ public abstract class CassandraHandler<T> {
                 } else {
                     // Todo nie pamiętam co to wypisuje xd można dodać coś ze dla geta jesli nie ma teraz xd
                     logger.error(listAsyncResult.cause());
-                    BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, listAsyncResult.cause().toString());
+                    BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.INTERNAL_SERVER_ERROR, listAsyncResult.cause().toString());
                 }
             });
         } catch (Exception e) {
@@ -76,7 +76,7 @@ public abstract class CassandraHandler<T> {
                 BusMessageReplyUtils.replyWithBodyAndStatus(message, response, HttpResponseStatus.OK);
             } else {
                 logger.error(voidAsyncResult.cause());
-                BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, voidAsyncResult.cause().toString());
+                BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.INTERNAL_SERVER_ERROR, voidAsyncResult.cause().toString());
 
             }
         };

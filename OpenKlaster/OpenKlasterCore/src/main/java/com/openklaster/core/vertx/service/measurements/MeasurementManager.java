@@ -32,8 +32,10 @@ public class MeasurementManager<T> extends ModelManager<T> {
         switch (methodName) {
             case getMethodName:
                 return get(message.body()).map(list -> new JsonObject().put(BusMessageReplyUtils.RETURN_LIST, list));
-            case addMethodName:
+            case addMethodName:{
                 return add(message.body().mapTo(modelClass)).map(JsonObject::mapFrom);
+            }
+
             default:
                 throw new IllegalArgumentException(String.format("This operations is not allowed: %s", methodName));
         }

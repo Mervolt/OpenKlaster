@@ -1,16 +1,18 @@
 package com.openklaster.core.vertx.messages.repository;
 
-import io.vertx.core.Future;
-import io.vertx.core.Promise;
-import io.vertx.core.eventbus.DeliveryOptions;
-import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
+import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Promise;
+import io.vertx.core.eventbus.DeliveryOptions;
+import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.eventbus.ReplyException;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 public class DbServiceHandler<T> {
 
@@ -29,10 +31,11 @@ public class DbServiceHandler<T> {
         Promise<T> resultPromise = Promise.promise();
         DeliveryOptions options = getMethodOptions(methodName);
         eventBus.<JsonObject>request(address, content, options, handler -> {
-            if (handler.succeeded()) {
+            if(handler.succeeded()) {
                 resultPromise.complete(handler.result().body().mapTo(this.modelClass));
-            } else {
-                resultPromise.fail(handler.cause());
+            }
+            else {
+                handleFailure(resultPromise, handler);
             }
         });
         return resultPromise.future();
@@ -42,10 +45,11 @@ public class DbServiceHandler<T> {
         Promise<Void> resultPromise = Promise.promise();
         DeliveryOptions options = getMethodOptions(methodName);
         eventBus.request(address, content, options, handler -> {
-            if (handler.succeeded()) {
+            if(handler.succeeded()) {
                 resultPromise.complete();
-            } else {
-                resultPromise.fail(handler.cause());
+            }
+            else {
+                handleFailure(resultPromise, handler);
             }
         });
         return resultPromise.future();
@@ -55,17 +59,18 @@ public class DbServiceHandler<T> {
         Promise<List<T>> resultPromise = Promise.promise();
         DeliveryOptions options = getMethodOptions(methodName);
         eventBus.<JsonArray>request(address, content, options, handler -> {
-            if (handler.succeeded()) {
+            if(handler.succeeded()) {
                 resultPromise.complete(mapToListContent(handler.result().body()));
-            } else {
-                resultPromise.fail(handler.cause());
+            }
+            else {
+                handleFailure(resultPromise, handler);
             }
         });
         return resultPromise.future();
     }
 
     private List<T> mapToListContent(JsonArray body) {
-        return  body.stream().map(result -> {
+        return body.stream().map(result -> {
             JsonObject jsonObject = JsonObject.mapFrom(result);
             return jsonObject.mapTo(modelClass);
         }).collect(Collectors.toList());
@@ -73,5 +78,15 @@ public class DbServiceHandler<T> {
 
     private DeliveryOptions getMethodOptions(String methodName) {
         return new DeliveryOptions().addHeader(METHOD_KEY, methodName);
+    }
+
+    public void handleFailure(Promise resultPromise, AsyncResult handler) {
+        ReplyException replyException = (ReplyException) handler.cause();
+        if(replyException.failureCode() == -1 || replyException.failureCode() == 500) {
+            resultPromise.fail(new InternalServerErrorException(handler.cause().getMessage()));
+        }
+        else {
+            resultPromise.fail(handler.cause());
+        }
     }
 }

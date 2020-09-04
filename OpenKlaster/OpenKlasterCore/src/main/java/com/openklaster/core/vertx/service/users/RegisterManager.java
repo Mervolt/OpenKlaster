@@ -4,6 +4,8 @@ import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.CrudRepository;
+import com.openklaster.core.vertx.properties.CoreErrorMessages;
+
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.Message;
@@ -14,7 +16,7 @@ import io.vertx.core.logging.LoggerFactory;
 public class RegisterManager implements UserManager {
     private static final String methodName = "register";
     private static final String successMessage = "User registered - %s";
-    private static final String failureMessage = "Could not register user - %s(%s)";
+    private static final String failureMessage = CoreErrorMessages.REGISTER_FAILURE;
     private static final Logger logger = LoggerFactory.getLogger(RegisterManager.class);
     private final AuthenticationClient authenticationClient;
     private final CrudRepository<User> userCrudRepository;
@@ -50,7 +52,7 @@ public class RegisterManager implements UserManager {
         logger.error(String.format(failureMessage,
                 user.getUsername(), reason), reason);
         BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST,
-                reason);
+                                            String.format(failureMessage, reason));
     }
 
     private Future<User> addUser(User user) {

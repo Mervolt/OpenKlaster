@@ -22,9 +22,9 @@ public class MongoExceptionHandler {
     }
 
     public String getWarnLogMessage(Object id, String collectionName, String customMessage){
-        return String.format("[%s - %s]%s",collectionName,id.toString(),customMessage);
+        return String.format("[%s %s]%s",collectionName,id.toString(),customMessage);
     }
     public String getReplyFailureMessage(Object id, String customMessage){
-        return String.format("%s - %s",customMessage,id.toString());
+        return String.format("%s %s",customMessage,id.toString());
     }
 }

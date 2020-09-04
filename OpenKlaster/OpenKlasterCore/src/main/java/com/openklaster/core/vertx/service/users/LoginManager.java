@@ -6,6 +6,8 @@ import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.authentication.AuthenticationResult;
 import com.openklaster.core.vertx.authentication.SuccessfulSessionAuthentication;
 import com.openklaster.core.vertx.messages.repository.CrudRepository;
+import com.openklaster.core.vertx.properties.CoreErrorMessages;
+
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.Message;
@@ -19,7 +21,7 @@ import static com.openklaster.common.model.ModelProperties.usernameKey;
 public class LoginManager implements UserManager {
     private static final String methodName = "login";
     private static final String successMessage = "User logged in - %s";
-    private static final String failedMessage = "Cannot login - %s";
+    private static final String failedMessage = CoreErrorMessages.LOGIN_FAILURE;
     private static final Logger logger = LoggerFactory.getLogger(LoginManager.class);
     private final AuthenticationClient authenticationClient;
     private final CrudRepository<User> userCrudRepository;
