@@ -1,36 +1,36 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {CookieService} from "ngx-cookie-service";
-import {Installation} from "./model/Installation";
-import {TokenPanelService} from "./token-panel.service";
-import {AppComponent} from "./app.component";
+import {Installation} from "../model/Installation";
+import {EndpointHolder} from "../model/EndpointHolder";
 
 @Injectable({
   providedIn: 'root'
 })
 //TODO What 'Panel' means here?
+//MM-ANSWER: Z translatora: panel - pulpit
 export class InstallationPanelService {
 
   constructor(public http: HttpClient) { }
 
   getInstallations(cookieService: CookieService, token: string){
     let params = new HttpParams().set('apiToken', token).set('username', cookieService.get('username'));
-    return this.http.get("http://localhost:8082/api/1/installations/all",{params : params})
+    return this.http.get(EndpointHolder.installationsEndpoint,{params : params})
   }
 
   getInstallation(token: string, id: number){
     let params = new HttpParams().set('apiToken', token).set('installationId', 'installation:' + id);
-    return this.http.get("http://localhost:8082/api/1/installations",{params : params});
+    return this.http.get(EndpointHolder.installationEndpoint,{params : params});
   }
 
   addInstallation(installation: Installation, cookieService: CookieService, token: string){
     //TODO  The only place we are using apiTokens for now is generating/deleting them.
     // Our website must use sessionToken for authentication...!!!
+    // : )
     let params = new HttpParams().set('apiToken', token);
     // Todo RG Why don't you just send an installation object that you already have?
-    this.http.post("http://localhost:8082/api/1/installations", {
+    //MM-ANSWER: How would I do that?
+    this.http.post(EndpointHolder.installationEndpoint, {
       'username': cookieService.get('username'),
       'installationType': installation.installationType,
       'longitude': installation.longitude,

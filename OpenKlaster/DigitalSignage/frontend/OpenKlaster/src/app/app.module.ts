@@ -6,28 +6,26 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
-import { LoginFormComponent } from './login-form/login-form.component';
+import { LoginFormComponent } from './user/login-form/login-form.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { RegisterFormComponent } from './register-form/register-form.component';
-import { UserPanelComponent } from './user-panel/user-panel.component';
-import { RegisterFormService } from './register-form.service';
-import { TokenPanelComponent } from './token-panel/token-panel.component';
-import { MeasurementPanelComponent } from './measurement-panel/measurement-panel.component';
-import { InstallationPanelComponent } from './installation-panel/installation-panel.component';
-import { TokenComponent } from './token/token.component';
-import { TokenPanelService } from './token-panel.service';
-import { InstallationPanelService } from './installation-panel.service';
+import { RegisterFormComponent } from './user/register-form/register-form.component';
+import { UserPanelComponent } from './user/user-panel/user-panel.component';
+import { RegisterFormService } from './user/register-form.service';
+import { TokenPanelComponent } from './token/token-panel/token-panel.component';
+import { MeasurementPanelComponent } from './installation/measurement-panel/measurement-panel.component';
+import { InstallationPanelComponent } from './installation/installation-panel/installation-panel.component';
+import { TokenPanelService } from './token/token-panel.service';
+import { InstallationPanelService } from './installation/installation-panel.service';
 import { CookieService } from 'ngx-cookie-service';
-import { LoginFormService } from './login-form.service';
-import { SingleInstallationPanelComponent } from './single-installation-panel/single-installation-panel.component';
+import { LoginFormService } from './user/login-form.service';
+import { SingleInstallationPanelComponent } from './installation/single-installation-panel/single-installation-panel.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSliderModule} from "@angular/material/slider";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
-import { TokenGenerationPanelComponent } from './token-generation-panel/token-generation-panel.component';
-import { SingleTokenPanelComponent } from './single-token-panel/single-token-panel.component';
-import { InstallationGenerationPanelComponent } from './installation-generation-panel/installation-generation-panel.component';
+import { TokenGenerationPanelComponent } from './token/token-generation-panel/token-generation-panel.component';
+import { InstallationGenerationPanelComponent } from './installation/installation-generation-panel/installation-generation-panel.component';
 import {MatListModule} from "@angular/material/list";
 
 @NgModule({
@@ -40,10 +38,8 @@ import {MatListModule} from "@angular/material/list";
     TokenPanelComponent,
     MeasurementPanelComponent,
     InstallationPanelComponent,
-    TokenComponent,
     SingleInstallationPanelComponent,
     TokenGenerationPanelComponent,
-    SingleTokenPanelComponent,
     InstallationGenerationPanelComponent
   ],
     imports: [

@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {User} from './model/User';
+import {User} from '../model/User';
+import {EndpointHolder} from "../model/EndpointHolder";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterFormService {
-
+  errorReasonKey: string = 'error'
   constructor(public http: HttpClient) {
   }
 
@@ -16,12 +17,13 @@ export class RegisterFormService {
 
   postUser(user: User):Promise<boolean> {
     //TODO hardcoded
-    return this.http.post("http://localhost:8082/api/1/user", user, {responseType: 'text'})
+    return this.http.post(EndpointHolder.userEndpoint, user, {responseType: 'text'})
       .toPromise()
       .then(response => {
         return true;
       })
-      .catch((_:any) => {
+      .catch((error :any) => {
+        alert(error[this.errorReasonKey]);
         return false;
       })
   }

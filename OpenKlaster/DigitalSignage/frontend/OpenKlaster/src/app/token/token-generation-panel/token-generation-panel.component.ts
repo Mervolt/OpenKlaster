@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TokenPanelService} from "../token-panel.service";
-import {AppComponent} from "../app.component";
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'app-token-generation-panel',
@@ -9,6 +9,7 @@ import {AppComponent} from "../app.component";
 })
 //Todo RG It seems to me that it is more obvious for the user to generate a token from a button.
 //I would take this functionality beyond the dropdown
+//MM-ANSWER: I dont understand
 export class TokenGenerationPanelComponent implements OnInit {
   cookieService;
 
@@ -20,7 +21,7 @@ export class TokenGenerationPanelComponent implements OnInit {
   }
 
   addToken() {
-    this.service.addToken(this.cookieService).subscribe();
+    this.service.generateToken(this.cookieService).subscribe();
   }
 
 }

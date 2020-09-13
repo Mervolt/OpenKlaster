@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 //TODO unused import
-import {LoginFormComponent} from '../login-form/login-form.component';
+//MM-ANSWER: Done
 import {MatMenuTrigger} from "@angular/material/menu";
-import {SingleInstallationPanelService} from "../single-installation-panel.service";
+import {SingleInstallationPanelService} from "../installation/single-installation-panel.service";
 import {Router} from "@angular/router";
 import {AppComponent} from "../app.component";
 
@@ -19,6 +19,9 @@ export class NavbarComponent implements OnInit {
   }
 
   //TODO Maybe some global navigation/routing service would be nice as in login-form we are also using routing
+  //MM-ANSWER: I think it is better to leave in component so it has access only to redirects it can use than
+  //exposing interface with all possible interfaces
+  //And service logic should be tied to component it represents
   navigateToYourTokens(): void {
     this.router.navigate(['token']).then();
   }

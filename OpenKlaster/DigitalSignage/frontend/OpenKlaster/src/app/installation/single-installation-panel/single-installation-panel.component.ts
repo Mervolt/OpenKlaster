@@ -2,12 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SingleInstallationPanelService} from "../single-installation-panel.service";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Installation} from "../model/Installation";
-import {Load} from "../model/Load";
-import {Inverter} from "../model/Inverter";
-import {Source} from "../model/Source";
 import {InstallationPanelService} from "../installation-panel.service";
 import {InstallationPanelComponent} from "../installation-panel/installation-panel.component";
+import {InstallationDto} from "../../model/InstallationDto";
 
 @Component({
   selector: 'app-single-installation-panel',
@@ -22,6 +19,7 @@ export class SingleInstallationPanelComponent implements OnInit {
   //TODO ent: InstallationPanelComp is only used to get form token... services are for injecting
   // if you want to pass some methods/args as params. Here it shall be deleted at all as it used to get formToken
   // which should not exists
+  //MM-ANSWER tokens to be refactored later
   constructor(public service: SingleInstallationPanelService,  private router: Router,
               public installationsService: InstallationPanelService,
               public installationPanelComponent: InstallationPanelComponent,
@@ -34,16 +32,13 @@ export class SingleInstallationPanelComponent implements OnInit {
   //           response['inverter']['credentials'], response['inverter']['modelType'])
   // The 2nd parenthesis will throw an exception everywhere
   // If you want inverter object just use response['inverter'] and you get the object
+  //MM-ANSWER I think it worked but I changed it anyway since your solution also works and is used in Installations
   ngOnInit(): void {
     let observableInstallation = this.installationsService.getInstallation(this.installationPanelComponent.formToken, this.installationId);
     observableInstallation.subscribe(response =>{
       //TODO ditto fromDto method
-      this.installation = new Installation(this.installationPanelComponent.formToken, response['installationType'], response['longitude'],
-        response['latitude'], response['description'],new Load(response['load']['name'], response['load']['description']),
-        new Inverter(response['inverter']['description'], response['inverter']['manufacturer'],
-          response['inverter']['credentials'], response['inverter']['modelType']),
-        new Source(response['source']['azimuth'], response['source']['tilt'], response['source']['capacity'],
-          response['source']['description']))
+      //MM-ANSWER Done
+      this.installation = InstallationDto.fromDto(response)
     })
   }
 

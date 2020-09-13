@@ -1,4 +1,9 @@
 export class Inverter{
-  constructor(public description: string, public manufacturer: string, public credentials: string, public modelType: string) {
+  description: string;
+  manufacturer: string;
+  credentials: string;
+  modelType: string;
+  constructor(){
+
   }
 }

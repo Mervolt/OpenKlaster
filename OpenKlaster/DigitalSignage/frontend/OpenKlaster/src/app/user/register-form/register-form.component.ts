@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { RegisterFormService } from '../register-form.service';
-import { User } from '../model/User';
+import { User } from '../../model/User';
 
 
 @Component({
@@ -28,6 +28,7 @@ export class RegisterFormComponent implements OnInit {
 
   redirectToLogin() {
     //TODO ditto navigation service
+    //MM-ANSWER: Look navbar.component.ts
     this.router.navigate(['login']);
   }
 }
