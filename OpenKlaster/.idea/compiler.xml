@@ -7,11 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="OpenKlasterCore" />
-        <module name="MongoService" />
-        <module name="starter" />
         <module name="OpenKlasterAPI" />
         <module name="CommonService" />
+        <module name="OpenKlasterCore" />
+        <module name="starter" />
+        <module name="MongoService" />
         <module name="CassandraService" />
       </profile>
     </annotationProcessing>
@@ -22,9 +22,7 @@
       <module name="OpenKlaster" target="1.8" />
       <module name="OpenKlasterAPI" target="1.8" />
       <module name="OpenKlasterCore" target="1.8" />
-      <module name="RestApi" target="1.8" />
       <module name="starter" target="1.8" />
-      <module name="UserService" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

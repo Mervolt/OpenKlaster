@@ -7,7 +7,7 @@
     <groupId>org.openklaster</groupId>
     <artifactId>OpenKlaster</artifactId>
     <packaging>pom</packaging>
-    <version>${openklaster.version}</version>
+    <version>1.0</version>
     <modules>
         <module>OpenKlasterCore</module>
         <module>MongoService</module>
@@ -24,9 +24,15 @@
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.12</lombok.version>
         <slf4j-simple.version>1.7.30</slf4j-simple.version>
+        <jebrains-annotations.version>13.0</jebrains-annotations.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${jebrains-annotations.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -37,11 +43,6 @@
             <artifactId>vertx-unit</artifactId>
             <version>${vertx.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.openklaster</groupId>
-            <artifactId>CommonService</artifactId>
-            <version>${openklaster.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
