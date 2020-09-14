@@ -29,9 +29,9 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.10.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.10.2" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-config-yaml:3.9.0" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-config:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.10.2" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.24" level="project" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-config:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-web:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-web-common:3.9.0" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-auth-common:3.9.0" level="project" />

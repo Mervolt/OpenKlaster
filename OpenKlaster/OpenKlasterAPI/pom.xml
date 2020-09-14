@@ -61,9 +61,8 @@
             <version>2.2.6</version>
         </dependency>
     </dependencies>
-    <build>
+ <!--   <build>
         <plugins>
-
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
@@ -79,7 +78,6 @@
                 </executions>
                 <configuration>
                     <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-                    <!-- Configure the image name -->
                     <imageName>openklaster-api</imageName>
                     <resources>
                         <resource>
@@ -89,10 +87,10 @@
                                 <include>${project.artifactId}-${project.version}.jar</include>
                             </includes>
                         </resource>
-                        <!-- don't forget to also add all the dependencies required by your application -->
+                        &lt;!&ndash; don't forget to also add all the dependencies required by your application &ndash;&gt;
                     </resources>
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 </project>

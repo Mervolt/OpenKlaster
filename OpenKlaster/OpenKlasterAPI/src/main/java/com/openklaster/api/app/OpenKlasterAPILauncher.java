@@ -9,13 +9,15 @@ import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 public class OpenKlasterAPILauncher {
     public static void main(String[] args) {
 
+        System.out.println("!!!!!!!!!!!!!!!");
+
         ClusterManager clusterManager = new HazelcastClusterManager();
-        ConfigFilesManager configFilesManager = new ConfigFilesManager();
+
         VertxOptions options = new VertxOptions().setClusterManager(clusterManager);
 
         Vertx.clusteredVertx(options, res -> {
             Vertx vertx = res.result();
-            OpenKlasterAPIVerticle verticle = new OpenKlasterAPIVerticle(vertx, configFilesManager.getConfig(vertx));
+            OpenKlasterAPIVerticle verticle = new OpenKlasterAPIVerticle();
             vertx.deployVerticle(verticle);
         });
     }

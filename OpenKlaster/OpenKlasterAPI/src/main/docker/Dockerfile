@@ -1,7 +1,7 @@
 FROM vertx/vertx3
 
 ENV VERTICLE_HOME /usr/verticles
-ENV VERTICLE_NAME io.vertx.example.HelloWorldVerticle
+ENV VERTICLE_NAME com.openklaster.api.app.OpenKlasterAPIVerticle
 
 COPY ./verticles $VERTICLE_HOME
 

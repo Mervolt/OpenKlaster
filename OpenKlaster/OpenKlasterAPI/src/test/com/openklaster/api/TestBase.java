@@ -49,7 +49,7 @@ public class TestBase {
         ConfigFilesManager configFilesManager = new ConfigFilesManager();
         vertx = Vertx.vertx();
         configRetriever =  configFilesManager.getConfig(vertx);
-        verticle = new OpenKlasterAPIVerticle(vertx, configFilesManager.getConfig(vertx));
+        verticle = new OpenKlasterAPIVerticle();
         vertx.deployVerticle(verticle, result -> {
             async.complete();
         });

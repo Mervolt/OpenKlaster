@@ -13,7 +13,6 @@ public class ConfigFilesManager {
     private static final String propertiesFormat = "properties";
     private static final String yamlFormat = "yaml";
     private static final String jsonFormat = "json";
-    private static final String defaultConfigFile = "config.yaml";
     private static final String configPathKey = "path";
 
     public ConfigFilesManager(String path) {
@@ -21,14 +20,14 @@ public class ConfigFilesManager {
     }
 
     public ConfigFilesManager() {
-        this(defaultConfigFile);
+        this(jsonFormat);
     }
 
-    public ConfigRetrieverOptions addConfigFromFile(String path) {
+    public ConfigRetrieverOptions addConfigFromFile(String format) {
         ConfigStoreOptions fileStoreOptions = new ConfigStoreOptions()
                 .setType(fileType)
-                .setFormat(yamlFormat)
-                .setConfig(new JsonObject().put(configPathKey, path));
+                .setFormat(format)
+                .setConfig(new JsonObject().put(configPathKey, String.format("config.%s", format)));
         return new ConfigRetrieverOptions().addStore(fileStoreOptions);
     }
 
