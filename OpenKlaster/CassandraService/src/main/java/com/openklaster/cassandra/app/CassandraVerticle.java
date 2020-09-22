@@ -2,11 +2,13 @@ package com.openklaster.cassandra.app;
 
 import com.openklaster.cassandra.properties.CassandraProperties;
 import com.openklaster.cassandra.service.*;
+import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.CassandraClientOptions;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Context;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -24,20 +26,18 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 public class CassandraVerticle extends AbstractVerticle {
     private CassandraClient cassandraClient;
-    private final ConfigRetriever configRetriever;
     private NestedConfigAccessor configAccessor;
     private final Logger logger = LoggerFactory.getLogger(CassandraVerticle.class);
-    private final EventBus eventBus;
+    private EventBus eventBus;
 
-    public CassandraVerticle(Vertx vertx, ConfigRetriever configRetriever) {
-        this.vertx = vertx;
-        this.configRetriever = configRetriever;
-        this.eventBus = vertx.eventBus();
-    }
 
     @Override
-    public void start(Promise<Void> promise) {
-        this.configRetriever.getConfig(config -> {
+    public void init(Vertx vertx, Context context) {
+        this.vertx = vertx;
+        this.eventBus = vertx.eventBus();
+
+        ConfigFilesManager configFilesManager = new ConfigFilesManager();
+        configFilesManager.getConfig(vertx).getConfig(config -> {
             if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
                 CassandraClientOptions options = new CassandraClientOptions()
@@ -46,7 +46,7 @@ public class CassandraVerticle extends AbstractVerticle {
                 this.cassandraClient = CassandraClient.create(vertx, options);
 
                 List<CassandraHandler<?>> handlers = prepareHandlers();
-                eventBusConfig(promise, handlers);
+                eventBusConfig(handlers);
             } else {
                 logger.error("Could not retrieve com.openklaster.cassandra.app.CassandraVerticle config!");
                 logger.error(config.cause());
@@ -65,12 +65,11 @@ public class CassandraVerticle extends AbstractVerticle {
         );
     }
 
-    private void eventBusConfig(Promise<Void> promise, List<CassandraHandler<?>> handlers) {
+    private void eventBusConfig(List<CassandraHandler<?>> handlers) {
         handlers.forEach(config -> {
             MessageConsumer<JsonObject> consumer = eventBus.consumer(config.getAddress());
             consumer.handler(message -> handlerMap(config, message));
         });
-        promise.complete();
     }
 
     private void handlerMap(CassandraHandler<?> handler, Message<JsonObject> message) {

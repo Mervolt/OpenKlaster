@@ -11,7 +11,6 @@
 
     <artifactId>OpenKlasterAPI</artifactId>
     <dependencies>
-
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-unit</artifactId>
@@ -61,36 +60,4 @@
             <version>2.2.6</version>
         </dependency>
     </dependencies>
- <!--   <build>
-        <plugins>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.2.8</version>
-                <executions>
-                    <execution>
-                        <id>docker</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-                    <imageName>openklaster-api</imageName>
-                    <resources>
-                        <resource>
-                            <targetPath>/verticles</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <includes>
-                                <include>${project.artifactId}-${project.version}.jar</include>
-                            </includes>
-                        </resource>
-                        &lt;!&ndash; don't forget to also add all the dependencies required by your application &ndash;&gt;
-                    </resources>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>-->
 </project>

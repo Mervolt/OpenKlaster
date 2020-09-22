@@ -4,8 +4,12 @@ import com.openklaster.common.authentication.password.BCryptPasswordHandler;
 import com.openklaster.common.authentication.password.PasswordHandler;
 import com.openklaster.common.authentication.tokens.BasicTokenHandler;
 import com.openklaster.common.authentication.tokens.TokenHandler;
+import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
-import com.openklaster.common.model.*;
+import com.openklaster.common.model.Installation;
+import com.openklaster.common.model.LoadMeasurement;
+import com.openklaster.common.model.SourceMeasurement;
+import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.authentication.BasicAuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.CassandraRepository;
@@ -20,14 +24,12 @@ import com.openklaster.core.vertx.service.installations.InstallationServiceHandl
 import com.openklaster.core.vertx.service.measurements.MeasurementManager;
 import com.openklaster.core.vertx.service.measurements.MeasurementServiceHandler;
 import com.openklaster.core.vertx.service.users.UserManagementHandler;
-import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Promise;
+import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.core.spi.logging.LogDelegate;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,38 +38,31 @@ import static com.openklaster.core.vertx.app.CoreVerticleProperties.*;
 
 public class CoreVerticle extends AbstractVerticle {
 
-    private final ConfigRetriever configRetriever;
     private static final Logger logger = LoggerFactory.getLogger(CoreVerticle.class);
-    private final EventBus eventBus;
+    private EventBus eventBus;
     private NestedConfigAccessor configAccessor;
     private List<EndpointService> servicesList;
 
-
-    public CoreVerticle(Vertx vertx, ConfigRetriever configRetriever) {
-        this.vertx = vertx;
-        this.configRetriever = configRetriever;
-        this.eventBus = vertx.eventBus();
-    }
-
     @Override
-    public void start(Promise<Void> promise) {
-        this.configRetriever.getConfig(result -> {
+    public void init(Vertx vertx, Context context) {
+        this.vertx = vertx;
+        this.eventBus = vertx.eventBus();
+
+        ConfigFilesManager configFilesManager = new ConfigFilesManager();
+        configFilesManager.getConfig(vertx).getConfig(result -> {
             if (result.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(result.result());
-                handlePostConfig(promise);
+                handlePostConfig();
             } else {
                 logger.error("Could not retrieve CoreVerticle config");
                 logger.error(result.cause());
                 vertx.close();
-                promise.complete();
             }
         });
     }
 
-    private void handlePostConfig(Promise<Void> promise) {
+    private void handlePostConfig() {
         configureEndpoints();
-        promise.complete();
-
     }
 
     //TODO DI, some beans to configure ??? It will be hard as some things depends on configs which are loaded
@@ -84,9 +79,9 @@ public class CoreVerticle extends AbstractVerticle {
         CassandraRepository<SourceMeasurement> sourceMeasurementCassandraRepository = configureSourceMeasurementRepository();
 
         MeasurementManager<LoadMeasurement> loadMeasurementMeasurementManager =
-                configureNewLoadMeasurementManager(authenticationClient,userRetriever,loadMeasurementCassandraRepository);
+                configureNewLoadMeasurementManager(authenticationClient, userRetriever, loadMeasurementCassandraRepository);
         MeasurementManager<SourceMeasurement> sourceMeasurementMeasurementManager =
-                configureNewSourceMeasurementManager(authenticationClient,userRetriever, sourceMeasurementCassandraRepository);
+                configureNewSourceMeasurementManager(authenticationClient, userRetriever, sourceMeasurementCassandraRepository);
 
         EndpointService userService = configureUserManagement(authenticationClient, tokenHandler, userCrudRepository);
         EndpointService installationService = configureInstallationManagement(authenticationClient,
@@ -104,13 +99,13 @@ public class CoreVerticle extends AbstractVerticle {
     }
 
     private CassandraRepository<SourceMeasurement> configureSourceMeasurementRepository() {
-        DbServiceHandler<SourceMeasurement> dbServiceHandler = new DbServiceHandler<>(eventBus,SourceMeasurement.class,
+        DbServiceHandler<SourceMeasurement> dbServiceHandler = new DbServiceHandler<>(eventBus, SourceMeasurement.class,
                 configAccessor.getString(cassandraSourceMeasurementAddressConfigPath));
         return new CassandraRepository<>(dbServiceHandler);
     }
 
     private CassandraRepository<LoadMeasurement> configureLoadMeasurementRepository() {
-        DbServiceHandler<LoadMeasurement> dbServiceHandler = new DbServiceHandler<>(eventBus,LoadMeasurement.class,
+        DbServiceHandler<LoadMeasurement> dbServiceHandler = new DbServiceHandler<>(eventBus, LoadMeasurement.class,
                 configAccessor.getString(cassandraLoadMeasurementAddressConfigPath));
         return new CassandraRepository<>(dbServiceHandler);
     }
@@ -118,14 +113,14 @@ public class CoreVerticle extends AbstractVerticle {
     private MeasurementManager<SourceMeasurement> configureNewSourceMeasurementManager(AuthenticationClient authenticationClient,
                                                                                        UserRetriever userRetriever,
                                                                                        CassandraRepository<SourceMeasurement> sourceMeasurementCassandraRepository) {
-        return new MeasurementManager<>(authenticationClient,userRetriever,SourceMeasurement.class,sourceMeasurementCassandraRepository);
+        return new MeasurementManager<>(authenticationClient, userRetriever, SourceMeasurement.class, sourceMeasurementCassandraRepository);
     }
 
 
     private MeasurementManager<LoadMeasurement> configureNewLoadMeasurementManager(AuthenticationClient authClient,
                                                                                    UserRetriever userRetriever,
                                                                                    CassandraRepository<LoadMeasurement> loadMeasurementCassandraRepository) {
-        return new MeasurementManager<>(authClient,userRetriever,LoadMeasurement.class,loadMeasurementCassandraRepository);
+        return new MeasurementManager<>(authClient, userRetriever, LoadMeasurement.class, loadMeasurementCassandraRepository);
     }
 
     private CrudRepository<Installation> configureNewInstallationRepository() {

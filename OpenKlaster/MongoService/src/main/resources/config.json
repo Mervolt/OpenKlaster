@@ -1,0 +1,33 @@
+{
+  "database": {
+    "mongo": {
+      "host": "localhost",
+      "port": 27017
+    },
+    "mongoAuth": null
+  },
+  "calculator": {
+    "mongo": {
+      "collectionName": "calculators"
+    },
+    "bus": {
+      "address": "openklaster.mongo.calculators"
+    }
+  },
+  "installation": {
+    "mongo": {
+      "collectionName": "installations"
+    },
+    "bus": {
+      "address": "openklaster.mongo.installation"
+    }
+  },
+  "user": {
+    "mongo": {
+      "collectionName": "userz"
+    },
+    "bus": {
+      "address": "openklaster.mongo.user"
+    }
+  }
+}
