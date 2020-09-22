@@ -1,0 +1,12 @@
+version: "2"
+services:
+  openklaster-core:
+    build: ./OpenKlasterCore
+  openklaster-api:
+    build: ./OpenKlasterAPI
+    ports:
+      - "8082:8082"
+  openklaster-mongo:
+    build: ./MongoService
+  openklaster-cassandra:
+    build: ./CassandraService
