@@ -1,16 +1,6 @@
 package com.openklaster.mongo.app;
 
 import com.openklaster.common.config.ConfigFilesManager;
-import io.vertx.config.ConfigRetriever;
-import io.vertx.core.*;
-import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.eventbus.Message;
-import io.vertx.core.eventbus.MessageConsumer;
-import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
-import io.vertx.ext.mongo.MongoClient;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.mongo.config.CalculatorConfig;
 import com.openklaster.mongo.config.EntityConfig;
@@ -21,6 +11,16 @@ import com.openklaster.mongo.parser.InstallationParser;
 import com.openklaster.mongo.parser.UserParser;
 import com.openklaster.mongo.service.EntityHandler;
 import com.openklaster.mongo.service.MongoPersistenceService;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Context;
+import io.vertx.core.Vertx;
+import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.eventbus.Message;
+import io.vertx.core.eventbus.MessageConsumer;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
+import io.vertx.ext.mongo.MongoClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,18 +36,15 @@ public class MongoVerticle extends AbstractVerticle {
     private static final Logger logger = LoggerFactory.getLogger(MongoVerticle.class);
     private NestedConfigAccessor configAccessor;
 
-
-
-
     @Override
     public void init(Vertx vertx, Context context) {
-        this.vertx= vertx;
+        this.vertx = vertx;
+        this.eventBus = vertx.eventBus();
         ConfigFilesManager configFilesManager = new ConfigFilesManager();
         configFilesManager.getConfig(vertx).getConfig(config -> {
             if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
                 handlePostConfig();
-                this.persistenceService.prepareDatabase();
             } else {
                 logger.error("Could not retrieve app.MongoVerticle config!");
                 logger.error(config.cause());

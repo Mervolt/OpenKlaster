@@ -1,6 +1,5 @@
 package com.openklaster.mongo.service;
 
-import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.mongo.app.MongoVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -18,10 +17,9 @@ public abstract class MongoServiceTest {
 
     @Before
     public void setup(TestContext context) {
-        ConfigFilesManager configFilesManager = new ConfigFilesManager();
         Async async = context.async();
         this.vertx = Vertx.vertx();
-        MongoVerticle myMongoVerticle = new MongoVerticle(vertx, configFilesManager.getConfig(vertx));
+        MongoVerticle myMongoVerticle = new MongoVerticle();
         this.vertx.deployVerticle(myMongoVerticle, result -> async.complete());
         this.eventBus = vertx.eventBus();
         async.awaitSuccess();
