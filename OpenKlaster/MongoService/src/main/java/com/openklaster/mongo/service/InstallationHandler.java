@@ -11,7 +11,7 @@ import io.vertx.core.logging.LoggerFactory;
 
 public class InstallationHandler extends EntityHandler {
 
-    private static final String installationCounter = "installationId";
+    static final String installationCounter = "installationId";
     private static final String counterValueKey = "seq";
 
     public InstallationHandler(EntityParser<Installation> parser,
