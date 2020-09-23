@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<link rel="stylesheet" href="common.css">
+    <title>Hello, world!</title>
+  </head>
+  <body style="overflow: hidden;">
+
+
+<div class="row"  style="min-height: 100vh;">
+  <div class="col-md-3">
+   <div class="h-100 d-inline-block" style="width: 100%; background-color: rgba(16, 12, 18, 0.7)">
+		<div class="h2 text-white font-weight-bold mb-1" style="margin: 45px 70px;">Ten budynek wytwarza zrównoważoną energię dzięki energii słonecznej</div>
+		f<canvas id="canvas" width="500" height="500" >cccc</canvas>
+		<div class="logo" style="vertical-align: bottom">
+			
+			<img src="logo.png" style="width: 100%">
+			<img src="OpenKlaster.png" style="width: 100%">
+
+		</div>
+   </div>
+  </div>
+  <div class="col-md-3">
+
+  </div>
+  <div  class="col-xl-5 col-md-6 mb-4">
+	<div class="infocard">
+	  <div class="card h-100 bg-dark text-white">
+		<div class="card-body">
+		  <div class="row no-gutters align-items-center">
+			<div class="col mr-2">
+			  <div class="h5 font-weight-bold mb-1">AKTUALNA MOC (W)</div>
+			  <div id="power" class="display-1 mb-0 font-weight-bold text-gray-800">0</div>
+			</div>
+			<div class="col-auto">
+			 <img class="icon" src="../static/power.png">
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	
+	<div class="infocard">
+	  <div class="card h-100 bg-dark text-white">
+		<div class="card-body">
+		  <div class="row no-gutters align-items-center">
+			<div class="col mr-2">
+			  <div class="h5 font-weight-bold text-uppercase mb-1">WYPRODUKOWANA ENERGIA (kWh)</div>
+			  <div id="total_energy" class="display-1 mb-0 font-weight-bold text-gray-800">0</div>
+			</div>
+			<div class="col-auto">
+			  <img class="icon" src="../static/energy.png">
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	
+		<div class="infocard">
+	  <div class="card h-100 bg-dark text-white">
+		<div class="card-body">
+		  <div class="row no-gutters align-items-center">
+			<div class="col mr-2">
+			  <div class="h5 font-weight-bold text-uppercase mb-1">OGRANICZONA EMISJA CO2 (t)</div>
+			  <div id="co2_avoidance" class="display-1 h5 mb-0 font-weight-bold text-gray-800">0</div>
+			</div>
+			<div class="col-auto">
+			  <img class="icon" src="../static/co2.png">
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  <div>
+</div>
+<script>
+	const urlParams = new URLSearchParams(window.location.search);
+	const power = urlParams.get('power');
+	document.getElementById("power").innerText = power;
+	const total_energy = urlParams.get('total_energy');
+	document.getElementById("total_energy").innerText = total_energy;
+	const co2_avoidance = urlParams.get('co2_avoidance');
+	document.getElementById("co2_avoidance").innerText = co2_avoidance;
+</script>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  </body>
+</html>
