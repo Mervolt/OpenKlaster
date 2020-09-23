@@ -24,6 +24,8 @@ public class CassandraProperties {
 
     public final static String INSTALLATION_ID = "installationId";
 
+    public final static String UNIT = "unit";
+
     public final static String ADDRESS = "address";
 
     public final static String TABLE = "table";

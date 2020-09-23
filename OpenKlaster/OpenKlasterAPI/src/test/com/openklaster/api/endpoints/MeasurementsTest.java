@@ -27,7 +27,7 @@ public class MeasurementsTest extends TestBase {
         queryParams.put("installationId", "installation:1");
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey);
+        String address = configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey);
 
         HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).get(port, ADDRESS, route), queryParams);
         request.sendJsonObject(prepareJsonObject(queryParams), handler(context));
@@ -40,7 +40,7 @@ public class MeasurementsTest extends TestBase {
         HashMap<String, Object> bodyParams = getMeasurementJsonObject();
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey);
+        String address = configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey);
 
         HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).post(port, ADDRESS, route), queryParams);
         request.sendJsonObject(prepareJsonObject(bodyParams), handler(context));
@@ -53,7 +53,7 @@ public class MeasurementsTest extends TestBase {
         queryParams.put("installationId", "installation:1");
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.powerproductionCoreAddressKey);
+        String address = configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey);
 
         HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).get(port, ADDRESS, route), queryParams);
         request.sendJsonObject(prepareJsonObject(queryParams), handler(context));
@@ -66,7 +66,7 @@ public class MeasurementsTest extends TestBase {
         HashMap<String, Object> bodyParams = getMeasurementJsonObject();
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.powerproductionCoreAddressKey);
+        String address = configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey);
 
         HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).post(port, ADDRESS, route), queryParams);
         request.sendJsonObject(prepareJsonObject(bodyParams), handler(context));
@@ -79,7 +79,7 @@ public class MeasurementsTest extends TestBase {
         queryParams.put("installationId", "installation:1");
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.energyconsumedCoreAddressKey);
+        String address = configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey);
 
         HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).get(port, ADDRESS, route), queryParams);
         request.sendJsonObject(prepareJsonObject(queryParams), handler(context));
@@ -92,7 +92,7 @@ public class MeasurementsTest extends TestBase {
         HashMap<String, Object> bodyParams = getMeasurementJsonObject();
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.energyconsumedCoreAddressKey);
+        String address = configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey);
 
         HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).post(port, ADDRESS, route), queryParams);
         request.sendJsonObject(prepareJsonObject(bodyParams), handler(context));
@@ -105,7 +105,7 @@ public class MeasurementsTest extends TestBase {
         queryParams.put("installationId", "installation:1");
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey);
+        String address = configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey);
 
         HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).get(port, ADDRESS, route), queryParams);
         request.sendJsonObject(prepareJsonObject(queryParams), handler(context));
@@ -118,7 +118,7 @@ public class MeasurementsTest extends TestBase {
         HashMap<String, Object> bodyParams = getMeasurementJsonObject();
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint);
-        String address = configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey);
+        String address = configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey);
 
         HttpRequest<Buffer> request = addQueryParams(WebClient.create(vertx).post(port, ADDRESS, route), queryParams);
         request.sendJsonObject(prepareJsonObject(bodyParams), handler(context));

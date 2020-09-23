@@ -18,10 +18,8 @@ core:
   route:
     user: "openklaster.core.user"
     installation: "openklaster.core.installation"
-    powerconsumption: "openklaster.core.powerconsumption"
-    powerproduction: "openklaster.core.powerproduction"
-    energyconsumed: "openklaster.core.energyconsumed"
-    energyproduced: "openklaster.core.energyproduced"
+    consumption: "openklaster.core.consumption"
+    production: "openklaster.core.production"
 
 eventBus:
   timeout: 15000

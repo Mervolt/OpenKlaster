@@ -107,35 +107,35 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                         eventBus, configAccessor, new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPowerRequest>(MeasurementPowerRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.powerproductionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPowerRequest>(MeasurementPowerRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.powerproductionCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.energyconsumedCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergyRequest>(MeasurementEnergyRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.energyconsumedCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergyRequest>(MeasurementEnergyRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class))
         );
 
