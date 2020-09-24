@@ -1,17 +1,17 @@
-<div class="container">
+<div class="container userform">
   <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
     <div class="form-group">
       <label for="email">Email</label>
-      <input type="text" class="form-control" id="email" name="email" required [(ngModel)]="model.email">
+      <input type="text" class="form-control" id="email" name="email" style="min-width: 400px" required [(ngModel)]="model.email">
 
       <label for="username">Username</label>
-      <input type="text" class="form-control" id="username" name="username" required [(ngModel)]="model.username">
+      <input type="text" class="form-control" id="username" name="username" style="min-width: 400px" required [(ngModel)]="model.username">
 
       <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" name="password" required [(ngModel)]="model.password">
+      <input type="password" class="form-control" id="password" name="password" style="min-width: 400px" required [(ngModel)]="model.password">
 
-      <button type="submit" class="btn btn-primary">Register</button>
-      <button type="button" class="btn btn-info" (click)="redirectToLogin()">Already have an account?</button>
+      <button type="submit" class="btn btn-primary" style="margin-top: 20px">Register</button>
+      <button type="button" class="btn btn-info" style="margin-top: 20px" (click)="redirectToLogin()">Already have an account?</button>
     </div>
   </form>
 </div>
