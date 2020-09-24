@@ -125,7 +125,7 @@ public abstract class CassandraHandler<T> {
         return "SELECT * FROM " + table + " " + "WHERE " + CassandraProperties.INSTALLATION_ID.toLowerCase() + " = '" + installationId + "'" +
                 (startDate != null ? " AND timestamp >= '" + startDate + "'" : "") +
                 (endDate != null ? " AND timestamp <= '" + endDate + "'" : "") +
-                " AND unit = '" + unit + "'" +
+                (unit != null ? " AND unit = '" + unit + "'" : "")+
                 " ALLOW FILTERING";
     }
 

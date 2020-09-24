@@ -123,17 +123,17 @@ public abstract class Handler {
         return deliveryOptions;
     }
 
-    private void handleSuccessfulRequest(HttpServerResponse response) {
+    protected void handleSuccessfulRequest(HttpServerResponse response) {
         response.setStatusCode(HttpResponseStatus.OK.code());
         response.end(HandlerProperties.successfulRequestMessage);
     }
 
-    private void handleProcessingError(HttpServerResponse response, final int code, final String message) {
+    protected void handleProcessingError(HttpServerResponse response, final int code, final String message) {
         response.setStatusCode(code);
         response.end(message);
     }
 
-    private void handleValidationError(HttpServerResponse response, String message) {
+    protected void handleValidationError(HttpServerResponse response, String message) {
         response.setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
         response.end(ModelValidationErrorMessages.MESSAGE + message);
     }

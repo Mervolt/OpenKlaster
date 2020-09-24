@@ -16,7 +16,7 @@ public class MeasurementPower extends Model {
     private String timestamp;
     @NotBlank(message = ModelValidationErrorMessages.INSTALLATION_ID)
     private String installationId;
-    private String unit = "kW";
+    private final Unit unit = Unit.kW;
     @NotNull(message = ModelValidationErrorMessages.VALUE)
     private double value;
 }

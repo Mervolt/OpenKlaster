@@ -13,6 +13,7 @@ http:
       powerproduction: "/powerProduction"
       energyconsumed: "/energyConsumed"
       energyproduced: "/energyProduced"
+      summary: "/summary"
 
 core:
   route:

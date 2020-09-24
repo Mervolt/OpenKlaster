@@ -16,6 +16,6 @@ public class MeasurementPowerRequest extends Model {
     private String installationId;
     private String startDate;
     private String endDate;
-    private final String unit = "kW";
+    private final Unit unit = Unit.kW;
 }
 
