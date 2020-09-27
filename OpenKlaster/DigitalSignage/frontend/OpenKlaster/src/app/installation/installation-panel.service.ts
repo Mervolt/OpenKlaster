@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {CookieService} from "ngx-cookie-service";
 import {Installation} from "../model/Installation";
 import {EndpointHolder} from "../model/EndpointHolder";
+import {CookieHolder} from "../model/CookieHolder";
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,12 @@ export class InstallationPanelService {
   constructor(public http: HttpClient) { }
 
   getInstallations(cookieService: CookieService, token: string){
-    let params = new HttpParams().set('apiToken', token).set('username', cookieService.get('username'));
+    let params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey)).set('username', cookieService.get('username'));
     return this.http.get(EndpointHolder.installationsEndpoint,{params : params})
   }
 
-  getInstallation(token: string, id: number){
-    let params = new HttpParams().set('apiToken', token).set('installationId', 'installation:' + id);
+  getInstallation(cookieService: CookieService, token: string, id: number){
+    let params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey)).set('installationId', 'installation:' + id);
     return this.http.get(EndpointHolder.installationEndpoint,{params : params});
   }
 
@@ -27,7 +28,7 @@ export class InstallationPanelService {
     //TODO  The only place we are using apiTokens for now is generating/deleting them.
     // Our website must use sessionToken for authentication...!!!
     // : )
-    let params = new HttpParams().set('apiToken', token);
+    let params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey));
     // Todo RG Why don't you just send an installation object that you already have?
     //MM-ANSWER: How would I do that?
     this.http.post(EndpointHolder.installationEndpoint, {

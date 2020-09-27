@@ -9,6 +9,7 @@ import {AppComponent} from "../../app.component";
 import {TokenPanelService} from "../../token/token-panel.service";
 import {InstallationDto} from "../../model/InstallationDto";
 import {CookieService} from "ngx-cookie-service";
+import {CookieHolder} from "../../model/CookieHolder";
 
 @Component({
   selector: 'app-installation-panel',
@@ -45,7 +46,7 @@ export class InstallationPanelComponent implements OnInit {
       .toPromise()
       .then(
         response => {
-          this.formToken = response['userTokens'][0]['data']
+          this.formToken = this.appComp.cookieService.get(CookieHolder.tokenKey)
           return this.formToken
         }
       );

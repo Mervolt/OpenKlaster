@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {InstallationPanelService} from "../installation-panel.service";
 import {InstallationPanelComponent} from "../installation-panel/installation-panel.component";
 import {InstallationDto} from "../../model/InstallationDto";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-single-installation-panel',
@@ -23,7 +24,7 @@ export class SingleInstallationPanelComponent implements OnInit {
   constructor(public service: SingleInstallationPanelService,  private router: Router,
               public installationsService: InstallationPanelService,
               public installationPanelComponent: InstallationPanelComponent,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute, public cookieService: CookieService) {
     this.installationId = route.snapshot.paramMap.get('id');
   }
 
@@ -34,7 +35,7 @@ export class SingleInstallationPanelComponent implements OnInit {
   // If you want inverter object just use response['inverter'] and you get the object
   //MM-ANSWER I think it worked but I changed it anyway since your solution also works and is used in Installations
   ngOnInit(): void {
-    let observableInstallation = this.installationsService.getInstallation(this.installationPanelComponent.formToken, this.installationId);
+    let observableInstallation = this.installationsService.getInstallation(this.cookieService, this.installationPanelComponent.formToken, this.installationId);
     observableInstallation.subscribe(response =>{
       //TODO ditto fromDto method
       //MM-ANSWER Done
