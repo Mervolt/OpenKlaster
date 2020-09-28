@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {CookieService} from 'ngx-cookie-service';
 
 @Component({
@@ -9,17 +9,18 @@ import {CookieService} from 'ngx-cookie-service';
 export class AppComponent {
   title = 'OpenKlaster';
   backgroundImages = ['url(/assets/img/background.jpg)',
-  'url(/assets/img/background2.jpg)',
-  'url(/assets/img/background3.jpg)']
+    'url(/assets/img/background2.jpg)',
+    'url(/assets/img/background3.jpg)']
   background = 'url(/assets/img/background.jpg)';
+
   constructor(public cookieService: CookieService) {
     this.refreshBackground(0)
   }
 
-  refreshBackground(backgroundNumber: number){
-    this.background=this.backgroundImages[backgroundNumber]
-    if(backgroundNumber == this.backgroundImages.length - 1)
-      backgroundNumber=0
+  refreshBackground(backgroundNumber: number) {
+    this.background = this.backgroundImages[backgroundNumber]
+    if (backgroundNumber == this.backgroundImages.length - 1)
+      backgroundNumber = 0
     else
       backgroundNumber++
     setTimeout(() => this.refreshBackground(backgroundNumber), 10000)

@@ -2,16 +2,21 @@
   <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
     <div class="form-group">
       <label for="email">Email</label>
-      <input type="text" class="form-control" id="email" name="email" style="min-width: 400px" required [(ngModel)]="model.email">
+      <input type="text" class="form-control" id="email" name="email" style="min-width: 400px" required
+             [(ngModel)]="model.email">
 
       <label for="username">Username</label>
-      <input type="text" class="form-control" id="username" name="username" style="min-width: 400px" required [(ngModel)]="model.username">
+      <input type="text" class="form-control" id="username" name="username" style="min-width: 400px" required
+             [(ngModel)]="model.username">
 
       <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" name="password" style="min-width: 400px" required [(ngModel)]="model.password">
+      <input type="password" class="form-control" id="password" name="password" style="min-width: 400px" required
+             [(ngModel)]="model.password">
 
       <button type="submit" class="btn btn-primary" style="margin-top: 20px">Register</button>
-      <button type="button" class="btn btn-link" style="margin-top: 20px; text-decoration: underline" (click)="redirectToLogin()">Already have an account?</button>
+      <button type="button" class="btn btn-link" style="margin-top: 20px; text-decoration: underline"
+              (click)="redirectToLogin()">Already have an account?
+      </button>
     </div>
   </form>
 </div>

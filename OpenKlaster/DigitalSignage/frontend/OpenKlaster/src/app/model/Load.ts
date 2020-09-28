@@ -1,6 +1,7 @@
-export class Load{
+export class Load {
   name: string;
   description: string;
+
   constructor() {
   }
 }

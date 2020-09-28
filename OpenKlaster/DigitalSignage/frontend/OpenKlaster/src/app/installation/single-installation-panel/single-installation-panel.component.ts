@@ -3,7 +3,6 @@ import {SingleInstallationPanelService} from "../single-installation-panel.servi
 import {MatMenuTrigger} from "@angular/material/menu";
 import {ActivatedRoute, Router} from "@angular/router";
 import {InstallationPanelService} from "../installation-panel.service";
-import {InstallationPanelComponent} from "../installation-panel/installation-panel.component";
 import {InstallationDto} from "../../model/InstallationDto";
 import {CookieService} from "ngx-cookie-service";
 
@@ -21,9 +20,8 @@ export class SingleInstallationPanelComponent implements OnInit {
   // if you want to pass some methods/args as params. Here it shall be deleted at all as it used to get formToken
   // which should not exists
   //MM-ANSWER tokens to be refactored later
-  constructor(public service: SingleInstallationPanelService,  private router: Router,
+  constructor(public service: SingleInstallationPanelService, private router: Router,
               public installationsService: InstallationPanelService,
-              public installationPanelComponent: InstallationPanelComponent,
               private route: ActivatedRoute, public cookieService: CookieService) {
     this.installationId = route.snapshot.paramMap.get('id');
   }
@@ -35,8 +33,8 @@ export class SingleInstallationPanelComponent implements OnInit {
   // If you want inverter object just use response['inverter'] and you get the object
   //MM-ANSWER I think it worked but I changed it anyway since your solution also works and is used in Installations
   ngOnInit(): void {
-    let observableInstallation = this.installationsService.getInstallation(this.cookieService, this.installationPanelComponent.formToken, this.installationId);
-    observableInstallation.subscribe(response =>{
+    let observableInstallation = this.installationsService.getInstallation(this.cookieService, this.installationId);
+    observableInstallation.subscribe(response => {
       //TODO ditto fromDto method
       //MM-ANSWER Done
       this.installation = InstallationDto.fromDto(response)

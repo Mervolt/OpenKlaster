@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
-import { RegisterFormService } from '../register-form.service';
-import { User } from '../../model/User';
+import {RegisterFormService} from '../register-form.service';
+import {User} from '../../model/User';
 
 
 @Component({
@@ -20,9 +20,9 @@ export class RegisterFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async onSubmit(){
+  async onSubmit() {
     let success = await this.service.addUser(this.model);
-    if(success)
+    if (success)
       this.router.navigate(['/login']).then();
   }
 

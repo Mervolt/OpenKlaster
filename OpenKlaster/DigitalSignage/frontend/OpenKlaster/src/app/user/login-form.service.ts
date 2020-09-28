@@ -27,7 +27,6 @@ export class LoginFormService {
       {responseType: 'json'})
       .toPromise()
       .then(response => {
-        console.log(response);
         cookieService.set("username", user.username);
         //TODO Should you not store expirationDate somehow? To know when token is expired and e.g. logout user on action?
         //MM-ANSWER I will timeout when trying to send with expired token
@@ -37,7 +36,7 @@ export class LoginFormService {
       .catch((error:any) => {
         //TODO maybe log on which method/service failed
         //MM-ANSWER: Improved but I dont have info which method/service
-        alert(error[this.errorReasonKey]);
+        alert(error[this.errorReasonKey]);//TODO
         return false;
       })
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TokenPanelService} from "../token-panel.service";
 import {AppComponent} from "../../app.component";
 

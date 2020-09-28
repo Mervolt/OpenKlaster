@@ -1,4 +1,4 @@
-export class EndpointHolder{
+export class EndpointHolder {
   static userEndpoint = "http://localhost:8082/api/1/user";
   static tokenEndpoint = "http://localhost:8082/api/1/token";
   static loginEndpoint = "http://localhost:8082/api/1/user/login";

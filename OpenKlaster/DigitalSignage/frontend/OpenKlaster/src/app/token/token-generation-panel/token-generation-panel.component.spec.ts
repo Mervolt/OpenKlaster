@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TokenGenerationPanelComponent } from './token-generation-panel.component';
+import {TokenGenerationPanelComponent} from './token-generation-panel.component';
 
 describe('TokenGenerationPanelComponent', () => {
   let component: TokenGenerationPanelComponent;
@@ -8,9 +8,9 @@ describe('TokenGenerationPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TokenGenerationPanelComponent ]
+      declarations: [TokenGenerationPanelComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

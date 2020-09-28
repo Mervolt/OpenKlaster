@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {CookieService} from "ngx-cookie-service";
 import {Installation} from "../model/Installation";
@@ -12,19 +12,20 @@ import {CookieHolder} from "../model/CookieHolder";
 //MM-ANSWER: Z translatora: panel - pulpit
 export class InstallationPanelService {
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient) {
+  }
 
-  getInstallations(cookieService: CookieService, token: string){
+  getInstallations(cookieService: CookieService) {
     let params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey)).set('username', cookieService.get('username'));
-    return this.http.get(EndpointHolder.installationsEndpoint,{params : params})
+    return this.http.get(EndpointHolder.installationsEndpoint, {params: params})
   }
 
-  getInstallation(cookieService: CookieService, token: string, id: number){
+  getInstallation(cookieService: CookieService, id: number) {
     let params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey)).set('installationId', 'installation:' + id);
-    return this.http.get(EndpointHolder.installationEndpoint,{params : params});
+    return this.http.get(EndpointHolder.installationEndpoint, {params: params});
   }
 
-  addInstallation(installation: Installation, cookieService: CookieService, token: string){
+  addInstallation(installation: Installation, cookieService: CookieService) {
     //TODO  The only place we are using apiTokens for now is generating/deleting them.
     // Our website must use sessionToken for authentication...!!!
     // : )
@@ -53,7 +54,7 @@ export class InstallationPanelService {
         'capacity': installation.source.capacity,
         'description': installation.source.description
       }
-    }, {params : params}).subscribe();
+    }, {params: params}).subscribe();
   }
 
 }

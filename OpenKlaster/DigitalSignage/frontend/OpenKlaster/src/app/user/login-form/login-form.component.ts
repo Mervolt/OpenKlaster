@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from '../../model/User';
 import {LoginFormService} from '../login-form.service';
 import {Router} from '@angular/router';
@@ -13,7 +13,8 @@ import {AppComponent} from '../../app.component';
 export class LoginFormComponent implements OnInit {
   model = new User('', '', '');
 
-  constructor(public service: LoginFormService, public appComp: AppComponent, private router: Router) { }
+  constructor(public service: LoginFormService, public appComp: AppComponent, private router: Router) {
+  }
 
   ngOnInit(): void {
   }
@@ -21,7 +22,7 @@ export class LoginFormComponent implements OnInit {
   async onSubmit() {
     let success = await this.service.getToken(this.model, this.appComp.cookieService);
 
-    if(success)
+    if (success)
       this.router.navigate(['/user']).then()
   }
 

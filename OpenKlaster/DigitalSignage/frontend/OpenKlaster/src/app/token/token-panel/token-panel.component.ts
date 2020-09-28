@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { TokenPanelService } from '../token-panel.service';
+import {Component, OnInit} from '@angular/core';
+import {TokenPanelService} from '../token-panel.service';
 import {AppComponent} from '../../app.component';
 
 @Component({
@@ -16,7 +16,7 @@ export class TokenPanelComponent implements OnInit {
   constructor(public tokenPanelService: TokenPanelService, public appComp: AppComponent) {
     this.cookieService = appComp.cookieService;
     let request = tokenPanelService.getTokens(appComp.cookieService);
-    request.subscribe(response =>{
+    request.subscribe(response => {
       this.tokens = response["userTokens"]
     })
   }

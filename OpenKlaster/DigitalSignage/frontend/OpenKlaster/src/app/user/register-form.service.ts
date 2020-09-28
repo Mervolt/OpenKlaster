@@ -8,6 +8,7 @@ import {EndpointHolder} from "../model/EndpointHolder";
 })
 export class RegisterFormService {
   errorReasonKey: string = 'error'
+
   constructor(public http: HttpClient) {
   }
 
@@ -15,15 +16,15 @@ export class RegisterFormService {
     return await this.postUser(user);
   }
 
-  postUser(user: User):Promise<boolean> {
+  postUser(user: User): Promise<boolean> {
     //TODO hardcoded
     return this.http.post(EndpointHolder.userEndpoint, user, {responseType: 'text'})
       .toPromise()
       .then(response => {
         return true;
       })
-      .catch((error :any) => {
-        alert(error[this.errorReasonKey]);
+      .catch((error: any) => {
+        alert(error[this.errorReasonKey]);//TODO
         return false;
       })
   }

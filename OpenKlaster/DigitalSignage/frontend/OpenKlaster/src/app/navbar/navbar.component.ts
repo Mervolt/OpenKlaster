@@ -13,7 +13,9 @@ import {AppComponent} from "../app.component";
 })
 export class NavbarComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
-  constructor(public service: SingleInstallationPanelService, private router: Router, private appComp: AppComponent) { }
+
+  constructor(public service: SingleInstallationPanelService, private router: Router, private appComp: AppComponent) {
+  }
 
   ngOnInit(): void {
   }

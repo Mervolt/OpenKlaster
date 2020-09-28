@@ -3,13 +3,17 @@
     <div class="form-group">
 
       <label for="username">Username</label>
-      <input type="text" class="form-control" id="username" name="username" style="min-width: 400px" required [(ngModel)]="model.username">
+      <input type="text" class="form-control" id="username" name="username" style="min-width: 400px" required
+             [(ngModel)]="model.username">
 
       <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" name="password" style="min-width: 400px" required [(ngModel)]="model.password">
+      <input type="password" class="form-control" id="password" name="password" style="min-width: 400px" required
+             [(ngModel)]="model.password">
 
       <button type="submit" class="btn btn-primary" style="margin-top: 20px">Login</button>
-      <button type="button" class="btn btn-link" style="margin-top: 20px; text-decoration: underline" (click)="redirectToRegister()">Don't have account yet?</button>
+      <button type="button" class="btn btn-link" style="margin-top: 20px; text-decoration: underline"
+              (click)="redirectToRegister()">Don't have account yet?
+      </button>
     </div>
   </form>
 </div>
