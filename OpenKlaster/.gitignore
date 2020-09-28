@@ -141,3 +141,5 @@ buildNumber.properties
 .vertx
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java,vertx,maven
+data/
+mongo-volume/

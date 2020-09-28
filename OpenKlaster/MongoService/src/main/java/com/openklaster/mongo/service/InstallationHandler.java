@@ -31,7 +31,8 @@ public class InstallationHandler extends EntityHandler {
 
                     updateCounter(busMessage, seq);
                 }else{
-                    BusMessageReplyUtils.replyWithError(busMessage, HttpResponseStatus.INTERNAL_SERVER_ERROR,"");
+                    //if there is no counter document then add with starting value
+                    updateCounter(busMessage, 0);
                 }
             });
         }else{

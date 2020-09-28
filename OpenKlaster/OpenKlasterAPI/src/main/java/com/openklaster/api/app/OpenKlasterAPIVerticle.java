@@ -44,6 +44,8 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
             if (result.succeeded()){
                 JsonObject jsonObject = result.result();
                 this.configAccessor = new NestedConfigAccessor(jsonObject);
+                System.out.println("SKONCZYLEM- print");
+                logger.info("SKONCZYLEM - logger");
                 startVerticle();
             } else {
                 logger.error("Failed to load config");

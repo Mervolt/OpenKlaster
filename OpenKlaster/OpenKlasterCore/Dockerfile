@@ -11,4 +11,4 @@ COPY $VERTICLE_FILE $VERTICLE_HOME/
 
 WORKDIR $VERTICLE_HOME
 ENTRYPOINT ["sh", "-c"]
-CMD ["exec vertx run $VERTICLE_NAME -cp $VERTICLE_HOME/*"]
+CMD ["exec vertx run $VERTICLE_NAME -cp $VERTICLE_HOME/* --cluster"]

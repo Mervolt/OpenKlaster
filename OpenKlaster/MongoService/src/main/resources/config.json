@@ -1,7 +1,7 @@
 {
   "database": {
     "mongo": {
-      "host": "localhost",
+      "host": "mongo-db",
       "port": 27017
     },
     "mongoAuth": null
