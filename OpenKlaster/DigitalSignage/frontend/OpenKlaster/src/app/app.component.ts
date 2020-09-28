@@ -9,8 +9,7 @@ import {CookieService} from 'ngx-cookie-service';
 export class AppComponent {
   title = 'OpenKlaster';
   backgroundImages = ['url(/assets/img/background.jpg)',
-    'url(/assets/img/background2.jpg)',
-    'url(/assets/img/background3.jpg)']
+    'url(/assets/img/background2.jpg)']
   background = 'url(/assets/img/background.jpg)';
 
   constructor(public cookieService: CookieService) {
