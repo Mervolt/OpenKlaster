@@ -47,6 +47,11 @@
   padding: 0px !important
 }
 
+.mat-list.mat-list-base.mat-action-list{
+  padding: 1px !important
+}
+
+
 html, body {
   height: 100%;
 }
