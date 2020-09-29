@@ -2,10 +2,10 @@
   <app-navbar></app-navbar>
   <h1>Your installations</h1>
   <mat-action-list style="background-color: white">
-    <mat-list-item *ngFor="let installation of installations" style="min-height: 160px; justify-content: left; height: 100%">
+    <mat-list-item *ngFor="let installation of installations" class="basic-list-item">
       <div *ngIf="installation.installationType=='Solar'; then solarInstall else windInstall"></div>
-      <ng-template #solarInstall><img src="/assets/img/solar_install.jpg" alt="" style="position: relative"></ng-template>
-      <ng-template #windInstall><img src="/assets/img/wind_install.jpg" alt=""></ng-template>
+      <ng-template #solarInstall><img src="/assets/img/solar_install.jpg" alt="" class="img-with-margin"></ng-template>
+      <ng-template #windInstall><img src="/assets/img/wind_install.jpg" alt="" class="img-with-margin"></ng-template>
       <div class="card card-small">
         {{installation.installationId}}
       </div>
