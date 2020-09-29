@@ -4,7 +4,9 @@
   <div class="container" style="background-color: white; position: center; height: 80%; width: 80%">
     <li *ngFor="let installation of installations">
       <div>
-        <img src="/assets/img/solar_install.jpg">
+        <div *ngIf="installation.installationType=='Solar'; then solarInstall else windInstall"></div>
+        <ng-template #solarInstall><img src="/assets/img/solar_install.jpg"></ng-template>
+        <ng-template #windInstall><img src="/assets/img/wind_install.jpg"></ng-template>
         <div class="card card-small">
           {{installation.installationId}}
         </div>
