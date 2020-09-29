@@ -22,6 +22,11 @@ core:
     consumption: "openklaster.core.consumption"
     production: "openklaster.core.production"
 
+# configuration files do not support floating point numbers so divide the value written here by 100
+environmentalbenefits:
+  co2reduced: 40
+  treessaved: 80
+
 eventBus:
   timeout: 15000
 

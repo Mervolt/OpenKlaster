@@ -1,10 +1,12 @@
 package com.openklaster.api.handler;
 
+import com.openklaster.api.handler.properties.SummaryProperties;
 import com.openklaster.api.handler.properties.HandlerProperties;
-import com.openklaster.api.model.Measurement;
 import com.openklaster.api.model.Model;
-import com.openklaster.api.model.SummaryResponse;
 import com.openklaster.api.model.Unit;
+import com.openklaster.api.model.summary.EnvironmentalBenefits;
+import com.openklaster.api.model.summary.Measurement;
+import com.openklaster.api.model.summary.SummaryResponse;
 import com.openklaster.api.parser.IParseStrategy;
 import com.openklaster.api.validation.ValidationException;
 import com.openklaster.common.config.NestedConfigAccessor;
@@ -15,11 +17,10 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.apache.commons.lang3.time.DateUtils;
 
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.openklaster.api.validation.ValidationExecutor.validate;
@@ -45,7 +46,21 @@ public class SummaryHandler extends Handler {
                     Map<Unit, List<Measurement>> measurements = coreResponse.result().body().stream()
                             .map(result -> JsonObject.mapFrom(result).mapTo(Measurement.class))
                             .collect(Collectors.groupingBy(Measurement::getUnit));
-                    SummaryResponse summaryResponse = new SummaryResponse(getLatestMeasurement(measurements.get(Unit.kWh)), measurements.get(Unit.kW));
+
+                    Measurement energyMeasurement = getLatestMeasurement(measurements.get(Unit.kWh));
+
+                    Map<String, Double> powerMeasurements = measurements.get(Unit.kW).stream()
+                            .filter(measurement -> isItToday(measurement.getTimestamp()))
+                            .collect(Collectors.toMap(a -> getTimeFromTimeStamp(a.getTimestamp()),
+                                    Measurement::getValue,
+                                    (prev, next) -> next, HashMap::new));
+
+                    EnvironmentalBenefits environmentalBenefits = EnvironmentalBenefits.builder()
+                            .co2reduced(getEnvironmentalBenefit(SummaryProperties.CO2REDUCED, energyMeasurement.getValue()))
+                            .treessaved(getEnvironmentalBenefit(SummaryProperties.TREES_SAVED, energyMeasurement.getValue()))
+                            .build();
+
+                    SummaryResponse summaryResponse = new SummaryResponse(energyMeasurement.getValue(), powerMeasurements, environmentalBenefits);
                     context.response().end(Json.encodePrettily(JsonObject.mapFrom(summaryResponse)));
                 } else {
                     ReplyException replyException = (ReplyException) coreResponse.cause();
@@ -58,7 +73,24 @@ public class SummaryHandler extends Handler {
 
     }
 
-    private Measurement getLatestMeasurement(List<Measurement> measurements) {
-        return measurements.stream().max(Comparator.comparing(Measurement::getTimestamp)).get();
+    private Measurement getLatestMeasurement(List<Measurement> energyMeasurements) {
+        return Optional.ofNullable(energyMeasurements)
+                .orElse(Collections.singletonList(new Measurement()))
+                .stream()
+                .max(Comparator.comparing(Measurement::getTimestamp))
+                .get();
+    }
+
+    private int getEnvironmentalBenefit(String path, double energy) {
+        return (int) (((double) nestedConfigAccessor.getInteger(path) / 100) * energy);
+    }
+
+    private String getTimeFromTimeStamp(Date timestamp) {
+        return new SimpleDateFormat(SummaryProperties.TIME_FORMAT).format(timestamp);
+    }
+
+    private boolean isItToday(Date timestamp) {
+        Date today = DateUtils.truncate(new Date(), java.util.Calendar.DAY_OF_MONTH);
+        return today.equals(DateUtils.truncate(timestamp, java.util.Calendar.DAY_OF_MONTH));
     }
 }

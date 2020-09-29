@@ -1,6 +1,7 @@
-package com.openklaster.api.model;
+package com.openklaster.api.model.summary;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.openklaster.api.model.Model;
 import com.openklaster.api.validation.ModelValidationErrorMessages;
 import lombok.AllArgsConstructor;
 import lombok.Data;

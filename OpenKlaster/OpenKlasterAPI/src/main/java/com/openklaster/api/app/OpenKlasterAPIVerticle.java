@@ -4,6 +4,7 @@ package com.openklaster.api.app;
 import com.openklaster.api.handler.*;
 import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.api.model.*;
+import com.openklaster.api.model.summary.SummaryRequest;
 import com.openklaster.api.parser.DefaultParseStrategy;
 import com.openklaster.api.properties.EndpointRouteProperties;
 import com.openklaster.api.properties.EventBusAddressProperties;
