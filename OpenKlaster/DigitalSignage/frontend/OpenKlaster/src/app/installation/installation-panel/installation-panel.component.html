@@ -11,25 +11,18 @@
           {{installation.installationId}}
         </div>
         <div class="card card-small">
-          {{installation.installationType}}
           {{installation.description}}
-          {{installation.latitude}}
-          {{installation.longitude}}
         </div>
         <ng-container *ngIf="installation.source as source;">
           <div class="card card-small">
             Source:
             {{source.description}}
-            {{source.capacity}}
-            {{source.tilt}}
-            {{source.azimuth}}
           </div>
         </ng-container>
         <ng-container *ngIf="installation.inverter as inverter;">
           <div class="card card-small">
             Inverter:
             {{inverter.description}}
-            {{inverter.modelType}}
             {{inverter.manufacturer}}
           </div>
         </ng-container>
