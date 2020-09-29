@@ -1,40 +1,38 @@
 <div>
   <app-navbar></app-navbar>
   <h1>Your installations</h1>
-  <div class="container" style="background-color: white; position: center; height: 80%; width: 80%">
-    <li *ngFor="let installation of installations">
-      <div>
-        <div *ngIf="installation.installationType=='Solar'; then solarInstall else windInstall"></div>
-        <ng-template #solarInstall><img src="/assets/img/solar_install.jpg"></ng-template>
-        <ng-template #windInstall><img src="/assets/img/wind_install.jpg"></ng-template>
-        <div class="card card-small">
-          {{installation.installationId}}
-        </div>
-        <div class="card card-small">
-          {{installation.description}}
-        </div>
-        <ng-container *ngIf="installation.source as source;">
-          <div class="card card-small">
-            Source:
-            {{source.description}}
-          </div>
-        </ng-container>
-        <ng-container *ngIf="installation.inverter as inverter;">
-          <div class="card card-small">
-            Inverter:
-            {{inverter.description}}
-            {{inverter.manufacturer}}
-          </div>
-        </ng-container>
-        <ng-container *ngIf="installation.load as load;">
-          <div class="card card-small">
-            Load:
-            {{load.description}}
-            {{load.name}}
-          </div>
-        </ng-container>
+  <mat-action-list style="background-color: white">
+    <mat-list-item *ngFor="let installation of installations" style="min-height: 160px; justify-content: left; height: 100%">
+      <div *ngIf="installation.installationType=='Solar'; then solarInstall else windInstall"></div>
+      <ng-template #solarInstall><img src="/assets/img/solar_install.jpg" alt="" style="position: relative"></ng-template>
+      <ng-template #windInstall><img src="/assets/img/wind_install.jpg" alt=""></ng-template>
+      <div class="card card-small">
+        {{installation.installationId}}
       </div>
-    </li>
-  </div>
+      <div class="card card-small">
+        {{installation.description}}
+      </div>
+      <ng-container *ngIf="installation.source as source;">
+        <div class="card card-small">
+          Source:
+          {{source.description}}
+        </div>
+      </ng-container>
+      <ng-container *ngIf="installation.inverter as inverter;">
+        <div class="card card-small">
+          Inverter:
+          {{inverter.description}}
+          {{inverter.manufacturer}}
+        </div>
+      </ng-container>
+      <ng-container *ngIf="installation.load as load;">
+        <div class="card card-small">
+          Load:
+          {{load.description}}
+          {{load.name}}
+        </div>
+      </ng-container>
+    </mat-list-item>
+  </mat-action-list>
 </div>
 
