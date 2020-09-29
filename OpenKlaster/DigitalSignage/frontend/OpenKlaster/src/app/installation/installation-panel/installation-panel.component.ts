@@ -5,6 +5,7 @@ import {Installation} from '../../model/Installation';
 import {AppComponent} from "../../app.component";
 import {InstallationDto} from "../../model/InstallationDto";
 import {CookieService} from "ngx-cookie-service";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-installation-panel',
@@ -15,6 +16,7 @@ export class InstallationPanelComponent implements OnInit {
   //TODO unused formModel
   //MM-ANSWER done
   installations: Installation[] = [];
+  displayedInstallations: Installation[] = [];
   //TODO ditto - value type
   //MM-ANSWER done
   cookieService: CookieService;
@@ -31,6 +33,14 @@ export class InstallationPanelComponent implements OnInit {
 
 
   //TODO ditto -sesion token
+  onPageChange(event: PageEvent){
+    let startIndex = event.pageIndex * event.pageSize;
+    let endIndex = startIndex + event.pageSize;
+    if(endIndex > this.installations.length){
+      endIndex = this.installations.length;
+    }
+    this.displayedInstallations = this.installations.slice(startIndex, endIndex);
+  }
 
   async getInstallations() {
     this.installations = []
@@ -40,6 +50,7 @@ export class InstallationPanelComponent implements OnInit {
         //TODO ditto - static keys
         //MM-ASNWER done
         this.installations.push(InstallationDto.fromDto(response[installation]))
+        this.displayedInstallations = this.installations.slice(0, 5);
       }
     })
   }

@@ -27,6 +27,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {TokenGenerationPanelComponent} from './token/token-generation-panel/token-generation-panel.component';
 import {InstallationGenerationPanelComponent} from './installation/installation-generation-panel/installation-generation-panel.component';
 import {MatListModule} from "@angular/material/list";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -42,28 +43,29 @@ import {MatListModule} from "@angular/material/list";
     TokenGenerationPanelComponent,
     InstallationGenerationPanelComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    MatSliderModule,
-    RouterModule.forRoot([
-      {path: '', component: RegisterFormComponent},
-      {path: 'login', component: LoginFormComponent},
-      {path: 'user', component: UserPanelComponent},
-      {path: 'token', component: TokenPanelComponent},
-      {path: 'tokenGeneration', component: TokenGenerationPanelComponent},
-      {path: 'installations', component: InstallationPanelComponent},
-      {path: 'installations/:id', component: SingleInstallationPanelComponent},
-      {path: 'installationGeneration', component: InstallationGenerationPanelComponent}
-    ]),
-    ReactiveFormsModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatListModule,
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        MatSliderModule,
+        RouterModule.forRoot([
+            {path: '', component: RegisterFormComponent},
+            {path: 'login', component: LoginFormComponent},
+            {path: 'user', component: UserPanelComponent},
+            {path: 'token', component: TokenPanelComponent},
+            {path: 'tokenGeneration', component: TokenGenerationPanelComponent},
+            {path: 'installations', component: InstallationPanelComponent},
+            {path: 'installations/:id', component: SingleInstallationPanelComponent},
+            {path: 'installationGeneration', component: InstallationGenerationPanelComponent}
+        ]),
+        ReactiveFormsModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        MatListModule,
+        MatPaginatorModule,
+    ],
   providers: [
     RegisterFormService,
     LoginFormService,
