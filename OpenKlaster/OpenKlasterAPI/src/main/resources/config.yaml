@@ -25,7 +25,7 @@ core:
 # configuration files do not support floating point numbers so divide the value written here by 100
 environmentalbenefits:
   co2reduced: 40
-  treessaved: 80
+  treessaved: 6
 
 eventBus:
   timeout: 15000

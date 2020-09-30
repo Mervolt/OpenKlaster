@@ -1,0 +1,30 @@
+.infocard {
+    margin-top: 75px;
+}
+
+.minicard {
+    opacity: 0.85;
+    margin-top: 50px;
+    margin-left: 25px;
+}
+
+img.icon {
+    width: 150px;
+    height: 150px;
+}
+
+.logo {
+
+    width: 10em;
+    position: absolute;
+    left: 25%;
+    bottom: 5%;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 60%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}

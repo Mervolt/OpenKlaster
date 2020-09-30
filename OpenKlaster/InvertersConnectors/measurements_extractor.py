@@ -6,6 +6,8 @@ import requests
 
 def growat(username, password):
     with growatt.GrowattApi() as api:
+        print(username)
+        print(password)
         api.login(username, password)
         plant_info = api.plant_list()
         print(plant_info['totalData']['totalEnergySum'].replace(' kWh', ''))
@@ -18,7 +20,7 @@ def growat(username, password):
 def post_power_production(value):
     headers = {'content-type': 'application/json'}
     url = 'http://localhost:8082/api/1/powerProduction'
-    params = {'apiToken': '8vSPu4nn2TP4'}
+    params = {'apiToken': '5UeGqCJy3m28'}
     obj = {"installationId": "installation:0", 'value': float(value)}
 
     x = requests.post(url, data=json.dumps(obj), headers=headers, params=params)
@@ -31,7 +33,7 @@ def post_power_production(value):
 def post_energy_produced(value):
     headers = {'content-type': 'application/json'}
     url = 'http://localhost:8082/api/1/energyProduced'
-    params = {'apiToken': '8vSPu4nn2TP4'}
+    params = {'apiToken': '5UeGqCJy3m28'}
     obj = {"installationId": "installation:0", 'value': float(value)}
 
     x = requests.post(url, data=json.dumps(obj), headers=headers, params=params)
