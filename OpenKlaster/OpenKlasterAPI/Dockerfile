@@ -8,6 +8,9 @@ ENV VERTICLE_FILE target/OpenKlasterAPI.jar
 # Set the location of the verticles
 ENV VERTICLE_HOME /usr/verticles
 
+# uncomment this when solution for log4j problems with classpath resolved
+# ENV JAVA_OPTS "-Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.Log4j2LogDelegateFactory"
+
 EXPOSE 8082
 
 # Copy your verticle to the container                   (2)

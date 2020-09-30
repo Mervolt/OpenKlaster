@@ -55,7 +55,7 @@ public class CoreVerticle extends AbstractVerticle {
                 handlePostConfig();
             } else {
                 logger.error("Could not retrieve CoreVerticle config");
-                logger.error(result.cause());
+                logger.error(result.cause().getMessage());
                 vertx.close();
             }
         });

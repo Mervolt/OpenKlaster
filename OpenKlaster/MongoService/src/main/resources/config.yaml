@@ -2,8 +2,6 @@ database:
   mongo:
     host: "mongo-db"
     port: 27017
-  mongoAuth:
-
 calculator:
   mongo:
     collectionName: "calculators"

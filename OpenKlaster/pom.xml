@@ -17,6 +17,7 @@
     </modules>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <openklaster.version>1.0</openklaster.version>
         <vertx.version>3.9.0</vertx.version>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -24,10 +25,9 @@
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.12</lombok.version>
         <slf4j-simple.version>1.7.30</slf4j-simple.version>
-        <log4j.version>2.1</log4j.version>
         <jebrains-annotations.version>13.0</jebrains-annotations.version>
+        <log4j.version>2.0</log4j.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.jetbrains</groupId>
@@ -39,6 +39,27 @@
             <artifactId>vertx-unit</artifactId>
             <version>${vertx.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>

@@ -10,10 +10,8 @@ import com.openklaster.api.properties.EventBusAddressProperties;
 import com.openklaster.api.properties.EventbusMethods;
 import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
-import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;
-import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
@@ -44,8 +42,6 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
             if (result.succeeded()){
                 JsonObject jsonObject = result.result();
                 this.configAccessor = new NestedConfigAccessor(jsonObject);
-                System.out.println("SKONCZYLEM- print");
-                logger.info("SKONCZYLEM - logger");
                 startVerticle();
             } else {
                 logger.error("Failed to load config");

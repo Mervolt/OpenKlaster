@@ -33,4 +33,5 @@ services:
         - "9042:9042"
       volumes:
         - ./data/cassandra:/var/lib/cassandra
-        - ./db-schema:/cassandra-init.d
+        - ./cassandra-init.sh:/cassandra-init.sh
+      command: "sh /cassandra-init.sh"

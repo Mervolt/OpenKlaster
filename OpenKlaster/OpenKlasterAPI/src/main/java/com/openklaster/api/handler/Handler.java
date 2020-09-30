@@ -77,8 +77,6 @@ public abstract class Handler {
             validate(model, tokens);
             JsonObject validatedModel = JsonObject.mapFrom(model);
             DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, tokens);
-            System.out.println("KURDE!!  + " + address + "model: " + validatedModel + "options: " + deliveryOptions.getHeaders());
-            System.out.println("KURDE2" + deliveryOptions.getSendTimeout());
             eventBus.request(address, validatedModel, deliveryOptions, coreResponse -> {
                 if(coreResponse.succeeded()){
                     if (coreResponse.result().body() == null)
@@ -88,8 +86,7 @@ public abstract class Handler {
                         logger.debug("Successful request: " + coreResponse.result().body());
                 }
                 else{
-                    logger.info(coreResponse.cause());
-                    logger.info(coreResponse.cause().getClass());
+                    logger.info(coreResponse.cause().getMessage());
                     ReplyException replyException = (ReplyException) coreResponse.cause();
                     handleProcessingError(context.response(), replyException.failureCode(), replyException.getMessage());
                 }

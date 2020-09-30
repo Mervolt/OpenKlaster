@@ -47,7 +47,7 @@ public class MongoVerticle extends AbstractVerticle {
                 handlePostConfig();
             } else {
                 logger.error("Could not retrieve app.MongoVerticle config!");
-                logger.error(config.cause());
+                logger.error(config.cause().getMessage());
                 vertx.close();
             }
         });

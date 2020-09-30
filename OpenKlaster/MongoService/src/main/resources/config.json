@@ -3,8 +3,7 @@
     "mongo": {
       "host": "mongo-db",
       "port": 27017
-    },
-    "mongoAuth": null
+    }
   },
   "calculator": {
     "mongo": {

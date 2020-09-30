@@ -47,7 +47,7 @@ public class CassandraVerticle extends AbstractVerticle {
                 eventBusConfig(handlers);
             } else {
                 logger.error("Could not retrieve com.openklaster.cassandra.app.CassandraVerticle config!");
-                logger.error(config.cause());
+                logger.error(config.cause().getMessage());
                 vertx.close();
             }
         });
