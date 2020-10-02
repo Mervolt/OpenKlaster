@@ -1,7 +1,7 @@
 package com.openklaster.api.handler;
 
-import com.openklaster.api.handler.properties.SummaryProperties;
 import com.openklaster.api.handler.properties.HandlerProperties;
+import com.openklaster.api.handler.properties.SummaryProperties;
 import com.openklaster.api.model.Model;
 import com.openklaster.api.model.Unit;
 import com.openklaster.api.model.summary.EnvironmentalBenefits;
@@ -43,15 +43,16 @@ public class SummaryHandler extends Handler {
 
             eventBus.<JsonArray>request(address, validatedModel, deliveryOptions, coreResponse -> {
                 if (coreResponse.succeeded()) {
-                    Map<Unit, List<Measurement>> measurements = getMeasurementsFromJsonArray(coreResponse.result().body());
-                    Measurement latestEnergyMeasurement = getLatestMeasurement(measurements.get(Unit.kWh));
-                    Measurement latestPowerMeasurement = getLatestMeasurement(measurements.get(Unit.kW));
-                    Map<String, Double> powerMeasurements = getPowerMeasurements(measurements.get(Unit.kW));
+                    Map<Unit, List<Measurement>> measurements = groupMeasurementsFromJsonArray(coreResponse.result().body());
+                    Measurement latestEnergyMeasurement = findLastMeasurement(measurements.get(Unit.kWh));
+                    Measurement latestPowerMeasurement = findLastMeasurement(measurements.get(Unit.kW));
+                    Map<String, Double> powerMeasurements = convertMeasurementArraysIntoMap(measurements.get(Unit.kW));
                     Double energyProducedToday = countEnergyProducedToday(measurements.get(Unit.kWh));
                     EnvironmentalBenefits environmentalBenefits = EnvironmentalBenefits.builder()
-                            .co2reduced(getEnvironmentalBenefit(SummaryProperties.CO2REDUCED, latestEnergyMeasurement.getValue()))
-                            .treessaved(getEnvironmentalBenefit(SummaryProperties.TREES_SAVED, latestEnergyMeasurement.getValue()))
-                            .build();;
+                            .co2reduced(calculateEnvironmentalBenefit(SummaryProperties.CO2REDUCED, latestEnergyMeasurement.getValue()))
+                            .treessaved(calculateEnvironmentalBenefit(SummaryProperties.TREES_SAVED, latestEnergyMeasurement.getValue()))
+                            .build();
+                    ;
 
                     SummaryResponse summaryResponse = SummaryResponse.builder()
                             .totalEnergy(latestEnergyMeasurement.getValue())
@@ -73,15 +74,15 @@ public class SummaryHandler extends Handler {
 
     }
 
-    private Map<String, Double> getPowerMeasurements(List<Measurement> measurements) {
+    private Map<String, Double> convertMeasurementArraysIntoMap(List<Measurement> measurements) {
         return measurements.stream()
                 .filter(measurement -> isItToday(measurement.getTimestamp()))
-                .collect(Collectors.toMap(a -> getTimeFromTimeStamp(a.getTimestamp()),
+                .collect(Collectors.toMap(a -> parseTimeFromTimeStamp(a.getTimestamp()),
                         Measurement::getValue,
                         (prev, next) -> next, HashMap::new));
     }
 
-    private Measurement getLatestMeasurement(List<Measurement> energyMeasurements) {
+    private Measurement findLastMeasurement(List<Measurement> energyMeasurements) {
         return Optional.ofNullable(energyMeasurements)
                 .orElse(Collections.singletonList(new Measurement()))
                 .stream()
@@ -92,22 +93,22 @@ public class SummaryHandler extends Handler {
     private Double countEnergyProducedToday(List<Measurement> energyMeasurements) {
         Map<Object, List<Measurement>> booleanMeasurementMap = energyMeasurements.stream()
                 .collect(Collectors.groupingBy(measurement -> isItToday(measurement.getTimestamp())));
-        Double currentEnergy = getLatestMeasurement(booleanMeasurementMap.get(true)).getValue();
-        Double yesterdaysLastEnergyMeasurement = getLatestMeasurement(booleanMeasurementMap.get(false)).getValue();
+        Double currentEnergy = findLastMeasurement(booleanMeasurementMap.get(true)).getValue();
+        Double yesterdaysLastEnergyMeasurement = findLastMeasurement(booleanMeasurementMap.get(false)).getValue();
         return currentEnergy - yesterdaysLastEnergyMeasurement;
     }
 
-    private Map<Unit, List<Measurement>> getMeasurementsFromJsonArray(JsonArray jsonArray) {
-        return  jsonArray.stream()
+    private Map<Unit, List<Measurement>> groupMeasurementsFromJsonArray(JsonArray jsonArray) {
+        return jsonArray.stream()
                 .map(result -> JsonObject.mapFrom(result).mapTo(Measurement.class))
                 .collect(Collectors.groupingBy(Measurement::getUnit));
     }
 
-    private int getEnvironmentalBenefit(String path, double energy) {
+    private int calculateEnvironmentalBenefit(String path, double energy) {
         return (int) (((double) nestedConfigAccessor.getInteger(path) / 100) * energy);
     }
 
-    private String getTimeFromTimeStamp(Date timestamp) {
+    private String parseTimeFromTimeStamp(Date timestamp) {
         return new SimpleDateFormat(SummaryProperties.TIME_FORMAT).format(timestamp);
     }
 

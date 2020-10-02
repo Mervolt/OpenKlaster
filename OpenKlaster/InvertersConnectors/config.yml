@@ -1,0 +1,10 @@
+address: mongodb://localhost:27017/
+database: DEFAULT_DB
+collection: installations
+request:
+  headers: { 'content-type': 'application/json' }
+  params: { 'apiToken': 'hsy5L42VTEa4' } # Todo tutaj jakiś superToken
+  powerProductionUrl: http://localhost:8082/api/1/powerProduction
+  powerProducedUrl: http://localhost:8082/api/1/energyProduced
+producers:
+  growatt: growatt

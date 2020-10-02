@@ -1,4 +1,3 @@
-from enum import IntEnum
 import hashlib
 import requests
 
