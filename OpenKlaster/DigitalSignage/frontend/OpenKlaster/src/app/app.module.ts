@@ -30,6 +30,8 @@ import {MatListModule} from "@angular/material/list";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import { RequestResponseComponentComponent } from './request-response-component/request-response-component.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import {MatInputModule} from "@angular/material/input";
     InstallationPanelComponent,
     SingleInstallationPanelComponent,
     TokenGenerationPanelComponent,
-    InstallationGenerationPanelComponent
+    InstallationGenerationPanelComponent,
+    RequestResponseComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +72,7 @@ import {MatInputModule} from "@angular/material/input";
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     RegisterFormService,

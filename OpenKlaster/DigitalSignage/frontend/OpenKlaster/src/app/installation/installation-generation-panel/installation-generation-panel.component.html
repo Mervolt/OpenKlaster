@@ -1,8 +1,8 @@
 <div>
   <app-navbar></app-navbar>
-  <div style="background-color: white; width: 80%; height: 90%; position:absolute">
-    <form (ngSubmit)="onSubmit()" #installationForm="ngForm">
-      <div class="form-group installation-add-form">
+  <div style="background-color: white; width: 80%; height: 90%; position:absolute; display: flex">
+    <div class="form-group installation-add-form">
+      <form (ngSubmit)="onSubmit()" #installationForm="ngForm">
         <div style="display: flex">
           <div style="width: 50%; max-width: 400px; margin-right: 20px; margin-left: 20px">
             <div>
@@ -108,7 +108,9 @@
           </div>
         </div>
         <button type="submit" class="btn btn-primary" style="margin: 20px">Submit installation</button>
-      </div>
-    </form>
+      </form>
+    </div>
+    <app-request-response-component>
+    </app-request-response-component>
   </div>
 </div>
