@@ -1,0 +1,19 @@
+<div class="request-response-container">
+  <div style="margin: 30px">
+    <div *ngIf="true; then sent else notSent"></div>
+    <ng-template #sent>
+      <div style="display: flex">
+        <mat-spinner></mat-spinner>
+        <h1 style="margin: 30px">Request sent...</h1>
+        <br>
+        <div>
+          <!-- Size of material angular icon depends on font-size :) -->
+          <mat-icon style="color: green; font-size: 120px">done</mat-icon>
+          <mat-icon style="color: red; font-size: 120px">error</mat-icon>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #notSent><h1 style="margin: 30px">Waiting for submit</h1></ng-template>
+  </div>
+</div>
+
