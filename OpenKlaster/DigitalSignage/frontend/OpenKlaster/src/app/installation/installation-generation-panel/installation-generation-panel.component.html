@@ -35,66 +35,78 @@
             </mat-form-field>
           </div>
         </div>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Load Name</mat-label>
-          <input matInput id="loadName" name="loadName" required
-                 [(ngModel)]="formModel.load.name">
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Load Description</mat-label>
-          <textarea matInput id="loadDescription" name="loadDescription" required
-                    [(ngModel)]="formModel.load.description"></textarea>
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Inverter Manufacturer</mat-label>
-          <input matInput id="inverterManufacturer" name="inverterManufacturer" required
-                 [(ngModel)]="formModel.inverter.manufacturer">
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Inverter Credentials</mat-label>
-          <input matInput id="inverterCredentials" name="inverterCredentials" required
-                 [(ngModel)]="formModel.inverter.credentials">
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Inverter Model Type</mat-label>
-          <input matInput id="inverterModelType" name="inverterModelType" required
-                 [(ngModel)]="formModel.inverter.modelType">
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Inverter Description</mat-label>
-          <textarea matInput id="inverterDescription" name="inverterDescription" required
-                    [(ngModel)]="formModel.inverter.description"></textarea>
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Source Azimuth</mat-label>
-          <input matInput id="sourceAzimuth" name="sourceAzimuth" required
-                 [(ngModel)]="formModel.source.azimuth">
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Source Capacity</mat-label>
-          <input matInput id="sourceCapacity" name="sourceCapacity" required
-                 [(ngModel)]="formModel.source.capacity">
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Source Tilt</mat-label>
-          <input matInput id="sourceTilt" name="sourceTilt" required
-                 [(ngModel)]="formModel.source.tilt">
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Source Description</mat-label>
-          <textarea matInput id="sourceDescription" name="sourceDescription" required
-                    [(ngModel)]="formModel.source.description"></textarea>
-        </mat-form-field>
+        <div style="display: flex">
+          <div style="width: 50%">
+            <mat-form-field appearance="outline">
+              <mat-label>Load Name</mat-label>
+              <input matInput id="loadName" name="loadName" required
+                     [(ngModel)]="formModel.load.name">
+            </mat-form-field>
+          </div>
+          <div style="width: 50%">
+            <mat-form-field appearance="outline">
+              <mat-label>Load Description</mat-label>
+              <textarea matInput id="loadDescription" name="loadDescription" required
+                        [(ngModel)]="formModel.load.description"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div style="display: flex">
+          <div style="width: 50%">
+            <mat-form-field appearance="outline">
+              <mat-label>Inverter Manufacturer</mat-label>
+              <input matInput id="inverterManufacturer" name="inverterManufacturer" required
+                     [(ngModel)]="formModel.inverter.manufacturer">
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+              <mat-label>Inverter Credentials</mat-label>
+              <input matInput id="inverterCredentials" name="inverterCredentials" required
+                     [(ngModel)]="formModel.inverter.credentials">
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+              <mat-label>Inverter Model Type</mat-label>
+              <input matInput id="inverterModelType" name="inverterModelType" required
+                     [(ngModel)]="formModel.inverter.modelType">
+            </mat-form-field>
+          </div>
+          <div style="width: 50%">
+            <mat-form-field appearance="outline">
+              <mat-label>Inverter Description</mat-label>
+              <textarea matInput id="inverterDescription" name="inverterDescription" required
+                        [(ngModel)]="formModel.inverter.description"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div style="display: flex">
+          <div style="width: 50%">
+            <mat-form-field appearance="outline">
+              <mat-label>Source Azimuth</mat-label>
+              <input matInput id="sourceAzimuth" name="sourceAzimuth" required
+                     [(ngModel)]="formModel.source.azimuth">
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+              <mat-label>Source Capacity</mat-label>
+              <input matInput id="sourceCapacity" name="sourceCapacity" required
+                     [(ngModel)]="formModel.source.capacity">
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+              <mat-label>Source Tilt</mat-label>
+              <input matInput id="sourceTilt" name="sourceTilt" required
+                     [(ngModel)]="formModel.source.tilt">
+            </mat-form-field>
+          </div>
+          <div style="width: 50%">
+            <mat-form-field appearance="outline">
+              <mat-label>Source Description</mat-label>
+              <textarea matInput id="sourceDescription" name="sourceDescription" required
+                        [(ngModel)]="formModel.source.description"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
         <br>
         <button type="submit" class="btn btn-primary">Submit installation</button>
       </div>
