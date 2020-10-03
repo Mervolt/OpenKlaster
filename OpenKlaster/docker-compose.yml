@@ -23,6 +23,8 @@ services:
     build: ./DigitalSignage/frontend/OpenKlaster
     depends_on:
       - openklaster-api
+    ports:
+      - "80:80"
   mongo-db:
     image: 'mongo'
     environment:

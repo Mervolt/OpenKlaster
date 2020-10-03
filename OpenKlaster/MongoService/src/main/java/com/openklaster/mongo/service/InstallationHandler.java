@@ -26,7 +26,7 @@ public class InstallationHandler extends EntityHandler {
         JsonObject jsonObject = busMessage.body();
         if (!jsonObject.containsKey(ID_KEY) || jsonObject.getValue(ID_KEY) == null) {
             persistenceService.getCounter(installationCounter, handler -> {
-                if (handler.succeeded()) {
+                if (handler.succeeded() && handler.result() != null && handler.result().getInteger(counterValueKey) != null) {
                     int seq = handler.result().getInteger(counterValueKey);
 
                     updateCounter(busMessage, seq);

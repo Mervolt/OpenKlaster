@@ -1,7 +1,9 @@
 {
   "cassandra": {
     "port": 9042,
-    "keyspace": "openklaster"
+    "keyspace": "openklaster",
+    "host": "cassandra-db",
+    "host-dev": "localhost"
   },
   "sourcemeasurement": {
     "address": "openklaster.cassandraservice.sourcemeasurement",

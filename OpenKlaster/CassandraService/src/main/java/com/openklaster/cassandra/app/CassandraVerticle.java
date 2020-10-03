@@ -17,6 +17,7 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
@@ -38,9 +39,12 @@ public class CassandraVerticle extends AbstractVerticle {
         configFilesManager.getConfig(vertx).getConfig(config -> {
             if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
+                String hostname = configAccessor.getString(CassandraProperties.CASSANDRA_HOST) != null ?
+                        configAccessor.getString(CassandraProperties.CASSANDRA_HOST) : configAccessor.getString(CassandraProperties.CASSANDRA_HOST_DEV);
                 CassandraClientOptions options = new CassandraClientOptions()
                         .setPort(configAccessor.getInteger(CassandraProperties.CASSANDRA_PORT))
-                        .setKeyspace(configAccessor.getString(CassandraProperties.CASSANDRA_KEYSPACE));
+                        .setKeyspace(configAccessor.getString(CassandraProperties.CASSANDRA_KEYSPACE))
+                        .setContactPoints(Collections.singletonList(hostname));
                 this.cassandraClient = CassandraClient.create(vertx, options);
 
                 List<CassandraHandler<?>> handlers = prepareHandlers();

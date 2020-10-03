@@ -2,6 +2,7 @@
   "database": {
     "mongo": {
       "host": "mongo-db",
+      "host-dev": "mongo-db",
       "port": 27017
     }
   },
