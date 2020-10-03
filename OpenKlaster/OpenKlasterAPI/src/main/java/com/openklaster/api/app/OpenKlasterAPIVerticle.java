@@ -34,6 +34,10 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
     @Override
     public void init(Vertx vertx, Context context) {
+        System.out.println("LOGGER del" + logger.getDelegate().unwrap());
+        System.out.println("LOGGER del cl" + logger.getDelegate().getClass());
+        System.out.println("LOGGER cl" + logger.getClass());
+        System.out.println("LOGGER" + logger);
         super.init(vertx, context);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
