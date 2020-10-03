@@ -30,7 +30,6 @@ import {MatListModule} from "@angular/material/list";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import { TwoColumnFlexContainerComponent } from './two-column-flex-container/two-column-flex-container.component';
 
 @NgModule({
   declarations: [
@@ -44,8 +43,7 @@ import { TwoColumnFlexContainerComponent } from './two-column-flex-container/two
     InstallationPanelComponent,
     SingleInstallationPanelComponent,
     TokenGenerationPanelComponent,
-    InstallationGenerationPanelComponent,
-    TwoColumnFlexContainerComponent
+    InstallationGenerationPanelComponent
   ],
   imports: [
     BrowserModule,
