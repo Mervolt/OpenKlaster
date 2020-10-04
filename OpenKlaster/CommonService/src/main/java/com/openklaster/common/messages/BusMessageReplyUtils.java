@@ -42,7 +42,7 @@ public class BusMessageReplyUtils {
         return HttpResponseStatus.parseLine(status);
     }
 
-    public static boolean isReplayIncorrect(ReplyException replyException) {
+    public static boolean isInternalServerError(ReplyException replyException) {
         return replyException.failureCode() == NO_RESPONSE_FROM_EVENTBUS ||
                 replyException.failureCode() == HttpResponseStatus.INTERNAL_SERVER_ERROR.code();
     }
