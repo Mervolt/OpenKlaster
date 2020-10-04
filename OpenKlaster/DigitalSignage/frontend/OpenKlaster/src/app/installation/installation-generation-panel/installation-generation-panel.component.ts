@@ -12,6 +12,7 @@ import {RequestResponseComponentComponent} from "../../request-response-componen
 export class InstallationGenerationPanelComponent implements OnInit {
   requestReceivedState = 'wait'
   sendRequestState = 'wait'
+  submittedObjectName = 'Installation'
   //TODO Angular does not have some kind of default constructor which? And some field won't be automatically assigned
   // to default values as in Java e.g. 0 for number-type values?
   //MM-ANSWER: undefined is set for everything

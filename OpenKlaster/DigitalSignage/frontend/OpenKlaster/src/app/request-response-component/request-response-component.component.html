@@ -20,12 +20,12 @@
     <div *ngIf="requestReceivedState=='success'">
       <div style="display: flex">
         <mat-icon class="request-response-icon request-response-icon-positive">done</mat-icon>
-        <h1 class="request-response-next-to-icon-margin">Installation has been added successfully</h1>
+        <h1 class="request-response-next-to-icon-margin">{{submittedObjectName}} has been added successfully</h1>
       </div>
     </div>
     <div *ngIf="requestReceivedState=='fail'" style="display: flex">
       <mat-icon class="request-response-icon request-response-icon-negative">error</mat-icon>
-      <h1 class="request-response-next-to-icon-margin">Error during submitting installation</h1>
+      <h1 class="request-response-next-to-icon-margin">Error during submitting {{submittedObjectName}}</h1>
     </div>
   </div>
 </div>

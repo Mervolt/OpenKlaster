@@ -13,6 +13,7 @@ import {AppComponent} from "../../app.component";
 export class TokenGenerationPanelComponent implements OnInit {
   requestReceivedState = 'wait'
   sendRequestState = 'wait'
+  submittedObjectName = 'Token'
   cookieService;
 
   constructor(public service: TokenPanelService, public appComp: AppComponent) {
