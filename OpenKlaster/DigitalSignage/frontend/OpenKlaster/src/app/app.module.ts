@@ -34,6 +34,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSelectModule} from "@angular/material/select";
 import { CredentialsFormComponent } from './credentials-form/credentials-form.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
@@ -50,33 +51,34 @@ import { CredentialsFormComponent } from './credentials-form/credentials-form.co
     RequestResponseComponentComponent,
     CredentialsFormComponent
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        MatSliderModule,
-        RouterModule.forRoot([
-            {path: '', component: RegisterFormComponent},
-            {path: 'login', component: LoginFormComponent},
-            {path: 'token', component: TokenPanelComponent},
-            {path: 'tokenGeneration', component: TokenGenerationPanelComponent},
-            {path: 'installations', component: InstallationPanelComponent},
-            {path: 'installations/:id', component: SingleInstallationPanelComponent},
-            {path: 'installationGeneration', component: InstallationGenerationPanelComponent}
-        ]),
-        ReactiveFormsModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        MatMenuModule,
-        MatIconModule,
-        MatButtonModule,
-        MatListModule,
-        MatPaginatorModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatProgressSpinnerModule,
-        MatButtonToggleModule,
-        MatSelectModule,
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    MatSliderModule,
+    RouterModule.forRoot([
+      {path: '', component: RegisterFormComponent},
+      {path: 'login', component: LoginFormComponent},
+      {path: 'token', component: TokenPanelComponent},
+      {path: 'tokenGeneration', component: TokenGenerationPanelComponent},
+      {path: 'installations', component: InstallationPanelComponent},
+      {path: 'installations/:id', component: SingleInstallationPanelComponent},
+      {path: 'installationGeneration', component: InstallationGenerationPanelComponent}
+    ]),
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatListModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatButtonToggleModule,
+    MatSelectModule,
+    MatTabsModule,
+  ],
   providers: [
     RegisterFormService,
     LoginFormService,

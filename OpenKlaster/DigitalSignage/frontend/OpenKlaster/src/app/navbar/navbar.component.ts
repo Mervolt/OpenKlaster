@@ -5,6 +5,7 @@ import {MatMenuTrigger} from "@angular/material/menu";
 import {SingleInstallationPanelService} from "../installation/single-installation-panel.service";
 import {Router} from "@angular/router";
 import {AppComponent} from "../app.component";
+import {NavigationNameAddressTuple} from "../model/NavigationNameAddressTuple";
 
 @Component({
   selector: 'app-navbar',
@@ -14,6 +15,13 @@ import {AppComponent} from "../app.component";
 export class NavbarComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 
+  links: NavigationNameAddressTuple[] = [
+    new NavigationNameAddressTuple('Tokens', this.navigateToYourTokens.bind(this)),
+    new NavigationNameAddressTuple('Add installation', this.navigateToInstallationGeneration.bind(this)),
+    new NavigationNameAddressTuple('Your installations', this.navigateToYourInstallations.bind(this)),
+    new NavigationNameAddressTuple('Predictions', () => console.log('Rafał Gaweł to batman')),
+    new NavigationNameAddressTuple('Logout', this.logout.bind(this))
+  ]
   constructor(public service: SingleInstallationPanelService, private router: Router, private appComp: AppComponent) {
   }
 
@@ -43,5 +51,9 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.appComp.cookieService.deleteAll();
     this.router.navigate(['login']).then();
+  }
+
+  route(navigation: Function) {
+    navigation()
   }
 }
