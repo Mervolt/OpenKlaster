@@ -9,7 +9,6 @@ import {AppComponent} from './app.component';
 import {LoginFormComponent} from './user/login-form/login-form.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {RegisterFormComponent} from './user/register-form/register-form.component';
-import {UserPanelComponent} from './user/user-panel/user-panel.component';
 import {RegisterFormService} from './user/register-form.service';
 import {TokenPanelComponent} from './token/token-panel/token-panel.component';
 import {MeasurementPanelComponent} from './installation/measurement-panel/measurement-panel.component';
@@ -42,7 +41,6 @@ import { CredentialsFormComponent } from './credentials-form/credentials-form.co
     LoginFormComponent,
     NavbarComponent,
     RegisterFormComponent,
-    UserPanelComponent,
     TokenPanelComponent,
     MeasurementPanelComponent,
     InstallationPanelComponent,
@@ -59,7 +57,6 @@ import { CredentialsFormComponent } from './credentials-form/credentials-form.co
         RouterModule.forRoot([
             {path: '', component: RegisterFormComponent},
             {path: 'login', component: LoginFormComponent},
-            {path: 'user', component: UserPanelComponent},
             {path: 'token', component: TokenPanelComponent},
             {path: 'tokenGeneration', component: TokenGenerationPanelComponent},
             {path: 'installations', component: InstallationPanelComponent},
