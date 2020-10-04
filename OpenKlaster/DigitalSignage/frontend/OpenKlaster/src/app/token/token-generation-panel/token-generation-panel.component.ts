@@ -11,6 +11,8 @@ import {AppComponent} from "../../app.component";
 //I would take this functionality beyond the dropdown
 //MM-ANSWER: I dont understand
 export class TokenGenerationPanelComponent implements OnInit {
+  requestReceivedState = 'wait'
+  sendRequestState = 'wait'
   cookieService;
 
   constructor(public service: TokenPanelService, public appComp: AppComponent) {
@@ -21,7 +23,17 @@ export class TokenGenerationPanelComponent implements OnInit {
   }
 
   addToken() {
-    this.service.generateToken(this.cookieService).subscribe();
+    this.sendRequestState='sent'
+    let addPromise = this.service.generateToken(this.cookieService).toPromise();
+    addPromise
+      .then(() => {
+        this.sendRequestState = 'received'
+        this.requestReceivedState = 'success'
+      })
+      .catch(() => {
+        this.sendRequestState = 'received'
+        this.requestReceivedState = 'fail'
+      })
   }
 
 }
