@@ -63,12 +63,6 @@
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Inverter Credentials</mat-label>
-            <input matInput id="inverterCredentials" name="inverterCredentials" required
-                   [(ngModel)]="formModel.inverter.credentials">
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="outline" class="userformfield">
             <mat-label>Inverter Model Type</mat-label>
             <input matInput id="inverterModelType" name="inverterModelType" required
                    [(ngModel)]="formModel.inverter.modelType">
@@ -115,7 +109,7 @@
   </div>
   <div>
     <app-credentials-form (credentialsEventEmitter)="receiveMessage($event)"
-    [credentialsType]="convertManufacturerToCredentials()">
+                          [credentialsType]="convertManufacturerToCredentials()">
     </app-credentials-form>
     <app-request-response-component [requestReceivedState]="requestReceivedState"
                                     [sendRequestState]="sendRequestState"
