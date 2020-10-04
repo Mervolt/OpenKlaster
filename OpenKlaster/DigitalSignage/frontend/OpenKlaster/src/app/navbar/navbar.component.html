@@ -1,4 +1,4 @@
-<nav mat-tab-nav-bar>
+<nav mat-tab-nav-bar [backgroundColor]="'primary'">
   <a mat-tab-link *ngFor="let link of links"
      (click)="route(link.navigation)"> {{link.name}} </a>
 </nav>
