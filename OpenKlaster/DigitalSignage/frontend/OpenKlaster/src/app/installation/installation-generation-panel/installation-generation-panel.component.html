@@ -52,7 +52,6 @@
       </div>
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
-
           <mat-form-field appearance="outline" class="userformfield">
             <mat-label>Inverter manufacturer</mat-label>
             <mat-select [(value)]="formModel.inverter.manufacturer">
@@ -61,12 +60,6 @@
                 {{manufacturer}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Inverter Manufacturer</mat-label>
-            <input matInput id="inverterManufacturer" name="inverterManufacturer" required
-                   [(ngModel)]="formModel.inverter.manufacturer">
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline" class="userformfield">
@@ -120,8 +113,13 @@
       <button type="submit" class="btn btn-primary" style="margin: 20px">Submit installation</button>
     </form>
   </div>
-  <app-request-response-component [requestReceivedState]="requestReceivedState"
-                                  [sendRequestState]="sendRequestState"
-                                  [submittedObjectName]="submittedObjectName">
-  </app-request-response-component>
+  <div>
+    <app-credentials-form (credentialsEventEmitter)="receiveMessage($event)"
+    [credentialsType]="convertManufacturerToCredentials()">
+    </app-credentials-form>
+    <app-request-response-component [requestReceivedState]="requestReceivedState"
+                                    [sendRequestState]="sendRequestState"
+                                    [submittedObjectName]="submittedObjectName">
+    </app-request-response-component>
+  </div>
 </div>

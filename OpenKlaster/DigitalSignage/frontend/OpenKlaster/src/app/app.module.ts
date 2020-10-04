@@ -34,6 +34,7 @@ import { RequestResponseComponentComponent } from './request-response-component/
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSelectModule} from "@angular/material/select";
+import { CredentialsFormComponent } from './credentials-form/credentials-form.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {MatSelectModule} from "@angular/material/select";
     SingleInstallationPanelComponent,
     TokenGenerationPanelComponent,
     InstallationGenerationPanelComponent,
-    RequestResponseComponentComponent
+    RequestResponseComponentComponent,
+    CredentialsFormComponent
   ],
     imports: [
         BrowserModule,

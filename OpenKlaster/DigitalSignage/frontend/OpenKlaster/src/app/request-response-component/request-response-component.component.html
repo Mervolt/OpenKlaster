@@ -1,6 +1,8 @@
 <div class="request-response-container">
   <div class="request-response-next-to-icon-margin">
-    <div *ngIf="sendRequestState=='wait'"><h1 class="request-response-next-to-icon-margin">Waiting for submit</h1></div>
+    <div *ngIf="sendRequestState=='wait'">
+      <h1 class="request-response-next-to-icon-margin">Waiting for submit</h1>
+    </div>
     <div *ngIf="sendRequestState=='sent'">
       <div style="display: flex">
         <mat-spinner></mat-spinner>

@@ -14,7 +14,6 @@ export class InstallationGenerationPanelComponent implements OnInit {
   sendRequestState = 'wait'
   submittedObjectName = 'Installation'
   manufacturers: string[] = ['Growatt', 'Just for option']
-  selectedManufacturer=''
   //TODO Angular does not have some kind of default constructor which? And some field won't be automatically assigned
   // to default values as in Java e.g. 0 for number-type values?
   //MM-ANSWER: undefined is set for everything
@@ -56,5 +55,24 @@ export class InstallationGenerationPanelComponent implements OnInit {
         this.sendRequestState = 'received'
         this.requestReceivedState = 'fail'
       })
+  }
+
+  receiveMessage($event) {
+    this.formModel.inverter.credentials = $event
+  }
+
+  convertManufacturerToCredentials() {
+    // Very beautiful code right here :)
+    switch (this.formModel.inverter.manufacturer) {
+      case 'Growatt': {
+        return 'userpass'
+      }
+      case 'Just for option' : {
+        return 'token'
+      }
+      default : {
+        return 'empty'
+      }
+    }
   }
 }
