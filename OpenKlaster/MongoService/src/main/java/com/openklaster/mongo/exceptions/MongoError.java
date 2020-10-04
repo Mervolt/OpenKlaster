@@ -1,10 +1,10 @@
 package com.openklaster.mongo.exceptions;
 
 import com.mchange.v2.lang.StringUtils;
-import com.sun.istack.internal.NotNull;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 @EqualsAndHashCode
 public class MongoError  {

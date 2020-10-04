@@ -1,0 +1,42 @@
+{
+    "security": {
+    "tokens": {
+        "charsPerType": 4,
+            "sessionTokenLifetime": 30
+    }
+},
+    "eventbus": {
+    "in": {
+        "userManagement": {
+            "address": "openklaster.core.user"
+        },
+        "installations": {
+            "address": "openklaster.core.installation"
+        },
+        "sourceMeasurements": {
+            "address": "openklaster.core.powerproduction"
+        },
+        "loadMeasurements": {
+            "address": "openklaster.core.powerconsumption"
+        }
+    },
+    "out": {
+        "mongo": {
+            "users": {
+                "address": "openklaster.mongo.user"
+            },
+            "installation": {
+                "address": "openklaster.mongo.installation"
+            }
+        },
+        "cassandra": {
+            "loadmeasurement": {
+                "address": "openklaster.cassandraservice.loadmeasurement"
+            },
+            "sourcemeasurement": {
+                "address": "openklaster.cassandraservice.sourcemeasurement"
+            }
+        }
+    }
+}
+}

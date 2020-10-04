@@ -1,18 +1,8 @@
 package com.openklaster.mongo.app;
 
-import io.vertx.config.ConfigRetriever;
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Promise;
-import io.vertx.core.Vertx;
-import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.eventbus.Message;
-import io.vertx.core.eventbus.MessageConsumer;
-import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
-import io.vertx.ext.mongo.MongoClient;
+import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
+import com.openklaster.common.verticle.OpenklasterVerticle;
 import com.openklaster.mongo.config.CalculatorConfig;
 import com.openklaster.mongo.config.EntityConfig;
 import com.openklaster.mongo.config.InstallationConfig;
@@ -22,48 +12,60 @@ import com.openklaster.mongo.parser.InstallationParser;
 import com.openklaster.mongo.parser.UserParser;
 import com.openklaster.mongo.service.EntityHandler;
 import com.openklaster.mongo.service.MongoPersistenceService;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Context;
+import io.vertx.core.Vertx;
+import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.eventbus.Message;
+import io.vertx.core.eventbus.MessageConsumer;
+import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
+import io.vertx.ext.mongo.MongoClient;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
-public class MongoVerticle extends AbstractVerticle {
+public class MongoVerticle extends OpenklasterVerticle {
 
     private MongoClient client;
     private MongoPersistenceService persistenceService;
     private List<EntityConfig> entityConfigs;
-    private final EventBus eventBus;
-    private final ConfigRetriever configRetriever;
+    private EventBus eventBus;
     private static final Logger logger = LoggerFactory.getLogger(MongoVerticle.class);
     private NestedConfigAccessor configAccessor;
 
+    public MongoVerticle(boolean isDevModeOn) {
+        super(isDevModeOn);
+    }
 
-
-    public MongoVerticle(Vertx vertx, ConfigRetriever configRetriever) {
-        this.configRetriever = configRetriever;
-        this.vertx = vertx;
-        this.eventBus = vertx.eventBus();
+    public MongoVerticle() {
+        super();
     }
 
     @Override
-    public void start(Promise<Void> promise) {
-        this.configRetriever.getConfig(config -> {
+    public void init(Vertx vertx, Context context) {
+        this.vertx = vertx;
+        this.eventBus = vertx.eventBus();
+        ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
+        configFilesManager.getConfig(vertx).getConfig(config -> {
             if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
-                handlePostConfig(promise);
+                handlePostConfig();
             } else {
                 logger.error("Could not retrieve app.MongoVerticle config!");
-                logger.error(config.cause());
+                logger.error(config.cause().getMessage());
                 vertx.close();
             }
         });
 
     }
 
-
-    private void handlePostConfig(Promise<Void> promise) {
-        this.client = MongoClient.createShared(vertx, this.configAccessor.getJsonObject("database.mongo"));
+    private void handlePostConfig() {
+        JsonObject mongoOptions = this.configAccessor.getJsonObject("database.mongo");
+        this.client = MongoClient.createShared(vertx, mongoOptions);
         this.persistenceService = new MongoPersistenceService(client);
 
         this.entityConfigs = Arrays.asList(
@@ -74,7 +76,6 @@ public class MongoVerticle extends AbstractVerticle {
                 new UserConfig(persistenceService, new UserParser(), configAccessor.getPathConfigAccessor("user"))
         );
         eventBusConfig();
-        promise.complete();
     }
 
     private void eventBusConfig() {

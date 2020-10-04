@@ -60,7 +60,7 @@ public abstract class CassandraHandler<T> {
                     BusMessageReplyUtils.replyWithBodyAndStatus(message, response, HttpResponseStatus.OK);
                 } else {
                     // Todo nie pamiętam co to wypisuje xd można dodać coś ze dla geta jesli nie ma teraz xd
-                    logger.error(listAsyncResult.cause());
+                    logger.error(listAsyncResult.cause().getMessage());
                     BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, listAsyncResult.cause().toString());
                 }
             });
@@ -75,7 +75,7 @@ public abstract class CassandraHandler<T> {
                 logger.debug("New entry in the database " + response);
                 BusMessageReplyUtils.replyWithBodyAndStatus(message, response, HttpResponseStatus.OK);
             } else {
-                logger.error(voidAsyncResult.cause());
+                logger.error(voidAsyncResult.cause().getMessage());
                 BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, voidAsyncResult.cause().toString());
 
             }
