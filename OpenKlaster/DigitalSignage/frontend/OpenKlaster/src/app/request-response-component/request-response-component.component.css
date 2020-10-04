@@ -3,6 +3,7 @@
   margin: 50px;
   border-radius: 25px;
   width: 600px;
+  min-height: 378px;
 }
 
 /*Size of material angular icon depends on font-size :) */
