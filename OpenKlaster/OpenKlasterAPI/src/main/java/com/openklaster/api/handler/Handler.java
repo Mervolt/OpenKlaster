@@ -23,7 +23,7 @@ import java.util.Map;
 import static com.openklaster.api.handler.properties.HandlerProperties.processingErrorMessage;
 import static com.openklaster.api.validation.ValidationExecutor.validate;
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
-import static com.openklaster.common.messages.BusMessageReplyUtils.isReplayCorrect;
+import static com.openklaster.common.messages.BusMessageReplyUtils.isReplayIncorrect;
 
 @AllArgsConstructor
 public abstract class Handler {
@@ -86,7 +86,7 @@ public abstract class Handler {
                 }
                 else{
                     ReplyException replyException = (ReplyException) coreResponse.cause();
-                    if (isReplayCorrect(replyException))
+                    if (isReplayIncorrect(replyException))
                         handleProcessingError(context.response(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code(), processingErrorMessage);
                     else
                         handleProcessingError(context.response(), replyException.failureCode(), replyException.getMessage());

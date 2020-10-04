@@ -2,7 +2,7 @@
 package com.openklaster.core.vertx.messages.repository;
 
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
-import static com.openklaster.common.messages.BusMessageReplyUtils.isReplayCorrect;
+import static com.openklaster.common.messages.BusMessageReplyUtils.isReplayIncorrect;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,7 +83,7 @@ public class DbServiceHandler<T> {
     }
 
     public void handleFailure(Promise resultPromise, AsyncResult handler) {
-        if(isReplayCorrect((ReplyException) handler.cause())) {
+        if(isReplayIncorrect((ReplyException) handler.cause())) {
             resultPromise.fail(new InternalServerErrorException(handler.cause().getMessage()));
         }
         else {
