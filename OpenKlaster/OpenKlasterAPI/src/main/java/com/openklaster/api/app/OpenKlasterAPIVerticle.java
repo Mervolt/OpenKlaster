@@ -3,6 +3,7 @@ package com.openklaster.api.app;
 
 import com.openklaster.api.handler.*;
 import com.openklaster.api.handler.properties.HandlerProperties;
+import com.openklaster.api.handler.summary.SummaryCreator;
 import com.openklaster.api.model.*;
 import com.openklaster.api.model.summary.SummaryRequest;
 import com.openklaster.api.parser.DefaultParseStrategy;
@@ -141,7 +142,7 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
                 new SummaryHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.summaryEndpoint),
                         configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<SummaryRequest>(SummaryRequest.class))
+                        eventBus, configAccessor, new DefaultParseStrategy<SummaryRequest>(SummaryRequest.class), new SummaryCreator())
         );
 
 

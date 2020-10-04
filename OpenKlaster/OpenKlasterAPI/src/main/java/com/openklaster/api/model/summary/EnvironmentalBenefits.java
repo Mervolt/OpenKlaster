@@ -6,6 +6,6 @@ import lombok.Data;
 @Builder
 @Data
 public class EnvironmentalBenefits {
-    private int co2reduced;
-    private int treessaved;
+    private int co2Reduced;
+    private int treesSaved;
 }

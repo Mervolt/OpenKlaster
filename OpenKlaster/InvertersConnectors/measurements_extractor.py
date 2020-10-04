@@ -4,18 +4,21 @@ import pymongo
 import requests
 import yaml
 
-# Todo error handling, logging, refactor
+# Todo error handling, logging, refactor, SOLVE PROBLEMS WITH UNITS
 
 def get_json_object(id, value):
-    return {"installationId": id, 'value': round(float(value), 3)}
+    return {"installationId": id, 'value': round(value, 3)}
 
 
 def post_measurements_growatt(id, username, password):
     with growatt.GrowattApi() as api:
         api.login(username, password)
         plant_info = api.plant_list()
-        post_power_production(plant_info['totalData']['currentPowerSum'].replace(' W', ''), id)
-        post_energy_produced(plant_info['totalData']['totalEnergySum'].replace(' kWh', ''), id)
+        if " W" in plant_info['totalData']['currentPowerSum']:
+            post_power_production(float(plant_info['totalData']['currentPowerSum'].replace(' W', '')) * 0.001, id)
+        elif " kW" in plant_info['totalData']['currentPowerSum']:
+            post_power_production(float(plant_info['totalData']['currentPowerSum'].replace(' kW', '')), id)
+        post_energy_produced(float(plant_info['totalData']['totalEnergySum'].replace(' kWh', '')), id)
 
 
 def post_power_production(value, id):

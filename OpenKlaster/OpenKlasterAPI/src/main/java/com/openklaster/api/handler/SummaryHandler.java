@@ -1,6 +1,7 @@
 package com.openklaster.api.handler;
 
 import com.openklaster.api.handler.properties.HandlerProperties;
+import com.openklaster.api.handler.summary.SummaryCreator;
 import com.openklaster.api.model.Model;
 import com.openklaster.api.model.summary.SummaryResponse;
 import com.openklaster.api.parser.IParseStrategy;
@@ -16,13 +17,14 @@ import io.vertx.ext.web.RoutingContext;
 
 import java.util.Map;
 
-import static com.openklaster.api.handler.summary.SummaryCreator.createSummary;
 import static com.openklaster.api.validation.ValidationExecutor.validate;
 
 public class SummaryHandler extends Handler {
+    private final SummaryCreator summaryCreator;
 
-    public SummaryHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
+    public SummaryHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy, SummaryCreator summaryCreator) {
         super(HandlerProperties.getMethodHeader, route, HandlerProperties.getMethodHeader, address, eventBus, nestedConfigAccessor, parseStrategy);
+        this.summaryCreator = summaryCreator;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class SummaryHandler extends Handler {
 
             eventBus.<JsonArray>request(address, validatedModel, deliveryOptions, coreResponse -> {
                 if (coreResponse.succeeded()) {
-                    SummaryResponse summaryResponse = createSummary(coreResponse, nestedConfigAccessor);
+                    SummaryResponse summaryResponse = summaryCreator.createSummary(coreResponse, nestedConfigAccessor);
                     context.response().end(Json.encodePrettily(JsonObject.mapFrom(summaryResponse)));
                 } else {
                     ReplyException replyException = (ReplyException) coreResponse.cause();

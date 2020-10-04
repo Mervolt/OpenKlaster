@@ -36,7 +36,7 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="h5 font-weight-bold mb-1">AKTUALNA MOC (W)</div>
+                                    <div class="h5 font-weight-bold mb-1">AKTUALNA MOC (kW)</div>
                                     <div class="current_power display-1 mb-0 font-weight-bold text-gray-800">0</div>
                                 </div>
                                 <div class="col-auto">
@@ -89,7 +89,7 @@
                     <div class="minicard">
                         <div class="row no-gutters align-items-center h-100 text-white">
                             <div class="col mr-2">
-                                <div class="h5 mb-1">AKTUALNA MOC (W)</div>
+                                <div class="h5 mb-1">AKTUALNA MOC (kW)</div>
                                 <div class="current_power h5 mb-0 font-weight-bold text-gray-800">0</div>
                             </div>
                         </div>
@@ -186,7 +186,7 @@
                     <div class="minicard">
                         <div class="row no-gutters align-items-center h-100 text-white">
                             <div class="col mr-2">
-                                <div class="h5 mb-1">AKTUALNA MOC (W)</div>
+                                <div class="h5 mb-1">AKTUALNA MOC (kW)</div>
                                 <div class="current_power h5 mb-0 font-weight-bold text-gray-800">0</div>
                             </div>
                         </div>
@@ -351,8 +351,8 @@
                 total_energy = data["totalEnergy"];
                 current_power = data["currentPower"];
                 today_energy = data["energyProducedToday"];
-                co2_reduced = data["environmentalBenefits"]["co2reduced"];
-                trees_saved = data["environmentalBenefits"]["treessaved"];
+                co2_reduced = data["environmentalBenefits"]["co2Reduced"];
+                trees_saved = data["environmentalBenefits"]["treesSaved"];
 
                 updateElementsByClassName("total_energy", total_energy)
                 updateElementsByClassName("co2_reduced", co2_reduced)

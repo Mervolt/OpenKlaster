@@ -12,27 +12,28 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.lang3.time.DateUtils;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class SummaryCreator {
 
-    public static SummaryResponse createSummary(AsyncResult<Message<JsonArray>> response, NestedConfigAccessor config) {
+    public SummaryResponse createSummary(AsyncResult<Message<JsonArray>> response, NestedConfigAccessor config) {
         Map<Unit, List<Measurement>> measurements = groupMeasurementsFromJsonArray(response.result().body());
         Measurement latestEnergyMeasurement = findLastMeasurement(measurements.get(Unit.kWh));
         Measurement latestPowerMeasurement = findLastMeasurement(measurements.get(Unit.kW));
         Map<String, Double> powerMeasurements = convertMeasurementArraysIntoMap(measurements.get(Unit.kW));
-        Double energyProducedToday = countEnergyProducedToday(measurements.get(Unit.kWh));
+        BigDecimal energyProducedToday = countEnergyProducedToday(measurements.get(Unit.kWh));
         EnvironmentalBenefits environmentalBenefits = EnvironmentalBenefits.builder()
-                .co2reduced(calculateEnvironmentalBenefit(SummaryProperties.CO2REDUCED, latestEnergyMeasurement.getValue(), config))
-                .treessaved(calculateEnvironmentalBenefit(SummaryProperties.TREES_SAVED, latestEnergyMeasurement.getValue(), config))
+                .co2Reduced(calculateEnvironmentalBenefit(SummaryProperties.CO2REDUCED, latestEnergyMeasurement.getValue(), config))
+                .treesSaved(calculateEnvironmentalBenefit(SummaryProperties.TREES_SAVED, latestEnergyMeasurement.getValue(), config))
                 .build();
         ;
 
         return SummaryResponse.builder()
-                .totalEnergy(latestEnergyMeasurement.getValue())
-                .currentPower(latestPowerMeasurement.getValue())
+                .totalEnergy(new BigDecimal(latestEnergyMeasurement.getValue()))
+                .currentPower(new BigDecimal(latestPowerMeasurement.getValue()))
                 .power(powerMeasurements)
                 .energyProducedToday(energyProducedToday)
                 .environmentalBenefits(environmentalBenefits)
@@ -40,7 +41,7 @@ public class SummaryCreator {
     }
 
 
-    private static Map<String, Double> convertMeasurementArraysIntoMap(List<Measurement> measurements) {
+    private Map<String, Double> convertMeasurementArraysIntoMap(List<Measurement> measurements) {
         return measurements.stream()
                 .filter(measurement -> isItToday(measurement.getTimestamp()))
                 .collect(Collectors.toMap(a -> parseTimeFromTimeStamp(a.getTimestamp()),
@@ -48,7 +49,7 @@ public class SummaryCreator {
                         (prev, next) -> next, HashMap::new));
     }
 
-    private static Measurement findLastMeasurement(List<Measurement> energyMeasurements) {
+    private Measurement findLastMeasurement(List<Measurement> energyMeasurements) {
         return Optional.ofNullable(energyMeasurements)
                 .orElse(Collections.singletonList(new Measurement()))
                 .stream()
@@ -56,29 +57,29 @@ public class SummaryCreator {
                 .get();
     }
 
-    private static Double countEnergyProducedToday(List<Measurement> energyMeasurements) {
+    private BigDecimal countEnergyProducedToday(List<Measurement> energyMeasurements) {
         Map<Object, List<Measurement>> booleanMeasurementMap = energyMeasurements.stream()
                 .collect(Collectors.groupingBy(measurement -> isItToday(measurement.getTimestamp())));
         Double currentEnergy = findLastMeasurement(booleanMeasurementMap.get(true)).getValue();
         Double yesterdaysLastEnergyMeasurement = findLastMeasurement(booleanMeasurementMap.get(false)).getValue();
-        return currentEnergy - yesterdaysLastEnergyMeasurement;
+        return new BigDecimal(currentEnergy - yesterdaysLastEnergyMeasurement);
     }
 
-    private static Map<Unit, List<Measurement>> groupMeasurementsFromJsonArray(JsonArray jsonArray) {
+    private Map<Unit, List<Measurement>> groupMeasurementsFromJsonArray(JsonArray jsonArray) {
         return jsonArray.stream()
                 .map(result -> JsonObject.mapFrom(result).mapTo(Measurement.class))
                 .collect(Collectors.groupingBy(Measurement::getUnit));
     }
 
-    private static int calculateEnvironmentalBenefit(String path, double energy, NestedConfigAccessor config) {
+    private int calculateEnvironmentalBenefit(String path, double energy, NestedConfigAccessor config) {
         return (int) (((double) config.getInteger(path) / 100) * energy);
     }
 
-    private static String parseTimeFromTimeStamp(Date timestamp) {
+    private String parseTimeFromTimeStamp(Date timestamp) {
         return new SimpleDateFormat(SummaryProperties.TIME_FORMAT).format(timestamp);
     }
 
-    private static boolean isItToday(Date timestamp) {
+    private boolean isItToday(Date timestamp) {
         return DateUtils.isSameDay(timestamp, new Date());
     }
 }
