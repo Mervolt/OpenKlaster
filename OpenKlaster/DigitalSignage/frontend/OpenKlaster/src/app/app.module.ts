@@ -80,7 +80,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     TokenPanelService,
     InstallationPanelService,
     CookieService,
-    InstallationPanelComponent
+    InstallationPanelComponent,
+    RequestResponseComponentComponent
   ],
   bootstrap: [AppComponent]
 })

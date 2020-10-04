@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Installation} from "../../model/Installation";
 import {InstallationPanelService} from "../installation-panel.service";
 import {CookieService} from "ngx-cookie-service";
+import {RequestResponseComponentComponent} from "../../request-response-component/request-response-component.component";
 
 @Component({
   selector: 'app-installation-generation-panel',
@@ -9,6 +10,8 @@ import {CookieService} from "ngx-cookie-service";
   styleUrls: ['./installation-generation-panel.component.css']
 })
 export class InstallationGenerationPanelComponent implements OnInit {
+  requestReceivedState='wait'
+  sendRequestState='wait'
   //TODO Angular does not have some kind of default constructor which? And some field won't be automatically assigned
   // to default values as in Java e.g. 0 for number-type values?
   //MM-ANSWER: undefined is set for everything
@@ -39,6 +42,7 @@ export class InstallationGenerationPanelComponent implements OnInit {
   onSubmit() {
     //TODO addInstallation(this.formModel, this.cookieService, this.formToken)
     //MM-ANSWER you must use this even in this case
+    this.sendRequestState='sent'
     this.installationService.addInstallation(this.formModel, this.cookieService);
   }
 }

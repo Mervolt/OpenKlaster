@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-request-response-component',
@@ -6,8 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./request-response-component.component.css']
 })
 export class RequestResponseComponentComponent implements OnInit {
-  sendRequestState: string = 'wait'
-  requestReceivedState: string = 'wait'
+  @Input() sendRequestState: string
+  @Input() requestReceivedState: string
   constructor() { }
 
   ngOnInit(): void {
