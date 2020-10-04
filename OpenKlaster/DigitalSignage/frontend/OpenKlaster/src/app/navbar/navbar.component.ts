@@ -36,10 +36,6 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['token']).then();
   }
 
-  navigateToTokenGeneration() {
-    this.router.navigate(['tokenGeneration']).then();
-  }
-
   navigateToYourInstallations(): void {
     this.router.navigate(['installations']).then();
   }

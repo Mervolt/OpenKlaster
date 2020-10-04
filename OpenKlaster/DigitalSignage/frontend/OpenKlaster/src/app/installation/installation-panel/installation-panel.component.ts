@@ -6,6 +6,7 @@ import {AppComponent} from "../../app.component";
 import {InstallationDto} from "../../model/InstallationDto";
 import {CookieService} from "ngx-cookie-service";
 import {PageEvent} from "@angular/material/paginator";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-installation-panel',
@@ -23,7 +24,7 @@ export class InstallationPanelComponent implements OnInit {
 
   //TODO installationService - more desriptive name
   //MM-ANSWER done
-  constructor(public installationService: InstallationPanelService, private appComp: AppComponent) {
+  constructor(public installationService: InstallationPanelService, private appComp: AppComponent, private router: Router) {
     this.cookieService = appComp.cookieService;
   }
 
@@ -33,10 +34,10 @@ export class InstallationPanelComponent implements OnInit {
 
 
   //TODO ditto -sesion token
-  onPageChange(event: PageEvent){
+  onPageChange(event: PageEvent) {
     let startIndex = event.pageIndex * event.pageSize;
     let endIndex = startIndex + event.pageSize;
-    if(endIndex > this.installations.length){
+    if (endIndex > this.installations.length) {
       endIndex = this.installations.length;
     }
     this.displayedInstallations = this.installations.slice(startIndex, endIndex);
@@ -55,4 +56,7 @@ export class InstallationPanelComponent implements OnInit {
     })
   }
 
+  navigateToInstallation(installationId: number) {
+    this.router.navigate(['installations', installationId]).then()
+  }
 }

@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {InstallationPanelService} from "../installation-panel.service";
 import {InstallationDto} from "../../model/InstallationDto";
 import {CookieService} from "ngx-cookie-service";
+import {Installation} from "../../model/Installation";
 
 @Component({
   selector: 'app-single-installation-panel',
@@ -13,8 +14,8 @@ import {CookieService} from "ngx-cookie-service";
 })
 export class SingleInstallationPanelComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
-  installationId;
-  installation;
+  installationId: string
+  installation: Installation
 
   //TODO ent: InstallationPanelComp is only used to get form token... services are for injecting
   // if you want to pass some methods/args as params. Here it shall be deleted at all as it used to get formToken
@@ -33,12 +34,18 @@ export class SingleInstallationPanelComponent implements OnInit {
   // If you want inverter object just use response['inverter'] and you get the object
   //MM-ANSWER I think it worked but I changed it anyway since your solution also works and is used in Installations
   ngOnInit(): void {
-    let observableInstallation = this.installationsService.getInstallation(this.cookieService, this.installationId);
+    let idAsNumber = this.stripInstallationId(this.installationId)
+    let observableInstallation = this.installationsService.getInstallation(this.cookieService, idAsNumber);
     observableInstallation.subscribe(response => {
       //TODO ditto fromDto method
       //MM-ANSWER Done
       this.installation = InstallationDto.fromDto(response)
     })
+  }
+
+  stripInstallationId(installationIdLink: string) {
+    let splitInstallation = installationIdLink.split(":")
+    return Number(splitInstallation[1])
   }
 
 }
