@@ -9,7 +9,7 @@ import {EndpointHolder} from "../model/EndpointHolder";
   providedIn: 'root'
 })
 //TODO why `Panel`?
-//MM-ANSWER: Z angielskiego pulpit : )
+//MM-ANSWER: Z angielskiego pulpit :)
 export class TokenPanelService {
 
   constructor(public http: HttpClient) {

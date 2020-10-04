@@ -1,20 +1,29 @@
 <app-navbar></app-navbar>
 <div class="page-container">
-  <h1>Your tokens</h1>
-  <br>
-  <ul>
-    <li *ngFor="let token of tokens">
-      <p style="display:inline-flex;font-size:20px">{{token.data}} &nbsp; </p>
-      <p style="display:inline-flex;color:green;font-size:20px">Active</p>
-      <br>
-    </li>
-  </ul>
-  <div>
-    <h1>Just add some description about API tokens, lorem ipsum, what they are used for and instruction</h1>
-    <button type="submit" class="btn btn-primary" (click)="addToken()">Generate token</button>
+  <div style="display: flex; flex-direction: column">
+    <div style="margin: 20px">
+      <h1>API tokens are necessary to use OpenKlaster REST API<br>
+        Link to Swagger API :)<br>
+        Visit swagger API to check how to properly use OpenKlaster API
+      </h1>
+    </div>
+    <div style="display: flex; flex-direction: row">
+      <div style="display: flex; flex-direction: column">
+        <div style="margin: 20px">
+          <h1 style="margin: 20px">Your tokens</h1>
+          <mat-list-item *ngFor="let token of tokens" class="basic-list-item">
+            <p style="display:inline-flex;font-size:20px; margin-left: 30px">{{token.data}} &nbsp; </p>
+            <p style="display:inline-flex;color:green;font-size:20px">Active</p>
+          </mat-list-item>
+        </div>
+        <div style="margin: 20px 20px 20px 30px;">
+          <button type="submit" class="btn btn-primary" (click)="addToken()">Generate new token</button>
+        </div>
+      </div>
+      <app-request-response-component [requestReceivedState]="requestReceivedState"
+                                      [sendRequestState]="sendRequestState"
+                                      [submittedObjectName]="submittedObjectName">
+      </app-request-response-component>
+    </div>
   </div>
-  <app-request-response-component [requestReceivedState]="requestReceivedState"
-                                  [sendRequestState]="sendRequestState"
-                                  [submittedObjectName]="submittedObjectName">
-  </app-request-response-component>
 </div>
