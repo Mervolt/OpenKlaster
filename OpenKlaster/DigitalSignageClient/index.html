@@ -148,7 +148,7 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="h5 font-weight-bold  mb-1">Aby zmiejszyć ilość CO2 w atmosfere o taką
+                                    <div class="h5 font-weight-bold  mb-1">Aby zmiejszyć ilość CO2 w atmosferze o taką
                                         wartość musielibyśmy postadzić
                                     </div>
                                     <div class="trees_saved display-1 h5 mb-0 font-weight-bold text-gray-800">0</div>
@@ -326,6 +326,12 @@
         })();
     }
 
+    function updateElementsByClassName(clazz, data) {
+        for (let e of document.getElementsByClassName(clazz)) {
+            e.innerText = data;
+        }
+    }
+
     function getSummary(url, id, apiToken) {
         const sendUrl = new URL(url);
         const params = {
@@ -348,21 +354,11 @@
                 co2_reduced = data["environmentalBenefits"]["co2reduced"];
                 trees_saved = data["environmentalBenefits"]["treessaved"];
 
-                for (let e of document.getElementsByClassName("total_energy")) {
-                    e.innerText = total_energy;
-                }
-                for (let e of document.getElementsByClassName("co2_reduced")) {
-                    e.innerText = co2_reduced;
-                }
-                for (let e of document.getElementsByClassName("trees_saved")) {
-                    e.innerText = trees_saved;
-                }
-                for (let e of document.getElementsByClassName("current_power")) {
-                    e.innerText = current_power;
-                }
-                for (let e of document.getElementsByClassName("today_energy")) {
-                    e.innerText = today_energy;
-                }
+                updateElementsByClassName("total_energy", total_energy)
+                updateElementsByClassName("co2_reduced", co2_reduced)
+                updateElementsByClassName("trees_saved", trees_saved)
+                updateElementsByClassName("current_power", current_power)
+                updateElementsByClassName("today_energy", today_energy)
 
                 let output = []
                 for (let key of Object.keys(powerMeasurements)) {

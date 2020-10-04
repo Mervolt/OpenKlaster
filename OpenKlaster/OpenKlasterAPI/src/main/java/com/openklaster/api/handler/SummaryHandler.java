@@ -1,11 +1,7 @@
 package com.openklaster.api.handler;
 
 import com.openklaster.api.handler.properties.HandlerProperties;
-import com.openklaster.api.handler.properties.SummaryProperties;
 import com.openklaster.api.model.Model;
-import com.openklaster.api.model.Unit;
-import com.openklaster.api.model.summary.EnvironmentalBenefits;
-import com.openklaster.api.model.summary.Measurement;
 import com.openklaster.api.model.summary.SummaryResponse;
 import com.openklaster.api.parser.IParseStrategy;
 import com.openklaster.api.validation.ValidationException;
@@ -17,12 +13,10 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import org.apache.commons.lang3.time.DateUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Map;
 
+import static com.openklaster.api.handler.summary.SummaryCreator.createSummary;
 import static com.openklaster.api.validation.ValidationExecutor.validate;
 
 public class SummaryHandler extends Handler {
@@ -43,25 +37,7 @@ public class SummaryHandler extends Handler {
 
             eventBus.<JsonArray>request(address, validatedModel, deliveryOptions, coreResponse -> {
                 if (coreResponse.succeeded()) {
-                    Map<Unit, List<Measurement>> measurements = groupMeasurementsFromJsonArray(coreResponse.result().body());
-                    Measurement latestEnergyMeasurement = findLastMeasurement(measurements.get(Unit.kWh));
-                    Measurement latestPowerMeasurement = findLastMeasurement(measurements.get(Unit.kW));
-                    Map<String, Double> powerMeasurements = convertMeasurementArraysIntoMap(measurements.get(Unit.kW));
-                    Double energyProducedToday = countEnergyProducedToday(measurements.get(Unit.kWh));
-                    EnvironmentalBenefits environmentalBenefits = EnvironmentalBenefits.builder()
-                            .co2reduced(calculateEnvironmentalBenefit(SummaryProperties.CO2REDUCED, latestEnergyMeasurement.getValue()))
-                            .treessaved(calculateEnvironmentalBenefit(SummaryProperties.TREES_SAVED, latestEnergyMeasurement.getValue()))
-                            .build();
-                    ;
-
-                    SummaryResponse summaryResponse = SummaryResponse.builder()
-                            .totalEnergy(latestEnergyMeasurement.getValue())
-                            .currentPower(latestPowerMeasurement.getValue())
-                            .power(powerMeasurements)
-                            .energyProducedToday(energyProducedToday)
-                            .environmentalBenefits(environmentalBenefits)
-                            .build();
-
+                    SummaryResponse summaryResponse = createSummary(coreResponse, nestedConfigAccessor);
                     context.response().end(Json.encodePrettily(JsonObject.mapFrom(summaryResponse)));
                 } else {
                     ReplyException replyException = (ReplyException) coreResponse.cause();
@@ -71,49 +47,5 @@ public class SummaryHandler extends Handler {
         } catch (ValidationException e) {
             handleValidationError(context.response(), e.getMessage());
         }
-
-    }
-
-    private Map<String, Double> convertMeasurementArraysIntoMap(List<Measurement> measurements) {
-        return measurements.stream()
-                .filter(measurement -> isItToday(measurement.getTimestamp()))
-                .collect(Collectors.toMap(a -> parseTimeFromTimeStamp(a.getTimestamp()),
-                        Measurement::getValue,
-                        (prev, next) -> next, HashMap::new));
-    }
-
-    private Measurement findLastMeasurement(List<Measurement> energyMeasurements) {
-        return Optional.ofNullable(energyMeasurements)
-                .orElse(Collections.singletonList(new Measurement()))
-                .stream()
-                .max(Comparator.comparing(Measurement::getTimestamp))
-                .get();
-    }
-
-    private Double countEnergyProducedToday(List<Measurement> energyMeasurements) {
-        Map<Object, List<Measurement>> booleanMeasurementMap = energyMeasurements.stream()
-                .collect(Collectors.groupingBy(measurement -> isItToday(measurement.getTimestamp())));
-        Double currentEnergy = findLastMeasurement(booleanMeasurementMap.get(true)).getValue();
-        Double yesterdaysLastEnergyMeasurement = findLastMeasurement(booleanMeasurementMap.get(false)).getValue();
-        return currentEnergy - yesterdaysLastEnergyMeasurement;
-    }
-
-    private Map<Unit, List<Measurement>> groupMeasurementsFromJsonArray(JsonArray jsonArray) {
-        return jsonArray.stream()
-                .map(result -> JsonObject.mapFrom(result).mapTo(Measurement.class))
-                .collect(Collectors.groupingBy(Measurement::getUnit));
-    }
-
-    private int calculateEnvironmentalBenefit(String path, double energy) {
-        return (int) (((double) nestedConfigAccessor.getInteger(path) / 100) * energy);
-    }
-
-    private String parseTimeFromTimeStamp(Date timestamp) {
-        return new SimpleDateFormat(SummaryProperties.TIME_FORMAT).format(timestamp);
-    }
-
-    private boolean isItToday(Date timestamp) {
-        Date today = DateUtils.truncate(new Date(), java.util.Calendar.DAY_OF_MONTH);
-        return today.equals(DateUtils.truncate(timestamp, java.util.Calendar.DAY_OF_MONTH));
     }
 }

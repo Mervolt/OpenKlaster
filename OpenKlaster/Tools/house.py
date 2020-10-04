@@ -1,15 +1,11 @@
-
-
-
-import json
-import sys
-import threading
-import numpy
 import datetime
+import json
+import numpy
 import random
 import requests
+import sys
+import threading
 import yaml
-
 from datetime import date
 
 headers = {'content-type': 'application/json'}
@@ -35,7 +31,7 @@ def load_power_function(x):
     return numpy.sin(numpy.pi / 6 * x - 2)
 
 
-def get_json_object(id, value, timestamp = None):
+def get_json_object(id, value, timestamp=None):
     if timestamp == None:
         return {"installationId": id, 'value': round(value, 3)}
     else:
@@ -86,6 +82,7 @@ def house():
 
     threading.Timer(1, house).start()
 
+
 def fill_up(hour, minute, second):
     global period_of_time, i, production_power_sum, load_power_sum, id
     production_power_sum += count_function(production_power_function, hour + (minute * 60 + second) / 3600)
@@ -116,6 +113,7 @@ def fill_up(hour, minute, second):
         load_power_sum = 0
     i += 1
 
+
 if __name__ == '__main__':
     global token, id, period_of_time
     if len(sys.argv) < 4:
@@ -134,6 +132,6 @@ if __name__ == '__main__':
             house()
         elif cfg["mode"] == "FILLUP":
             for hour in range(0, 24):
-               for minute in range(0, 60):
-                   for second in range(0, 60):
-                       fill_up(hour, minute, second)
+                for minute in range(0, 60):
+                    for second in range(0, 60):
+                        fill_up(hour, minute, second)

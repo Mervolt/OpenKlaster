@@ -15,10 +15,10 @@ function showSlides() {
 }
 
 function getSlides() {
-    const classSlides = document.getElementsByClassName("slide");
-    const slidesFromConfig = config["slides"];
-    const slidesToShow = [];
-    const filteredSlides = [];
+    let classSlides = document.getElementsByClassName("slide");
+    let slidesFromConfig = config["slides"];
+    let slidesToShow = [];
+    let filteredSlides = [];
     for (let key of Object.keys(slidesFromConfig)) {
         if (slidesFromConfig[key] === true) slidesToShow.push(key);
     }
