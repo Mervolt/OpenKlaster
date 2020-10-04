@@ -32,7 +32,7 @@
   min-width: 400px
 }
 
-.img-with-margin{
+.img-with-margin {
   margin: 10px
 }
 
@@ -48,10 +48,24 @@
   padding: 0px !important
 }
 
-.mat-list.mat-list-base.mat-action-list{
+.mat-list.mat-list-base.mat-action-list {
   padding: 1px !important
 }
 
+.page-container {
+  background-color: white;
+  width: 100%;
+  height: 90%;
+  position: relative;
+  display: flex
+}
+
+.half-div-line-margins-max400 {
+  width: 50%;
+  max-width: 400px;
+  margin-right: 20px;
+  margin-left: 20px
+}
 
 html, body {
   height: 100%;

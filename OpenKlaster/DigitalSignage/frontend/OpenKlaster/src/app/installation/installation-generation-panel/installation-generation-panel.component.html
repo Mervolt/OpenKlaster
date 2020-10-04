@@ -1,10 +1,10 @@
 <div>
   <app-navbar></app-navbar>
-  <div style="background-color: white; width: 80%; height: 90%; position:absolute; display: flex">
+  <div class="page-container">
     <div class="form-group installation-add-form">
       <form (ngSubmit)="onSubmit()" #installationForm="ngForm">
         <div style="display: flex">
-          <div style="width: 50%; max-width: 400px; margin-right: 20px; margin-left: 20px">
+          <div class="half-div-line-margins-max400">
             <div>
               <mat-form-field appearance="outline" class="userformfield">
                 <mat-label>Installation type</mat-label>
@@ -19,7 +19,7 @@
                        [(ngModel)]="formModel.longitude">
               </mat-form-field>
             </div>
-            <div style="">
+            <div>
               <mat-form-field appearance="outline" class="userformfield">
                 <mat-label>Latitude</mat-label>
                 <input matInput id="latitude" name="latitude" required
@@ -27,7 +27,7 @@
               </mat-form-field>
             </div>
           </div>
-          <div style="width: 50%; max-width: 400px; margin-right: 20px; margin-left: 20px">
+          <div class="half-div-line-margins-max400">
             <mat-form-field appearance="outline" class="userformfield">
               <mat-label>Description</mat-label>
               <textarea matInput id="description" name="description"
@@ -36,14 +36,14 @@
           </div>
         </div>
         <div style="display: flex">
-          <div style="width: 50%; max-width: 400px; margin-right: 20px; margin-left: 20px">
+          <div class="half-div-line-margins-max400">
             <mat-form-field appearance="outline" class="userformfield">
               <mat-label>Load Name</mat-label>
               <input matInput id="loadName" name="loadName" required
                      [(ngModel)]="formModel.load.name">
             </mat-form-field>
           </div>
-          <div style="width: 50%; max-width: 400px; margin-right: 20px; margin-left: 20px">
+          <div class="half-div-line-margins-max400">
             <mat-form-field appearance="outline" class="userformfield">
               <mat-label>Load Description</mat-label>
               <textarea matInput id="loadDescription" name="loadDescription"
@@ -52,7 +52,7 @@
           </div>
         </div>
         <div style="display: flex">
-          <div style="width: 50%; max-width: 400px; margin-right: 20px; margin-left: 20px">
+          <div class="half-div-line-margins-max400">
             <mat-form-field appearance="outline" class="userformfield">
               <mat-label>Inverter Manufacturer</mat-label>
               <input matInput id="inverterManufacturer" name="inverterManufacturer" required
@@ -71,7 +71,7 @@
                      [(ngModel)]="formModel.inverter.modelType">
             </mat-form-field>
           </div>
-          <div style="width: 50%; max-width: 400px; margin-right: 20px; margin-left: 20px">
+          <div class="half-div-line-margins-max400">
             <mat-form-field appearance="outline" class="userformfield">
               <mat-label>Inverter Description</mat-label>
               <textarea matInput id="inverterDescription" name="inverterDescription"
@@ -80,7 +80,7 @@
           </div>
         </div>
         <div style="display: flex">
-          <div style="width: 50%; max-width: 400px; margin-right: 20px; margin-left: 20px">
+          <div class="half-div-line-margins-max400">
             <mat-form-field appearance="outline" class="userformfield">
               <mat-label>Source Azimuth</mat-label>
               <input matInput id="sourceAzimuth" name="sourceAzimuth" required
@@ -99,7 +99,7 @@
                      [(ngModel)]="formModel.source.tilt">
             </mat-form-field>
           </div>
-          <div style="width: 50%; max-width: 400px; margin-right: 20px; margin-left: 20px">
+          <div class="half-div-line-margins-max400">
             <mat-form-field appearance="outline" class="userformfield">
               <mat-label>Source Description</mat-label>
               <textarea matInput id="sourceDescription" name="sourceDescription"
@@ -111,7 +111,7 @@
       </form>
     </div>
     <app-request-response-component [requestReceivedState]="requestReceivedState"
-    [sendRequestState]="sendRequestState">
+                                    [sendRequestState]="sendRequestState">
     </app-request-response-component>
   </div>
 </div>
