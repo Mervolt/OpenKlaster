@@ -1,32 +1,31 @@
 <div class="request-response-container">
-  <div style="margin: 30px">
-    <div *ngIf="sendRequestState=='wait'"><h1 style="margin: 30px">Waiting for submit</h1></div>
+  <div class="request-response-next-to-icon-margin">
+    <div *ngIf="sendRequestState=='wait'"><h1 class="request-response-next-to-icon-margin">Waiting for submit</h1></div>
     <div *ngIf="sendRequestState=='sent'">
       <div style="display: flex">
         <mat-spinner></mat-spinner>
-        <h1 style="margin: 30px">Request sent...</h1>
+        <h1 class="request-response-next-to-icon-margin">Request sent...</h1>
       </div>
     </div>
     <div *ngIf="sendRequestState=='received'">
       <div style="display: flex">
-        <!-- Size of material angular icon depends on font-size :) -->
-        <mat-icon style="color: green; font-size: 120px; margin-right: 60px">done</mat-icon>
-        <h1 style="margin: 30px">Request received</h1>
+        <mat-icon class="request-response-icon request-response-icon-positive">done</mat-icon>
+        <h1 class="request-response-next-to-icon-margin">Request received</h1>
       </div>
     </div>
   </div>
   <br>
-  <div style="margin: 30px">
+  <div class="request-response-next-to-icon-margin">
     <div *ngIf="requestReceivedState=='wait'"></div>
     <div *ngIf="requestReceivedState=='success'">
       <div style="display: flex">
-        <mat-icon style="color: green; font-size: 120px; margin-right: 60px">done</mat-icon>
-        <h1 style="margin: 30px">Installation has been added successfully</h1>
+        <mat-icon class="request-response-icon request-response-icon-positive">done</mat-icon>
+        <h1 class="request-response-next-to-icon-margin">Installation has been added successfully</h1>
       </div>
     </div>
     <div *ngIf="requestReceivedState=='fail'" style="display: flex">
-      <mat-icon style="color: red; font-size: 120px; margin-right: 60px">error</mat-icon>
-      <h1 style="margin: 30px">Error during submitting installation</h1>
+      <mat-icon class="request-response-icon request-response-icon-negative">error</mat-icon>
+      <h1 class="request-response-next-to-icon-margin">Error during submitting installation</h1>
     </div>
   </div>
 </div>
