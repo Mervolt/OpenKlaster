@@ -23,17 +23,16 @@ import {MatSliderModule} from "@angular/material/slider";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
-import {TokenGenerationPanelComponent} from './token/token-generation-panel/token-generation-panel.component';
 import {InstallationGenerationPanelComponent} from './installation/installation-generation-panel/installation-generation-panel.component';
 import {MatListModule} from "@angular/material/list";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import { RequestResponseComponentComponent } from './request-response-component/request-response-component.component';
+import {RequestResponseComponentComponent} from './request-response-component/request-response-component.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSelectModule} from "@angular/material/select";
-import { CredentialsFormComponent } from './credentials-form/credentials-form.component';
+import {CredentialsFormComponent} from './credentials-form/credentials-form.component';
 import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
@@ -46,7 +45,6 @@ import {MatTabsModule} from "@angular/material/tabs";
     MeasurementPanelComponent,
     InstallationPanelComponent,
     SingleInstallationPanelComponent,
-    TokenGenerationPanelComponent,
     InstallationGenerationPanelComponent,
     RequestResponseComponentComponent,
     CredentialsFormComponent
@@ -59,7 +57,6 @@ import {MatTabsModule} from "@angular/material/tabs";
       {path: '', component: RegisterFormComponent},
       {path: 'login', component: LoginFormComponent},
       {path: 'token', component: TokenPanelComponent},
-      {path: 'tokenGeneration', component: TokenGenerationPanelComponent},
       {path: 'installations', component: InstallationPanelComponent},
       {path: 'installations/:id', component: SingleInstallationPanelComponent},
       {path: 'installationGeneration', component: InstallationGenerationPanelComponent}
