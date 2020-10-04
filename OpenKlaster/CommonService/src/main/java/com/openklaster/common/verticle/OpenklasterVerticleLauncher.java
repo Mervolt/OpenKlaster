@@ -5,9 +5,9 @@ import io.vertx.core.VertxOptions;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 
-public class OpenklasterVerticleLauncher<T extends OpenklasterVerticle> {
+public class OpenklasterVerticleLauncher {
 
-    private void launchVerticle(T verticle) {
+    protected static <T extends OpenklasterVerticle> void launchVerticle(T verticle) {
         ClusterManager clusterManager = new HazelcastClusterManager();
 
         VertxOptions options = new VertxOptions().setClusterManager(clusterManager);

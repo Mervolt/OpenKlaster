@@ -11,7 +11,6 @@ import com.openklaster.api.properties.EventbusMethods;
 import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.verticle.OpenklasterVerticle;
-import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -33,6 +32,14 @@ public class ApiVerticle extends OpenklasterVerticle {
     private EventBus eventBus;
     private List<Handler> handlers;
 
+    public ApiVerticle(boolean isDevModeOn) {
+        super(isDevModeOn);
+    }
+
+    public ApiVerticle() {
+        super();
+    }
+
     @Override
     public void init(Vertx vertx, Context context) {
         super.init(vertx, context);
@@ -40,7 +47,7 @@ public class ApiVerticle extends OpenklasterVerticle {
         this.eventBus = vertx.eventBus();
         ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
         configFilesManager.getConfig(vertx).getConfig(result -> {
-            if (result.succeeded()){
+            if (result.succeeded()) {
                 JsonObject jsonObject = result.result();
                 this.configAccessor = new NestedConfigAccessor(jsonObject);
                 startVerticle();

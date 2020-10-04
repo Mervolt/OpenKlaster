@@ -25,7 +25,6 @@ import com.openklaster.core.vertx.service.installations.InstallationServiceHandl
 import com.openklaster.core.vertx.service.measurements.MeasurementManager;
 import com.openklaster.core.vertx.service.measurements.MeasurementServiceHandler;
 import com.openklaster.core.vertx.service.users.UserManagementHandler;
-import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -43,6 +42,14 @@ public class CoreVerticle extends OpenklasterVerticle {
     private EventBus eventBus;
     private NestedConfigAccessor configAccessor;
     private List<EndpointService> servicesList;
+
+    public CoreVerticle() {
+        super();
+    }
+
+    public CoreVerticle(boolean isDevModeOn) {
+        super(isDevModeOn);
+    }
 
     @Override
     public void init(Vertx vertx, Context context) {

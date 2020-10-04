@@ -29,6 +29,14 @@ public class CassandraVerticle extends OpenklasterVerticle {
     private final Logger logger = LoggerFactory.getLogger(CassandraVerticle.class);
     private EventBus eventBus;
 
+    public CassandraVerticle(boolean isDevMode) {
+        super(isDevMode);
+    }
+
+    public CassandraVerticle() {
+        super();
+    }
+
     @Override
     public void init(Vertx vertx, Context context) {
         this.vertx = vertx;
