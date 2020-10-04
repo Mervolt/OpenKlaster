@@ -32,7 +32,7 @@ export class InstallationPanelService {
     let params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey));
     // Todo RG Why don't you just send an installation object that you already have?
     //MM-ANSWER: How would I do that?
-    this.http.post(EndpointHolder.installationEndpoint, {
+    return this.http.post(EndpointHolder.installationEndpoint, {
       'username': cookieService.get('username'),
       'installationType': installation.installationType,
       'longitude': installation.longitude,
@@ -54,7 +54,7 @@ export class InstallationPanelService {
         'capacity': installation.source.capacity,
         'description': installation.source.description
       }
-    }, {params: params}).subscribe();
+    }, {params: params}).toPromise();
   }
 
 }

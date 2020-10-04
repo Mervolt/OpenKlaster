@@ -8,9 +8,11 @@
       </div>
     </div>
     <div *ngIf="sendRequestState=='received'">
-      <h1 style="margin: 30px">Request received</h1>
-      <!-- Size of material angular icon depends on font-size :) -->
-      <mat-icon style="color: green; font-size: 120px">done</mat-icon>
+      <div style="display: flex">
+        <!-- Size of material angular icon depends on font-size :) -->
+        <mat-icon style="color: green; font-size: 120px; margin-right: 60px">done</mat-icon>
+        <h1 style="margin: 30px">Request received</h1>
+      </div>
     </div>
   </div>
   <br>
@@ -23,7 +25,7 @@
       </div>
     </div>
     <div *ngIf="requestReceivedState=='fail'" style="display: flex">
-      <mat-icon style="color: red; font-size: 120px">error</mat-icon>
+      <mat-icon style="color: red; font-size: 120px; margin-right: 60px">error</mat-icon>
       <h1 style="margin: 30px">Error during submitting installation</h1>
     </div>
   </div>
