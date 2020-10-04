@@ -4,17 +4,13 @@
     <form (ngSubmit)="onSubmit()" #installationForm="ngForm">
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
-          <div>
+          <div style="margin-top: 8px">
             <mat-button-toggle-group [(ngModel)]="formModel.installationType" name="installationType">
               <mat-button-toggle value="Solar" style="min-width: 200px">Solar</mat-button-toggle>
               <mat-button-toggle value="Wind" style="min-width: 200px">Wind</mat-button-toggle>
             </mat-button-toggle-group>
-<!--            <mat-form-field appearance="outline" class="userformfield">-->
-<!--              <mat-label>Installation type</mat-label>-->
-<!--              <input matInput id="installationType" name="installationType" required-->
-<!--                     [(ngModel)]="formModel.installationType">-->
-<!--            </mat-form-field>-->
           </div>
+          <br>
           <div style="">
             <mat-form-field appearance="outline" class="userformfield">
               <mat-label>Longitude</mat-label>
