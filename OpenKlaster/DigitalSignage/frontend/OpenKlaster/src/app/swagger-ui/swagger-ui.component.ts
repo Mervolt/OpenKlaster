@@ -17,6 +17,7 @@ export class SwaggerUiComponent implements OnInit {
         SwaggerUIBundle.presets.apis,
         SwaggerUIBundle.SwaggerUIStandalonePreset
       ],
+      // Todo move it to config
       url: 'http://localhost:8082/swagger.json',
       docExpansion: 'none',
       operationsSorter: 'alpha'

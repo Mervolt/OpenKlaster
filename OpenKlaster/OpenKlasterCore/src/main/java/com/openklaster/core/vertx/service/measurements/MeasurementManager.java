@@ -4,7 +4,6 @@ import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.CassandraRepository;
-import com.openklaster.core.vertx.messages.repository.CrudRepository;
 import com.openklaster.core.vertx.service.ModelManager;
 import com.openklaster.core.vertx.service.UserRetriever;
 import io.vertx.core.Future;
@@ -19,7 +18,7 @@ public class MeasurementManager<T> extends ModelManager<T> {
 
     private final CassandraRepository<T> cassandraRepository;
 
-    public MeasurementManager( AuthenticationClient authClient,
+    public MeasurementManager(AuthenticationClient authClient,
                               UserRetriever userRetriever, Class<T> myModeClass,
                               CassandraRepository<T> cassandraRepository) {
         super(LoggerFactory.getLogger(MeasurementManager.class),
@@ -32,9 +31,9 @@ public class MeasurementManager<T> extends ModelManager<T> {
         switch (methodName) {
             case getMethodName:
                 return get(message.body()).map(list -> new JsonObject().put(BusMessageReplyUtils.RETURN_LIST, list));
-            case addMethodName:{
+            case addMethodName:
                 return add(message.body().mapTo(modelClass)).map(JsonObject::mapFrom);
-            }
+
 
             default:
                 throw new IllegalArgumentException(String.format("This operations is not allowed: %s", methodName));
