@@ -33,6 +33,7 @@ import {MatInputModule} from "@angular/material/input";
 import { RequestResponseComponentComponent } from './request-response-component/request-response-component.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
         MatInputModule,
         MatProgressSpinnerModule,
         MatButtonToggleModule,
+        MatSelectModule,
     ],
   providers: [
     RegisterFormService,

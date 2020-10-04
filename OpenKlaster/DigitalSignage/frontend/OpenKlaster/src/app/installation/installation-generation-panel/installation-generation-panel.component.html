@@ -52,6 +52,17 @@
       </div>
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
+
+          <mat-form-field appearance="outline" class="userformfield">
+            <mat-label>Inverter manufacturer</mat-label>
+            <mat-select [(value)]="formModel.inverter.manufacturer">
+              <mat-option style="background-color: white" *ngFor="let manufacturer of manufacturers"
+                          [value]="manufacturer">
+                {{manufacturer}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <mat-form-field appearance="outline" class="userformfield">
             <mat-label>Inverter Manufacturer</mat-label>
             <input matInput id="inverterManufacturer" name="inverterManufacturer" required
