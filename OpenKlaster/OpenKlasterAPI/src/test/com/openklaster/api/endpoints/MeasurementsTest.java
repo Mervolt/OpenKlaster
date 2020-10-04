@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 
-import static com.openklaster.api.app.OpenKlasterAPIVerticle.buildEndpoint;
+import static com.openklaster.api.app.ApiVerticle.buildEndpoint;
 import static com.openklaster.api.utils.PrepareData.getApiToken;
 import static com.openklaster.api.utils.PrepareData.getMeasurementJsonObject;
 

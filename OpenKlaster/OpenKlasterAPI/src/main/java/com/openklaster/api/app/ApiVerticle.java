@@ -10,6 +10,7 @@ import com.openklaster.api.properties.EventBusAddressProperties;
 import com.openklaster.api.properties.EventbusMethods;
 import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
+import com.openklaster.common.verticle.OpenklasterVerticle;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
@@ -24,8 +25,8 @@ import io.vertx.ext.web.handler.CorsHandler;
 import java.util.Arrays;
 import java.util.List;
 
-public class OpenKlasterAPIVerticle extends AbstractVerticle {
-    private static final Logger logger = LoggerFactory.getLogger(OpenKlasterAPIVerticle.class);
+public class ApiVerticle extends OpenklasterVerticle {
+    private static final Logger logger = LoggerFactory.getLogger(ApiVerticle.class);
     private static final int VERSION1 = 1;
     private NestedConfigAccessor configAccessor;
     private Vertx vertx;
@@ -34,14 +35,10 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
 
     @Override
     public void init(Vertx vertx, Context context) {
-        System.out.println("LOGGER del" + logger.getDelegate().unwrap());
-        System.out.println("LOGGER del cl" + logger.getDelegate().getClass());
-        System.out.println("LOGGER cl" + logger.getClass());
-        System.out.println("LOGGER" + logger);
         super.init(vertx, context);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
-        ConfigFilesManager configFilesManager = new ConfigFilesManager();
+        ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
         configFilesManager.getConfig(vertx).getConfig(result -> {
             if (result.succeeded()){
                 JsonObject jsonObject = result.result();
@@ -52,19 +49,6 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
             }
         });
     }
-
-/*    @Override
-    public void start(Promise<Void> promise) {
-        configRetriever.getConfig(config -> {
-            if (config.succeeded()) {
-                this.configAccessor = new NestedConfigAccessor(config.result());
-                startVerticle(promise);
-            } else {
-                logger.error(config.cause());
-                vertx.close();
-            }
-        });
-    }*/
 
     private void startVerticle() {
         Router router = Router.router(vertx);
@@ -152,8 +136,6 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                         configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class))
         );
-
-
         routerConfig(router);
     }
 

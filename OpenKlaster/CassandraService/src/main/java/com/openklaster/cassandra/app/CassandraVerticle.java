@@ -4,9 +4,9 @@ import com.openklaster.cassandra.properties.CassandraProperties;
 import com.openklaster.cassandra.service.*;
 import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
+import com.openklaster.common.verticle.OpenklasterVerticle;
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.CassandraClientOptions;
-import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -23,24 +23,22 @@ import java.util.List;
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 
-public class CassandraVerticle extends AbstractVerticle {
+public class CassandraVerticle extends OpenklasterVerticle {
     private CassandraClient cassandraClient;
     private NestedConfigAccessor configAccessor;
     private final Logger logger = LoggerFactory.getLogger(CassandraVerticle.class);
     private EventBus eventBus;
-
 
     @Override
     public void init(Vertx vertx, Context context) {
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
 
-        ConfigFilesManager configFilesManager = new ConfigFilesManager();
+        ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
         configFilesManager.getConfig(vertx).getConfig(config -> {
             if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
-                String hostname = configAccessor.getString(CassandraProperties.CASSANDRA_HOST) != null ?
-                        configAccessor.getString(CassandraProperties.CASSANDRA_HOST) : configAccessor.getString(CassandraProperties.CASSANDRA_HOST_DEV);
+                String hostname = configAccessor.getString(CassandraProperties.CASSANDRA_HOST);
                 CassandraClientOptions options = new CassandraClientOptions()
                         .setPort(configAccessor.getInteger(CassandraProperties.CASSANDRA_PORT))
                         .setKeyspace(configAccessor.getString(CassandraProperties.CASSANDRA_KEYSPACE))

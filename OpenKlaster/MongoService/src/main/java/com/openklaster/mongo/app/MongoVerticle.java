@@ -2,6 +2,7 @@ package com.openklaster.mongo.app;
 
 import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
+import com.openklaster.common.verticle.OpenklasterVerticle;
 import com.openklaster.mongo.config.CalculatorConfig;
 import com.openklaster.mongo.config.EntityConfig;
 import com.openklaster.mongo.config.InstallationConfig;
@@ -27,7 +28,7 @@ import java.util.List;
 
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
-public class MongoVerticle extends AbstractVerticle {
+public class MongoVerticle extends OpenklasterVerticle {
 
     private MongoClient client;
     private MongoPersistenceService persistenceService;
@@ -40,7 +41,7 @@ public class MongoVerticle extends AbstractVerticle {
     public void init(Vertx vertx, Context context) {
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
-        ConfigFilesManager configFilesManager = new ConfigFilesManager();
+        ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
         configFilesManager.getConfig(vertx).getConfig(config -> {
             if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
@@ -54,9 +55,9 @@ public class MongoVerticle extends AbstractVerticle {
 
     }
 
-
     private void handlePostConfig() {
-        this.client = MongoClient.createShared(vertx, this.configAccessor.getJsonObject("database.mongo"));
+        JsonObject mongoOptions = this.configAccessor.getJsonObject("database.mongo");
+        this.client = MongoClient.createShared(vertx, mongoOptions);
         this.persistenceService = new MongoPersistenceService(client);
 
         this.entityConfigs = Arrays.asList(

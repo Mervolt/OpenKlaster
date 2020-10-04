@@ -14,20 +14,21 @@ public class ConfigFilesManager {
     private static final String yamlFormat = "yaml";
     private static final String jsonFormat = "json";
     private static final String configPathKey = "path";
+    private static final String fullFilename = "%s.%s";
 
-    public ConfigFilesManager(String path) {
-        this.configRetrieverOptions = addConfigFromFile(path);
+    public ConfigFilesManager(String prefix) {
+        this(prefix, jsonFormat);
     }
 
-    public ConfigFilesManager() {
-        this(jsonFormat);
+    public ConfigFilesManager(String prefix, String format) {
+        this.configRetrieverOptions = addConfigFromFile(prefix, format);
     }
 
-    public ConfigRetrieverOptions addConfigFromFile(String format) {
+    public ConfigRetrieverOptions addConfigFromFile(String prefix, String format) {
         ConfigStoreOptions fileStoreOptions = new ConfigStoreOptions()
                 .setType(fileType)
                 .setFormat(format)
-                .setConfig(new JsonObject().put(configPathKey, String.format("config.%s", format)));
+                .setConfig(new JsonObject().put(configPathKey, String.format(fullFilename, prefix, format)));
         return new ConfigRetrieverOptions().addStore(fileStoreOptions);
     }
 

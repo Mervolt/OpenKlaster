@@ -10,6 +10,7 @@ import com.openklaster.common.model.Installation;
 import com.openklaster.common.model.LoadMeasurement;
 import com.openklaster.common.model.SourceMeasurement;
 import com.openklaster.common.model.User;
+import com.openklaster.common.verticle.OpenklasterVerticle;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.authentication.BasicAuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.CassandraRepository;
@@ -36,7 +37,7 @@ import java.util.List;
 
 import static com.openklaster.core.vertx.app.CoreVerticleProperties.*;
 
-public class CoreVerticle extends AbstractVerticle {
+public class CoreVerticle extends OpenklasterVerticle {
 
     private static final Logger logger = LoggerFactory.getLogger(CoreVerticle.class);
     private EventBus eventBus;
@@ -48,7 +49,7 @@ public class CoreVerticle extends AbstractVerticle {
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
 
-        ConfigFilesManager configFilesManager = new ConfigFilesManager();
+        ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
         configFilesManager.getConfig(vertx).getConfig(result -> {
             if (result.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(result.result());
