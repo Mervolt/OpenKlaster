@@ -8,8 +8,11 @@ import {AppComponent} from '../../app.component';
   styleUrls: ['./token-panel.component.css']
 })
 export class TokenPanelComponent implements OnInit {
-  tokens;
-  cookieService;
+  tokens
+  cookieService
+  requestReceivedState = 'wait'
+  sendRequestState = 'wait'
+  submittedObjectName = 'Token'
 
   //TODO change `service` variable name
   //MM-ANSWER Done
@@ -22,5 +25,19 @@ export class TokenPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  addToken() {
+    this.sendRequestState='sent'
+    let addPromise = this.tokenPanelService.generateToken(this.cookieService).toPromise();
+    addPromise
+      .then(() => {
+        this.sendRequestState = 'received'
+        this.requestReceivedState = 'success'
+      })
+      .catch(() => {
+        this.sendRequestState = 'received'
+        this.requestReceivedState = 'fail'
+      })
   }
 }
