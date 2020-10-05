@@ -32,7 +32,7 @@ import {RequestResponseComponentComponent} from './request-response-component/re
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSelectModule} from "@angular/material/select";
-import {CredentialsFormComponent} from './credentials-form/credentials-form.component';
+import {CredentialsFormComponent} from './credentials/credentials-form/credentials-form.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {InstallationDetailsBoxComponent} from './installation/installation-details-box/installation-details-box.component';
 import {GoalRepresentationComponentComponent} from './installation/goal-representation-component/goal-representation-component.component';
@@ -41,6 +41,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {DeleteInstallationDialogComponent} from './installation/delete-installation-dialog/delete-installation-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {EditInstallationComponent} from './installation/edit-installation/edit-installation.component';
+import { CredentialsTokenComponent } from './credentials/credentials-token/credentials-token.component';
+import { CredentialsUserpassComponent } from './credentials/credentials-userpass/credentials-userpass.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import {EditInstallationComponent} from './installation/edit-installation/edit-i
     InstallationDetailsBoxComponent,
     GoalRepresentationComponentComponent,
     DeleteInstallationDialogComponent,
-    EditInstallationComponent
+    EditInstallationComponent,
+    CredentialsTokenComponent,
+    CredentialsUserpassComponent
   ],
   imports: [
     BrowserModule,

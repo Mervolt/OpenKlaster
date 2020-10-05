@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Installation} from "../../model/Installation";
 import {InstallationPanelService} from "../installation-panel.service";
 import {CookieService} from "ngx-cookie-service";
-import {CredentialsFormComponent} from "../../credentials-form/credentials-form.component";
+import {CredentialsFormComponent} from "../../credentials/credentials-form/credentials-form.component";
 
 @Component({
   selector: 'app-installation-generation-panel',
