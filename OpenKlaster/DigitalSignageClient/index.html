@@ -128,14 +128,13 @@
     }
 
     async function drawAsync(url, id, now, prevDay, apiToken, fillColor, strokeColor, title) {
-        console.log(url)
         const sendUrl = new URL(url);
         const params = {
             installationId: id,
 
             apiToken: apiToken
         };
-        console.log(params)
+
         Object.keys(params).forEach(key => sendUrl.searchParams.append(key, params[key]))
 
         fetch(sendUrl, {

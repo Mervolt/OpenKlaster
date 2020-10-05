@@ -3,14 +3,15 @@ package com.openklaster.common.messages;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.Message;
+import io.vertx.core.eventbus.ReplyException;
 import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 
 public class BusMessageReplyUtils {
 
     public static final String STATUS_CODE = "statusCode";
     public static final String METHOD_KEY = "methodName";
     public static final String RETURN_LIST = "returnList";
+    public static final int NO_RESPONSE_FROM_EVENTBUS = -1;
 
     public static <T> void replyWithBodyAndStatus(Message<T> busMessage, T replyBody, HttpResponseStatus status) {
         busMessage.reply(replyBody, getOptionsForStatus(status));
@@ -39,5 +40,10 @@ public class BusMessageReplyUtils {
 
     public static HttpResponseStatus statusFromString(String status) {
         return HttpResponseStatus.parseLine(status);
+    }
+
+    public static boolean isInternalServerError(ReplyException replyException) {
+        return replyException.failureCode() == NO_RESPONSE_FROM_EVENTBUS ||
+                replyException.failureCode() == HttpResponseStatus.INTERNAL_SERVER_ERROR.code();
     }
 }

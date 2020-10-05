@@ -29,6 +29,7 @@ import { TokenGenerationPanelComponent } from './token-generation-panel/token-ge
 import { SingleTokenPanelComponent } from './single-token-panel/single-token-panel.component';
 import { InstallationGenerationPanelComponent } from './installation-generation-panel/installation-generation-panel.component';
 import {MatListModule} from "@angular/material/list";
+import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {MatListModule} from "@angular/material/list";
     SingleInstallationPanelComponent,
     TokenGenerationPanelComponent,
     SingleTokenPanelComponent,
-    InstallationGenerationPanelComponent
+    InstallationGenerationPanelComponent,
+    SwaggerUiComponent
   ],
     imports: [
         BrowserModule,
@@ -58,7 +60,8 @@ import {MatListModule} from "@angular/material/list";
             {path: 'tokenGeneration', component: TokenGenerationPanelComponent},
             {path: 'installations', component: InstallationPanelComponent},
             {path: 'installations/:id', component: SingleInstallationPanelComponent},
-            {path: 'installationGeneration', component: InstallationGenerationPanelComponent}
+            {path: 'installationGeneration', component: InstallationGenerationPanelComponent},
+            {path: 'swagger-ui', component: SwaggerUiComponent}
         ]),
         ReactiveFormsModule,
         FormsModule,
