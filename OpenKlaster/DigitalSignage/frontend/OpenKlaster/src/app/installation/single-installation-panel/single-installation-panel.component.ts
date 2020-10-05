@@ -35,7 +35,11 @@ export class SingleInstallationPanelComponent implements OnInit {
   //MM-ANSWER I think it worked but I changed it anyway since your solution also works and is used in Installations
   ngOnInit(): void {
     let idAsNumber = this.stripInstallationId(this.installationId)
-    let observableInstallation = this.installationsService.getInstallation(this.cookieService, idAsNumber);
+    this.getInstallation(idAsNumber)
+  }
+
+  async getInstallation(id: number) {
+    let observableInstallation = this.installationsService.getInstallation(this.cookieService, id);
     observableInstallation.subscribe(response => {
       //TODO ditto fromDto method
       //MM-ANSWER Done

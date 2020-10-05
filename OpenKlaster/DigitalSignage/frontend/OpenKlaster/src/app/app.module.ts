@@ -34,6 +34,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSelectModule} from "@angular/material/select";
 import {CredentialsFormComponent} from './credentials-form/credentials-form.component';
 import {MatTabsModule} from "@angular/material/tabs";
+import { InstallationDetailsBoxComponent } from './installation-details-box/installation-details-box.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {MatTabsModule} from "@angular/material/tabs";
     SingleInstallationPanelComponent,
     InstallationGenerationPanelComponent,
     RequestResponseComponentComponent,
-    CredentialsFormComponent
+    CredentialsFormComponent,
+    InstallationDetailsBoxComponent
   ],
   imports: [
     BrowserModule,

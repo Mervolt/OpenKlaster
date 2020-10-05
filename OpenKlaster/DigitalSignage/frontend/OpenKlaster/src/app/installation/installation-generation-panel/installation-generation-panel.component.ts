@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Installation} from "../../model/Installation";
 import {InstallationPanelService} from "../installation-panel.service";
 import {CookieService} from "ngx-cookie-service";
-import {RequestResponseComponentComponent} from "../../request-response-component/request-response-component.component";
 
 @Component({
   selector: 'app-installation-generation-panel',

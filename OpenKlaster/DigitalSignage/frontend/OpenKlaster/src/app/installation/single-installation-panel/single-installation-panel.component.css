@@ -1,0 +1,16 @@
+.image-container {
+  height: 240px;
+  width: 320px;
+}
+
+img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+p {
+  font-size: 20px;
+  margin: 10px;
+}
+
