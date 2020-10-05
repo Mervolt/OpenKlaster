@@ -8,7 +8,9 @@ import {Component, Input, OnInit} from '@angular/core';
 export class InstallationDetailsBoxComponent implements OnInit {
   @Input() item: string
   @Input() itemDescription: string
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

@@ -6,6 +6,8 @@ import {InstallationPanelService} from "../installation-panel.service";
 import {InstallationDto} from "../../model/InstallationDto";
 import {CookieService} from "ngx-cookie-service";
 import {Installation} from "../../model/Installation";
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteInstallationDialogComponent} from "../delete-installation-dialog/delete-installation-dialog.component";
 
 @Component({
   selector: 'app-single-installation-panel',
@@ -23,7 +25,8 @@ export class SingleInstallationPanelComponent implements OnInit {
   //MM-ANSWER tokens to be refactored later
   constructor(public service: SingleInstallationPanelService, private router: Router,
               public installationsService: InstallationPanelService,
-              private route: ActivatedRoute, public cookieService: CookieService) {
+              private route: ActivatedRoute, public cookieService: CookieService,
+              public dialog: MatDialog) {
     this.installationId = route.snapshot.paramMap.get('id');
   }
 
@@ -50,6 +53,13 @@ export class SingleInstallationPanelComponent implements OnInit {
   stripInstallationId(installationIdLink: string) {
     let splitInstallation = installationIdLink.split(":")
     return Number(splitInstallation[1])
+  }
+
+  openDialog() {
+    let dialog = this.dialog.open(DeleteInstallationDialogComponent, {
+      width: '500px'
+    });
+    dialog.componentInstance.id = this.stripInstallationId(this.installationId)
   }
 
 }
