@@ -5,6 +5,10 @@ public class CassandraProperties {
 
     public final static String CASSANDRA_KEYSPACE = "cassandra.keyspace";
 
+    public final static String CASSANDRA_HOST = "cassandra.host";
+
+    public final static String CASSANDRA_HOST_DEV = "cassandra.host-dev";
+
     public final static String GET = "get";
 
     public final static String POST = "post";

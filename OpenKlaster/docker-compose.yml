@@ -1,0 +1,43 @@
+version: '3'
+services:
+  openklaster-core:
+    build: ./OpenKlasterCore
+    depends_on:
+      - openklaster-cassandra
+      - openklaster-mongo
+  openklaster-api:
+    build: ./OpenKlasterAPI
+    ports:
+      - "8082:8082"
+    depends_on:
+      - openklaster-core
+  openklaster-mongo:
+    build: ./MongoService
+    depends_on:
+      - mongo-db
+  openklaster-cassandra:
+    build: ./CassandraService
+    depends_on:
+      - cassandra-db
+  openklaster-webpage:
+    build: ./DigitalSignage/frontend/OpenKlaster
+    depends_on:
+      - openklaster-api
+    ports:
+      - "80:80"
+  mongo-db:
+    image: 'mongo'
+    environment:
+      - MONGO_INITDB_DATABASE=DEFAULT_DB
+    volumes:
+      - ./mongo-volume:/data/db
+    expose:
+      - '27017-27019'
+  cassandra-db:
+      image: cassandra:latest
+      expose:
+        - "9042"
+      volumes:
+        - ./data/cassandra:/var/lib/cassandra
+        - ./cassandra-init.sh:/cassandra-init.sh
+      command: "sh /cassandra-init.sh"

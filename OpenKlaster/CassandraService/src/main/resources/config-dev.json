@@ -1,0 +1,23 @@
+{
+  "cassandra": {
+    "port": 9042,
+    "keyspace": "openklaster",
+    "host": "localhost"
+  },
+  "sourcemeasurement": {
+    "address": "openklaster.cassandraservice.sourcemeasurement",
+    "table": "sourcemeasurement"
+  },
+  "loadmeasurement": {
+    "address": "openklaster.cassandraservice.loadmeasurement",
+    "table": "loadmeasurement"
+  },
+  "energypredictions": {
+    "address": "openklaster.cassandraservice.energypredictions",
+    "table": "energypredictions"
+  },
+  "weatherconditions": {
+    "address": "openklaster.cassandraservice.weatherconditions",
+    "table": "weatherconditions"
+  }
+}
