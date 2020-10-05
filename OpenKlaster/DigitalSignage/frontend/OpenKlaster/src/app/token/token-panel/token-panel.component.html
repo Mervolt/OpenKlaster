@@ -1,22 +1,22 @@
 <app-navbar></app-navbar>
 <div class="page-container">
-  <div style="display: flex; flex-direction: column">
-    <div style="margin: 20px">
+  <div class="flex-div-column">
+    <div class="margin-20">
       <h1>API tokens are necessary to use OpenKlaster REST API<br>
         Link to Swagger API :)<br>
         Visit swagger API to check how to properly use OpenKlaster API
       </h1>
     </div>
-    <div style="display: flex; flex-direction: row">
-      <div style="display: flex; flex-direction: column">
-        <div style="margin: 20px">
-          <h1 style="margin: 20px">Your tokens</h1>
+    <div class="flex-div-row">
+      <div class="flex-div-column">
+        <div class="margin-20">
+          <h1 class="margin-20">Your tokens</h1>
           <mat-list-item *ngFor="let token of tokens" class="basic-list-item">
-            <p style="display:inline-flex;font-size:20px; margin-left: 30px">{{token.data}} &nbsp; </p>
-            <p style="display:inline-flex;color:green;font-size:20px">Active</p>
+            <p style="display:inline-flex">{{token.data}} &nbsp; </p>
+            <p style="display:inline-flex;color:green">Active</p>
           </mat-list-item>
         </div>
-        <div style="margin: 20px 20px 20px 30px;">
+        <div class="margin-20-20-20-30">
           <button mat-raised-button color="primary" type="submit" class="btn btn-primary" (click)="addToken()">
             Generate new token
           </button>
