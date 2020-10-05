@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="page-container">
-  <div style="display: flex; flex-direction: column">
-    <div style="display: flex">
+  <div class="flex-div-column">
+    <div class="flex-div-row">
       <div class="image-container">
         <div *ngIf=" installation.installationType=='Solar'; then solarInstall else windInstall">
         </div>
@@ -9,29 +9,13 @@
         </ng-template>
         <ng-template #windInstall><img src="/assets/img/wind_install.jpg" alt="" class="img-with-margin"></ng-template>
       </div>
-
-      <app-installation-details-box [item]="'Installation'" [itemDescription]="installation.description">
-      </app-installation-details-box>
-
-      <app-installation-details-box [item]="'Load'"
-                                    [itemDescription]="installation.load.description"></app-installation-details-box>
-
-      <app-installation-details-box [item]="'Inverter'"
-                                    [itemDescription]="installation.inverter.description"></app-installation-details-box>
-
-      <app-installation-details-box [item]="'Source'"
-                                    [itemDescription]="installation.source.description"></app-installation-details-box>
-    </div>
-    <div style="display: flex; flex-direction: row">
-      <div>
+      <div class="margin-50 flex-div-row">
         <div>
           <p>Installation location:<br>
             Latitude: {{installation.longitude}}°<br>
             Longitude: {{installation.latitude}}°<br>
+            Load name: {{installation.load.name}}<br>
           </p>
-        </div>
-        <div>
-          <p>Load name: {{installation.load.name}}<br></p>
         </div>
         <div>
           <ng-container *ngIf="installation.source as source">
@@ -50,6 +34,29 @@
               Inverter credentials: {{inverter.credentials}}<br>
             </p>
           </ng-container>
+        </div>
+        <div style="min-width: auto; min-height: auto">
+          <button>Edit installation data</button>
+        </div>
+      </div>
+    </div>
+    <div class="flex-div-column">
+      <div class="flex-div-column">
+        <div>
+          <h1 class="margin-50">Additional information:</h1>
+        </div>
+        <div class="flex-div-row">
+          <app-installation-details-box [item]="'Installation'" [itemDescription]="installation.description">
+          </app-installation-details-box>
+
+          <app-installation-details-box [item]="'Load'"
+                                        [itemDescription]="installation.load.description"></app-installation-details-box>
+
+          <app-installation-details-box [item]="'Inverter'"
+                                        [itemDescription]="installation.inverter.description"></app-installation-details-box>
+
+          <app-installation-details-box [item]="'Source'"
+                                        [itemDescription]="installation.source.description"></app-installation-details-box>
         </div>
       </div>
       <div>

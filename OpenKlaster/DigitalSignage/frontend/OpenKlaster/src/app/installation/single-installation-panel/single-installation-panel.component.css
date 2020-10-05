@@ -1,6 +1,10 @@
 .image-container {
-  height: 240px;
-  width: 320px;
+  height: 320px;
+  width: 480px;
+}
+
+.margin-50 {
+  margin: 50px
 }
 
 img {
