@@ -22,33 +22,35 @@
       <app-installation-details-box [item]="'Source'"
                                     [itemDescription]="installation.source.description"></app-installation-details-box>
     </div>
-    <div>
+    <div style="display: flex">
       <div>
-        <p>Installation location:<br>
-          Latitude: {{installation.longitude}}°<br>
-          Longitude: {{installation.latitude}}°<br>
-        </p>
-      </div>
-      <div>
-        <p>Load name: {{installation.load.name}}<br></p>
-      </div>
-      <div>
-        <ng-container *ngIf="installation.source as source">
-          <p>Source:<br>
-            Source capacity: {{source.capacity}}<br>
-            Source azimuth: {{source.azimuth}}<br>
-            Source tilt: {{source.tilt}}<br>
+        <div>
+          <p>Installation location:<br>
+            Latitude: {{installation.longitude}}°<br>
+            Longitude: {{installation.latitude}}°<br>
           </p>
-        </ng-container>
-      </div>
-      <div>
-        <ng-container *ngIf="installation.inverter as inverter">
-          <p>Inverter:<br>
-            Inverter manufacturer: {{inverter.manufacturer}}<br>
-            Inverter model: {{inverter.modelType}}<br>
-            Inverter credentials: {{inverter.credentials}}<br>
-          </p>
-        </ng-container>
+        </div>
+        <div>
+          <p>Load name: {{installation.load.name}}<br></p>
+        </div>
+        <div>
+          <ng-container *ngIf="installation.source as source">
+            <p>Source:<br>
+              Source capacity: {{source.capacity}}<br>
+              Source azimuth: {{source.azimuth}}<br>
+              Source tilt: {{source.tilt}}<br>
+            </p>
+          </ng-container>
+        </div>
+        <div>
+          <ng-container *ngIf="installation.inverter as inverter">
+            <p>Inverter:<br>
+              Inverter manufacturer: {{inverter.manufacturer}}<br>
+              Inverter model: {{inverter.modelType}}<br>
+              Inverter credentials: {{inverter.credentials}}<br>
+            </p>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>
