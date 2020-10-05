@@ -21,6 +21,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   async onSubmit() {
+    console.log(this.appComp.cookieService)
     let success = await this.service.getSessionToken(this.model, this.appComp.cookieService);
     if (success)
       this.router.navigate(['/installations']).then()
