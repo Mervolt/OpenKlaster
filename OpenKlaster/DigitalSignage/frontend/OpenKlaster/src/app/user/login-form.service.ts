@@ -13,7 +13,7 @@ export class LoginFormService {
 
   //TODO which token? session or api?
   //: )
-  async getToken(user: User, cookieService: CookieService): Promise<boolean> {
+  async getSessionToken(user: User, cookieService: CookieService): Promise<boolean> {
     return await this.postUser(user, cookieService);
   }
 
