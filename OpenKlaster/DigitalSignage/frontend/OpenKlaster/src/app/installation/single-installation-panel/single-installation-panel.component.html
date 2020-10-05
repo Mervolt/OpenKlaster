@@ -38,7 +38,9 @@
           </div>
         </div>
         <div class="button-container margin-15">
-          <button mat-raised-button color="primary" class="margin-5" (click)="navigateToEditInstallation()">Edit installation data</button>
+          <button mat-raised-button color="primary" class="margin-5" (click)="navigateToEditInstallation()">Edit
+            installation data
+          </button>
           <button mat-raised-button color="warn" class="margin-5" (click)="openDialog()">Delete installation</button>
         </div>
       </div>
@@ -61,11 +63,6 @@
           <app-installation-details-box [item]="'Source'"
                                         [itemDescription]="installation.source.description"></app-installation-details-box>
         </div>
-      </div>
-      <div>
-        <!--        Hardcoded because I think we don't have API for this yet?-->
-        <app-goal-representation-component [currentAmount]="1232"
-                                           [goalAmount]="10000"></app-goal-representation-component>
       </div>
     </div>
   </div>
