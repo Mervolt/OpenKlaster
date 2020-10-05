@@ -22,8 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.openklaster.api.handler.properties.HandlerProperties.processingErrorMessage;
 import static com.openklaster.api.validation.ValidationExecutor.validate;
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
+import static com.openklaster.common.messages.BusMessageReplyUtils.isInternalServerError;
 
 @AllArgsConstructor
 public abstract class Handler {
@@ -88,7 +90,10 @@ public abstract class Handler {
                 else{
                     logger.info(coreResponse.cause().getMessage());
                     ReplyException replyException = (ReplyException) coreResponse.cause();
-                    handleProcessingError(context.response(), replyException.failureCode(), replyException.getMessage());
+                    if (isInternalServerError(replyException))
+                        handleProcessingError(context.response(), HttpResponseStatus.INTERNAL_SERVER_ERROR.code(), processingErrorMessage);
+                    else
+                        handleProcessingError(context.response(), replyException.failureCode(), replyException.getMessage());
                 }
             });
         } catch (ValidationException e) {

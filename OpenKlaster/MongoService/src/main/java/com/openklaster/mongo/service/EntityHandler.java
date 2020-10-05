@@ -60,7 +60,7 @@ public abstract class EntityHandler {
                         if (handler.result() == null) {
                             logger.debug(String.format("Entity not found - %s", id));
                             BusMessageReplyUtils.replyWithError(busMessage, HttpResponseStatus.NOT_FOUND,
-                                    String.format("Entity Not found %s _id", id));
+                                    String.format("Not found %s", id));
                         } else {
                             logger.debug(String.format("Entity Found - %s", id));
                             BusMessageReplyUtils.replyWithBodyAndStatus(busMessage, handler.result(),

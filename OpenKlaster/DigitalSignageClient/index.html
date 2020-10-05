@@ -338,6 +338,7 @@
             installationId: id,
             apiToken: apiToken
         };
+  
         Object.keys(params).forEach(key => sendUrl.searchParams.append(key, params[key]))
 
         fetch(sendUrl, {

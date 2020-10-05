@@ -1,17 +1,42 @@
 package com.openklaster.api.app;
 
 
-import com.openklaster.api.handler.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.openklaster.api.handler.DeleteHandler;
+import com.openklaster.api.handler.GetHandler;
+import com.openklaster.api.handler.Handler;
+import com.openklaster.api.handler.PostHandler;
+import com.openklaster.api.handler.PutHandler;
 import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.api.handler.summary.SummaryCreator;
 import com.openklaster.api.model.*;
 import com.openklaster.api.model.summary.SummaryRequest;
+import com.openklaster.api.model.Installation;
+import com.openklaster.api.model.InstallationRequest;
+import com.openklaster.api.model.Login;
+import com.openklaster.api.model.MeasurementEnergy;
+import com.openklaster.api.model.MeasurementPower;
+import com.openklaster.api.model.MeasurementRequest;
+import com.openklaster.api.model.PostInstallation;
+import com.openklaster.api.model.Register;
+import com.openklaster.api.model.UpdateUser;
+import com.openklaster.api.model.Username;
 import com.openklaster.api.parser.DefaultParseStrategy;
 import com.openklaster.api.properties.EndpointRouteProperties;
 import com.openklaster.api.properties.EventBusAddressProperties;
 import com.openklaster.api.properties.EventbusMethods;
 import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
+import io.vertx.config.ConfigRetriever;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Promise;
+import io.vertx.core.Vertx;
+import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.http.HttpMethod;
 import com.openklaster.common.verticle.OpenklasterVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
@@ -22,9 +47,7 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
-
-import java.util.Arrays;
-import java.util.List;
+import io.vertx.ext.web.handler.StaticHandler;
 
 public class ApiVerticle extends OpenklasterVerticle {
     private static final Logger logger = LoggerFactory.getLogger(ApiVerticle.class);
@@ -62,8 +85,8 @@ public class ApiVerticle extends OpenklasterVerticle {
     private void startVerticle() {
         Router router = Router.router(vertx);
         vertx.createHttpServer()
-                .requestHandler(router)
-                .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
+             .requestHandler(router)
+             .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
         handlers = Arrays.asList(
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.loginEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.LOGIN,
@@ -155,7 +178,7 @@ public class ApiVerticle extends OpenklasterVerticle {
     private void routerConfig(Router router) {
         handlers.forEach(handler -> {
             configureRouteHandler(router);
-            switch (handler.getMethod()) {
+            switch(handler.getMethod()) {
                 case HandlerProperties.getMethodHeader:
                     router.get(handler.getRoute()).handler(handler::handle);
                     break;
@@ -170,17 +193,25 @@ public class ApiVerticle extends OpenklasterVerticle {
                     break;
             }
         });
+      
+        router.route("/*").handler(StaticHandler.create("static"));
+        promise.complete();
     }
 
     private void configureRouteHandler(Router router) {
+        Set<HttpMethod> allowedMethods = new HashSet<>();
+        allowedMethods.add(HttpMethod.PUT);
+        allowedMethods.add(HttpMethod.DELETE);
+
         router.route().handler(BodyHandler.create())
-                .handler(CorsHandler.create("*")
-                        .allowedHeader("Content-Type")
-                        .allowedHeader("responseType"));
+              .handler(CorsHandler.create("*")
+                                  .allowedHeader("Content-Type")
+                                  .allowedHeader("responseType")
+                                  .allowedMethods(allowedMethods));
     }
 
     public static String buildEndpoint(NestedConfigAccessor configAccessor, int version, String route) {
         return configAccessor.getString(EndpointRouteProperties.prefix) +
-                "/" + version + configAccessor.getString(route);
+               "/" + version + configAccessor.getString(route);
     }
 }
