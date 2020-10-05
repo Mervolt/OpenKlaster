@@ -64,7 +64,6 @@ export class InstallationGenerationPanelComponent implements AfterViewInit {
 
   receiveMessage($event) {
     this.formModel.inverter.credentials = $event
-    console.log($event)
   }
 
   convertManufacturerToCredentials() {
