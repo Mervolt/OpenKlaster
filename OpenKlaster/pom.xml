@@ -7,7 +7,7 @@
     <groupId>org.openklaster</groupId>
     <artifactId>OpenKlaster</artifactId>
     <packaging>pom</packaging>
-    <version>${openklaster.version}</version>
+    <version>1.0</version>
     <modules>
         <module>OpenKlasterCore</module>
         <module>MongoService</module>
@@ -17,6 +17,7 @@
     </modules>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <openklaster.version>1.0</openklaster.version>
         <vertx.version>3.9.0</vertx.version>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -24,13 +25,14 @@
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.12</lombok.version>
         <slf4j-simple.version>1.7.30</slf4j-simple.version>
+        <jebrains-annotations.version>13.0</jebrains-annotations.version>
+        <log4j.version>2.0</log4j.version>
     </properties>
-
     <dependencies>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j-simple.version}</version>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${jebrains-annotations.version}</version>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
@@ -39,9 +41,25 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.openklaster</groupId>
-            <artifactId>CommonService</artifactId>
-            <version>${openklaster.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
@@ -89,4 +107,26 @@
             <version>${vertx.version}</version>
         </dependency>
     </dependencies>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>io.reactiverse</groupId>
+                <artifactId>vertx-maven-plugin</artifactId>
+                <version>1.0.22</version>
+                <executions>
+                    <execution>
+                        <id>vmp</id>
+                        <goals>
+                            <goal>initialize</goal>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <redeploy>true</redeploy>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

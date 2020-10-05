@@ -10,6 +10,8 @@ import io.vertx.ext.mongo.MongoClientUpdateResult;
 import java.util.List;
 
 import static com.openklaster.mongo.service.EntityHandler.ID_KEY;
+import static com.openklaster.mongo.service.InstallationHandler.installationCounter;
+import static com.openklaster.mongo.service.MongoQuery.getByIdQuery;
 import static com.openklaster.mongo.service.MongoQuery.updateQuery;
 
 public class MongoPersistenceService {
@@ -56,10 +58,13 @@ public class MongoPersistenceService {
         return new JsonObject()
                 .put(ID_KEY, counterName);
     }
+
     //THIS IS SO BAD TO NOT HANDLE RESULT :( but time
     public void updateCounter(String counterName, int value, Handler<AsyncResult<MongoClientUpdateResult>> resultHandler) {
         JsonObject fieldsToUpdate = new JsonObject().put(counterValueKey, value);
         JsonObject findQuery = new JsonObject().put(ID_KEY, counterName);
-        client.updateCollection(countersCollectionName, findQuery, updateQuery(fieldsToUpdate), resultHandler );
+        client.updateCollection(countersCollectionName, findQuery, updateQuery(fieldsToUpdate), resultHandler);
     }
+
+
 }

@@ -11,6 +11,8 @@ import io.vertx.core.eventbus.ReplyException;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.RoutingContext;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.api.model.Model;
@@ -26,6 +28,7 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 @AllArgsConstructor
 public abstract class Handler {
     private static final String requestDefaultTimeout = "eventBus.timeout";
+    private static final Logger logger = LoggerFactory.getLogger(Handler.class);
 
     String method;
     String route;
@@ -74,15 +77,16 @@ public abstract class Handler {
             validate(model, tokens);
             JsonObject validatedModel = JsonObject.mapFrom(model);
             DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, tokens);
-
             eventBus.request(address, validatedModel, deliveryOptions, coreResponse -> {
                 if(coreResponse.succeeded()){
                     if (coreResponse.result().body() == null)
                         handleSuccessfulRequest(context.response());
                     else
                         context.response().end(Json.encodePrettily(coreResponse.result().body()));
+                        logger.debug("Successful request: " + coreResponse.result().body());
                 }
                 else{
+                    logger.info(coreResponse.cause().getMessage());
                     ReplyException replyException = (ReplyException) coreResponse.cause();
                     handleProcessingError(context.response(), replyException.failureCode(), replyException.getMessage());
                 }
@@ -126,15 +130,19 @@ public abstract class Handler {
     protected void handleSuccessfulRequest(HttpServerResponse response) {
         response.setStatusCode(HttpResponseStatus.OK.code());
         response.end(HandlerProperties.successfulRequestMessage);
+        logger.debug("Successful request for: " + response);
     }
 
     protected void handleProcessingError(HttpServerResponse response, final int code, final String message) {
         response.setStatusCode(code);
         response.end(message);
+        logger.error("Failure handling" + message + "code " + code);
     }
 
     protected void handleValidationError(HttpServerResponse response, String message) {
         response.setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
-        response.end(ModelValidationErrorMessages.MESSAGE + message);
+        String messageContent = ModelValidationErrorMessages.MESSAGE + message;
+        response.end(messageContent);
+        logger.error(messageContent);
     }
 }
