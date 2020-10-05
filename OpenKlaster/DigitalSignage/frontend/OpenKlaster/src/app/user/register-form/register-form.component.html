@@ -13,10 +13,12 @@
       <input type="password" class="form-control userformfield" id="password" name="password" required
              [(ngModel)]="model.password">
 
-      <button type="submit" class="btn btn-primary userformbutton">Register</button>
-      <button type="button" class="btn btn-link userformbutton link"
-              (click)="redirectToLogin()">Already have an account?
-      </button>
+      <div class="userformbutton  ">
+        <button mat-raised-button color="primary" type="submit" class="btn btn-primary">Register</button>
+        <button type="button" class="btn btn-link link"
+                (click)="redirectToLogin()">Already have an account?
+        </button>
+      </div>
     </div>
   </form>
 </div>

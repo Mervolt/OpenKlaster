@@ -17,7 +17,9 @@
           </mat-list-item>
         </div>
         <div style="margin: 20px 20px 20px 30px;">
-          <button type="submit" class="btn btn-primary" (click)="addToken()">Generate new token</button>
+          <button mat-raised-button color="primary" type="submit" class="btn btn-primary" (click)="addToken()">
+            Generate new token
+          </button>
         </div>
       </div>
       <app-request-response-component [requestReceivedState]="requestReceivedState"

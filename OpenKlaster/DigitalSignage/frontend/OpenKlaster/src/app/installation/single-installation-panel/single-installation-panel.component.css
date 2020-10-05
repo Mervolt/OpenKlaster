@@ -7,6 +7,11 @@
   margin: 50px
 }
 
+.button-container {
+  min-width: auto;
+  min-height: auto;
+}
+
 img {
   height: 100%;
   width: 100%;

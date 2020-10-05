@@ -10,10 +10,12 @@
       <input type="password" class="form-control userformfield" id="password" name="password" required
              [(ngModel)]="model.password">
 
-      <button type="submit" class="btn btn-primary userformbutton">Login</button>
-      <button type="button" class="btn btn-link userformbutton link"
-              (click)="redirectToRegister()">Don't have account yet?
-      </button>
+      <div class="userformbutton">
+        <button mat-raised-button color="primary" type="submit">Login</button>
+        <button type="button" class="btn btn-link link"
+                (click)="redirectToRegister()">Don't have account yet?
+        </button>
+      </div>
     </div>
   </form>
 </div>
