@@ -37,9 +37,10 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {InstallationDetailsBoxComponent} from './installation/installation-details-box/installation-details-box.component';
 import {GoalRepresentationComponentComponent} from './installation/goal-representation-component/goal-representation-component.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {MatCheckbox, MatCheckboxModule} from "@angular/material/checkbox";
-import { DeleteInstallationDialogComponent } from './installation/delete-installation-dialog/delete-installation-dialog.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {DeleteInstallationDialogComponent} from './installation/delete-installation-dialog/delete-installation-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {EditInstallationComponent} from './installation/edit-installation/edit-installation.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import {MatDialogModule} from "@angular/material/dialog";
     CredentialsFormComponent,
     InstallationDetailsBoxComponent,
     GoalRepresentationComponentComponent,
-    DeleteInstallationDialogComponent
+    DeleteInstallationDialogComponent,
+    EditInstallationComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,8 @@ import {MatDialogModule} from "@angular/material/dialog";
       {path: 'token', component: TokenPanelComponent},
       {path: 'installations', component: InstallationPanelComponent},
       {path: 'installations/:id', component: SingleInstallationPanelComponent},
-      {path: 'installationGeneration', component: InstallationGenerationPanelComponent}
+      {path: 'installationGeneration', component: InstallationGenerationPanelComponent},
+      {path: 'editInstallation/:id', component: EditInstallationComponent}
     ]),
     ReactiveFormsModule,
     FormsModule,

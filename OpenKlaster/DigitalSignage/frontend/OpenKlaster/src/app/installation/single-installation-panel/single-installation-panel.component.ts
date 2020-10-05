@@ -62,4 +62,7 @@ export class SingleInstallationPanelComponent implements OnInit {
     dialog.componentInstance.id = this.stripInstallationId(this.installationId)
   }
 
+  navigateToEditInstallation() {
+    this.router.navigate(['editInstallation', this.stripInstallationId(this.installationId)]).then()
+  }
 }
