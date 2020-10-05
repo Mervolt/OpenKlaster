@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="page-container">
   <div class="form-group installation-add-form">
-    <form (ngSubmit)="onSubmit()" #installationForm="ngForm">
+    <form (ngSubmit)="installationForm.valid && onSubmit()" #installationForm="ngForm">
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
           <div style="margin-top: 8px">
