@@ -10,7 +10,7 @@ import {CookieService} from "ngx-cookie-service";
   styleUrls: ['./delete-installation-dialog.component.css']
 })
 export class DeleteInstallationDialogComponent implements OnInit {
-  id: number
+  id: string
 
   constructor(public cookieService: CookieService, public http: HttpClient) {
   }
@@ -18,8 +18,8 @@ export class DeleteInstallationDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  deleteInstallation(id: number) {
-    let params = new HttpParams().set('sessionToken', this.cookieService.get(CookieHolder.tokenKey)).set('installationId', 'installation:' + id);
+  deleteInstallation(id: string) {
+    let params = new HttpParams().set('sessionToken', this.cookieService.get(CookieHolder.tokenKey)).set('installationId', id);
     this.http.delete(EndpointHolder.installationEndpoint, {params: params}).subscribe();
   }
 

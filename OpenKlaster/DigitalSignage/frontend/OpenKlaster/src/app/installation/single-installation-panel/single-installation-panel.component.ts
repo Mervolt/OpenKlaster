@@ -17,6 +17,7 @@ import {DeleteInstallationDialogComponent} from "../delete-installation-dialog/d
 export class SingleInstallationPanelComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
   installationId: string
+  installationIdOnlyNumber: number
   installation: Installation
 
   //TODO ent: InstallationPanelComp is only used to get form token... services are for injecting
@@ -28,6 +29,7 @@ export class SingleInstallationPanelComponent implements OnInit {
               private route: ActivatedRoute, public cookieService: CookieService,
               public dialog: MatDialog) {
     this.installationId = route.snapshot.paramMap.get('id');
+    this.installationIdOnlyNumber = this.stripInstallationId(this.installationId)
   }
 
   //TOdo RG Have you tested it? I'm pretty sure it won't work?
@@ -37,8 +39,7 @@ export class SingleInstallationPanelComponent implements OnInit {
   // If you want inverter object just use response['inverter'] and you get the object
   //MM-ANSWER I think it worked but I changed it anyway since your solution also works and is used in Installations
   ngOnInit(): void {
-    let idAsNumber = this.stripInstallationId(this.installationId)
-    this.getInstallation(idAsNumber)
+    this.getInstallation(this.installationIdOnlyNumber)
   }
 
   async getInstallation(id: number) {
@@ -59,10 +60,10 @@ export class SingleInstallationPanelComponent implements OnInit {
     let dialog = this.dialog.open(DeleteInstallationDialogComponent, {
       width: '500px'
     });
-    dialog.componentInstance.id = this.stripInstallationId(this.installationId)
+    dialog.componentInstance.id = this.installationId
   }
 
   navigateToEditInstallation() {
-    this.router.navigate(['editInstallation', this.stripInstallationId(this.installationId)]).then()
+    this.router.navigate(['editInstallation', this.installationIdOnlyNumber]).then()
   }
 }
