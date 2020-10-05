@@ -41,8 +41,9 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {DeleteInstallationDialogComponent} from './installation/delete-installation-dialog/delete-installation-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {EditInstallationComponent} from './installation/edit-installation/edit-installation.component';
-import { CredentialsTokenComponent } from './credentials/credentials-token/credentials-token.component';
-import { CredentialsUserpassComponent } from './credentials/credentials-userpass/credentials-userpass.component';
+import {CredentialsTokenComponent} from './credentials/credentials-token/credentials-token.component';
+import {CredentialsUserpassComponent} from './credentials/credentials-userpass/credentials-userpass.component';
+import {InstallationListItemComponent} from './installation/installation-list-item/installation-list-item.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { CredentialsUserpassComponent } from './credentials/credentials-userpass
     DeleteInstallationDialogComponent,
     EditInstallationComponent,
     CredentialsTokenComponent,
-    CredentialsUserpassComponent
+    CredentialsUserpassComponent,
+    InstallationListItemComponent
   ],
   imports: [
     BrowserModule,
