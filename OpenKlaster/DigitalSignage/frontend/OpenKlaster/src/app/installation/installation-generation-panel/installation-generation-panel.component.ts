@@ -1,18 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Installation} from "../../model/Installation";
 import {InstallationPanelService} from "../installation-panel.service";
 import {CookieService} from "ngx-cookie-service";
+import {CredentialsFormComponent} from "../../credentials-form/credentials-form.component";
 
 @Component({
   selector: 'app-installation-generation-panel',
   templateUrl: './installation-generation-panel.component.html',
   styleUrls: ['./installation-generation-panel.component.css']
 })
-export class InstallationGenerationPanelComponent implements OnInit {
+export class InstallationGenerationPanelComponent implements AfterViewInit {
   requestReceivedState = 'wait'
   sendRequestState = 'wait'
   submittedObjectName = 'Installation'
   manufacturers: string[] = ['Growatt', 'Just for option']
+
+  @ViewChild(CredentialsFormComponent) credentials;
   //TODO Angular does not have some kind of default constructor which? And some field won't be automatically assigned
   // to default values as in Java e.g. 0 for number-type values?
   //MM-ANSWER: undefined is set for everything
@@ -34,6 +37,9 @@ export class InstallationGenerationPanelComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  ngAfterViewInit() {
   }
 
   //TODO it is rather "getToken" than downloadToken - in addition we should not use apiToken for this purpose
@@ -58,6 +64,7 @@ export class InstallationGenerationPanelComponent implements OnInit {
 
   receiveMessage($event) {
     this.formModel.inverter.credentials = $event
+    console.log($event)
   }
 
   convertManufacturerToCredentials() {

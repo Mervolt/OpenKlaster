@@ -32,7 +32,7 @@ export class CredentialsFormComponent implements OnInit {
       }
     }
     // Looks ugly as hell but they do it like this on stack, comment for you to know..
-    this.credentials = <JSON> jsonObject
+    this.credentials = <JSON>jsonObject
     this.credentialsEventEmitter.emit(this.credentials)
   }
 }
