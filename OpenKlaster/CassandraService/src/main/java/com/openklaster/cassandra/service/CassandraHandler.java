@@ -119,11 +119,13 @@ public abstract class CassandraHandler<T> {
         String installationId = message.body().getString(CassandraProperties.INSTALLATION_ID);
         String startDate = getValidatedDate(message, "startDate");
         String endDate = getValidatedDate(message, "endDate");
+        String unit =  message.body().getString(CassandraProperties.UNIT);
 
         // Todo maybe query builder
         return "SELECT * FROM " + table + " " + "WHERE " + CassandraProperties.INSTALLATION_ID.toLowerCase() + " = '" + installationId + "'" +
                 (startDate != null ? " AND timestamp >= '" + startDate + "'" : "") +
                 (endDate != null ? " AND timestamp <= '" + endDate + "'" : "") +
+                (unit != null ? " AND unit = '" + unit + "'" : "")+
                 " ALLOW FILTERING";
     }
 

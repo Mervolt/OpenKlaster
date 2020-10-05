@@ -11,10 +11,11 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MeasurementRequest extends Model {
+public class MeasurementPowerRequest extends Model {
     @NotBlank(message = ModelValidationErrorMessages.INSTALLATION_ID)
     private String installationId;
     private String startDate;
     private String endDate;
+    private final Unit unit = Unit.kW;
 }
 

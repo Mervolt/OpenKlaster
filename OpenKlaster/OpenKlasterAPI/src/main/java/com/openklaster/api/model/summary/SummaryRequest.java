@@ -1,23 +1,19 @@
-package com.openklaster.api.model;
+package com.openklaster.api.model.summary;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.openklaster.api.model.Model;
 import com.openklaster.api.validation.ModelValidationErrorMessages;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MeasurementEnergy extends Model {
-    private String timestamp;
+public class SummaryRequest extends Model {
     @NotBlank(message = ModelValidationErrorMessages.INSTALLATION_ID)
     private String installationId;
-    private final Unit unit = Unit.kWh;
-    @NotNull(message = ModelValidationErrorMessages.VALUE)
-    private double value;
 }
-

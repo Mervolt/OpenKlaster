@@ -64,6 +64,10 @@ public class CassandraVerticle extends OpenklasterVerticle {
 
     }
 
+    public CassandraClient getCassandraClient() {
+        return cassandraClient;
+    }
+
     private List<CassandraHandler<?>> prepareHandlers() {
         return Arrays.asList(
                 new LoadMeasurementHandler(cassandraClient, configAccessor.getJsonObject(CassandraProperties.LOAD_MEASUREMENT)),

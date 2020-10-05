@@ -132,19 +132,19 @@ public abstract class Handler {
         return deliveryOptions;
     }
 
-    private void handleSuccessfulRequest(HttpServerResponse response) {
+    protected void handleSuccessfulRequest(HttpServerResponse response) {
         response.setStatusCode(HttpResponseStatus.OK.code());
         response.end(HandlerProperties.successfulRequestMessage);
         logger.debug("Successful request for: " + response);
     }
 
-    private void handleProcessingError(HttpServerResponse response, final int code, final String message) {
+    protected void handleProcessingError(HttpServerResponse response, final int code, final String message) {
         response.setStatusCode(code);
         response.end(message);
         logger.error("Failure handling" + message + "code " + code);
     }
 
-    private void handleValidationError(HttpServerResponse response, String message) {
+    protected void handleValidationError(HttpServerResponse response, String message) {
         response.setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
         String messageContent = ModelValidationErrorMessages.MESSAGE + message;
         response.end(messageContent);
