@@ -21,7 +21,6 @@ export class CredentialsFormComponent implements OnInit {
   }
 
   receiveMessage($event) {
-    console.log($event)
     this.sendMessage($event)
   }
 }
