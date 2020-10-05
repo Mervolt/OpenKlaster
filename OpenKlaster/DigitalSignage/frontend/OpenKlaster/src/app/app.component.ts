@@ -13,7 +13,6 @@ export class AppComponent {
   background = 'url(/assets/img/background.jpg)';
 
   constructor(public cookieService: CookieService) {
-    this.refreshBackground(0)
   }
 
   refreshBackground(backgroundNumber: number) {

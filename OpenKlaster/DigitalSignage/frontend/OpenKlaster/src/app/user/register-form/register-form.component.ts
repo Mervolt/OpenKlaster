@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 
 import {RegisterFormService} from '../register-form.service';
 import {User} from '../../model/User';
+import {AppComponent} from "../../app.component";
 
 
 @Component({
@@ -13,8 +14,8 @@ import {User} from '../../model/User';
 export class RegisterFormComponent implements OnInit {
   model = new User('', '', '');
 
-  constructor(public service: RegisterFormService, private router: Router) {
-
+  constructor(public service: RegisterFormService, public appComp: AppComponent, private router: Router) {
+    this.appComp.refreshBackground(0)
   }
 
   ngOnInit(): void {

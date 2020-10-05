@@ -14,6 +14,7 @@ export class LoginFormComponent implements OnInit {
   model = new User('', '', '');
 
   constructor(public service: LoginFormService, public appComp: AppComponent, private router: Router) {
+    this.appComp.refreshBackground(0)
   }
 
   ngOnInit(): void {
