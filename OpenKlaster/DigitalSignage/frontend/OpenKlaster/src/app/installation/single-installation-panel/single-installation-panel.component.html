@@ -9,33 +9,35 @@
         </ng-template>
         <ng-template #windInstall><img src="/assets/img/wind_install.jpg" alt="" class="img-with-margin"></ng-template>
       </div>
-      <div class="margin-50 flex-div-row">
-        <div>
-          <p>Installation location:<br>
-            Latitude: {{installation.longitude}}°<br>
-            Longitude: {{installation.latitude}}°<br>
-            Load name: {{installation.load.name}}<br>
-          </p>
-        </div>
-        <div>
-          <ng-container *ngIf="installation.source as source">
-            <p>Source:<br>
-              Source capacity: {{source.capacity}}<br>
-              Source azimuth: {{source.azimuth}}<br>
-              Source tilt: {{source.tilt}}<br>
+      <div class="margin-50 flex-div-column">
+        <div class="flex-div-row">
+          <div>
+            <p>Installation location:<br>
+              Latitude: {{installation.longitude}}°<br>
+              Longitude: {{installation.latitude}}°<br>
+              Load name: {{installation.load.name}}<br>
             </p>
-          </ng-container>
+          </div>
+          <div>
+            <ng-container *ngIf="installation.source as source">
+              <p>Source:<br>
+                Source capacity: {{source.capacity}}<br>
+                Source azimuth: {{source.azimuth}}<br>
+                Source tilt: {{source.tilt}}<br>
+              </p>
+            </ng-container>
+          </div>
+          <div>
+            <ng-container *ngIf="installation.inverter as inverter">
+              <p>Inverter:<br>
+                Inverter manufacturer: {{inverter.manufacturer}}<br>
+                Inverter model: {{inverter.modelType}}<br>
+                Inverter credentials: {{inverter.credentials}}<br>
+              </p>
+            </ng-container>
+          </div>
         </div>
-        <div>
-          <ng-container *ngIf="installation.inverter as inverter">
-            <p>Inverter:<br>
-              Inverter manufacturer: {{inverter.manufacturer}}<br>
-              Inverter model: {{inverter.modelType}}<br>
-              Inverter credentials: {{inverter.credentials}}<br>
-            </p>
-          </ng-container>
-        </div>
-        <div class="button-container">
+        <div class="button-container margin-15">
           <button mat-raised-button color="primary">Edit installation data</button>
         </div>
       </div>
@@ -45,7 +47,7 @@
         <div>
           <h1 class="margin-50">Additional information:</h1>
         </div>
-        <div class="flex-div-row">
+        <div class="flex-div-row margin-left-50">
           <app-installation-details-box [item]="'Installation'" [itemDescription]="installation.description">
           </app-installation-details-box>
 

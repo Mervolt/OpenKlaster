@@ -3,8 +3,16 @@
   width: 480px;
 }
 
+.margin-15 {
+  margin: 15px
+}
+
 .margin-50 {
   margin: 50px
+}
+
+.margin-left-50 {
+  margin-left: 50px;
 }
 
 .button-container {
