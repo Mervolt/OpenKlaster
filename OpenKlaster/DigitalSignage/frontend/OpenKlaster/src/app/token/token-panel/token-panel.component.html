@@ -11,10 +11,18 @@
       <div class="flex-div-column">
         <div class="margin-20">
           <h1 class="margin-20">Your tokens</h1>
-          <mat-list-item *ngFor="let token of tokens" class="basic-list-item">
-            <p class="display-inline-flex">{{token.data}} &nbsp; </p>
-            <p class="display-inline-flex green">Active</p>
-          </mat-list-item>
+          <table mat-table [dataSource]="tabledTokens" class="mat-elevation-z8">
+            <ng-container matColumnDef="number">
+              <th mat-header-cell *matHeaderCellDef> Number</th>
+              <td mat-cell style="min-width: 100px" *matCellDef="let element"> {{element.number}} </td>
+            </ng-container>
+            <ng-container matColumnDef="token">
+              <th mat-header-cell *matHeaderCellDef> Token</th>
+              <td mat-cell style="min-width: 100px" *matCellDef="let element"> {{element.token}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
         </div>
         <div class="margin-20-20-20-30">
           <button mat-raised-button color="primary" type="submit" class="btn btn-primary" (click)="addToken()">

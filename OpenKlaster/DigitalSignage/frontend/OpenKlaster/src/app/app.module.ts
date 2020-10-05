@@ -44,6 +44,7 @@ import {EditInstallationComponent} from './installation/edit-installation/edit-i
 import {CredentialsTokenComponent} from './credentials/credentials-token/credentials-token.component';
 import {CredentialsUserpassComponent} from './credentials/credentials-userpass/credentials-userpass.component';
 import {InstallationListItemComponent} from './installation/installation-list-item/installation-list-item.component';
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import {InstallationListItemComponent} from './installation/installation-list-it
     MatTabsModule,
     MatProgressBarModule,
     MatCheckboxModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule
   ],
   providers: [
     RegisterFormService,

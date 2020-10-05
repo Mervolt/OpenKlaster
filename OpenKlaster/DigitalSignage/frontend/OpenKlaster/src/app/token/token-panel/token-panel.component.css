@@ -10,3 +10,7 @@ p {
 .display-inline-flex.green {
   color: green
 }
+
+table {
+  width: 100%;
+}
