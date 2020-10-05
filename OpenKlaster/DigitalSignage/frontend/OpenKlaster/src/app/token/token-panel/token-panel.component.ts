@@ -18,26 +18,28 @@ export class TokenPanelComponent implements OnInit {
   //MM-ANSWER Done
   constructor(public tokenPanelService: TokenPanelService, public appComp: AppComponent) {
     this.cookieService = appComp.cookieService;
-    let request = tokenPanelService.getTokens(appComp.cookieService);
+  }
+
+  ngOnInit(): void {
+    let request = this.tokenPanelService.getTokens(this.appComp.cookieService);
     request.subscribe(response => {
       this.tokens = response["userTokens"]
     })
   }
 
-  ngOnInit(): void {
-  }
-
   addToken() {
-    this.sendRequestState='sent'
+    this.sendRequestState = 'sent'
     let addPromise = this.tokenPanelService.generateToken(this.cookieService).toPromise();
     addPromise
       .then(() => {
         this.sendRequestState = 'received'
         this.requestReceivedState = 'success'
+        this.ngOnInit()
       })
       .catch(() => {
         this.sendRequestState = 'received'
         this.requestReceivedState = 'fail'
+        this.ngOnInit()
       })
   }
 }
