@@ -34,7 +34,10 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSelectModule} from "@angular/material/select";
 import {CredentialsFormComponent} from './credentials-form/credentials-form.component';
 import {MatTabsModule} from "@angular/material/tabs";
-import { InstallationDetailsBoxComponent } from './installation-details-box/installation-details-box.component';
+import {InstallationDetailsBoxComponent} from './installation-details-box/installation-details-box.component';
+import {GoalRepresentationComponentComponent} from './goal-representation-component/goal-representation-component.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatCheckbox, MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -49,7 +52,8 @@ import { InstallationDetailsBoxComponent } from './installation-details-box/inst
     InstallationGenerationPanelComponent,
     RequestResponseComponentComponent,
     CredentialsFormComponent,
-    InstallationDetailsBoxComponent
+    InstallationDetailsBoxComponent,
+    GoalRepresentationComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -77,6 +81,8 @@ import { InstallationDetailsBoxComponent } from './installation-details-box/inst
     MatButtonToggleModule,
     MatSelectModule,
     MatTabsModule,
+    MatProgressBarModule,
+    MatCheckboxModule
   ],
   providers: [
     RegisterFormService,

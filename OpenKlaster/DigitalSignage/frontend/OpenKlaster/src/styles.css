@@ -67,6 +67,16 @@
   margin-left: 20px
 }
 
+.flex-div-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-div-column {
+  display: flex;
+  flex-direction: column;
+}
+
 html, body {
   height: 100%;
 }

@@ -22,7 +22,7 @@
       <app-installation-details-box [item]="'Source'"
                                     [itemDescription]="installation.source.description"></app-installation-details-box>
     </div>
-    <div style="display: flex">
+    <div style="display: flex; flex-direction: row">
       <div>
         <div>
           <p>Installation location:<br>
@@ -51,6 +51,11 @@
             </p>
           </ng-container>
         </div>
+      </div>
+      <div>
+        <!--        Hardcoded because I think we don't have API for this yet?-->
+        <app-goal-representation-component [currentAmount]="1232"
+                                           [goalAmount]="10000"></app-goal-representation-component>
       </div>
     </div>
   </div>
