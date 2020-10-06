@@ -1,0 +1,25 @@
+<div class="container background" [style.background]="appComp.background">
+  <div class="container userform registerform">
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" class="form-control userformfield" id="email" name="email" required
+               [(ngModel)]="model.email">
+
+        <label for="username">Username</label>
+        <input type="text" class="form-control userformfield" id="username" name="username" required
+               [(ngModel)]="model.username">
+
+        <label for="password">Password</label>
+        <input type="password" class="form-control userformfield" id="password" name="password" required
+               [(ngModel)]="model.password">
+
+        <div class="userformbutton">
+          <button mat-raised-button color="primary" type="submit" class="btn btn-primary">Register</button>
+          <button type="button" class="btn btn-link link">Already have an account?
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

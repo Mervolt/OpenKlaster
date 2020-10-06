@@ -1,0 +1,12 @@
+.list-item-installation-detail {
+  width: 15%;
+  height: 120px
+}
+
+.list-item-installation-detail-content {
+  text-align: center;
+}
+
+.list-item-installation-goto-button {
+  width: 10%
+}

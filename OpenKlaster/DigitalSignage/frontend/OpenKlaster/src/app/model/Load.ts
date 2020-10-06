@@ -1,4 +1,7 @@
-export class Load{
-  constructor(public name: string, public description: string) {
+export class Load {
+  name: string;
+  description: string;
+
+  constructor() {
   }
 }
