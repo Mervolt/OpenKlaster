@@ -1,0 +1,17 @@
+.installation-details-box-container {
+  border: 1px solid blue;
+  margin: 25px;
+  border-radius: 25px;
+  width: 320px;
+  height: 240px;
+}
+
+p {
+  font-size: 20px;
+  margin: 10px;
+}
+
+.description {
+  font-size: 16px;
+  text-align: justify;
+}

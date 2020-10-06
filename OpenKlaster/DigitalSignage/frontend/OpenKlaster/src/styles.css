@@ -1,4 +1,95 @@
 @import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.container.background {
+  width: 100%;
+  height: 100%;
+}
+
+
+.container.userform {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 480px;
+  margin-left: -240px;
+  background-color: white;
+  border-radius: 25px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.userformbutton {
+  margin-top: 20px
+}
+
+.link {
+  text-decoration: underline
+}
+
+.userformfield {
+  margin-top: 3px;
+  min-width: 400px
+}
+
+.img-with-margin {
+  margin: 10px;
+}
+
+.mat-list-item.mat-focus-indicator.ng-star-inserted.basic-list-item {
+  min-height: 160px;
+  justify-content: left;
+  width: 100%;
+  height: 100%;
+  padding: 20px
+}
+
+.mat-list-base .mat-list-item .mat-list-item-content {
+  padding: 0px !important
+}
+
+.mat-list.mat-list-base.mat-action-list {
+  padding: 1px !important
+}
+
+.page-container {
+  background-color: white;
+  width: 100%;
+  height: 90%;
+  position: relative;
+  display: flex
+}
+
+.half-div-line-margins-max400 {
+  width: 50%;
+  max-width: 400px;
+  margin-right: 20px;
+  margin-left: 20px
+}
+
+.flex-div-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-div-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.margin-20 {
+  margin: 20px
+}
+
+.margin-20-20-20-30 {
+  margin: 20px 20px 20px 30px
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
