@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {TokenPanelService} from '../token-panel.service';
+import {TokenService} from '../token.service';
 import {AppComponent} from '../../app.component';
 
 export interface TokenResponse {
@@ -26,7 +26,7 @@ export class TokenPanelComponent implements OnInit {
   displayedColumns: string[] = ['number', 'token']
   //TODO change `service` variable name
   //MM-ANSWER Done
-  constructor(public tokenPanelService: TokenPanelService, public appComp: AppComponent) {
+  constructor(public tokenPanelService: TokenService, public appComp: AppComponent) {
     this.cookieService = appComp.cookieService;
   }
 

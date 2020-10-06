@@ -13,7 +13,7 @@ import {RegisterFormService} from './user/register-form.service';
 import {TokenPanelComponent} from './token/token-panel/token-panel.component';
 import {MeasurementPanelComponent} from './installation/measurement-panel/measurement-panel.component';
 import {InstallationPanelComponent} from './installation/installation-panel/installation-panel.component';
-import {TokenPanelService} from './token/token-panel.service';
+import {TokenService} from './token/token.service';
 import {InstallationPanelService} from './installation/installation-panel.service';
 import {CookieService} from 'ngx-cookie-service';
 import {LoginFormService} from './user/login-form.service';
@@ -102,7 +102,7 @@ import {MatTableModule} from "@angular/material/table";
   providers: [
     RegisterFormService,
     LoginFormService,
-    TokenPanelService,
+    TokenService,
     InstallationPanelService,
     CookieService,
     InstallationPanelComponent,

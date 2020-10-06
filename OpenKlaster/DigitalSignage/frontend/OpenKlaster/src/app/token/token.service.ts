@@ -10,7 +10,7 @@ import {EndpointHolder} from "../model/EndpointHolder";
 })
 //TODO why `Panel`?
 //MM-ANSWER: Z angielskiego pulpit :)
-export class TokenPanelService {
+export class TokenService {
 
   constructor(public http: HttpClient) {
   }
