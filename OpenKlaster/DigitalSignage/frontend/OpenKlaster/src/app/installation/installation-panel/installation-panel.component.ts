@@ -24,7 +24,7 @@ export class InstallationPanelComponent implements OnInit {
 
   //TODO installationService - more desriptive name
   //MM-ANSWER done
-  constructor(public installationService: InstallationPanelService, private appComp: AppComponent) {
+  constructor(public installationService: InstallationPanelService, private appComp: AppComponent, private router: Router) {
     this.cookieService = appComp.cookieService;
   }
 
@@ -54,5 +54,9 @@ export class InstallationPanelComponent implements OnInit {
         this.displayedInstallations = this.installations.slice(0, 5);
       }
     })
+  }
+
+  navigateToInstallation(installationId: string) {
+    this.router.navigate(['installations', installationId]).then()
   }
 }

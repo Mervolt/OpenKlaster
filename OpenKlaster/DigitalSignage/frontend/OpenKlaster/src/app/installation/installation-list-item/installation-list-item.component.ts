@@ -10,13 +10,9 @@ import {Router} from "@angular/router";
 export class InstallationListItemComponent implements OnInit {
   @Input() installation: Installation
 
-  constructor(private router: Router) {
+  constructor() {
   }
 
   ngOnInit(): void {
-  }
-
-  navigateToInstallation(installationId: string) {
-    this.router.navigate(['installations', installationId]).then()
   }
 }
