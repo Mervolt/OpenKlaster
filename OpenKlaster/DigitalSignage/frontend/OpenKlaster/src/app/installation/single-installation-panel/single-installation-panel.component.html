@@ -1,67 +1,70 @@
 <app-navbar></app-navbar>
-<div class="page-container">
-  <div class="flex-div-column">
-    <div class="flex-div-row">
-      <div class="image-container">
-        <div *ngIf=" installation.installationType=='Solar'; then solarInstall else windInstall">
-        </div>
-        <ng-template #solarInstall><img src="/assets/img/solar_install.jpg" alt="" class="img-with-margin">
-        </ng-template>
-        <ng-template #windInstall><img src="/assets/img/wind_install.jpg" alt="" class="img-with-margin"></ng-template>
-      </div>
-      <div class="margin-50 flex-div-column">
-        <div class="flex-div-row">
-          <div>
-            <p>Installation location:<br>
-              Latitude: {{installation.longitude}}°<br>
-              Longitude: {{installation.latitude}}°<br>
-              Load name: {{installation.load.name}}<br>
-            </p>
-          </div>
-          <div>
-            <ng-container *ngIf="installation.source as source">
-              <p>Source:<br>
-                Source capacity: {{source.capacity}}<br>
-                Source azimuth: {{source.azimuth}}<br>
-                Source tilt: {{source.tilt}}<br>
-              </p>
-            </ng-container>
-          </div>
-          <div>
-            <ng-container *ngIf="installation.inverter as inverter">
-              <p>Inverter:<br>
-                Inverter manufacturer: {{inverter.manufacturer}}<br>
-                Inverter model: {{inverter.modelType}}<br>
-                Inverter credentials: {{inverter.credentials}}<br>
-              </p>
-            </ng-container>
-          </div>
-        </div>
-        <div class="button-container margin-15">
-          <button mat-raised-button color="primary" class="margin-5" (click)="navigateToEditInstallation()">Edit
-            installation data
-          </button>
-          <button mat-raised-button color="warn" class="margin-5" (click)="openDialog()">Delete installation</button>
-        </div>
-      </div>
-    </div>
+<div *ngIf="isLoaded">
+  <div class="page-container">
     <div class="flex-div-column">
-      <div class="flex-div-column">
-        <div>
-          <h1 class="margin-50">Additional information:</h1>
+      <div class="flex-div-row">
+        <div class="image-container">
+          <div *ngIf=" installation.installationType=='Solar'; then solarInstall else windInstall">
+          </div>
+          <ng-template #solarInstall><img src="/assets/img/solar_install.jpg" alt="" class="img-with-margin">
+          </ng-template>
+          <ng-template #windInstall><img src="/assets/img/wind_install.jpg" alt="" class="img-with-margin">
+          </ng-template>
         </div>
-        <div class="flex-div-row margin-left-50">
-          <app-installation-details-box [item]="'Installation'" [itemDescription]="installation.description">
-          </app-installation-details-box>
+        <div class="margin-50 flex-div-column">
+          <div class="flex-div-row">
+            <div>
+              <p>Installation location:<br>
+                Latitude: {{installation.longitude}}°<br>
+                Longitude: {{installation.latitude}}°<br>
+                Load name: {{installation.load.name}}<br>
+              </p>
+            </div>
+            <div>
+              <ng-container *ngIf="installation.source as source">
+                <p>Source:<br>
+                  Source capacity: {{source.capacity}}<br>
+                  Source azimuth: {{source.azimuth}}<br>
+                  Source tilt: {{source.tilt}}<br>
+                </p>
+              </ng-container>
+            </div>
+            <div>
+              <ng-container *ngIf="installation.inverter as inverter">
+                <p>Inverter:<br>
+                  Inverter manufacturer: {{inverter.manufacturer}}<br>
+                  Inverter model: {{inverter.modelType}}<br>
+                  Inverter credentials: {{inverter.credentials}}<br>
+                </p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="button-container margin-15">
+            <button mat-raised-button color="primary" class="margin-5" (click)="navigateToEditInstallation()">Edit
+              installation data
+            </button>
+            <button mat-raised-button color="warn" class="margin-5" (click)="openDialog()">Delete installation</button>
+          </div>
+        </div>
+      </div>
+      <div class="flex-div-column">
+        <div class="flex-div-column">
+          <div>
+            <h1 class="margin-50">Additional information:</h1>
+          </div>
+          <div class="flex-div-row margin-left-50">
+            <app-installation-details-box [item]="'Installation'" [itemDescription]="installation.description">
+            </app-installation-details-box>
 
-          <app-installation-details-box [item]="'Load'"
-                                        [itemDescription]="installation.load.description"></app-installation-details-box>
+            <app-installation-details-box [item]="'Load'"
+                                          [itemDescription]="installation.load.description"></app-installation-details-box>
 
-          <app-installation-details-box [item]="'Inverter'"
-                                        [itemDescription]="installation.inverter.description"></app-installation-details-box>
+            <app-installation-details-box [item]="'Inverter'"
+                                          [itemDescription]="installation.inverter.description"></app-installation-details-box>
 
-          <app-installation-details-box [item]="'Source'"
-                                        [itemDescription]="installation.source.description"></app-installation-details-box>
+            <app-installation-details-box [item]="'Source'"
+                                          [itemDescription]="installation.source.description"></app-installation-details-box>
+          </div>
         </div>
       </div>
     </div>

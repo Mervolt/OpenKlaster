@@ -38,6 +38,8 @@ export class SingleInstallationPanelComponent implements OnInit {
   // The 2nd parenthesis will throw an exception everywhere
   // If you want inverter object just use response['inverter'] and you get the object
   //MM-ANSWER I think it worked but I changed it anyway since your solution also works and is used in Installations
+  isLoaded: boolean;
+
   ngOnInit(): void {
     this.getInstallation(this.installationIdOnlyNumber)
   }
@@ -48,6 +50,7 @@ export class SingleInstallationPanelComponent implements OnInit {
       //TODO ditto fromDto method
       //MM-ANSWER Done
       this.installation = InstallationDto.fromDto(response)
+      this.isLoaded = true
     })
   }
 
