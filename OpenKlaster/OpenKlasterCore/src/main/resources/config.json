@@ -1,42 +1,42 @@
 {
-    "security": {
+  "security": {
     "tokens": {
-        "charsPerType": 4,
-            "sessionTokenLifetime": 30
+      "charsPerType": 4,
+      "sessionTokenLifetime": 30
     }
-},
-    "eventbus": {
+  },
+  "eventbus": {
     "in": {
-        "userManagement": {
-            "address": "openklaster.core.user"
-        },
-        "installations": {
-            "address": "openklaster.core.installation"
-        },
-        "sourceMeasurements": {
-            "address": "openklaster.core.powerproduction"
-        },
-        "loadMeasurements": {
-            "address": "openklaster.core.powerconsumption"
-        }
+      "userManagement": {
+        "address": "openklaster.core.user"
+      },
+      "installations": {
+        "address": "openklaster.core.installation"
+      },
+      "sourceMeasurements": {
+        "address": "openklaster.core.production"
+      },
+      "loadMeasurements": {
+        "address": "openklaster.core.consumption"
+      }
     },
     "out": {
-        "mongo": {
-            "users": {
-                "address": "openklaster.mongo.user"
-            },
-            "installation": {
-                "address": "openklaster.mongo.installation"
-            }
+      "mongo": {
+        "users": {
+          "address": "openklaster.mongo.user"
         },
-        "cassandra": {
-            "loadmeasurement": {
-                "address": "openklaster.cassandraservice.loadmeasurement"
-            },
-            "sourcemeasurement": {
-                "address": "openklaster.cassandraservice.sourcemeasurement"
-            }
+        "installation": {
+          "address": "openklaster.mongo.installation"
         }
+      },
+      "cassandra": {
+        "loadmeasurement": {
+          "address": "openklaster.cassandraservice.loadmeasurement"
+        },
+        "sourcemeasurement": {
+          "address": "openklaster.cassandraservice.sourcemeasurement"
+        }
+      }
     }
-}
+  }
 }

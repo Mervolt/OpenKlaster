@@ -33,9 +33,8 @@ public class CassandraTestBase {
     @Before
     public void setUp(TestContext context) {
         Async async = context.async();
-        ConfigFilesManager configFilesManager = new ConfigFilesManager();
         vertx = Vertx.vertx();
-        verticle = new CassandraVerticle(vertx, configFilesManager.getConfig(vertx));
+        verticle = new CassandraVerticle();
 
         vertx.deployVerticle(verticle, result -> {
             cassandraClient = verticle.getCassandraClient();

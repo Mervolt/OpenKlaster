@@ -13,7 +13,8 @@
         "powerconsumption": "/powerConsumption",
         "powerproduction": "/powerProduction",
         "energyconsumed": "/energyConsumed",
-        "energyproduced": "/energyProduced"
+        "energyproduced": "/energyProduced",
+        "summary": "/summary"
       }
     }
   },
@@ -21,11 +22,13 @@
     "route": {
       "user": "openklaster.core.user",
       "installation": "openklaster.core.installation",
-      "powerconsumption": "openklaster.core.powerconsumption",
-      "powerproduction": "openklaster.core.powerproduction",
-      "energyconsumed": "openklaster.core.energyconsumed",
-      "energyproduced": "openklaster.core.energyproduced"
+      "consumption": "openklaster.core.consumption",
+      "production": "openklaster.core.production"
     }
+  },
+  "environmentalbenefits": {
+    "co2reduced": 40,
+    "treessaved": 6
   },
   "eventBus": {
     "timeout": 15000

@@ -21,6 +21,7 @@ public class SummaryCreator {
 
     public SummaryResponse createSummary(AsyncResult<Message<JsonArray>> response, NestedConfigAccessor config) {
         Map<Unit, List<Measurement>> measurements = groupMeasurementsFromJsonArray(response.result().body());
+        System.out.println(measurements);
         Measurement latestEnergyMeasurement = findLastMeasurement(measurements.get(Unit.kWh));
         Measurement latestPowerMeasurement = findLastMeasurement(measurements.get(Unit.kW));
         Map<String, Double> powerMeasurements = convertMeasurementArraysIntoMap(measurements.get(Unit.kW));
@@ -58,7 +59,7 @@ public class SummaryCreator {
     }
 
     private BigDecimal countEnergyProducedToday(List<Measurement> energyMeasurements) {
-        Map<Object, List<Measurement>> booleanMeasurementMap = energyMeasurements.stream()
+        Map<Object, List<Measurement>> booleanMeasurementMap = Optional.ofNullable(energyMeasurements).orElse(Collections.emptyList()).stream()
                 .collect(Collectors.groupingBy(measurement -> isItToday(measurement.getTimestamp())));
         Double currentEnergy = findLastMeasurement(booleanMeasurementMap.get(true)).getValue();
         Double yesterdaysLastEnergyMeasurement = findLastMeasurement(booleanMeasurementMap.get(false)).getValue();

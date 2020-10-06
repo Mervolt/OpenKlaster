@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 
 @NoArgsConstructor
 @Data
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MeasurementPowerRequest extends Model {
     @NotBlank(message = ModelValidationErrorMessages.INSTALLATION_ID)

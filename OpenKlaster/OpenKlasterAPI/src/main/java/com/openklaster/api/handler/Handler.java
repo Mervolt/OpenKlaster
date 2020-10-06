@@ -150,4 +150,17 @@ public abstract class Handler {
         response.end(messageContent);
         logger.error(messageContent);
     }
+
+    @Override
+    public String toString() {
+        return "Handler{" +
+                "method='" + method + '\'' +
+                ", route='" + route + '\'' +
+                ", eventbusMethod='" + eventbusMethod + '\'' +
+                ", address='" + address + '\'' +
+                ", eventBus=" + eventBus +
+                ", parseStrategy=" + parseStrategy +
+                ", nestedConfigAccessor=" + nestedConfigAccessor +
+                '}';
+    }
 }
