@@ -68,7 +68,8 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
     CredentialsTokenComponent,
     CredentialsUserpassComponent,
     InstallationListItemComponent,
-    SuccessfulLoginDialogComponent
+    SuccessfulLoginDialogComponent,
+    SwaggerUiComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +82,8 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
       {path: 'installations', component: InstallationPanelComponent},
       {path: 'installations/:id', component: SingleInstallationPanelComponent},
       {path: 'installationGeneration', component: InstallationGenerationPanelComponent},
-      {path: 'editInstallation/:id', component: EditInstallationComponent}
+      {path: 'editInstallation/:id', component: EditInstallationComponent},
+      {path: 'swagger-ui', component: SwaggerUiComponent}
     ]),
     ReactiveFormsModule,
     FormsModule,

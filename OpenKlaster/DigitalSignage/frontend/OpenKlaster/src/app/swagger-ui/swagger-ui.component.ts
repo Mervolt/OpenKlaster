@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {EndpointHolder} from '../model/EndpointHolder';
 
 declare const SwaggerUIBundle: any;
 
@@ -18,7 +19,7 @@ export class SwaggerUiComponent implements OnInit {
         SwaggerUIBundle.SwaggerUIStandalonePreset
       ],
       // Todo move it to config
-      url: 'http://localhost:8082/swagger.json',
+      url: EndpointHolder.swaggerEndpoint,
       docExpansion: 'none',
       operationsSorter: 'alpha'
     });

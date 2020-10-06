@@ -26,12 +26,7 @@ export class InstallationPanelService {
   }
 
   addInstallation(installation: Installation, cookieService: CookieService) {
-    //TODO  The only place we are using apiTokens for now is generating/deleting them.
-    // Our website must use sessionToken for authentication...!!!
-    // : )
     let params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey));
-    // Todo RG Why don't you just send an installation object that you already have?
-    //MM-ANSWER: How would I do that?
     return this.http.post(EndpointHolder.installationEndpoint, {
       'username': cookieService.get('username'),
       'installationType': installation.installationType,
@@ -45,7 +40,6 @@ export class InstallationPanelService {
       'inverter': {
         'description': installation.inverter.description,
         'manufacturer': installation.inverter.manufacturer,
-        //REMOVE THIS LATER - IT IS ONLY TO WORK UNTIL WE MERGE :)
         'credentials': JSON.stringify(installation.inverter.credentials),
         'modelType': installation.inverter.modelType
       },
