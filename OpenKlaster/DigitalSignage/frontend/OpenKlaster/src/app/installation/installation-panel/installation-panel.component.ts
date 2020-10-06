@@ -32,7 +32,6 @@ export class InstallationPanelComponent implements OnInit {
     this.getInstallations();
   }
 
-
   //TODO ditto -sesion token
   onPageChange(event: PageEvent) {
     let startIndex = event.pageIndex * event.pageSize;

@@ -1,16 +1,15 @@
-<div>
-  <app-navbar></app-navbar>
-  <mat-paginator [length]="installations.length"
-                 [pageSize]="5"
-                 (page)="onPageChange($event)">
-  </mat-paginator>
-  <mat-action-list style="background-color: white">
-    <h1 style="text-align: center">Your installations</h1>
-    <mat-list-item *ngFor="let installation of displayedInstallations" (click)="navigateToInstallation(installation.installationId)" class="basic-list-item">
-      <div style="min-width: 100%">
-        <app-installation-list-item [installation]="installation"></app-installation-list-item>
-      </div>
-    </mat-list-item>
-  </mat-action-list>
-</div>
+<app-navbar></app-navbar>
+<mat-paginator [length]="installations.length"
+               [pageSize]="5"
+               (page)="onPageChange($event)">
+</mat-paginator>
+<mat-action-list style="background-color: white">
+  <h1 style="text-align: center">Your installations</h1>
+  <mat-list-item *ngFor="let installation of displayedInstallations"
+                 (click)="navigateToInstallation(installation.installationId)" class="basic-list-item">
+    <div style="min-width: 100%">
+      <app-installation-list-item [installation]="installation"></app-installation-list-item>
+    </div>
+  </mat-list-item>
+</mat-action-list>
 

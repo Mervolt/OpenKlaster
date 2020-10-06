@@ -45,6 +45,7 @@ import {CredentialsTokenComponent} from './credentials/credentials-token/credent
 import {CredentialsUserpassComponent} from './credentials/credentials-userpass/credentials-userpass.component';
 import {InstallationListItemComponent} from './installation/installation-list-item/installation-list-item.component';
 import {MatTableModule} from "@angular/material/table";
+import { SuccessfulLoginDialogComponent } from './user/successful-login-dialog/successful-login-dialog.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import {MatTableModule} from "@angular/material/table";
     EditInstallationComponent,
     CredentialsTokenComponent,
     CredentialsUserpassComponent,
-    InstallationListItemComponent
+    InstallationListItemComponent,
+    SuccessfulLoginDialogComponent
   ],
   imports: [
     BrowserModule,
