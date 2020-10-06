@@ -1,15 +1,245 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
+    <link rel="stylesheet" href="css/slideshow.css">
+    <link rel="stylesheet" href="css/slide.css">
     <meta charset="UTF-8">
-    <title>Wykres</title>
-    <script src="d3.min.js"></script>
-    <link href="index.css" rel="stylesheet" type="text/css">
+    <title>OpenKlaster</title>
+    <script src="js/d3.min.js"></script>
     <script src="config.js"></script>
+    <script src="js/properties.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
-<body>
-<div id="chart"></div>
+<body style="overflow: hidden; margin:0;">
+<!-- INTRO -->
+<div class="slideshow-container">
+    <div id="intro" class="slide" style="background-image: url('img/solar_panels.jpg');">
+        <div class="row" style="min-height: 100vh;">
+            <div class="col-md-3">
+                <div class="h-100 d-inline-block" style="width: 100%; background-color: rgba(16, 12, 18, 0.7)">
+                    <div class="h2 text-white font-weight-bold mb-1" style="margin: 45px 70px;">Ten budynek wytwarza
+                        zrównoważoną energię dzięki energii słonecznej
+                    </div>
+                    <div class="logo" style="vertical-align: bottom">
+                        <img src="img/logo.png" style="width: 100%">
+                        <img src="img/OpenKlaster.png" style="width: 100%">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+            <div class="col-xl-5 col-md-6 mb-4">
+                <div class="infocard">
+                    <div class="card h-100 bg-dark text-white">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 font-weight-bold mb-1">AKTUALNA MOC (kW)</div>
+                                    <div class="current_power display-1 mb-0 font-weight-bold text-gray-800">0</div>
+                                </div>
+                                <div class="col-auto">
+                                    <img class="icon" src="img/power.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="infocard">
+                    <div class="card h-100 bg-dark text-white">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 font-weight-bold text-uppercase mb-1">WYPRODUKOWANA ENERGIA (kWh)
+                                    </div>
+                                    <div class="total_energy display-1 mb-0 font-weight-bold text-gray-800">0</div>
+                                </div>
+                                <div class="col-auto">
+                                    <img class="icon" src="img/energy.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="infocard">
+                    <div class="card h-100 bg-dark text-white">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 font-weight-bold text-uppercase mb-1">OGRANICZONA EMISJA CO2 (t)
+                                    </div>
+                                    <div class="co2_reduced display-1 h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                </div>
+                                <div class="col-auto">
+                                    <img class="icon" src="img/co2.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- TREES -->
+    <div id="trees" class="slide" style="background-image: url('img/forest.jpg');">
+        <div class="row" style="min-height: 100vh;">
+            <div class="col-md-3">
+                <div class="h-100 d-inline-block" style="width: 100%; background-color: rgba(16, 12, 18, 0.7)">
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div class="h5 mb-1">AKTUALNA MOC (kW)</div>
+                                <div class="current_power h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div class="h5  mb-1">WYPRODUKOWANA ENERGIA</div>
+                                <div class="h5  mb-1">DZISIAJ (kWh)</div>
+                                <div class="today_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div class="h5  mb-1">WYPRODUKOWANA ENERGIA (kWh)</div>
+                                <div class="total_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div class="h5  mb-1">OGRANICZONA EMISJA CO2 (t)</div>
+                                <div class="co2_reduced h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logo" style="vertical-align: bottom">
+                        <img src="img/logo.png" style="width: 100%">
+                        <img src="img/OpenKlaster.png" style="width: 100%">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+            <div class="col-xl-5 col-md-6 mb-4">
+                <div class="infocard">
+                    <div class="card h-100 bg-dark text-white">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 font-weight-bold  mb-1">OGRANICZONA EMISJA CO2 (t)</div>
+                                    <div class="co2_reduced display-1 h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                </div>
+                                <div class="col-auto">
+                                    <img class="icon" src="img/co2.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="infocard">
+                    <div class="card h-100 bg-dark text-white">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 font-weight-bold  mb-1">Aby zmiejszyć ilość CO2 w atmosferze o taką
+                                        wartość musielibyśmy postadzić
+                                    </div>
+                                    <div class="trees_saved display-1 h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                </div>
+                                <div class="col-auto">
+                                    <img class="icon" src="img/tree.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="infocard">
+                    <div class="card h-100 bg-dark text-white">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 font-weight-bold  mb-1">100 m2 lasu - około 80 drzew usuwa tonę CO2 z
+                                        atmosfery w ciągu 10 lat
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POWER_CHART -->
+    <div id="power_chart" class="slide">
+        <div class="row" style="min-height: 100vh;     background-color: #3e3e3e;
+               color: #dcdcdc;">
+            <div class="col-md-3">
+                <div class="h-100 d-inline-block" style="width: 100%; background-color: rgba(16, 12, 18, 0.7)">
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div class="h5 mb-1">AKTUALNA MOC (kW)</div>
+                                <div class="current_power h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div class="h5  mb-1">WYPRODUKOWANA ENERGIA</div>
+                                <div class="h5  mb-1">DZISIAJ (kWh)</div>
+                                <div class="today_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div class="h5  mb-1">WYPRODUKOWANA ENERGIA (kWh)</div>
+                                <div class="total_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div class="h5  mb-1">OGRANICZONA EMISJA CO2 (t)</div>
+                                <div class="co2_reduced h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logo" style="vertical-align: bottom">
+                        <img src="img/logo.png" style="width: 100%">
+                        <img src="img/OpenKlaster.png" style="width: 100%">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 col-md-9 mb-4">
+                <div class="h2 text-white font-weight-bold mb-1" style="text-align: center; margin-top: 25px;">Moc w
+                    ciągu
+                    ostatnich 24 godzin
+                </div>
+                <div class="vertical-center" id="chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
+    let total_energy = 0;
+    let current_power = 0;
+    let today_energy = 0;
+    let co2_reduced = 0;
+    let trees_saved = 0;
+    let powerMeasurements = [];
+
     function promilOfWidth(promil) {
         return window.innerWidth * (promil / 1000);
     }
@@ -19,14 +249,11 @@
     }
 
     const margin = {
-        top: promilOfHeight(10), right: promilOfWidth(50),
+        top: promilOfHeight(10), right: promilOfWidth(300),
         bottom: promilOfHeight(50), left: promilOfWidth(0)
     };
     const width = window.innerWidth - margin.left - margin.right;
     const height = window.innerHeight - margin.top - margin.bottom;
-
-    const powerConsumptionTitle = config['textTitles']['powerConsumptionTitle']
-    const powerProductionTitle = config['textTitles']['powerProductionTitle']
 
     const svg = d3
         .select('#chart')
@@ -35,7 +262,6 @@
         .attr('height', height + margin.top + margin.bottom)
 
     function draw(data, fillColor, strokeColor, chartTitle, strokeWidth = '1.5') {
-        console.log(data)
         const xScale = d3.scaleTime()
             .domain([earliestDate(data), latestDate(data)])
             .range([0, width]);
@@ -93,49 +319,26 @@
         })
     }
 
-    function parseDateToString(date) {
-        let parser = d3.timeFormat('%Y-%m-%d %H:%M:%S')
-        return parser(date);
-    }
-
-    function main(config) {
+    function main() {
         (function () {
-            createChart(config);
-            setTimeout(arguments.callee, 60000);
+            getSummary(properties["url"], config["installationId"], config["apiToken"]);
+            setTimeout(arguments.callee, properties["refreshTime"]);
         })();
     }
 
-    async function createChart(config) {
-        const powerProductionUrl = config['powerProduction'];
-        const powerConsumptionUrl = config['powerConsumption'];
-        const installationId = config['installationId'];
-        const apiToken = config['apiToken'];
-
-        const now = new Date()
-        const h = 7
-
-        now.setTime(now.getTime() + (h * 60 * 60 * 1000))
-        const prevDay = new Date();
-
-        svg.selectAll("*").remove();
-
-        prevDay.setDate(now.getDate() - 1);
-
-        const fillColor = config['colours']['fillColor']
-        const strokeColor = config['colours']['strokeColor']
-
-        drawAsync(powerProductionUrl, installationId, now, prevDay, apiToken, fillColor, strokeColor, powerProductionTitle)
+    function updateElementsByClassName(clazz, data) {
+        for (let e of document.getElementsByClassName(clazz)) {
+            e.innerText = data;
+        }
     }
 
-    async function drawAsync(url, id, now, prevDay, apiToken, fillColor, strokeColor, title) {
-        console.log(url)
+    function getSummary(url, id, apiToken) {
         const sendUrl = new URL(url);
         const params = {
             installationId: id,
-
             apiToken: apiToken
         };
-        console.log(params)
+  
         Object.keys(params).forEach(key => sendUrl.searchParams.append(key, params[key]))
 
         fetch(sendUrl, {
@@ -145,20 +348,42 @@
             }
         }).then(response => response.json())
             .then(data => {
-                let output = []
-                for (const measurement of data) {
-                    let parseDate = d3.timeParse('%Y-%m-%d %H:%M:%S')
-                    output.push({timestamp: parseDate(measurement.timestamp), value: measurement.value})
-                }
+                powerMeasurements = data["power"];
+                total_energy = data["totalEnergy"];
+                current_power = data["currentPower"];
+                today_energy = data["energyProducedToday"];
+                co2_reduced = data["environmentalBenefits"]["co2Reduced"];
+                trees_saved = data["environmentalBenefits"]["treesSaved"];
 
+                updateElementsByClassName("total_energy", total_energy)
+                updateElementsByClassName("co2_reduced", co2_reduced)
+                updateElementsByClassName("trees_saved", trees_saved)
+                updateElementsByClassName("current_power", current_power)
+                updateElementsByClassName("today_energy", today_energy)
+
+                let output = []
+                for (let key of Object.keys(powerMeasurements)) {
+                    let parseDate = d3.timeParse('%H:%M:%S')
+                    output.push({timestamp: parseDate(key), value: powerMeasurements[key]})
+                }
                 output.sort((a, b) => {
                     return a.timestamp < b.timestamp ? -1 : 1
                 })
-                draw(output, fillColor, strokeColor, title)
+                draw(output, properties["colours"]["fillColor"], properties["colours"]["strokeColor"], "title")
             })
     }
 
-    main(config)
+    main();
 </script>
+<script src="js/slideshow.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
 </body>
 </html>

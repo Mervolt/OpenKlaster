@@ -46,6 +46,7 @@ import {CredentialsUserpassComponent} from './credentials/credentials-userpass/c
 import {InstallationListItemComponent} from './installation/installation-list-item/installation-list-item.component';
 import {MatTableModule} from "@angular/material/table";
 import { SuccessfulLoginDialogComponent } from './user/successful-login-dialog/successful-login-dialog.component';
+import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
 
 @NgModule({
   declarations: [

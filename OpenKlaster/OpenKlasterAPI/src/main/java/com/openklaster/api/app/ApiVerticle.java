@@ -1,62 +1,92 @@
 package com.openklaster.api.app;
 
 
-import com.openklaster.api.handler.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.openklaster.api.handler.DeleteHandler;
+import com.openklaster.api.handler.GetHandler;
+import com.openklaster.api.handler.Handler;
+import com.openklaster.api.handler.PostHandler;
+import com.openklaster.api.handler.PutHandler;
 import com.openklaster.api.handler.properties.HandlerProperties;
+import com.openklaster.api.handler.summary.SummaryCreator;
 import com.openklaster.api.model.*;
+import com.openklaster.api.model.summary.SummaryRequest;
+import com.openklaster.api.model.Installation;
+import com.openklaster.api.model.InstallationRequest;
+import com.openklaster.api.model.Login;
+import com.openklaster.api.model.MeasurementEnergy;
+import com.openklaster.api.model.MeasurementPower;
+import com.openklaster.api.model.MeasurementRequest;
+import com.openklaster.api.model.PostInstallation;
+import com.openklaster.api.model.Register;
+import com.openklaster.api.model.UpdateUser;
+import com.openklaster.api.model.Username;
 import com.openklaster.api.parser.DefaultParseStrategy;
 import com.openklaster.api.properties.EndpointRouteProperties;
 import com.openklaster.api.properties.EventBusAddressProperties;
 import com.openklaster.api.properties.EventbusMethods;
+import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.http.HttpMethod;
+import com.openklaster.common.verticle.OpenklasterVerticle;
+import io.vertx.core.Context;
+import io.vertx.core.Vertx;
+import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
+import io.vertx.ext.web.handler.StaticHandler;
 
-import java.util.Arrays;
-import java.util.List;
-
-public class OpenKlasterAPIVerticle extends AbstractVerticle {
-    private static final Logger logger = LoggerFactory.getLogger(OpenKlasterAPIVerticle.class);
+public class ApiVerticle extends OpenklasterVerticle {
+    private static final Logger logger = LoggerFactory.getLogger(ApiVerticle.class);
     private static final int VERSION1 = 1;
-    private ConfigRetriever configRetriever;
     private NestedConfigAccessor configAccessor;
     private Vertx vertx;
     private EventBus eventBus;
     private List<Handler> handlers;
 
+    public ApiVerticle(boolean isDevModeOn) {
+        super(isDevModeOn);
+    }
 
-    public OpenKlasterAPIVerticle(Vertx vertx, ConfigRetriever configRetriever) {
-        this.vertx = vertx;
-        this.configRetriever = configRetriever;
-        this.eventBus = vertx.eventBus();
+    public ApiVerticle() {
+        super();
     }
 
     @Override
-    public void start(Promise<Void> promise) {
-        configRetriever.getConfig(config -> {
-            if (config.succeeded()) {
-                this.configAccessor = new NestedConfigAccessor(config.result());
-                startVerticle(promise);
+    public void init(Vertx vertx, Context context) {
+        super.init(vertx, context);
+        this.vertx = vertx;
+        this.eventBus = vertx.eventBus();
+        ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
+        configFilesManager.getConfig(vertx).getConfig(result -> {
+            if (result.succeeded()) {
+                JsonObject jsonObject = result.result();
+                this.configAccessor = new NestedConfigAccessor(jsonObject);
+                startVerticle();
             } else {
-                logger.error(config.cause());
-                vertx.close();
+                logger.error("Failed to load config");
             }
         });
     }
 
-    private void startVerticle(Promise<Void> promise) {
+    private void startVerticle() {
         Router router = Router.router(vertx);
         vertx.createHttpServer()
-                .requestHandler(router)
-                .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
+             .requestHandler(router)
+             .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
         handlers = Arrays.asList(
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.loginEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.LOGIN,
@@ -107,46 +137,48 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                         eventBus, configAccessor, new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPowerRequest>(MeasurementPowerRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.powerconsumptionCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.powerproductionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPowerRequest>(MeasurementPowerRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.powerproductionCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.energyconsumedCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergyRequest>(MeasurementEnergyRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.energyconsumedCoreAddressKey),
+                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementRequest>(MeasurementRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergyRequest>(MeasurementEnergyRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.energyproducedCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class))
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class)),
+
+                new SummaryHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.summaryEndpoint),
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<SummaryRequest>(SummaryRequest.class), new SummaryCreator())
         );
-
-
-        routerConfig(router, promise);
+        routerConfig(router);
     }
 
-    private void routerConfig(Router router, Promise<Void> promise) {
+    private void routerConfig(Router router) {
         handlers.forEach(handler -> {
             configureRouteHandler(router);
-            switch (handler.getMethod()) {
+            switch(handler.getMethod()) {
                 case HandlerProperties.getMethodHeader:
                     router.get(handler.getRoute()).handler(handler::handle);
                     break;
@@ -161,18 +193,25 @@ public class OpenKlasterAPIVerticle extends AbstractVerticle {
                     break;
             }
         });
+      
+        router.route("/*").handler(StaticHandler.create("static"));
         promise.complete();
     }
 
     private void configureRouteHandler(Router router) {
+        Set<HttpMethod> allowedMethods = new HashSet<>();
+        allowedMethods.add(HttpMethod.PUT);
+        allowedMethods.add(HttpMethod.DELETE);
+
         router.route().handler(BodyHandler.create())
-                .handler(CorsHandler.create("*")
-                        .allowedHeader("Content-Type")
-                        .allowedHeader("responseType"));
+              .handler(CorsHandler.create("*")
+                                  .allowedHeader("Content-Type")
+                                  .allowedHeader("responseType")
+                                  .allowedMethods(allowedMethods));
     }
 
     public static String buildEndpoint(NestedConfigAccessor configAccessor, int version, String route) {
         return configAccessor.getString(EndpointRouteProperties.prefix) +
-                "/" + version + configAccessor.getString(route);
+               "/" + version + configAccessor.getString(route);
     }
 }

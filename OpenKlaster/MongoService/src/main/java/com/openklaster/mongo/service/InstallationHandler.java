@@ -11,7 +11,7 @@ import io.vertx.core.logging.LoggerFactory;
 
 public class InstallationHandler extends EntityHandler {
 
-    private static final String installationCounter = "installationId";
+    static final String installationCounter = "installationId";
     private static final String counterValueKey = "seq";
 
     public InstallationHandler(EntityParser<Installation> parser,
@@ -26,12 +26,13 @@ public class InstallationHandler extends EntityHandler {
         JsonObject jsonObject = busMessage.body();
         if (!jsonObject.containsKey(ID_KEY) || jsonObject.getValue(ID_KEY) == null) {
             persistenceService.getCounter(installationCounter, handler -> {
-                if (handler.succeeded()) {
+                if (handler.succeeded() && handler.result() != null && handler.result().getInteger(counterValueKey) != null) {
                     int seq = handler.result().getInteger(counterValueKey);
 
                     updateCounter(busMessage, seq);
                 }else{
-                    BusMessageReplyUtils.replyWithError(busMessage, HttpResponseStatus.INTERNAL_SERVER_ERROR,"");
+                    //if there is no counter document then add with starting value
+                    updateCounter(busMessage, 0);
                 }
             });
         }else{

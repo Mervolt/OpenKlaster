@@ -1,0 +1,33 @@
+{
+  "http": {
+    "port": 8082,
+    "prefix": "/api",
+    "endpoint": {
+      "route": {
+        "login": "/user/login",
+        "user": "/user",
+        "token": "/token",
+        "alltokens": "/token/all",
+        "installation": "/installations",
+        "allinstallation": "/installations/all",
+        "powerconsumption": "/powerConsumption",
+        "powerproduction": "/powerProduction",
+        "energyconsumed": "/energyConsumed",
+        "energyproduced": "/energyProduced"
+      }
+    }
+  },
+  "core": {
+    "route": {
+      "user": "openklaster.core.user",
+      "installation": "openklaster.core.installation",
+      "powerconsumption": "openklaster.core.powerconsumption",
+      "powerproduction": "openklaster.core.powerproduction",
+      "energyconsumed": "openklaster.core.energyconsumed",
+      "energyproduced": "openklaster.core.energyproduced"
+    }
+  },
+  "eventBus": {
+    "timeout": 15000
+  }
+}

@@ -9,9 +9,9 @@ eventbus:
     installations:
       address: "openklaster.core.installation"
     sourceMeasurements:
-      address: "openklaster.core.powerproduction"
+      address: "openklaster.core.production"
     loadMeasurements:
-      address: "openklaster.core.powerconsumption"
+      address: "openklaster.core.consumption"
   out:
     mongo:
       users:

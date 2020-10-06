@@ -13,15 +13,19 @@ http:
       powerproduction: "/powerProduction"
       energyconsumed: "/energyConsumed"
       energyproduced: "/energyProduced"
+      summary: "/summary"
 
 core:
   route:
     user: "openklaster.core.user"
     installation: "openklaster.core.installation"
-    powerconsumption: "openklaster.core.powerconsumption"
-    powerproduction: "openklaster.core.powerproduction"
-    energyconsumed: "openklaster.core.energyconsumed"
-    energyproduced: "openklaster.core.energyproduced"
+    consumption: "openklaster.core.consumption"
+    production: "openklaster.core.production"
+
+# configuration files do not support floating point numbers so divide the value written here by 100
+environmentalbenefits:
+  co2reduced: 40
+  treessaved: 6
 
 eventBus:
   timeout: 15000

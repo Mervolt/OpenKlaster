@@ -5,6 +5,10 @@ public class CassandraProperties {
 
     public final static String CASSANDRA_KEYSPACE = "cassandra.keyspace";
 
+    public final static String CASSANDRA_HOST = "cassandra.host";
+
+    public final static String CASSANDRA_HOST_DEV = "cassandra.host-dev";
+
     public final static String GET = "get";
 
     public final static String POST = "post";
@@ -23,6 +27,8 @@ public class CassandraProperties {
     public final static String DATE_FORMAT = "yyyy-MM-dd";
 
     public final static String INSTALLATION_ID = "installationId";
+
+    public final static String UNIT = "unit";
 
     public final static String ADDRESS = "address";
 

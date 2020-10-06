@@ -1,0 +1,1139 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Swagger OpenKlaster",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:8082",
+  "tags": [
+    {
+      "name": "user",
+      "description": "User management"
+    },
+    {
+      "name": "installation",
+      "description": "Installations management"
+    },
+    {
+      "name": "measurement",
+      "description": "Energy measurements"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/1/user/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Generates sessionToken",
+        "description": "",
+        "operationId": "generateSessionToken",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User username and password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApiToken succesfully generated",
+            "schema": {
+              "$ref": "#/definitions/userToken"
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Register new user",
+        "description": "",
+        "operationId": "addUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User username, password and email",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userRegister"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update an existing user",
+        "description": "",
+        "operationId": "updateUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateUser"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Retrieves all tokens for given user",
+        "description": "",
+        "operationId": "getAllTokens",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Tokens retrieved succesfully",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/token": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Generates token used to authenticate api calls",
+        "description": "",
+        "operationId": "generateToken",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sessionToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/username"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApiToken succesfully generated",
+            "schema": {
+              "$ref": "#/definitions/userToken"
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Removes token with given Id",
+        "description": "",
+        "operationId": "deleteToken",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "username",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token succesfully removed"
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/token/all": {
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Removes all tokens of the user",
+        "description": "",
+        "operationId": "deleteAllTokens",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "username",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token succesfully removed"
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/installations/all": {
+      "get": {
+        "tags": [
+          "installation"
+        ],
+        "summary": "List all installations of the user",
+        "description": "",
+        "operationId": "getAllInstallations",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "username",
+            "in": "query",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/installation"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/installations": {
+      "get": {
+        "tags": [
+          "installation"
+        ],
+        "summary": "Retrieves installation of the given id",
+        "description": "",
+        "operationId": "getInstallation",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "installationId",
+            "in": "query",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/installation"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "installation"
+        ],
+        "summary": "Insert new installation information",
+        "description": "",
+        "operationId": "addInstallation",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Installation information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/postInstallation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "installation"
+        ],
+        "summary": "Updates installation information",
+        "description": "",
+        "operationId": "updateInstallation",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Installation information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/installation"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "installation"
+        ],
+        "summary": "Deletes an installation",
+        "description": "",
+        "operationId": "deleteInstallation",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "installationId",
+            "in": "query",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/powerConsumption": {
+      "post": {
+        "tags": [
+          "measurement"
+        ],
+        "summary": "Adds information about power consumption",
+        "description": "",
+        "operationId": "addPowerConsumption",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Power consumption data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/postMeasurement"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/measurement"
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "measurement"
+        ],
+        "summary": "Retrieves information about power consumption in given time",
+        "description": "",
+        "operationId": "getPowerConsumption",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Timestamp from which data shall be retrieved",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Timestamp until which data shall be retrieved",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/measurement"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/powerProduction": {
+      "post": {
+        "tags": [
+          "measurement"
+        ],
+        "summary": "Adds information about power production",
+        "description": "",
+        "operationId": "addPowerProduction",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Power production data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/postMeasurement"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/measurement"
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "measurement"
+        ],
+        "summary": "Retrieves information about power production in given time",
+        "description": "",
+        "operationId": "getPowerProduction",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Timestamp from which data shall be retrieved",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Timestamp until which data shall be retrieved",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/measurement"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/energyConsumed": {
+      "post": {
+        "tags": [
+          "measurement"
+        ],
+        "summary": "Adds information about energy consumed",
+        "description": "",
+        "operationId": "addEnergyConsumed",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Energy consumption data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/postMeasurement"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/measurement"
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "measurement"
+        ],
+        "summary": "Retrieves information about energy consumed in given time",
+        "description": "",
+        "operationId": "getEnergyConsumed",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Timestamp from which data shall be retrieved",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Timestamp until which data shall be retrieved",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/measurement"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/energyProduced": {
+      "post": {
+        "tags": [
+          "measurement"
+        ],
+        "summary": "Adds information about energy produced",
+        "description": "",
+        "operationId": "addEnergyProduced",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Power production data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/postMeasurement"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/measurement"
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "measurement"
+        ],
+        "summary": "Retrieves information about energy produced in given time",
+        "description": "",
+        "operationId": "getEnergyProduced",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Timestamp from which data shall be retrieved",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Timestamp until which data shall be retrieved",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/measurement"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "login": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        }
+      }
+    },
+    "userRegister": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
+      }
+    },
+    "updateUser": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        },
+        "newPassword": {
+          "type": "string",
+          "format": "password"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
+      }
+    },
+    "username": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "tokens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userToken"
+          }
+        }
+      }
+    },
+    "userToken": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string"
+        },
+        "expires": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "postInstallation": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "installationType": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "latitude": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        },
+        "load": {
+          "$ref": "#/definitions/load"
+        },
+        "inverter": {
+          "$ref": "#/definitions/inverter"
+        },
+        "source": {
+          "$ref": "#/definitions/source"
+        }
+      }
+    },
+    "installation": {
+      "type": "object",
+      "properties": {
+        "installationId": {
+          "type": "integer"
+        },
+        "username": {
+          "type": "string"
+        },
+        "installationType": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "latitude": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        },
+        "load": {
+          "$ref": "#/definitions/load"
+        },
+        "inverter": {
+          "$ref": "#/definitions/inverter"
+        },
+        "source": {
+          "$ref": "#/definitions/source"
+        }
+      }
+    },
+    "load": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "inverter": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "manufacturer": {
+          "type": "string"
+        },
+        "credentials": {
+          "type": "string"
+        },
+        "modelType": {
+          "type": "string"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "azimuth": {
+          "type": "number"
+        },
+        "tilt": {
+          "type": "number"
+        },
+        "capacity": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "postMeasurement": {
+      "type": "object",
+      "properties": {
+        "installationId": {
+          "type": "integer"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "value": {
+          "type": "number"
+        }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "properties": {
+        "installationId": {
+          "type": "integer"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

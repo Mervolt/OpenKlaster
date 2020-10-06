@@ -61,7 +61,7 @@ public abstract class CassandraHandler<T> {
                 } else {
                     // Todo nie pamiętam co to wypisuje xd można dodać coś ze dla geta jesli nie ma teraz xd
                     logger.error(listAsyncResult.cause());
-                    BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, listAsyncResult.cause().toString());
+                    BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.INTERNAL_SERVER_ERROR, listAsyncResult.cause().toString());
                 }
             });
         } catch (Exception e) {
@@ -76,7 +76,7 @@ public abstract class CassandraHandler<T> {
                 BusMessageReplyUtils.replyWithBodyAndStatus(message, response, HttpResponseStatus.OK);
             } else {
                 logger.error(voidAsyncResult.cause());
-                BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.BAD_REQUEST, voidAsyncResult.cause().toString());
+                BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.INTERNAL_SERVER_ERROR, voidAsyncResult.cause().toString());
 
             }
         };
@@ -119,11 +119,13 @@ public abstract class CassandraHandler<T> {
         String installationId = message.body().getString(CassandraProperties.INSTALLATION_ID);
         String startDate = getValidatedDate(message, "startDate");
         String endDate = getValidatedDate(message, "endDate");
+        String unit =  message.body().getString(CassandraProperties.UNIT);
 
         // Todo maybe query builder
         return "SELECT * FROM " + table + " " + "WHERE " + CassandraProperties.INSTALLATION_ID.toLowerCase() + " = '" + installationId + "'" +
                 (startDate != null ? " AND timestamp >= '" + startDate + "'" : "") +
                 (endDate != null ? " AND timestamp <= '" + endDate + "'" : "") +
+                (unit != null ? " AND unit = '" + unit + "'" : "")+
                 " ALLOW FILTERING";
     }
 

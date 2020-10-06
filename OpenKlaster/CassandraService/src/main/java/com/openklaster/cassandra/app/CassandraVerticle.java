@@ -2,12 +2,12 @@ package com.openklaster.cassandra.app;
 
 import com.openklaster.cassandra.properties.CassandraProperties;
 import com.openklaster.cassandra.service.*;
+import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
+import com.openklaster.common.verticle.OpenklasterVerticle;
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.CassandraClientOptions;
-import io.vertx.config.ConfigRetriever;
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Promise;
+import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
@@ -17,43 +17,55 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 
-public class CassandraVerticle extends AbstractVerticle {
+public class CassandraVerticle extends OpenklasterVerticle {
     private CassandraClient cassandraClient;
-    private final ConfigRetriever configRetriever;
     private NestedConfigAccessor configAccessor;
     private final Logger logger = LoggerFactory.getLogger(CassandraVerticle.class);
-    private final EventBus eventBus;
+    private EventBus eventBus;
 
-    public CassandraVerticle(Vertx vertx, ConfigRetriever configRetriever) {
-        this.vertx = vertx;
-        this.configRetriever = configRetriever;
-        this.eventBus = vertx.eventBus();
+    public CassandraVerticle(boolean isDevMode) {
+        super(isDevMode);
+    }
+
+    public CassandraVerticle() {
+        super();
     }
 
     @Override
-    public void start(Promise<Void> promise) {
-        this.configRetriever.getConfig(config -> {
+    public void init(Vertx vertx, Context context) {
+        this.vertx = vertx;
+        this.eventBus = vertx.eventBus();
+
+        ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
+        configFilesManager.getConfig(vertx).getConfig(config -> {
             if (config.succeeded()) {
                 this.configAccessor = new NestedConfigAccessor(config.result());
+                String hostname = configAccessor.getString(CassandraProperties.CASSANDRA_HOST);
                 CassandraClientOptions options = new CassandraClientOptions()
                         .setPort(configAccessor.getInteger(CassandraProperties.CASSANDRA_PORT))
-                        .setKeyspace(configAccessor.getString(CassandraProperties.CASSANDRA_KEYSPACE));
+                        .setKeyspace(configAccessor.getString(CassandraProperties.CASSANDRA_KEYSPACE))
+                        .setContactPoints(Collections.singletonList(hostname));
                 this.cassandraClient = CassandraClient.create(vertx, options);
 
                 List<CassandraHandler<?>> handlers = prepareHandlers();
-                eventBusConfig(promise, handlers);
+                eventBusConfig(handlers);
             } else {
                 logger.error("Could not retrieve com.openklaster.cassandra.app.CassandraVerticle config!");
-                logger.error(config.cause());
+                logger.error(config.cause().getMessage());
                 vertx.close();
             }
         });
 
+    }
+
+    public CassandraClient getCassandraClient() {
+        return cassandraClient;
     }
 
     private List<CassandraHandler<?>> prepareHandlers() {
@@ -65,12 +77,11 @@ public class CassandraVerticle extends AbstractVerticle {
         );
     }
 
-    private void eventBusConfig(Promise<Void> promise, List<CassandraHandler<?>> handlers) {
+    private void eventBusConfig(List<CassandraHandler<?>> handlers) {
         handlers.forEach(config -> {
             MessageConsumer<JsonObject> consumer = eventBus.consumer(config.getAddress());
             consumer.handler(message -> handlerMap(config, message));
         });
-        promise.complete();
     }
 
     private void handlerMap(CassandraHandler<?> handler, Message<JsonObject> message) {

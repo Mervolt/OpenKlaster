@@ -82,23 +82,23 @@ public class BasicAuthenticationClient implements AuthenticationClient {
     }
 
     private String failedPasswordAuth(String username) {
-        return String.format("Incorrect password for user %s.", username);
+        return String.format("Incorrect password for user %s", username);
     }
 
     private String failedApiTokenAuth(String username) {
-        return String.format("Invalid Api token for user %s.", username);
+        return String.format("Invalid Api token for user %s", username);
     }
 
     private String failedSessionTokenAuth(String username) {
-        return String.format("Invalid Session token for user %s.", username);
+        return String.format("Invalid Session token for user %s", username);
     }
 
     private String expiredTokenAuth(String username) {
-        return String.format("Expired token for user %s.", username);
+        return String.format("Expired token for user %s", username);
     }
 
     private String unknownTokenAuth(String username) {
-        return String.format("Unknown token validation result for user %s.", username);
+        return String.format("Unknown token validation result for user %s", username);
     }
 
 }

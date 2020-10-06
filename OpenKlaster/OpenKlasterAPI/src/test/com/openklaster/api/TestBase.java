@@ -1,37 +1,25 @@
 package com.openklaster.api;
 
-import com.openklaster.api.app.OpenKlasterAPIVerticle;
+import com.openklaster.api.app.ApiVerticle;
 import com.openklaster.api.properties.EndpointRouteProperties;
-import com.openklaster.api.properties.EventBusAddressProperties;
 import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
-import io.vertx.ext.unit.junit.VertxUnitRunner;
 import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
-import io.vertx.ext.web.client.WebClient;
-import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.HashMap;
-
-import static com.openklaster.api.app.OpenKlasterAPIVerticle.buildEndpoint;
-import static com.openklaster.api.utils.PrepareData.getInstallationJsonObject;
-import static com.openklaster.api.utils.PrepareData.getInstallationJsonObjectWithId;
 
 public class TestBase {
     protected static final String ADDRESS = "localhost";
@@ -40,16 +28,16 @@ public class TestBase {
     protected ConfigRetriever configRetriever;
     protected NestedConfigAccessor configAccessor;
     protected Vertx vertx;
-    protected OpenKlasterAPIVerticle verticle;
+    protected ApiVerticle verticle;
     protected EventBus eventBus;
 
     @Before
     public void setUp(TestContext context) {
         Async async = context.async();
-        ConfigFilesManager configFilesManager = new ConfigFilesManager();
+        ConfigFilesManager configFilesManager = new ConfigFilesManager("config-dev");
         vertx = Vertx.vertx();
         configRetriever =  configFilesManager.getConfig(vertx);
-        verticle = new OpenKlasterAPIVerticle(vertx, configFilesManager.getConfig(vertx));
+        verticle = new ApiVerticle();
         vertx.deployVerticle(verticle, result -> {
             async.complete();
         });
