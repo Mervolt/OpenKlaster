@@ -19,9 +19,10 @@ export class NavbarComponent implements OnInit {
     new NavigationNameAddressTuple('Tokens', this.navigateToYourTokens.bind(this)),
     new NavigationNameAddressTuple('Add installation', this.navigateToInstallationGeneration.bind(this)),
     new NavigationNameAddressTuple('Your installations', this.navigateToYourInstallations.bind(this)),
-    new NavigationNameAddressTuple('Predictions', () => console.log('Rafał Gaweł to batman')),
+    new NavigationNameAddressTuple('API Documentation', () => console.log('Rafał Gaweł to batman')),
     new NavigationNameAddressTuple('Logout', this.logout.bind(this))
   ]
+
   constructor(public service: SingleInstallationPanelService, private router: Router, private appComp: AppComponent) {
   }
 
