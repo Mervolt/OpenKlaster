@@ -60,10 +60,17 @@ public class MongoPersistenceService {
     }
 
     //THIS IS SO BAD TO NOT HANDLE RESULT :( but time
+    // TODO quick fix so it works on clean installation
     public void updateCounter(String counterName, int value, Handler<AsyncResult<MongoClientUpdateResult>> resultHandler) {
-        JsonObject fieldsToUpdate = new JsonObject().put(counterValueKey, value);
-        JsonObject findQuery = new JsonObject().put(ID_KEY, counterName);
-        client.updateCollection(countersCollectionName, findQuery, updateQuery(fieldsToUpdate), resultHandler);
+        if (value > 1) {
+            JsonObject fieldsToUpdate = new JsonObject().put(counterValueKey, value);
+            JsonObject findQuery = new JsonObject().put(ID_KEY, counterName);
+            client.updateCollection(countersCollectionName, findQuery, updateQuery(fieldsToUpdate), resultHandler);
+        } else {
+            JsonObject jsonObject = new JsonObject().put(counterValueKey, value).put(ID_KEY, counterName);
+            insertByQuery(jsonObject, countersCollectionName, handler -> {
+            });
+        }
     }
 
 
