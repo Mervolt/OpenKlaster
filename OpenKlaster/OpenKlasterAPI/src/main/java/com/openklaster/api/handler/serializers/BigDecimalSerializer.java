@@ -10,6 +10,6 @@ import java.math.BigDecimal;
 public class BigDecimalSerializer extends JsonSerializer<BigDecimal> {
     @Override
     public void serialize(BigDecimal value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeString(value.setScale(3, BigDecimal.ROUND_HALF_UP).stripTrailingZeros().toString());
+        jgen.writeNumber(value.setScale(3, BigDecimal.ROUND_HALF_UP).stripTrailingZeros().toString());
     }
 }
