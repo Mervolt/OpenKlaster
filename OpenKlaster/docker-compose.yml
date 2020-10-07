@@ -20,7 +20,7 @@ services:
     depends_on:
       - cassandra-db
   openklaster-webpage:
-    build: ./DigitalSignage/frontend/OpenKlaster
+    build: OpenKlasterWeb
     depends_on:
       - openklaster-api
     ports:

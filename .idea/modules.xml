@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/OpenKlaster/CassandraService/CassandraService.iml" filepath="$PROJECT_DIR$/OpenKlaster/CassandraService/CassandraService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OpenKlaster/CommonService/CommonService.iml" filepath="$PROJECT_DIR$/OpenKlaster/CommonService/CommonService.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/EngineeringProject.iml" filepath="$PROJECT_DIR$/.idea/EngineeringProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OpenKlaster/MongoService/MongoService.iml" filepath="$PROJECT_DIR$/OpenKlaster/MongoService/MongoService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OpenKlaster/OpenKlaster.iml" filepath="$PROJECT_DIR$/OpenKlaster/OpenKlaster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OpenKlaster/OpenKlasterAPI/OpenKlasterAPI.iml" filepath="$PROJECT_DIR$/OpenKlaster/OpenKlasterAPI/OpenKlasterAPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OpenKlaster/OpenKlasterCore/OpenKlasterCore.iml" filepath="$PROJECT_DIR$/OpenKlaster/OpenKlasterCore/OpenKlasterCore.iml" />
     </modules>
   </component>
 </project>
