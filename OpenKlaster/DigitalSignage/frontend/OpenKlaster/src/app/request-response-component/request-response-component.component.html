@@ -1,0 +1,34 @@
+<div class="request-response-container">
+  <div class="request-response-next-to-icon-margin">
+    <div *ngIf="sendRequestState=='wait'">
+      <h1 class="request-response-next-to-icon-margin">Waiting for submit</h1>
+    </div>
+    <div *ngIf="sendRequestState=='sent'">
+      <div style="display: flex">
+        <mat-spinner></mat-spinner>
+        <h1 class="request-response-next-to-icon-margin">Request sent...</h1>
+      </div>
+    </div>
+    <div *ngIf="sendRequestState=='received'">
+      <div style="display: flex">
+        <mat-icon class="request-response-icon request-response-icon-positive">done</mat-icon>
+        <h1 class="request-response-next-to-icon-margin">Request received</h1>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="request-response-next-to-icon-margin">
+    <div *ngIf="requestReceivedState=='wait'"></div>
+    <div *ngIf="requestReceivedState=='success'">
+      <div style="display: flex">
+        <mat-icon class="request-response-icon request-response-icon-positive">done</mat-icon>
+        <h1 class="request-response-next-to-icon-margin">{{submittedObjectName}} has been added successfully</h1>
+      </div>
+    </div>
+    <div *ngIf="requestReceivedState=='fail'" style="display: flex">
+      <mat-icon class="request-response-icon request-response-icon-negative">error</mat-icon>
+      <h1 class="request-response-next-to-icon-margin">Error during submitting {{submittedObjectName}}</h1>
+    </div>
+  </div>
+</div>
+

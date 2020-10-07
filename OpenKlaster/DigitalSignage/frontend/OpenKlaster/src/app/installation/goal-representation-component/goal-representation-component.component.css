@@ -1,0 +1,15 @@
+p {
+  font-size: 20px;
+  margin: 10px;
+}
+
+.goal-representation-container {
+  width: 800px;
+  height: 25px;
+  margin: 50px;
+}
+
+.flex-div-row {
+  min-width: 700px;
+  justify-content: space-between;
+}

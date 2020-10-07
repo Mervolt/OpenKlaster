@@ -58,8 +58,6 @@ if __name__ == '__main__':
         documents = collection.find({}, {"inverter.manufacturer": 1, "inverter.credentials": 1, "_id": 1})
 
         for installation in documents:
-            print(installation)
-            print("\n")
             try :
                 credentials = json.loads(installation["inverter"]["credentials"])
                 if installation["inverter"]["manufacturer"] == config["producers"]["growatt"]:
