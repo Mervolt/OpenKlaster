@@ -48,6 +48,7 @@ import { SuccessfulLoginDialogComponent } from './user/successful-login-dialog/s
 import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
 import {InstallationService} from "./service/installation.service";
 import {HttpClientInterceptor} from "./service/interceptors/http-client-interceptor.service";
+import { ChartsComponent } from './charts/charts.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import {HttpClientInterceptor} from "./service/interceptors/http-client-intercep
     CredentialsUserpassComponent,
     InstallationListItemComponent,
     SuccessfulLoginDialogComponent,
-    SwaggerUiComponent
+    SwaggerUiComponent,
+    ChartsComponent
   ],
   imports: [
     BrowserModule,
@@ -84,7 +86,8 @@ import {HttpClientInterceptor} from "./service/interceptors/http-client-intercep
       {path: 'installations/:id', component: SingleInstallationPanelComponent},
       {path: 'installationGeneration', component: InstallationGenerationPanelComponent},
       {path: 'editInstallation/:id', component: EditInstallationComponent},
-      {path: 'swagger-ui', component: SwaggerUiComponent}
+      {path: 'swagger-ui', component: SwaggerUiComponent},
+      {path: 'charts', component: ChartsComponent}
     ]),
     ReactiveFormsModule,
     FormsModule,
