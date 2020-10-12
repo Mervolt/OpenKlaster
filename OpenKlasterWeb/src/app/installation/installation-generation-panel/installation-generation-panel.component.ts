@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Installation} from "../../model/Installation";
-import {InstallationPanelService} from "../installation-panel.service";
+import {InstallationService} from "../../service/installation.service";
 import {CookieService} from "ngx-cookie-service";
 import {CredentialsFormComponent} from "../../credentials/credentials-form/credentials-form.component";
 
@@ -18,7 +18,7 @@ export class InstallationGenerationPanelComponent implements AfterViewInit {
   @ViewChild(CredentialsFormComponent) credentials;
   formModel = new Installation();
 
-  constructor(public installationService: InstallationPanelService,
+  constructor(public installationService: InstallationService,
               private cookieService: CookieService) {
   }
 

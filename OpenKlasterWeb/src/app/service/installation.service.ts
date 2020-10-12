@@ -8,9 +8,7 @@ import {CookieHolder} from "../model/CookieHolder";
 @Injectable({
   providedIn: 'root'
 })
-//TODO What 'Panel' means here?
-//MM-ANSWER: Z translatora: panel - pulpit
-export class InstallationPanelService {
+export class InstallationService {
 
   constructor(public http: HttpClient) {
   }

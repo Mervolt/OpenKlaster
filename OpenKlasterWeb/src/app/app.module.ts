@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
 
@@ -14,7 +14,6 @@ import {TokenPanelComponent} from './token/token-panel/token-panel.component';
 import {MeasurementPanelComponent} from './installation/measurement-panel/measurement-panel.component';
 import {InstallationPanelComponent} from './installation/installation-panel/installation-panel.component';
 import {TokenService} from './token/token.service';
-import {InstallationPanelService} from './installation/installation-panel.service';
 import {CookieService} from 'ngx-cookie-service';
 import {LoginFormService} from './user/login-form.service';
 import {SingleInstallationPanelComponent} from './installation/single-installation-panel/single-installation-panel.component';
@@ -47,6 +46,8 @@ import {InstallationListItemComponent} from './installation/installation-list-it
 import {MatTableModule} from "@angular/material/table";
 import { SuccessfulLoginDialogComponent } from './user/successful-login-dialog/successful-login-dialog.component';
 import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
+import {InstallationService} from "./service/installation.service";
+import {HttpClientInterceptor} from "./service/interceptors/http-client-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -108,10 +109,15 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
     RegisterFormService,
     LoginFormService,
     TokenService,
-    InstallationPanelService,
+    InstallationService,
     CookieService,
     InstallationPanelComponent,
-    RequestResponseComponentComponent
+    RequestResponseComponentComponent,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpClientInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SingleInstallationPanelService} from "../single-installation-panel.service";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {ActivatedRoute, Router} from "@angular/router";
-import {InstallationPanelService} from "../installation-panel.service";
+import {InstallationService} from "../../service/installation.service";
 import {InstallationDto} from "../../model/InstallationDto";
 import {CookieService} from "ngx-cookie-service";
 import {Installation} from "../../model/Installation";
@@ -25,7 +25,7 @@ export class SingleInstallationPanelComponent implements OnInit {
   // which should not exists
   //MM-ANSWER tokens to be refactored later
   constructor(public service: SingleInstallationPanelService, private router: Router,
-              public installationsService: InstallationPanelService,
+              public installationsService: InstallationService,
               private route: ActivatedRoute, public cookieService: CookieService,
               public dialog: MatDialog) {
     this.installationId = route.snapshot.paramMap.get('id');
