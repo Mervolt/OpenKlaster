@@ -2,7 +2,7 @@ package com.openklaster.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.openklaster.api.validation.ModelValidationErrorMessages;
-import lombok.AllArgsConstructor;
+import com.openklaster.common.model.Credentials;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,8 +17,8 @@ public class Inverter {
     private String description;
     @NotBlank(message = ModelValidationErrorMessages.MANUFACTURER)
     private String manufacturer;
-    @NotBlank(message = ModelValidationErrorMessages.CREDENTRAILS)
-    private String credentials;
+    @NotNull(message = ModelValidationErrorMessages.CREDENTRAILS)
+    private Credentials credentials;
     @NotBlank(message = ModelValidationErrorMessages.MODEL_TYPE)
     private String modelType;
 }

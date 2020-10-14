@@ -38,7 +38,7 @@ export class InstallationService {
       'inverter': {
         'description': installation.inverter.description,
         'manufacturer': installation.inverter.manufacturer,
-        'credentials': JSON.stringify(installation.inverter.credentials),
+        'credentials': installation.inverter.credentials,
         'modelType': installation.inverter.modelType
       },
       'source': {

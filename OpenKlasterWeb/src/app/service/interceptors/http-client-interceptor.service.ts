@@ -8,9 +8,7 @@ import {Router} from "@angular/router";
 export class HttpClientInterceptor implements HttpInterceptor {
 
 
-  constructor(private router?: Router) {
-    console.log("!!!!!!!" + router)
-  }
+  constructor(private router?: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request)
