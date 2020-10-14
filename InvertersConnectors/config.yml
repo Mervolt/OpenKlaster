@@ -3,7 +3,7 @@ database: DEFAULT_DB
 collection: installations
 request:
   headers: { 'content-type': 'application/json' }
-  params: { 'apiToken': 'Qru46b6yW1WD' } # Todo tutaj jakiś superToken
+  params: { 'technicalToken': 'PDcX1hJkKfNPLfuBAses8wq3QiwRQRttkvh9CQjbTUOvY8WmpYFnkTeZZyGDfZWn' }
   powerProductionUrl: http://localhost:8082/api/1/powerProduction
   powerProducedUrl: http://localhost:8082/api/1/energyProduced
 producers:

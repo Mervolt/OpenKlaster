@@ -40,6 +40,15 @@ public class MeasurementManager<T> extends ModelManager<T> {
         }
     }
 
+    protected Future<JsonObject> processTechnicalMessage(Message<JsonObject> message, String methodName) {
+        switch (methodName) {
+            case addMethodName:
+                return add(message.body().mapTo(modelClass)).map(JsonObject::mapFrom);
+            default:
+                throw new IllegalArgumentException(String.format("This operations is not allowed: %s", methodName));
+        }
+    }
+
     private Future<T> add(T entity) {
         return cassandraRepository.add(entity);
     }

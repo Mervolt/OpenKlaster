@@ -39,6 +39,17 @@ public abstract class AuthManager {
                 });
     }
 
+    public void skipAuthenticationAndHandleMessage(Message<JsonObject> message, String methodName) {
+        processTechnicalMessage(message, methodName)
+                .onComplete(handler -> {
+                    if (handler.succeeded()) {
+                        handleSuccess(methodName, handler.result(), message);
+                    } else {
+                        handleFailure(methodName, handler.cause(), message);
+                    }
+                });
+    }
+
     protected void handleFailure(String methodName, Throwable reason, Message<JsonObject> message) {
         logger.error(getFailureMessage(methodName, reason, message), reason);
 
@@ -70,6 +81,10 @@ public abstract class AuthManager {
 
     protected abstract Future<JsonObject> processAuthenticatedMessage(User authenticatedUser,
                                                                       Message<JsonObject> message, String methodName);
+
+    protected Future<JsonObject> processTechnicalMessage(Message<JsonObject> message, String methodName) {
+        return null;
+    }
 
     protected Future<User> authenticate(MultiMap headers, Future<User> userFuture) {
         return userFuture.map(user -> authenticateUser(headers, user));

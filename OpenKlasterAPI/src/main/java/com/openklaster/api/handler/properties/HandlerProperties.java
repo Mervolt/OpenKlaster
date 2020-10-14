@@ -10,4 +10,5 @@ public class HandlerProperties {
     public static final String deleteMethodHeader = "delete";
     public static final String apiToken = "apiToken";
     public static final String sessionToken = "sessionToken";
+    public static final String technicalToken = "technicalToken";
 }

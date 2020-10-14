@@ -142,13 +142,17 @@ public class CoreVerticle extends OpenklasterVerticle {
             MeasurementManager<LoadMeasurement> loadMeasurementMeasurementManager) {
 
         return new MeasurementServiceHandler<>(
-                configAccessor.getPathConfigAccessor(loadMeasurementConfigPath), loadMeasurementMeasurementManager);
+                configAccessor.getPathConfigAccessor(loadMeasurementConfigPath),
+                loadMeasurementMeasurementManager,
+                configAccessor.getString(technicalTokenConfigPath));
     }
 
     private EndpointService configureSourceMeasurementService(
             MeasurementManager<SourceMeasurement> sourceMeasurementMeasurementManager) {
         return new MeasurementServiceHandler<>(
-                configAccessor.getPathConfigAccessor(sourceMeasurementConfigPath), sourceMeasurementMeasurementManager);
+                configAccessor.getPathConfigAccessor(sourceMeasurementConfigPath),
+                sourceMeasurementMeasurementManager,
+                configAccessor.getString(technicalTokenConfigPath));
     }
 
     private EndpointService configureInstallationManagement(AuthenticationClient authenticationClient,
