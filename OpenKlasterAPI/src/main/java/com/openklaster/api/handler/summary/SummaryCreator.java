@@ -3,6 +3,7 @@ package com.openklaster.api.handler.summary;
 import com.openklaster.api.handler.properties.SummaryProperties;
 import com.openklaster.api.model.Unit;
 import com.openklaster.api.model.summary.EnvironmentalBenefits;
+import com.openklaster.api.model.summary.EnvironmentalConfig;
 import com.openklaster.api.model.summary.Measurement;
 import com.openklaster.api.model.summary.SummaryResponse;
 import com.openklaster.common.config.NestedConfigAccessor;
@@ -19,15 +20,15 @@ import java.util.stream.Collectors;
 
 public class SummaryCreator {
 
-    public SummaryResponse createSummary(AsyncResult<Message<JsonArray>> response, NestedConfigAccessor config) {
+    public SummaryResponse createSummary(AsyncResult<Message<JsonArray>> response, EnvironmentalConfig config) {
         Map<Unit, List<Measurement>> measurements = groupMeasurementsFromJsonArray(response.result().body());
         Measurement latestEnergyMeasurement = findLastMeasurement(measurements.get(Unit.kWh));
         Measurement latestPowerMeasurement = findLastMeasurement(measurements.get(Unit.kW));
         Map<String, Double> powerMeasurements = convertMeasurementArraysIntoMap(measurements.get(Unit.kW));
         BigDecimal energyProducedToday = countEnergyProducedToday(measurements.get(Unit.kWh));
         EnvironmentalBenefits environmentalBenefits = EnvironmentalBenefits.builder()
-                .co2Reduced(calculateEnvironmentalBenefit(SummaryProperties.CO2REDUCED, latestEnergyMeasurement.getValue(), config))
-                .treesSaved(calculateEnvironmentalBenefit(SummaryProperties.TREES_SAVED, latestEnergyMeasurement.getValue(), config))
+                .co2Reduced(calculateEnvironmentalBenefit(latestEnergyMeasurement.getValue(), config.getCo2Reduced()))
+                .treesSaved(calculateEnvironmentalBenefit(latestEnergyMeasurement.getValue(), config.getTreesSaved()))
                 .build();
         ;
 
@@ -74,8 +75,8 @@ public class SummaryCreator {
                 .collect(Collectors.groupingBy(Measurement::getUnit));
     }
 
-    private int calculateEnvironmentalBenefit(String path, double energy, NestedConfigAccessor config) {
-        return (int) (((double) config.getInteger(path) / 100) * energy);
+    private int calculateEnvironmentalBenefit(double energy, int value) {
+        return (int) (((double) value / 100) * energy);
     }
 
     private String parseTimeFromTimeStamp(Date timestamp) {

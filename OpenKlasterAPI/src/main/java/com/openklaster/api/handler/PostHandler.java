@@ -8,12 +8,12 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.ext.web.RoutingContext;
 
 public class PostHandler extends Handler {
-    public PostHandler(String route, String address, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
-        super(HandlerProperties.postMethodHeader, route, HandlerProperties.postMethodHeader, address, nestedConfigAccessor, parseStrategy);
+    public PostHandler(String route, String address, IParseStrategy<? extends Model> parseStrategy) {
+        super(HandlerProperties.postMethodHeader, route, HandlerProperties.postMethodHeader, address, parseStrategy);
     }
 
-    public PostHandler(String route, String address, String eventbusMethod, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
-        super(HandlerProperties.postMethodHeader, route, eventbusMethod, address, nestedConfigAccessor, parseStrategy);
+    public PostHandler(String route, String address, String eventbusMethod, IParseStrategy<? extends Model> parseStrategy) {
+        super(HandlerProperties.postMethodHeader, route, eventbusMethod, address, parseStrategy);
     }
 
     @Override

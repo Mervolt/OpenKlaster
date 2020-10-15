@@ -3,10 +3,10 @@ package com.openklaster.api.handler;
 import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.api.handler.summary.SummaryCreator;
 import com.openklaster.api.model.Model;
+import com.openklaster.api.model.summary.EnvironmentalConfig;
 import com.openklaster.api.model.summary.SummaryResponse;
 import com.openklaster.api.parser.IParseStrategy;
 import com.openklaster.api.validation.ValidationException;
-import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.ReplyException;
@@ -21,10 +21,13 @@ import static com.openklaster.api.validation.ValidationExecutor.validate;
 
 public class SummaryHandler extends Handler {
     private final SummaryCreator summaryCreator;
+    private EnvironmentalConfig environmentalConfig;
 
-    public SummaryHandler(String route, String address, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy, SummaryCreator summaryCreator) {
-        super(HandlerProperties.getMethodHeader, route, HandlerProperties.getMethodHeader, address, nestedConfigAccessor, parseStrategy);
+    public SummaryHandler(String route, String address, IParseStrategy<? extends Model> parseStrategy,
+                          SummaryCreator summaryCreator, EnvironmentalConfig environmentalConfig) {
+        super(HandlerProperties.getMethodHeader, route, HandlerProperties.getMethodHeader, address, parseStrategy);
         this.summaryCreator = summaryCreator;
+        this.environmentalConfig = environmentalConfig;
     }
 
     @Override
@@ -39,7 +42,7 @@ public class SummaryHandler extends Handler {
 
             eventBus.<JsonArray>request(address, validatedModel, deliveryOptions, coreResponse -> {
                 if (coreResponse.succeeded()) {
-                    SummaryResponse summaryResponse = summaryCreator.createSummary(coreResponse, nestedConfigAccessor);
+                    SummaryResponse summaryResponse = summaryCreator.createSummary(coreResponse, environmentalConfig);
                     context.response().end(Json.encodePrettily(JsonObject.mapFrom(summaryResponse)));
                 } else {
                     ReplyException replyException = (ReplyException) coreResponse.cause();

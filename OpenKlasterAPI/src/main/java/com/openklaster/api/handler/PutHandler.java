@@ -8,12 +8,12 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.ext.web.RoutingContext;
 
 public class PutHandler extends Handler {
-    public PutHandler(String route, String address, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
-        super(HandlerProperties.putMethodHeader, route, HandlerProperties.putMethodHeader, address, nestedConfigAccessor, parseStrategy);
+    public PutHandler(String route, String address, IParseStrategy<? extends Model> parseStrategy) {
+        super(HandlerProperties.putMethodHeader, route, HandlerProperties.putMethodHeader, address, parseStrategy);
     }
 
-    public PutHandler(String route, String address, String eventbusMethod, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
-        super(HandlerProperties.putMethodHeader, route, eventbusMethod, address, nestedConfigAccessor, parseStrategy);
+    public PutHandler(String route, String address, String eventbusMethod, IParseStrategy<? extends Model> parseStrategy) {
+        super(HandlerProperties.putMethodHeader, route, eventbusMethod, address, parseStrategy);
     }
 
     @Override

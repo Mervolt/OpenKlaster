@@ -1,6 +1,7 @@
 package com.openklaster.api.handler;
 
 import com.openklaster.api.handler.properties.HandlerProperties;
+import com.openklaster.api.model.Model;
 import com.openklaster.api.parser.IParseStrategy;
 import com.openklaster.api.validation.ModelValidationErrorMessages;
 import com.openklaster.api.validation.ValidationException;
@@ -14,8 +15,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.RoutingContext;
-import com.openklaster.common.config.NestedConfigAccessor;
-import com.openklaster.api.model.Model;
 import lombok.AllArgsConstructor;
 
 import java.util.HashMap;
@@ -29,7 +28,6 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.isInternalSer
 
 @AllArgsConstructor
 public abstract class Handler {
-    private static final String requestDefaultTimeout = "eventBus.timeout";
     private static final Logger logger = LoggerFactory.getLogger(Handler.class);
 
     String method;
@@ -37,17 +35,6 @@ public abstract class Handler {
     String eventbusMethod;
     String address;
     IParseStrategy<? extends Model> parseStrategy;
-    NestedConfigAccessor nestedConfigAccessor;
-
-    public Handler(String method, String route, String eventbusMethod, String address,
-                   NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
-        this.method = method;
-        this.route = route;
-        this.eventbusMethod = eventbusMethod;
-        this.address = address;
-        this.nestedConfigAccessor = nestedConfigAccessor;
-        this.parseStrategy = parseStrategy;
-    }
 
     public abstract void handle(RoutingContext context, EventBus eventBus);
 
@@ -71,21 +58,20 @@ public abstract class Handler {
         handleRequest(context, tokens, jsonModel, eventBus);
     }
 
-    private void handleRequest(RoutingContext context, Map<String, String> tokens, JsonObject jsonModel,  EventBus eventBus) {
+    private void handleRequest(RoutingContext context, Map<String, String> tokens, JsonObject jsonModel, EventBus eventBus) {
         try {
             Model model = parseStrategy.parseToModel(jsonModel);
             validate(model, tokens);
             JsonObject validatedModel = JsonObject.mapFrom(model);
             DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, tokens);
             eventBus.request(address, validatedModel, deliveryOptions, coreResponse -> {
-                if(coreResponse.succeeded()){
+                if (coreResponse.succeeded()) {
                     if (coreResponse.result().body() == null)
                         handleSuccessfulRequest(context.response());
                     else
                         context.response().end(Json.encodePrettily(coreResponse.result().body()));
-                        logger.debug("Successful request: " + coreResponse.result().body());
-                }
-                else{
+                    logger.debug("Successful request: " + coreResponse.result().body());
+                } else {
                     logger.info(coreResponse.cause().getMessage());
                     ReplyException replyException = (ReplyException) coreResponse.cause();
                     if (isInternalServerError(replyException))
@@ -102,11 +88,11 @@ public abstract class Handler {
 
     protected JsonObject convertMultiMapToJson(List<Map.Entry<String, String>> modelParams) {
         JsonObject jsonModel = new JsonObject();
-        modelParams.forEach(entry -> jsonModel.put(entry.getKey(),entry.getValue()));
+        modelParams.forEach(entry -> jsonModel.put(entry.getKey(), entry.getValue()));
         return jsonModel;
     }
 
-    protected Map<String, String>  retrieveTokensFromContex(RoutingContext context){
+    protected Map<String, String> retrieveTokensFromContex(RoutingContext context) {
         Map<String, String> tokens = new HashMap<>();
         if (context.queryParams().contains(HandlerProperties.apiToken)) {
             tokens.put(HandlerProperties.apiToken, context.queryParams().get(HandlerProperties.apiToken));
@@ -120,13 +106,12 @@ public abstract class Handler {
     }
 
 
-    protected DeliveryOptions createRequestDeliveryOptions(String eventbusMethod, Map<String, String> tokens){
+    protected DeliveryOptions createRequestDeliveryOptions(String eventbusMethod, Map<String, String> tokens) {
         DeliveryOptions deliveryOptions = new DeliveryOptions();
         for (String token : tokens.keySet()) {
             deliveryOptions.addHeader(token, tokens.get(token));
         }
         deliveryOptions.addHeader(METHOD_KEY, eventbusMethod);
-        deliveryOptions.setSendTimeout(nestedConfigAccessor.getInteger(requestDefaultTimeout));
         return deliveryOptions;
     }
 
@@ -157,7 +142,6 @@ public abstract class Handler {
                 ", eventbusMethod='" + eventbusMethod + '\'' +
                 ", address='" + address + '\'' +
                 ", parseStrategy=" + parseStrategy +
-                ", nestedConfigAccessor=" + nestedConfigAccessor +
                 '}';
     }
 }
