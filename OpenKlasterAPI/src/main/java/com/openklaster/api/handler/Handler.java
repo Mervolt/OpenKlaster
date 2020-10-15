@@ -36,22 +36,20 @@ public abstract class Handler {
     String route;
     String eventbusMethod;
     String address;
-    EventBus eventBus;
     IParseStrategy<? extends Model> parseStrategy;
     NestedConfigAccessor nestedConfigAccessor;
 
-    public Handler(String method, String route, String eventbusMethod, String address, EventBus eventBus,
+    public Handler(String method, String route, String eventbusMethod, String address,
                    NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
         this.method = method;
         this.route = route;
         this.eventbusMethod = eventbusMethod;
         this.address = address;
-        this.eventBus = eventBus;
         this.nestedConfigAccessor = nestedConfigAccessor;
         this.parseStrategy = parseStrategy;
     }
 
-    public abstract void handle(RoutingContext context);
+    public abstract void handle(RoutingContext context, EventBus eventBus);
 
     public String getRoute() {
         return this.route;
@@ -61,19 +59,19 @@ public abstract class Handler {
         return method;
     }
 
-    protected void sendGetDeleteRequest(RoutingContext context) {
+    protected void sendGetDeleteRequest(RoutingContext context, EventBus eventBus) {
         Map<String, String> tokens = retrieveTokensFromContex(context);
         JsonObject jsonModel = convertMultiMapToJson(context.queryParams().entries());
-        handleRequest(context, tokens, jsonModel);
+        handleRequest(context, tokens, jsonModel, eventBus);
     }
 
-    protected void sendPutPostRequest(RoutingContext context) {
+    protected void sendPutPostRequest(RoutingContext context, EventBus eventBus) {
         Map<String, String> tokens = retrieveTokensFromContex(context);
         JsonObject jsonModel = context.getBodyAsJson();
-        handleRequest(context, tokens, jsonModel);
+        handleRequest(context, tokens, jsonModel, eventBus);
     }
 
-    private void handleRequest(RoutingContext context, Map<String, String> tokens, JsonObject jsonModel) {
+    private void handleRequest(RoutingContext context, Map<String, String> tokens, JsonObject jsonModel,  EventBus eventBus) {
         try {
             Model model = parseStrategy.parseToModel(jsonModel);
             validate(model, tokens);
@@ -158,7 +156,6 @@ public abstract class Handler {
                 ", route='" + route + '\'' +
                 ", eventbusMethod='" + eventbusMethod + '\'' +
                 ", address='" + address + '\'' +
-                ", eventBus=" + eventBus +
                 ", parseStrategy=" + parseStrategy +
                 ", nestedConfigAccessor=" + nestedConfigAccessor +
                 '}';

@@ -8,16 +8,16 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.ext.web.RoutingContext;
 
 public class DeleteHandler extends Handler{
-    public DeleteHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
-        super(HandlerProperties.deleteMethodHeader, route, HandlerProperties.deleteMethodHeader, address, eventBus, nestedConfigAccessor, parseStrategy);
+    public DeleteHandler(String route, String address, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
+        super(HandlerProperties.deleteMethodHeader, route, HandlerProperties.deleteMethodHeader, address, nestedConfigAccessor, parseStrategy);
     }
 
-    public DeleteHandler(String route, String address, String eventbusMethod, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
-        super(HandlerProperties.deleteMethodHeader, route, eventbusMethod, address, eventBus, nestedConfigAccessor, parseStrategy);
+    public DeleteHandler(String route, String address, String eventbusMethod, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
+        super(HandlerProperties.deleteMethodHeader, route, eventbusMethod, address, nestedConfigAccessor, parseStrategy);
     }
 
     @Override
-    public void handle(RoutingContext context) {
-        sendGetDeleteRequest(context);
+    public void handle(RoutingContext context, EventBus eventBus) {
+        sendGetDeleteRequest(context, eventBus);
     }
 }

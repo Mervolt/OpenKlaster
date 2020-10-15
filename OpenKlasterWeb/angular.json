@@ -126,5 +126,8 @@
       }
     }
   },
-  "defaultProject": "OpenKlaster"
+  "defaultProject": "OpenKlaster",
+  "cli": {
+    "analytics": "d4ed202b-9e51-4658-bf7f-ce6c53d931f4"
+  }
 }

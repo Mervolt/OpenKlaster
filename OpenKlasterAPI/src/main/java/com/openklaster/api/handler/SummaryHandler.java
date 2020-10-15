@@ -22,13 +22,13 @@ import static com.openklaster.api.validation.ValidationExecutor.validate;
 public class SummaryHandler extends Handler {
     private final SummaryCreator summaryCreator;
 
-    public SummaryHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy, SummaryCreator summaryCreator) {
-        super(HandlerProperties.getMethodHeader, route, HandlerProperties.getMethodHeader, address, eventBus, nestedConfigAccessor, parseStrategy);
+    public SummaryHandler(String route, String address, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy, SummaryCreator summaryCreator) {
+        super(HandlerProperties.getMethodHeader, route, HandlerProperties.getMethodHeader, address, nestedConfigAccessor, parseStrategy);
         this.summaryCreator = summaryCreator;
     }
 
     @Override
-    public void handle(RoutingContext context) {
+    public void handle(RoutingContext context, EventBus eventBus) {
         Map<String, String> tokens = retrieveTokensFromContex(context);
         JsonObject jsonModel = convertMultiMapToJson(context.queryParams().entries());
         try {

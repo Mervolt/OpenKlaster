@@ -70,88 +70,67 @@ public class ApiVerticle extends OpenklasterVerticle {
                 .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
         handlers = Arrays.asList(
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.loginEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.LOGIN,
-                        eventBus, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.LOGIN, configAccessor, new DefaultParseStrategy<Login>(Login.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.REGISTER,
-                        eventBus, configAccessor, new DefaultParseStrategy<Register>(Register.class)),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.REGISTER, configAccessor, new DefaultParseStrategy<Register>(Register.class)),
 
                 new PutHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.UPDATE_USER,
-                        eventBus, configAccessor, new DefaultParseStrategy<UpdateUser>(UpdateUser.class)),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.UPDATE_USER, configAccessor, new DefaultParseStrategy<UpdateUser>(UpdateUser.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.INFO,
-                        eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.INFO, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.GENERATE_TOKEN,
-                        eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.GENERATE_TOKEN, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.DELETE_TOKEN,
-                        eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.DELETE_TOKEN, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.allTokensEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.DELETE_ALL_TOKENS,
-                        eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
+                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.DELETE_ALL_TOKENS, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey), configAccessor, new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.allinstallationEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey), EventbusMethods.GET_ALL,
-                        eventBus, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
+                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey), EventbusMethods.GET_ALL, configAccessor, new DefaultParseStrategy<Username>(Username.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<PostInstallation>(PostInstallation.class)),
+                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey), configAccessor, new DefaultParseStrategy<PostInstallation>(PostInstallation.class)),
 
                 new PutHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<Installation>(Installation.class)),
+                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey), configAccessor, new DefaultParseStrategy<Installation>(Installation.class)),
 
                 new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey), configAccessor, new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPowerRequest>(MeasurementPowerRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey), configAccessor, new DefaultParseStrategy<MeasurementPowerRequest>(MeasurementPowerRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
+                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey), configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPowerRequest>(MeasurementPowerRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey), configAccessor, new DefaultParseStrategy<MeasurementPowerRequest>(MeasurementPowerRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey), configAccessor, new DefaultParseStrategy<MeasurementPower>(MeasurementPower.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergyRequest>(MeasurementEnergyRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey), configAccessor, new DefaultParseStrategy<MeasurementEnergyRequest>(MeasurementEnergyRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class)),
+                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey), configAccessor, new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class)),
 
                 new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergyRequest>(MeasurementEnergyRequest.class)),
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey), configAccessor, new DefaultParseStrategy<MeasurementEnergyRequest>(MeasurementEnergyRequest.class)),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class)),
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey), configAccessor, new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class)),
 
                 new SummaryHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.summaryEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<SummaryRequest>(SummaryRequest.class), new SummaryCreator())
+                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey), configAccessor, new DefaultParseStrategy<SummaryRequest>(SummaryRequest.class), new SummaryCreator())
         );
         routerConfig(router);
     }
@@ -161,16 +140,16 @@ public class ApiVerticle extends OpenklasterVerticle {
             configureRouteHandler(router);
             switch (handler.getMethod()) {
                 case HandlerProperties.getMethodHeader:
-                    router.get(handler.getRoute()).handler(handler::handle);
+                    router.get(handler.getRoute()).handler(context -> handler.handle(context, eventBus));
                     break;
                 case HandlerProperties.postMethodHeader:
-                    router.post(handler.getRoute()).consumes("application/json").handler(handler::handle);
+                    router.post(handler.getRoute()).consumes("application/json").handler(context -> handler.handle(context, eventBus));
                     break;
                 case HandlerProperties.putMethodHeader:
-                    router.put(handler.getRoute()).consumes("application/json").handler(handler::handle);
+                    router.put(handler.getRoute()).consumes("application/json").handler(context -> handler.handle(context, eventBus));
                     break;
                 case HandlerProperties.deleteMethodHeader:
-                    router.delete(handler.getRoute()).handler(handler::handle);
+                    router.delete(handler.getRoute()).handler(context -> handler.handle(context, eventBus));
                     break;
             }
         });
