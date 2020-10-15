@@ -8,7 +8,6 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost:8082",
   "tags": [
     {
       "name": "user",
@@ -61,6 +60,34 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/manufacturerCredentials": {
+      "get": {
+        "tags": [
+          "miscellaneous"
+        ],
+        "summary": "Provides manufacturer names and format of their credentials",
+        "operationId": "getManufacturerCredentials",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Manufacturers credentials are:",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "manufacturer": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         }
       }

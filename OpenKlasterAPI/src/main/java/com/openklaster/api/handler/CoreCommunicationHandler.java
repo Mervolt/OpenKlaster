@@ -13,6 +13,7 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.api.model.Model;
@@ -28,9 +29,9 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 import static com.openklaster.common.messages.BusMessageReplyUtils.isInternalServerError;
 
 @AllArgsConstructor
-public abstract class Handler {
+public abstract class CoreCommunicationHandler implements ApiHandler {
     private static final String requestDefaultTimeout = "eventBus.timeout";
-    private static final Logger logger = LoggerFactory.getLogger(Handler.class);
+    private static final Logger logger = LoggerFactory.getLogger(CoreCommunicationHandler.class);
 
     String method;
     String route;
@@ -40,8 +41,8 @@ public abstract class Handler {
     IParseStrategy<? extends Model> parseStrategy;
     NestedConfigAccessor nestedConfigAccessor;
 
-    public Handler(String method, String route, String eventbusMethod, String address, EventBus eventBus,
-                   NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
+    public CoreCommunicationHandler(String method, String route, String eventbusMethod, String address, EventBus eventBus,
+                                    NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
         this.method = method;
         this.route = route;
         this.eventbusMethod = eventbusMethod;
@@ -51,8 +52,22 @@ public abstract class Handler {
         this.parseStrategy = parseStrategy;
     }
 
-    public abstract void handle(RoutingContext context);
-
+    public void configure(Router router){
+        switch (getMethod()) {
+            case HandlerProperties.getMethodHeader:
+                router.get(getRoute()).handler(this::handle);
+                break;
+            case HandlerProperties.postMethodHeader:
+                router.post(getRoute()).consumes("application/json").handler(this::handle);
+                break;
+            case HandlerProperties.putMethodHeader:
+                router.put(getRoute()).consumes("application/json").handler(this::handle);
+                break;
+            case HandlerProperties.deleteMethodHeader:
+                router.delete(getRoute()).handler(this::handle);
+                break;
+        }
+    }
     public String getRoute() {
         return this.route;
     }

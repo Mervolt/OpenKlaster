@@ -19,10 +19,10 @@ import java.util.Map;
 
 import static com.openklaster.api.validation.ValidationExecutor.validate;
 
-public class SummaryHandler extends Handler {
+public class SummaryCoreCommunicationHandler extends CoreCommunicationHandler {
     private final SummaryCreator summaryCreator;
 
-    public SummaryHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy, SummaryCreator summaryCreator) {
+    public SummaryCoreCommunicationHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy, SummaryCreator summaryCreator) {
         super(HandlerProperties.getMethodHeader, route, HandlerProperties.getMethodHeader, address, eventBus, nestedConfigAccessor, parseStrategy);
         this.summaryCreator = summaryCreator;
     }
