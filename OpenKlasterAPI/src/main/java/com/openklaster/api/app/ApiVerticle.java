@@ -1,11 +1,11 @@
 package com.openklaster.api.app;
 
 
+import com.openklaster.api.VerticleConfig;
 import com.openklaster.api.handler.*;
 import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.api.handler.summary.SummaryCreator;
 import com.openklaster.api.model.*;
-import com.openklaster.api.model.summary.EnvironmentalBenefits;
 import com.openklaster.api.model.summary.EnvironmentalConfig;
 import com.openklaster.api.model.summary.SummaryRequest;
 import com.openklaster.api.parser.DefaultParseStrategy;
@@ -26,6 +26,8 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.StaticHandler;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -39,6 +41,7 @@ public class ApiVerticle extends OpenklasterVerticle {
     private Vertx vertx;
     private EventBus eventBus;
     private List<Handler> handlers;
+    ApplicationContext ctx;
 
     public ApiVerticle(boolean isDevModeOn) {
         super(isDevModeOn);
@@ -51,6 +54,7 @@ public class ApiVerticle extends OpenklasterVerticle {
     @Override
     public void init(Vertx vertx, Context context) {
         super.init(vertx, context);
+        ctx = new AnnotationConfigApplicationContext(VerticleConfig.class);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
         ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
@@ -72,8 +76,7 @@ public class ApiVerticle extends OpenklasterVerticle {
                 .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
 
         handlers = Arrays.asList(
-                new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.loginEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.LOGIN, new DefaultParseStrategy<Login>(Login.class)),
+                ctx.getBean(PostHandler.class),
 
                 new PostHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
                         configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.REGISTER, new DefaultParseStrategy<Register>(Register.class)),
@@ -133,7 +136,7 @@ public class ApiVerticle extends OpenklasterVerticle {
                         configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey), new DefaultParseStrategy<MeasurementEnergy>(MeasurementEnergy.class)),
 
                 new SummaryHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.summaryEndpoint), configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
-                        new DefaultParseStrategy<SummaryRequest>(SummaryRequest.class), new SummaryCreator(), new EnvironmentalConfig(2,2))
+                        new DefaultParseStrategy<SummaryRequest>(SummaryRequest.class), new SummaryCreator(), new EnvironmentalConfig(2, 2))
         );
         routerConfig(router);
     }
