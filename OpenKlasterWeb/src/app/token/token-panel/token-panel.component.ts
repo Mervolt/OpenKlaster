@@ -23,7 +23,7 @@ export class TokenPanelComponent implements OnInit {
   requestReceivedState = 'wait'
   sendRequestState = 'wait'
   submittedObjectName = 'Token'
-  displayedColumns: string[] = ['number', 'token']
+  displayedColumns: string[] = ['number', 'token', 'removeButton']
   //TODO change `service` variable name
   //MM-ANSWER Done
   constructor(public tokenPanelService: TokenService, public appComp: AppComponent) {
@@ -47,7 +47,17 @@ export class TokenPanelComponent implements OnInit {
   addToken() {
     this.sendRequestState = 'sent'
     let addPromise = this.tokenPanelService.generateToken(this.cookieService).toPromise();
-    addPromise
+    this.resolvePromise(addPromise)
+  }
+
+  removeToken(token: string) {
+    this.sendRequestState = 'sent'
+    let removePromise = this.tokenPanelService.deleteToken(this.cookieService, token).toPromise();
+    this.resolvePromise(removePromise)
+  }
+
+  private resolvePromise(promise: Promise<any> ) {
+    promise
       .then(() => {
         this.sendRequestState = 'received'
         this.requestReceivedState = 'success'

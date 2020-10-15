@@ -17,22 +17,20 @@ export class TokenService {
 
   getTokens(cookies: CookieService): Observable<any> {
     let params = new HttpParams()
-      //TODO Isn't it possible in TS to prepare some static property - if some key is changed then we have only one place to change
-      //MM-ANSWER done
       .set('username', cookies.get(CookieHolder.usernameKey))
       .set('sessionToken', cookies.get(CookieHolder.tokenKey));
 
-    //TODO hardcoded
-    //MM:ANSWER done
     return this.http.get(EndpointHolder.userEndpoint, {params: params})
   }
 
-  //TODO you are generating, not adding - you don't provide its data
-  //MM-ANSWER:done
   generateToken(cookies: CookieService): Observable<any> {
     let params = new HttpParams().set('sessionToken', cookies.get(CookieHolder.tokenKey));
-    //TODO hardcoded
     return this.http.post(EndpointHolder.tokenEndpoint,
       {'username': cookies.get('username')}, {params: params});
+  }
+
+  deleteToken(cookies: CookieService, token: string): Observable<any> {
+    let params = new HttpParams().set('apiToken', token).set('username', cookies.get(CookieHolder.usernameKey));
+    return this.http.delete(EndpointHolder.tokenEndpoint, {params: params})
   }
 }
