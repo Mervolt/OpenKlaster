@@ -11,6 +11,7 @@ import com.openklaster.common.model.LoadMeasurement;
 import com.openklaster.common.model.SourceMeasurement;
 import com.openklaster.common.model.User;
 import com.openklaster.common.verticle.OpenklasterVerticle;
+import com.openklaster.core.vertx.VerticleConfig;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.authentication.BasicAuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.CassandraRepository;
@@ -30,6 +31,8 @@ import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +45,7 @@ public class CoreVerticle extends OpenklasterVerticle {
     private EventBus eventBus;
     private NestedConfigAccessor configAccessor;
     private List<EndpointService> servicesList;
+    private ApplicationContext ctx;
 
     public CoreVerticle() {
         super();
@@ -53,6 +57,7 @@ public class CoreVerticle extends OpenklasterVerticle {
 
     @Override
     public void init(Vertx vertx, Context context) {
+        ctx = new AnnotationConfigApplicationContext(VerticleConfig.class);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
 

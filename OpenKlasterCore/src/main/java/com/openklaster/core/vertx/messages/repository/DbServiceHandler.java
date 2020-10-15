@@ -33,10 +33,9 @@ public class DbServiceHandler<T> {
         Promise<T> resultPromise = Promise.promise();
         DeliveryOptions options = getMethodOptions(methodName);
         eventBus.<JsonObject>request(address, content, options, handler -> {
-            if(handler.succeeded()) {
+            if (handler.succeeded()) {
                 resultPromise.complete(handler.result().body().mapTo(this.modelClass));
-            }
-            else {
+            } else {
                 handleFailure(resultPromise, handler);
             }
         });
@@ -47,10 +46,9 @@ public class DbServiceHandler<T> {
         Promise<Void> resultPromise = Promise.promise();
         DeliveryOptions options = getMethodOptions(methodName);
         eventBus.request(address, content, options, handler -> {
-            if(handler.succeeded()) {
+            if (handler.succeeded()) {
                 resultPromise.complete();
-            }
-            else {
+            } else {
                 handleFailure(resultPromise, handler);
             }
         });
@@ -61,10 +59,9 @@ public class DbServiceHandler<T> {
         Promise<List<T>> resultPromise = Promise.promise();
         DeliveryOptions options = getMethodOptions(methodName);
         eventBus.<JsonArray>request(address, content, options, handler -> {
-            if(handler.succeeded()) {
+            if (handler.succeeded()) {
                 resultPromise.complete(mapToListContent(handler.result().body()));
-            }
-            else {
+            } else {
                 handleFailure(resultPromise, handler);
             }
         });
@@ -83,10 +80,9 @@ public class DbServiceHandler<T> {
     }
 
     public void handleFailure(Promise resultPromise, AsyncResult handler) {
-        if(isInternalServerError((ReplyException) handler.cause())) {
+        if (isInternalServerError((ReplyException) handler.cause())) {
             resultPromise.fail(new InternalServerErrorException(handler.cause().getMessage()));
-        }
-        else {
+        } else {
             resultPromise.fail(handler.cause());
         }
     }
