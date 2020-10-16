@@ -83,7 +83,7 @@ public abstract class AuthManager {
                                                                       Message<JsonObject> message, String methodName);
 
     protected Future<JsonObject> processTechnicalMessage(Message<JsonObject> message, String methodName) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     protected Future<User> authenticate(MultiMap headers, Future<User> userFuture) {

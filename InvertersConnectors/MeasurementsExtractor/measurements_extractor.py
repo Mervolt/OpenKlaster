@@ -4,6 +4,7 @@ import pymongo
 import requests
 import yaml
 
+
 # Todo error handling, logging, refactor, SOLVE PROBLEMS WITH UNITS
 
 def get_json_object(id, value):
@@ -44,7 +45,7 @@ def post_energy_produced(value, id):
 
 
 if __name__ == '__main__':
-    with open("config.yml", "r") as ymlfile:
+    with open("/bin/MeasurementsExtractor/config.yml", "r") as ymlfile:
         config = yaml.safe_load(ymlfile)
 
         power_production_url = config["request"]["powerProductionUrl"]
@@ -58,9 +59,9 @@ if __name__ == '__main__':
         documents = collection.find({}, {"inverter.manufacturer": 1, "inverter.credentials": 1, "_id": 1})
 
         for installation in documents:
-            try :
+            try:
                 credentials = json.loads(installation["inverter"]["credentials"])
                 if installation["inverter"]["manufacturer"] == config["producers"]["growatt"]:
                     post_measurements_growatt(installation["_id"], credentials["username"], credentials["password"])
-            except:
-                print("cos nie pyklo")
+            except Exception as e:
+                print(e)
