@@ -174,7 +174,7 @@ public class ApiVerticle extends OpenklasterVerticle {
                     break;
             }
         });
-        router.route("/*").handler(StaticHandler.create("static"));
+        router.route("/api/1/*").handler(StaticHandler.create("static"));
     }
 
     private void configureRouteHandler(Router router) {
