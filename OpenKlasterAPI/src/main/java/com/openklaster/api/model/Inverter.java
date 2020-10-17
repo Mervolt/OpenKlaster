@@ -17,7 +17,7 @@ public class Inverter {
     private String description;
     @NotBlank(message = ModelValidationErrorMessages.MANUFACTURER)
     private String manufacturer;
-    @NotNull(message = ModelValidationErrorMessages.CREDENTRAILS)
+    @NotNull(message = ModelValidationErrorMessages.CREDENTIALS)
     private Credentials credentials;
     @NotBlank(message = ModelValidationErrorMessages.MODEL_TYPE)
     private String modelType;
