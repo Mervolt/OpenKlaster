@@ -360,7 +360,6 @@
                 updateElementsByClassName("trees_saved", trees_saved)
                 updateElementsByClassName("current_power", current_power)
                 updateElementsByClassName("today_energy", today_energy)
-                console.log(data)
                 let output = []
                 let parseDate = d3.timeParse('%Y-%m-%d %H:%M:%S')
                 for (let key of Object.keys(powerMeasurements)) {
