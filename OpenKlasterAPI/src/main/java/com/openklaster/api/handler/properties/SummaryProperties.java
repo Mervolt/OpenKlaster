@@ -5,5 +5,5 @@ public class SummaryProperties {
 
     public static final String TREES_SAVED = "environmentalbenefits.treessaved";
 
-    public static final String TIME_FORMAT = "HH:mm:ss";
+    public static final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 }

@@ -263,7 +263,7 @@
 
     function draw(data, fillColor, strokeColor, chartTitle, strokeWidth = '1.5') {
         const xScale = d3.scaleTime()
-            .domain([earliestDate(data), latestDate(data)])
+            .domain([earliestDayDate(data[0]['timestamp']), latestDayDate(data[0]['timestamp'])])
             .range([0, width]);
 
         const yScale = d3
@@ -307,16 +307,16 @@
         })
     }
 
-    function latestDate(data) {
-        return d3.max(data, d => {
-            return d['timestamp']
-        })
+    function latestDayDate(date) {
+        const dayEndDate = new Date(date)
+        dayEndDate.setHours(23,59,59);
+        return dayEndDate;
     }
 
-    function earliestDate(data) {
-        return d3.min(data, d => {
-            return d['timestamp']
-        })
+    function earliestDayDate(date) {
+        const dayStartDate = new Date(date)
+        dayStartDate.setHours(0,0,0,0);
+        return dayStartDate;
     }
 
     function main() {
@@ -360,10 +360,11 @@
                 updateElementsByClassName("trees_saved", trees_saved)
                 updateElementsByClassName("current_power", current_power)
                 updateElementsByClassName("today_energy", today_energy)
-
+                console.log(data)
                 let output = []
+                let parseDate = d3.timeParse('%Y-%m-%d %H:%M:%S')
                 for (let key of Object.keys(powerMeasurements)) {
-                    let parseDate = d3.timeParse('%H:%M:%S')
+
                     output.push({timestamp: parseDate(key), value: powerMeasurements[key]})
                 }
                 output.sort((a, b) => {
