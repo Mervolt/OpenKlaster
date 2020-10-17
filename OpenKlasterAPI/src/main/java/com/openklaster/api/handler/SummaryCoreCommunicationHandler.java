@@ -7,6 +7,7 @@ import com.openklaster.api.model.summary.SummaryResponse;
 import com.openklaster.api.parser.IParseStrategy;
 import com.openklaster.api.validation.ValidationException;
 import com.openklaster.common.config.NestedConfigAccessor;
+import com.openklaster.common.messages.HttpReplyUtils;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.ReplyException;
@@ -40,7 +41,7 @@ public class SummaryCoreCommunicationHandler extends CoreCommunicationHandler {
             eventBus.<JsonArray>request(address, validatedModel, deliveryOptions, coreResponse -> {
                 if (coreResponse.succeeded()) {
                     SummaryResponse summaryResponse = summaryCreator.createSummary(coreResponse, nestedConfigAccessor);
-                    context.response().end(Json.encodePrettily(JsonObject.mapFrom(summaryResponse)));
+                    HttpReplyUtils.sendJsonResponse(context.response(), JsonObject.mapFrom(summaryResponse));
                 } else {
                     ReplyException replyException = (ReplyException) coreResponse.cause();
                     handleProcessingError(context.response(), replyException.failureCode(), replyException.getMessage());

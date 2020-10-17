@@ -1,0 +1,9 @@
+<div [formGroup]="form">
+  <div>
+    <mat-form-field appearance="outline" class="userformfield">
+      <mat-label>{{question.label}}</mat-label>
+      <input matInput [formControlName]="question.label" [required]="question.required" [name]="question.label"
+             [id]="question.label">
+    </mat-form-field>
+  </div>
+</div>

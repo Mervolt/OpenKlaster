@@ -1,6 +1,5 @@
 <app-navbar></app-navbar>
 <div class="page-container">
-  <div class="form-group installation-add-form">
     <form (ngSubmit)="installationForm.valid && onSubmit()" #installationForm="ngForm">
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
@@ -53,20 +52,24 @@
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
           <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Inverter manufacturer</mat-label>
-            <mat-select [(value)]="formModel.inverter.manufacturer">
-              <mat-option style="background-color: white" *ngFor="let manufacturer of manufacturers"
-                          [value]="manufacturer">
-                {{manufacturer}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="outline" class="userformfield">
             <mat-label>Inverter Model Type</mat-label>
             <input matInput id="inverterModelType" name="inverterModelType" required
                    [(ngModel)]="formModel.inverter.modelType">
           </mat-form-field>
+          <mat-form-field appearance="outline" class="userformfield">
+            <mat-label>Inverter manufacturer</mat-label>
+            <mat-select [(value)]="formModel.inverter.manufacturer" >
+              <mat-option style="background-color: white" *ngFor="let manufacturer of manufacturersMap.keys()"
+                          [value]="manufacturer" (onSelectionChange)="changeCredentials($event)" >
+                {{manufacturer}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <app-dynamic-form [questions]="questions$"
+                              (credentialsEventEmitter)="handleCredentialsChange($event)">
+            </app-dynamic-form>
+          </div>
         </div>
         <div class="half-div-line-margins-max400">
           <mat-form-field appearance="outline" class="userformfield">
@@ -108,14 +111,8 @@
         Submit installation
       </button>
     </form>
-  </div>
-  <div>
-    <app-credentials-form (credentialsEventEmitter)="receiveMessage($event)"
-                          [credentialsType]="convertManufacturerToCredentials()">
-    </app-credentials-form>
-    <app-request-response-component [requestReceivedState]="requestReceivedState"
-                                    [sendRequestState]="sendRequestState"
-                                    [submittedObjectName]="submittedObjectName">
-    </app-request-response-component>
-  </div>
+  <app-request-response-component [requestReceivedState]="requestReceivedState"
+                                  [sendRequestState]="sendRequestState"
+                                  [submittedObjectName]="submittedObjectName">
+  </app-request-response-component>
 </div>

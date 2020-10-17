@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {InstallationService} from '../../service/installation.service';
+import {InstallationService} from '../../service/installation/installation.service';
 
 import {Installation} from '../../model/Installation';
 import {AppComponent} from "../../app.component";

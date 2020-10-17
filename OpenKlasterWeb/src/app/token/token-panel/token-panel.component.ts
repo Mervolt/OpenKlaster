@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {TokenService} from '../token.service';
+import {TokenService} from '../../service/token/token.service';
 import {AppComponent} from '../../app.component';
 
 export interface TokenResponse {

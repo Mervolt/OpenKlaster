@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SingleInstallationPanelService} from "../single-installation-panel.service";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {ActivatedRoute, Router} from "@angular/router";
-import {InstallationService} from "../../service/installation.service";
+import {InstallationService} from "../../service/installation/installation.service";
 import {InstallationDto} from "../../model/InstallationDto";
 import {CookieService} from "ngx-cookie-service";
 import {Installation} from "../../model/Installation";

@@ -24,6 +24,7 @@
     "ngx-cookie-service": "^3.0.4",
     "rxjs": "~6.5.5",
     "swagger-ui-dist": "^3.32.4",
+    "swagger-ui-themes": "^3.0.1",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },
