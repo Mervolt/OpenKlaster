@@ -17,7 +17,6 @@ import {MatOptionSelectionChange} from "@angular/material/core";
   styleUrls: ['./installation-add-panel.component.css']
 })
 export class InstallationAddPanelComponent {
-  requestReceivedState = 'wait'
   sendRequestState = 'wait'
   submittedObjectName = 'Installation'
   manufacturersMap: Map<string, string[]> = new Map();
@@ -42,20 +41,22 @@ export class InstallationAddPanelComponent {
   ngOnInit(): void {}
 
   onSubmit() {
-    this.sendRequestState = 'sent'
+    this.sendRequestState = 'waiting'
     let addPromise = this.installationService.addInstallation(this.formModel, this.cookieService);
     addPromise
       .then(() => {
-        this.sendRequestState = 'received'
-        this.requestReceivedState = 'success'
+        this.sendRequestState = 'success'
       })
       .catch(() => {
-        this.sendRequestState = 'received'
-        this.requestReceivedState = 'fail'
+        this.sendRequestState = 'failure'
       })
   }
   handleCredentialsChange($event){
     this.formModel.inverter.credentials= $event
+  }
+
+  myCallbackFunction = (): void => {
+    this.onSubmit();
   }
 
   changeCredentials(selectionChange: MatOptionSelectionChange) {

@@ -107,12 +107,7 @@
           </mat-form-field>
         </div>
       </div>
-      <button mat-raised-button color="primary" type="submit" class="btn btn-primary" style="margin: 20px">
-        Submit installation
-      </button>
+      <app-submit-button [onClick]="myCallbackFunction" buttonCaption="Submit Installation" 
+                         [requestState]="sendRequestState" style="padding-left: 20px"></app-submit-button>
     </form>
-  <app-request-response-component [requestReceivedState]="requestReceivedState"
-                                  [sendRequestState]="sendRequestState"
-                                  [submittedObjectName]="submittedObjectName">
-  </app-request-response-component>
 </div>

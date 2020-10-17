@@ -51,6 +51,8 @@ import {HttpClientInterceptor} from "./service/interceptors/http-client-intercep
 import { ChartsComponent } from './charts/charts.component';
 import { DynamicFormQuestionComponent } from './components/Question-boxes/dynamic-form-question/dynamic-form-question.component';
 import { DynamicFormComponent } from './components/Question-boxes/dynamic-form/dynamic-form.component';
+import { SubmitButtonComponent } from './components/submit-button/submit-button.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -76,7 +78,8 @@ import { DynamicFormComponent } from './components/Question-boxes/dynamic-form/d
     SwaggerUiComponent,
     ChartsComponent,
     DynamicFormQuestionComponent,
-    DynamicFormComponent
+    DynamicFormComponent,
+    SubmitButtonComponent
   ],
   imports: [
     BrowserModule,
@@ -110,7 +113,8 @@ import { DynamicFormComponent } from './components/Question-boxes/dynamic-form/d
     MatProgressBarModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatTableModule
+    MatTableModule,
+    NgbModule
   ],
   providers: [
     RegisterFormService,

@@ -8,8 +8,6 @@ import {EndpointHolder} from "../../model/EndpointHolder";
 @Injectable({
   providedIn: 'root'
 })
-//TODO why `Panel`?
-//MM-ANSWER: Z angielskiego pulpit :)
 export class TokenService {
 
   constructor(public http: HttpClient) {
@@ -32,5 +30,12 @@ export class TokenService {
   deleteToken(cookies: CookieService, token: string): Observable<any> {
     let params = new HttpParams().set('apiToken', token).set('username', cookies.get(CookieHolder.usernameKey));
     return this.http.delete(EndpointHolder.tokenEndpoint, {params: params})
+  }
+
+  deleteAllTokens(cookies: CookieService): Observable<any> {
+    let params = new HttpParams()
+      .set('sessionToken', cookies.get(CookieHolder.tokenKey))
+      .set('username', cookies.get(CookieHolder.usernameKey));
+    return this.http.delete(EndpointHolder.allTokensEndpoint,{params: params});
   }
 }
