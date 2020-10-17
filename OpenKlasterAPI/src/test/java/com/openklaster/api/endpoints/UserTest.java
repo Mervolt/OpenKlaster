@@ -93,6 +93,7 @@ public class UserTest extends TestBase {
 
         HashMap<String, Object> params = new HashMap<>();
         params.put("apiToken", "token");
+        params.put("username", "test");
 
         String route = buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint);
         String address = configAccessor.getString(EventBusAddressProperties.userCoreAddressKey);
