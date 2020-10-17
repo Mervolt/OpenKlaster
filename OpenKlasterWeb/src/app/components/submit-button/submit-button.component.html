@@ -1,5 +1,5 @@
 <button mat-raised-button color="primary" type="submit" class="btn btn-primary"
-        (click)="callCallbackFunction()" [ngSwitch]="requestState">
+        (click)="callCallbackFunction()" [ngSwitch]="requestState" [disabled]="disabled">
   {{buttonCaption}}
   <mat-icon *ngSwitchCase="'waiting'"><mat-spinner  color="accent" diameter="20"></mat-spinner></mat-icon>
   <mat-icon *ngSwitchCase="'failure'">error</mat-icon>
