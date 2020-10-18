@@ -1,6 +1,5 @@
 package com.openklaster.api.app;
 
-
 import com.openklaster.api.VerticleConfig;
 import com.openklaster.api.handler.*;
 import com.openklaster.api.handler.properties.HandlerProperties;

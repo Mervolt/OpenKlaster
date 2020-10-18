@@ -1,12 +1,11 @@
 package com.openklaster.cassandra.app;
 
+import com.openklaster.cassandra.VerticleConfig;
 import com.openklaster.cassandra.properties.CassandraProperties;
-import com.openklaster.cassandra.service.*;
+import com.openklaster.cassandra.service.CassandraHandler;
+import com.openklaster.cassandra.service.HandlerContainer;
 import com.openklaster.common.config.ConfigFilesManager;
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.verticle.OpenklasterVerticle;
-import io.vertx.cassandra.CassandraClient;
-import io.vertx.cassandra.CassandraClientOptions;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -15,19 +14,18 @@ import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 
 public class CassandraVerticle extends OpenklasterVerticle {
-    private CassandraClient cassandraClient;
-    private NestedConfigAccessor configAccessor;
     private final Logger logger = LoggerFactory.getLogger(CassandraVerticle.class);
     private EventBus eventBus;
+    GenericApplicationContext ctx;
 
     public CassandraVerticle(boolean isDevMode) {
         super(isDevMode);
@@ -41,17 +39,12 @@ public class CassandraVerticle extends OpenklasterVerticle {
     public void init(Vertx vertx, Context context) {
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
+        ctx = new AnnotationConfigApplicationContext(VerticleConfig.class);
+        ctx.registerBean(Vertx.class, () -> vertx);
 
         ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
         configFilesManager.getConfig(vertx).getConfig(config -> {
             if (config.succeeded()) {
-                this.configAccessor = new NestedConfigAccessor(config.result());
-                String hostname = configAccessor.getString(CassandraProperties.CASSANDRA_HOST);
-                CassandraClientOptions options = new CassandraClientOptions()
-                        .setPort(configAccessor.getInteger(CassandraProperties.CASSANDRA_PORT))
-                        .setKeyspace(configAccessor.getString(CassandraProperties.CASSANDRA_KEYSPACE))
-                        .setContactPoints(Collections.singletonList(hostname));
-                this.cassandraClient = CassandraClient.create(vertx, options);
 
                 List<CassandraHandler<?>> handlers = prepareHandlers();
                 eventBusConfig(handlers);
@@ -64,17 +57,8 @@ public class CassandraVerticle extends OpenklasterVerticle {
 
     }
 
-    public CassandraClient getCassandraClient() {
-        return cassandraClient;
-    }
-
     private List<CassandraHandler<?>> prepareHandlers() {
-        return Arrays.asList(
-                new LoadMeasurementHandler(cassandraClient, configAccessor.getJsonObject(CassandraProperties.LOAD_MEASUREMENT)),
-                new SourceMeasurementHandler(cassandraClient, configAccessor.getJsonObject(CassandraProperties.SOURCE_MEASUREMENT)),
-                new EnergyPredictionsHandler(cassandraClient, configAccessor.getJsonObject(CassandraProperties.ENERGY_PREDICTIONS)),
-                new WeatherConditionsHandler(cassandraClient, configAccessor.getJsonObject(CassandraProperties.WEATHER_CONDITIONS))
-        );
+        return ctx.getBean(HandlerContainer.class).retrieveHandlers();
     }
 
     private void eventBusConfig(List<CassandraHandler<?>> handlers) {
