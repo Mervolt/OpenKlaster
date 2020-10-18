@@ -1,18 +1,11 @@
 package com.openklaster.mongo.app;
 
 import com.openklaster.common.config.ConfigFilesManager;
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.verticle.OpenklasterVerticle;
 import com.openklaster.mongo.VerticleConfig;
-import com.openklaster.mongo.config.CalculatorConfig;
 import com.openklaster.mongo.config.EntityConfig;
-import com.openklaster.mongo.config.InstallationConfig;
-import com.openklaster.mongo.config.UserConfig;
-import com.openklaster.mongo.parser.EnergySourceCalculatorParser;
-import com.openklaster.mongo.parser.InstallationParser;
-import com.openklaster.mongo.parser.UserParser;
 import com.openklaster.mongo.service.EntityHandler;
-import com.openklaster.mongo.service.MongoPersistenceService;
+import com.openklaster.mongo.service.HandlerContainer;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -21,23 +14,18 @@ import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.ext.mongo.MongoClient;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 public class MongoVerticle extends OpenklasterVerticle {
 
-    private MongoClient client;
-    private MongoPersistenceService persistenceService;
     private List<EntityConfig> entityConfigs;
     private EventBus eventBus;
     private static final Logger logger = LoggerFactory.getLogger(MongoVerticle.class);
-    private NestedConfigAccessor configAccessor;
     private GenericApplicationContext ctx;
 
     public MongoVerticle(boolean isDevModeOn) {
@@ -57,7 +45,6 @@ public class MongoVerticle extends OpenklasterVerticle {
         ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
         configFilesManager.getConfig(vertx).getConfig(config -> {
             if (config.succeeded()) {
-                this.configAccessor = new NestedConfigAccessor(config.result());
                 handlePostConfig();
             } else {
                 logger.error("Could not retrieve app.MongoVerticle config!");
@@ -69,17 +56,7 @@ public class MongoVerticle extends OpenklasterVerticle {
     }
 
     private void handlePostConfig() {
-        JsonObject mongoOptions = this.configAccessor.getJsonObject("database.mongo");
-        this.client = MongoClient.createShared(vertx, mongoOptions);
-        this.persistenceService = new MongoPersistenceService(client);
-
-        this.entityConfigs = Arrays.asList(
-                new CalculatorConfig(persistenceService, new EnergySourceCalculatorParser(),
-                        "", ""),
-                new InstallationConfig(persistenceService, new InstallationParser(),
-                        "", ""),
-                new UserConfig(persistenceService, new UserParser(), "", "")
-        );
+        this.entityConfigs = ctx.getBean(HandlerContainer.class).retrieveHandler();
         eventBusConfig();
     }
 
