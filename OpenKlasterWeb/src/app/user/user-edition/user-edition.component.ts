@@ -14,12 +14,16 @@ import {UserUpdateDto} from "../../model/UserUpdateDto";
 export class UserEditionComponent implements OnInit {
 
   formModel: UserUpdateDto;
-  isFormDisabled = true;
+  isEmailDisabled = true;
+  isPasswordDisabled = true;
   requestState: string = 'none'
   newPasswordConfirm: string;
   oldEmail: string;
 
   myCallbackFunction = (): void => {
+    if(this.isPasswordDisabled){
+      this.formModel.newPassword = this.formModel.password;
+    }
     this.userService.updateUserInfo(this.formModel).then(() => {
       this.requestState = 'success'
       this.ngOnInit()
@@ -46,10 +50,19 @@ export class UserEditionComponent implements OnInit {
     })
   }
 
-  toggleEdition() {
-    this.isFormDisabled = !this.isFormDisabled
-    this.newPasswordConfirm = ''
+  toggleEmailEdit() {
+    this.isEmailDisabled = !this.isEmailDisabled;
+    this.toggleEdit();
+  }
+
+  toggleEdit(){
+    this.newPasswordConfirm = '';
     this.formModel = new UserUpdateDto(this.formModel.username, '', '', this.oldEmail);
+  }
+
+  togglePasswordEdit(){
+    this.isPasswordDisabled = !this.isPasswordDisabled;
+    this.toggleEdit();
   }
 
   ngOnInit(): void {

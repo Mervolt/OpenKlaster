@@ -1,8 +1,5 @@
 <div class="header-container">
   <h1 class="margin-20">Your user info</h1>
-<!--  <button mat-icon-button color="primary" (click)="toggleEdition()" class="large">
-    <mat-icon inline="true">edit</mat-icon>
-  </button>-->
 </div>
 <div>
   <mat-form-field appearance="outline" class="userformfield">
@@ -14,25 +11,25 @@
 <div>
   <mat-form-field appearance="outline" class="userformfield">
     <mat-label>Email</mat-label>
-    <input matInput id="email" name="email" required [disabled]="isFormDisabled"
+    <input matInput id="email" name="email" required [disabled]="isEmailDisabled"
            [(ngModel)]="formModel.email">
   </mat-form-field>
 </div>
-<div>
+<div *ngIf="!isPasswordDisabled || !isEmailDisabled">
   <mat-form-field appearance="outline" class="userformfield">
-    <mat-label>Password</mat-label>
-    <input matInput id="password" name="password" required [disabled]="isFormDisabled"
+    <mat-label>Current Password</mat-label>
+    <input matInput id="password" name="password" required
            [(ngModel)]="formModel.password" type="password">
   </mat-form-field>
 </div>
-<div *ngIf="!isFormDisabled">
+<div *ngIf="!isPasswordDisabled">
   <mat-form-field appearance="outline" class="userformfield">
     <mat-label>New Password</mat-label>
     <input matInput id="newPassword" name="newPassword" required
            [(ngModel)]="formModel.newPassword" type="password">
   </mat-form-field>
 </div>
-<div *ngIf="!isFormDisabled">
+<div *ngIf="!isPasswordDisabled">
   <mat-form-field appearance="outline" class="userformfield">
     <mat-label>Confirm New Password</mat-label>
     <input matInput id="newPasswordConfirm" name="newPasswordConfirm" required
@@ -41,6 +38,7 @@
 </div>
 <div class="buttons-container">
   <app-submit-button [onClick]="myCallbackFunction" buttonCaption="Submit edition"
-                     [requestState]="requestState" [disabled]="isFormDisabled"></app-submit-button>
-  <button mat-raised-button (click)="toggleEdition()">Toggle edit</button>
+                     [requestState]="requestState" [disabled]="isEmailDisabled && isPasswordDisabled"></app-submit-button>
+  <button mat-raised-button (click)="toggleEmailEdit()">Change Email</button>
+  <button mat-raised-button (click)="togglePasswordEdit()">Change Password</button>
 </div>
