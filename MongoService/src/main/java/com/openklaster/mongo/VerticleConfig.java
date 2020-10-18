@@ -38,7 +38,7 @@ public class VerticleConfig {
             e.printStackTrace();
         }
     }
-    
+
     @Bean
     @Autowired
     public MongoClient mongoClient(Vertx vertx) {
@@ -57,7 +57,7 @@ public class VerticleConfig {
     @Autowired
     public CalculatorConfig calculatorConfig(MongoPersistenceService mongoPersistenceService,
                                              EnergySourceCalculatorParser energySourceCalculatorParser) {
-        return new CalculatorConfig(mongoPersistenceService, energySourceCalculatorParser, null, "");
+        return new CalculatorConfig(mongoPersistenceService, energySourceCalculatorParser, "", "");
     }
 
     @Bean
@@ -69,7 +69,7 @@ public class VerticleConfig {
     @Autowired
     public InstallationConfig installationConfig(MongoPersistenceService mongoPersistenceService,
                                                  InstallationParser installationParser) {
-        return new InstallationConfig(mongoPersistenceService, installationParser, null, "");
+        return new InstallationConfig(mongoPersistenceService, installationParser, "", "");
     }
 
     @Bean
@@ -81,7 +81,7 @@ public class VerticleConfig {
     @Autowired
     public UserConfig userConfig(MongoPersistenceService mongoPersistenceService,
                                  UserParser userParser) {
-        return new UserConfig(mongoPersistenceService, userParser, null, "");
+        return new UserConfig(mongoPersistenceService, userParser, "", "");
     }
 
     @Bean

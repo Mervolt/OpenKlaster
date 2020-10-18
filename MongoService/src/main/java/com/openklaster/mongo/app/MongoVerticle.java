@@ -75,10 +75,10 @@ public class MongoVerticle extends OpenklasterVerticle {
 
         this.entityConfigs = Arrays.asList(
                 new CalculatorConfig(persistenceService, new EnergySourceCalculatorParser(),
-                        configAccessor.getPathConfigAccessor("calculator"), ""),
+                        "", ""),
                 new InstallationConfig(persistenceService, new InstallationParser(),
-                        configAccessor.getPathConfigAccessor("installation"), ""),
-                new UserConfig(persistenceService, new UserParser(), configAccessor.getPathConfigAccessor("user"), "")
+                        "", ""),
+                new UserConfig(persistenceService, new UserParser(), "", "")
         );
         eventBusConfig();
     }

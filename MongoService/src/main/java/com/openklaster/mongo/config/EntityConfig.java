@@ -1,6 +1,5 @@
 package com.openklaster.mongo.config;
 
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.mongo.parser.EntityParser;
 import com.openklaster.mongo.service.EntityHandler;
 import com.openklaster.mongo.service.MongoPersistenceService;
@@ -10,20 +9,31 @@ public abstract class EntityConfig {
     protected EntityParser parser;
     protected EntityHandler handler;
     protected MongoPersistenceService mongoPersistenceService;
-    protected NestedConfigAccessor config;
+    protected String collectionName;
+    protected String busAddress;
 
 
-    public EntityConfig(EntityParser parser, EntityHandler handler, NestedConfigAccessor config){
-        this.handler=handler;
-        this.parser=parser;
-        this.config=config;
+    public EntityConfig(EntityParser parser, EntityHandler handler, String collectionName, String busAddress) {
+        this.handler = handler;
+        this.parser = parser;
+        this.collectionName = collectionName;
+        this.busAddress = busAddress;
     }
 
-    public  EntityParser getParser(){
+    public EntityParser getParser() {
         return this.parser;
     }
-    public EntityHandler getHandler(){return this.handler;}
-    public String getCollectionName(){return this.config.getString("mongo.collectionName");}
-    public String getBusAddress(){return this.config.getString("bus.address");}
+
+    public EntityHandler getHandler() {
+        return this.handler;
+    }
+
+    public String getCollectionName() {
+        return this.collectionName;
+    }
+
+    public String getBusAddress() {
+        return this.busAddress;
+    }
 
 }
