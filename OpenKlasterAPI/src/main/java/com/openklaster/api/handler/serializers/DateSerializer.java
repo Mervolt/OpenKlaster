@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class DateSerializer extends JsonSerializer<Date> {
-    public static final String TIME_FORMAT = "HH:mm:ss";
+    public static final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     @Override
     public void serialize(Date date, JsonGenerator gen, SerializerProvider serializers) throws IOException {
