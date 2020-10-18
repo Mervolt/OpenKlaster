@@ -23,7 +23,7 @@ public class SummaryCreator {
         Map<Unit, List<Measurement>> measurements = groupMeasurementsFromJsonArray(response.result().body());
         Measurement latestEnergyMeasurement = findLastMeasurement(measurements.get(Unit.kWh));
         Measurement latestPowerMeasurement = findLastMeasurement(measurements.get(Unit.kW));
-        Map<String, Double> powerMeasurements = convertMeasurementArraysIntoMap(measurements.get(Unit.kW));
+        Map<Date, BigDecimal> powerMeasurements = convertMeasurementArraysIntoMap(measurements.get(Unit.kW));
         BigDecimal energyProducedToday = countEnergyProducedToday(measurements.get(Unit.kWh));
         EnvironmentalBenefits environmentalBenefits = EnvironmentalBenefits.builder()
                 .co2Reduced(calculateEnvironmentalBenefit(SummaryProperties.CO2REDUCED, latestEnergyMeasurement.getValue(), config))
@@ -32,8 +32,8 @@ public class SummaryCreator {
         ;
 
         return SummaryResponse.builder()
-                .totalEnergy(new BigDecimal(latestEnergyMeasurement.getValue()))
-                .currentPower(new BigDecimal(latestPowerMeasurement.getValue()))
+                .totalEnergy(BigDecimal.valueOf(latestEnergyMeasurement.getValue()))
+                .currentPower(BigDecimal.valueOf(latestPowerMeasurement.getValue()))
                 .power(powerMeasurements)
                 .energyProducedToday(energyProducedToday)
                 .environmentalBenefits(environmentalBenefits)
@@ -41,11 +41,11 @@ public class SummaryCreator {
     }
 
 
-    private Map<String, Double> convertMeasurementArraysIntoMap(List<Measurement> measurements) {
+    private Map<Date, BigDecimal> convertMeasurementArraysIntoMap(List<Measurement> measurements) {
         return measurements.stream()
                 .filter(measurement -> isItToday(measurement.getTimestamp()))
-                .collect(Collectors.toMap(a -> parseTimeFromTimeStamp(a.getTimestamp()),
-                        Measurement::getValue,
+                .collect(Collectors.toMap(Measurement::getTimestamp,
+                        value -> BigDecimal.valueOf(value.getValue()),
                         (prev, next) -> next, HashMap::new));
     }
 
@@ -76,10 +76,6 @@ public class SummaryCreator {
 
     private int calculateEnvironmentalBenefit(String path, double energy, NestedConfigAccessor config) {
         return (int) (((double) config.getInteger(path) / 100) * energy);
-    }
-
-    private String parseTimeFromTimeStamp(Date timestamp) {
-        return new SimpleDateFormat(SummaryProperties.TIME_FORMAT).format(timestamp);
     }
 
     private boolean isItToday(Date timestamp) {
