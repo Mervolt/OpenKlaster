@@ -27,6 +27,7 @@ public class VerticleConfig {
     private JsonObject jsonConfig;
     private JsonObject jsonHttpEndpointRoute;
     private JsonObject jsonEventBusRoute;
+    private JsonObject jsonEnvironmental;
     private Integer apiVersion;
 
     public VerticleConfig() {
@@ -38,6 +39,7 @@ public class VerticleConfig {
             this.jsonConfig = new JsonObject(jsonSimple);
             this.jsonHttpEndpointRoute = this.jsonConfig.getJsonObject("http").getJsonObject("endpoint").getJsonObject("route");
             this.jsonEventBusRoute = this.jsonConfig.getJsonObject("core").getJsonObject("route");
+            this.jsonEnvironmental = this.jsonConfig.getJsonObject("environmentalbenefits");
             this.apiVersion = this.jsonConfig.getInteger("version");
         } catch (ParseException | IOException e) {
             e.printStackTrace();
@@ -219,16 +221,16 @@ public class VerticleConfig {
 
     @Autowired
     @Bean(name = "deleteHandlerUsernameToken")
-    public DeleteHandler deleteHandlerUsername(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
+    public DeleteHandler deleteHandlerUsernameToken(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
         return new DeleteHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("token")),
-                jsonEventBusRoute.getString("user"), EventbusMethods.DELETE_TOKEN, usernameDefaultParseStrategy)
+                jsonEventBusRoute.getString("user"), EventbusMethods.DELETE_TOKEN, usernameDefaultParseStrategy);
     }
 
     @Autowired
     @Bean(name = "deleteHandlerUsernameAllTokens")
-    public DeleteHandler deleteHandlerUsername(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
+    public DeleteHandler deleteHandlerUsernameAllTokens(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
         return new DeleteHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("alltokens")),
-                jsonEventBusRoute.getString("user"), EventbusMethods.DELETE_ALL_TOKENS, usernameDefaultParseStrategy)
+                jsonEventBusRoute.getString("user"), EventbusMethods.DELETE_ALL_TOKENS, usernameDefaultParseStrategy);
     }
 
     @Autowired
@@ -242,7 +244,8 @@ public class VerticleConfig {
     @Bean(name = "summaryHandler")
     public SummaryHandler summaryHandler(DefaultParseStrategy<SummaryRequest> summaryRequestDefaultParseStrategy) {
         return new SummaryHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("summary")),
-                jsonEventBusRoute.getString("production"), summaryRequestDefaultParseStrategy, new SummaryCreator(), new EnvironmentalConfig(2, 2));
+                jsonEventBusRoute.getString("production"), summaryRequestDefaultParseStrategy, new SummaryCreator(),
+                new EnvironmentalConfig(jsonEnvironmental.getInteger("co2reduced"), jsonEnvironmental.getInteger("treessaved")));
     }
 
     @Bean
