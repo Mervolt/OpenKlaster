@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -37,8 +38,7 @@ public class VerticleConfig {
             e.printStackTrace();
         }
     }
-
-
+    
     @Bean
     @Autowired
     public MongoClient mongoClient(Vertx vertx) {
@@ -57,8 +57,7 @@ public class VerticleConfig {
     @Autowired
     public CalculatorConfig calculatorConfig(MongoPersistenceService mongoPersistenceService,
                                              EnergySourceCalculatorParser energySourceCalculatorParser) {
-        return new CalculatorConfig(mongoPersistenceService, energySourceCalculatorParser,
-                null);
+        return new CalculatorConfig(mongoPersistenceService, energySourceCalculatorParser, null, "");
     }
 
     @Bean
@@ -70,7 +69,7 @@ public class VerticleConfig {
     @Autowired
     public InstallationConfig installationConfig(MongoPersistenceService mongoPersistenceService,
                                                  InstallationParser installationParser) {
-        return new InstallationConfig(mongoPersistenceService, installationParser, null);
+        return new InstallationConfig(mongoPersistenceService, installationParser, null, "");
     }
 
     @Bean
@@ -82,7 +81,7 @@ public class VerticleConfig {
     @Autowired
     public UserConfig userConfig(MongoPersistenceService mongoPersistenceService,
                                  UserParser userParser) {
-        return new UserConfig(mongoPersistenceService, userParser, null);
+        return new UserConfig(mongoPersistenceService, userParser, null, "");
     }
 
     @Bean

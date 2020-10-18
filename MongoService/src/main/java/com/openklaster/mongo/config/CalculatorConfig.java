@@ -9,8 +9,9 @@ public class CalculatorConfig extends EntityConfig {
 
     public CalculatorConfig(MongoPersistenceService service,
                             EnergySourceCalculatorParser parser,
-                            NestedConfigAccessor config) {
-        super(parser, new EnergySourceCalculatorHandler(parser, service, config), config);
+                            NestedConfigAccessor config,
+                            String collectionName) {
+        super(parser, new EnergySourceCalculatorHandler(parser, service, collectionName), config);
         mongoPersistenceService = service;
     }
 }

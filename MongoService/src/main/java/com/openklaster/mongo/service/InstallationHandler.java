@@ -1,6 +1,5 @@
 package com.openklaster.mongo.service;
 
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.Installation;
 import com.openklaster.mongo.parser.EntityParser;
@@ -16,8 +15,8 @@ public class InstallationHandler extends EntityHandler {
 
     public InstallationHandler(EntityParser<Installation> parser,
                                MongoPersistenceService service,
-                               NestedConfigAccessor config) {
-        super(parser, service, config);
+                               String collectionName) {
+        super(parser, service, collectionName);
         logger = LoggerFactory.getLogger(InstallationHandler.class);
     }
 
