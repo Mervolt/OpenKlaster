@@ -3,7 +3,6 @@ package com.openklaster.api.handler;
 import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.api.model.Model;
 import com.openklaster.api.parser.IParseStrategy;
-import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.ext.web.RoutingContext;
 

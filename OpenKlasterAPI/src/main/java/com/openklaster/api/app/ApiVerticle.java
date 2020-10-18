@@ -4,14 +4,7 @@ package com.openklaster.api.app;
 import com.openklaster.api.VerticleConfig;
 import com.openklaster.api.handler.*;
 import com.openklaster.api.handler.properties.HandlerProperties;
-import com.openklaster.api.handler.summary.SummaryCreator;
-import com.openklaster.api.model.*;
-import com.openklaster.api.model.summary.EnvironmentalConfig;
-import com.openklaster.api.model.summary.SummaryRequest;
-import com.openklaster.api.parser.DefaultParseStrategy;
 import com.openklaster.api.properties.EndpointRouteProperties;
-import com.openklaster.api.properties.EventBusAddressProperties;
-import com.openklaster.api.properties.EventbusMethods;
 import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.verticle.OpenklasterVerticle;
@@ -36,7 +29,6 @@ import java.util.Set;
 
 public class ApiVerticle extends OpenklasterVerticle {
     private static final Logger logger = LoggerFactory.getLogger(ApiVerticle.class);
-    private static final int VERSION1 = 1;
     private NestedConfigAccessor configAccessor;
     private Vertx vertx;
     private EventBus eventBus;
