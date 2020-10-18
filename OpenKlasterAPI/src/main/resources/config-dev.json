@@ -14,7 +14,8 @@
         "powerproduction": "/powerProduction",
         "energyconsumed": "/energyConsumed",
         "energyproduced": "/energyProduced",
-        "summary": "/summary"
+        "summary": "/summary",
+        "chart": "/chart"
       }
     }
   },

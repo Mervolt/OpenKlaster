@@ -47,6 +47,8 @@ import {InstallationListItemComponent} from './installation/installation-list-it
 import {MatTableModule} from "@angular/material/table";
 import { SuccessfulLoginDialogComponent } from './user/successful-login-dialog/successful-login-dialog.component';
 import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
+import { ChartsComponent } from './charts/charts.component';
+
 
 @NgModule({
   declarations: [
@@ -69,7 +71,8 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
     CredentialsUserpassComponent,
     InstallationListItemComponent,
     SuccessfulLoginDialogComponent,
-    SwaggerUiComponent
+    SwaggerUiComponent,
+    ChartsComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +86,8 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
       {path: 'installations/:id', component: SingleInstallationPanelComponent},
       {path: 'installationGeneration', component: InstallationGenerationPanelComponent},
       {path: 'editInstallation/:id', component: EditInstallationComponent},
-      {path: 'swagger-ui', component: SwaggerUiComponent}
+      {path: 'swagger-ui', component: SwaggerUiComponent},
+      {path: 'charts', component: ChartsComponent}
     ]),
     ReactiveFormsModule,
     FormsModule,

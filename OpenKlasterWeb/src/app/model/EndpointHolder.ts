@@ -8,4 +8,5 @@ export class EndpointHolder {
   static installationEndpoint = EndpointHolder.baseDevUrl + "installations";
   static installationsEndpoint = EndpointHolder.baseDevUrl + "installations/all";
   static swaggerEndpoint = EndpointHolder.baseDevUrl + "swagger.json";
+  static chartEndpoint = EndpointHolder.baseDevUrl + "chart";
 }

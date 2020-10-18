@@ -11,6 +11,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-mongo-client:3.9.0" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-async:3.10.1" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:bson:3.10.1" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:3.10.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.12" level="project" />
     <orderEntry type="module" module-name="CommonService" />
     <orderEntry type="library" name="Maven: com.datastax.cassandra:cassandra-driver-mapping:3.5.0" level="project" />

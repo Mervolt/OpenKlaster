@@ -22,26 +22,23 @@ import java.util.Map;
 
 import static com.openklaster.api.validation.ValidationExecutor.validate;
 
-public class ImageHandler extends CoreCommunicationHandler {
+public class ChartHandler extends Handler {
     private final FileSystem vertxFileSystem;
 
-    public ImageHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy, FileSystem vertxFileSystem) {
+    public ChartHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy, FileSystem vertxFileSystem) {
         super(HandlerProperties.getMethodHeader, route, HandlerProperties.getMethodHeader, address, eventBus, nestedConfigAccessor, parseStrategy);
         this.vertxFileSystem = vertxFileSystem;
-        System.out.println(route);
     }
 
     @Override
     public void handle(RoutingContext context) {
-        System.out.println("test");
-        vertxFileSystem.readFile("C:\\Users\\Rafał\\IdeaProjects\\OpenKlaster\\OpenKlasterAPI\\src\\main\\resources\\cat.jpg", ar -> {
+        vertxFileSystem.readFile("cat.jpg", ar -> {
             if (ar.succeeded()) {
                 byte[] content = ar.result().getBytes();
                 String encodeBase64 = Base64.getEncoder().encodeToString(content);
-                System.out.println(content);
-                context.response().end(encodeBase64);
+                context.response().end(Json.encode("data:image/jpg;base64, " + encodeBase64));
             } else {
-                System.out.println("asdasd");
+                System.out.println("costam");
             }
         });
 
