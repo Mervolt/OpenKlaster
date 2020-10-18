@@ -33,7 +33,7 @@ public class ApiVerticle extends OpenklasterVerticle {
     private Vertx vertx;
     private EventBus eventBus;
     private List<Handler> handlers;
-    ApplicationContext ctx;
+    private ApplicationContext ctx;
 
     public ApiVerticle(boolean isDevModeOn) {
         super(isDevModeOn);

@@ -10,8 +10,6 @@ import io.vertx.ext.mongo.MongoClientUpdateResult;
 import java.util.List;
 
 import static com.openklaster.mongo.service.EntityHandler.ID_KEY;
-import static com.openklaster.mongo.service.InstallationHandler.installationCounter;
-import static com.openklaster.mongo.service.MongoQuery.getByIdQuery;
 import static com.openklaster.mongo.service.MongoQuery.updateQuery;
 
 public class MongoPersistenceService {

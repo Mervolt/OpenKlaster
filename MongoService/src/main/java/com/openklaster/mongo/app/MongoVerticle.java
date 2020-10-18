@@ -3,6 +3,7 @@ package com.openklaster.mongo.app;
 import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.verticle.OpenklasterVerticle;
+import com.openklaster.mongo.VerticleConfig;
 import com.openklaster.mongo.config.CalculatorConfig;
 import com.openklaster.mongo.config.EntityConfig;
 import com.openklaster.mongo.config.InstallationConfig;
@@ -12,7 +13,6 @@ import com.openklaster.mongo.parser.InstallationParser;
 import com.openklaster.mongo.parser.UserParser;
 import com.openklaster.mongo.service.EntityHandler;
 import com.openklaster.mongo.service.MongoPersistenceService;
-import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -22,6 +22,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.mongo.MongoClient;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +38,7 @@ public class MongoVerticle extends OpenklasterVerticle {
     private EventBus eventBus;
     private static final Logger logger = LoggerFactory.getLogger(MongoVerticle.class);
     private NestedConfigAccessor configAccessor;
+    private GenericApplicationContext ctx;
 
     public MongoVerticle(boolean isDevModeOn) {
         super(isDevModeOn);
@@ -47,6 +50,8 @@ public class MongoVerticle extends OpenklasterVerticle {
 
     @Override
     public void init(Vertx vertx, Context context) {
+        ctx = new AnnotationConfigApplicationContext(VerticleConfig.class);
+        ctx.registerBean(Vertx.class, () -> vertx);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
         ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
