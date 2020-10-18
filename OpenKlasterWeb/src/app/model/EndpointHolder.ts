@@ -1,6 +1,6 @@
 export class EndpointHolder {
   static baseProdUrl = ":)"
-  static baseUrl = "http://localhost/"
+  static baseUrl = "http://localhost:8082/"
   static baseDevUrl = EndpointHolder.baseUrl + "api/1/"
   static userEndpoint = EndpointHolder.baseDevUrl + "user";
   static tokenEndpoint = EndpointHolder.baseDevUrl + "token";
