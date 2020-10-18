@@ -131,9 +131,4 @@ public class ApiVerticle extends OpenklasterVerticle {
                         .allowedHeader("responseType")
                         .allowedMethods(allowedMethods));
     }
-
-    public static String buildEndpoint(NestedConfigAccessor configAccessor, int version, String route) {
-        return configAccessor.getString(EndpointRouteProperties.prefix) +
-                "/" + version + configAccessor.getString(route);
-    }
 }

@@ -11,4 +11,3 @@ public class HandlerProperties {
     public static final String apiToken = "apiToken";
     public static final String sessionToken = "sessionToken";
 }
-S

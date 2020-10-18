@@ -3,7 +3,7 @@ package com.openklaster.api.handler;
 import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.api.handler.summary.SummaryCreator;
 import com.openklaster.api.model.Model;
-import com.openklaster.api.model.summary.EnvironmentalConfig;
+import com.openklaster.api.model.summary.EnvironmentalBenefits;
 import com.openklaster.api.model.summary.SummaryResponse;
 import com.openklaster.api.parser.IParseStrategy;
 import com.openklaster.api.validation.ValidationException;
@@ -21,10 +21,10 @@ import static com.openklaster.api.validation.ValidationExecutor.validate;
 
 public class SummaryHandler extends Handler {
     private final SummaryCreator summaryCreator;
-    private EnvironmentalConfig environmentalConfig;
+    private EnvironmentalBenefits environmentalConfig;
 
     public SummaryHandler(String route, String address, IParseStrategy<? extends Model> parseStrategy,
-                          SummaryCreator summaryCreator, EnvironmentalConfig environmentalConfig) {
+                          SummaryCreator summaryCreator, EnvironmentalBenefits environmentalConfig) {
         super(HandlerProperties.getMethodHeader, route, HandlerProperties.getMethodHeader, address, parseStrategy);
         this.summaryCreator = summaryCreator;
         this.environmentalConfig = environmentalConfig;

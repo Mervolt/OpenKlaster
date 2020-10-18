@@ -3,10 +3,8 @@ package com.openklaster.api.handler.summary;
 import com.openklaster.api.handler.properties.SummaryProperties;
 import com.openklaster.api.model.Unit;
 import com.openklaster.api.model.summary.EnvironmentalBenefits;
-import com.openklaster.api.model.summary.EnvironmentalConfig;
 import com.openklaster.api.model.summary.Measurement;
 import com.openklaster.api.model.summary.SummaryResponse;
-import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
@@ -20,24 +18,19 @@ import java.util.stream.Collectors;
 
 public class SummaryCreator {
 
-    public SummaryResponse createSummary(AsyncResult<Message<JsonArray>> response, EnvironmentalConfig config) {
+    public SummaryResponse createSummary(AsyncResult<Message<JsonArray>> response, EnvironmentalBenefits environmentalConfig) {
         Map<Unit, List<Measurement>> measurements = groupMeasurementsFromJsonArray(response.result().body());
         Measurement latestEnergyMeasurement = findLastMeasurement(measurements.get(Unit.kWh));
         Measurement latestPowerMeasurement = findLastMeasurement(measurements.get(Unit.kW));
         Map<String, Double> powerMeasurements = convertMeasurementArraysIntoMap(measurements.get(Unit.kW));
         BigDecimal energyProducedToday = countEnergyProducedToday(measurements.get(Unit.kWh));
-        EnvironmentalBenefits environmentalBenefits = EnvironmentalBenefits.builder()
-                .co2Reduced(calculateEnvironmentalBenefit(latestEnergyMeasurement.getValue(), config.getCo2Reduced()))
-                .treesSaved(calculateEnvironmentalBenefit(latestEnergyMeasurement.getValue(), config.getTreesSaved()))
-                .build();
-        ;
 
         return SummaryResponse.builder()
                 .totalEnergy(new BigDecimal(latestEnergyMeasurement.getValue()))
                 .currentPower(new BigDecimal(latestPowerMeasurement.getValue()))
                 .power(powerMeasurements)
                 .energyProducedToday(energyProducedToday)
-                .environmentalBenefits(environmentalBenefits)
+                .environmentalBenefits(environmentalConfig)
                 .build();
     }
 

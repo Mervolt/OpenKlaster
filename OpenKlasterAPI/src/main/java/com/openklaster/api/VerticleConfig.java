@@ -3,11 +3,9 @@ package com.openklaster.api;
 import com.openklaster.api.handler.*;
 import com.openklaster.api.handler.summary.SummaryCreator;
 import com.openklaster.api.model.*;
-import com.openklaster.api.model.summary.EnvironmentalConfig;
+import com.openklaster.api.model.summary.EnvironmentalBenefits;
 import com.openklaster.api.model.summary.SummaryRequest;
 import com.openklaster.api.parser.DefaultParseStrategy;
-import com.openklaster.api.properties.EndpointRouteProperties;
-import com.openklaster.api.properties.EventBusAddressProperties;
 import com.openklaster.api.properties.EventbusMethods;
 import io.vertx.core.json.JsonObject;
 import org.json.simple.JSONObject;
@@ -245,7 +243,7 @@ public class VerticleConfig {
     public SummaryHandler summaryHandler(DefaultParseStrategy<SummaryRequest> summaryRequestDefaultParseStrategy) {
         return new SummaryHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("summary")),
                 jsonEventBusRoute.getString("production"), summaryRequestDefaultParseStrategy, new SummaryCreator(),
-                new EnvironmentalConfig(jsonEnvironmental.getInteger("co2reduced"), jsonEnvironmental.getInteger("treessaved")));
+                new EnvironmentalBenefits(jsonEnvironmental.getInteger("co2reduced"), jsonEnvironmental.getInteger("treessaved")));
     }
 
     @Bean
