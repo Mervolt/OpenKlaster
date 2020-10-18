@@ -11,18 +11,12 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 public class MeasurementServiceHandler<T> extends EndpointService {
 
-    private final static String technicalTokenName = "technicalToken";
-
-    private final String technicalToken;
-
     private final MeasurementManager<T> measurementManager;
 
     public MeasurementServiceHandler(NestedConfigAccessor config,
-                                     MeasurementManager<T> measurementManager,
-                                     String technicalToken) {
+                                     MeasurementManager<T> measurementManager) {
         super(config);
         this.measurementManager = measurementManager;
-        this.technicalToken = technicalToken;
     }
 
     @Override
@@ -33,15 +27,6 @@ public class MeasurementServiceHandler<T> extends EndpointService {
 
     private void handleMessage(Message<JsonObject> message) {
         String methodName = message.headers().get(METHOD_KEY);
-        if (isValidTechnicalMessage(message)) {
-            measurementManager.skipAuthenticationAndHandleMessage(message, methodName);
-        } else {
-            measurementManager.handleMessage(message, methodName);
-        }
-    }
-
-    private boolean isValidTechnicalMessage(Message<JsonObject> message) {
-        return message.headers().contains(technicalTokenName) &&
-                message.headers().get(technicalTokenName).equals(technicalToken);
+        measurementManager.handleMessage(message, methodName);
     }
 }
