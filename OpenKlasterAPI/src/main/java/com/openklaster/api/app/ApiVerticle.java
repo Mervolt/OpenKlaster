@@ -85,41 +85,17 @@ public class ApiVerticle extends OpenklasterVerticle {
                 (PostHandler) ctx.getBean("postHandlerMeasurementEnergyProduced"),
                 (PutHandler) ctx.getBean("putHandlerUpdateUser"),
                 (PutHandler) ctx.getBean("putHandlerInstallation"),
-
-
-                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.userEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.INFO, new DefaultParseStrategy<Username>(Username.class)),
-
-                new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.tokenEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.DELETE_TOKEN, new DefaultParseStrategy<Username>(Username.class)),
-
-                new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.allTokensEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.userCoreAddressKey), EventbusMethods.DELETE_ALL_TOKENS, new DefaultParseStrategy<Username>(Username.class)),
-
-                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey), new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
-
-                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.allinstallationEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey), EventbusMethods.GET_ALL, new DefaultParseStrategy<Username>(Username.class)),
-
-                new DeleteHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.installationEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.installationCoreAddressKey), new DefaultParseStrategy<InstallationRequest>(InstallationRequest.class)),
-
-                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerconsumptionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey), new DefaultParseStrategy<MeasurementPowerRequest>(MeasurementPowerRequest.class)),
-
-                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.powerproductionEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey), new DefaultParseStrategy<MeasurementPowerRequest>(MeasurementPowerRequest.class)),
-
-                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyconsumedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.consumptionCoreAddressKey), new DefaultParseStrategy<MeasurementEnergyRequest>(MeasurementEnergyRequest.class)),
-
-                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.energyproducedEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey), new DefaultParseStrategy<MeasurementEnergyRequest>(MeasurementEnergyRequest.class)),
-
-                new SummaryHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.summaryEndpoint), configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
-                        new DefaultParseStrategy<SummaryRequest>(SummaryRequest.class), new SummaryCreator(), new EnvironmentalConfig(2, 2))
-        );
+                (GetHandler) ctx.getBean("getHandlerUser"),
+                (GetHandler) ctx.getBean("getHandlerInstallationRequest"),
+                (GetHandler) ctx.getBean("getHandlerAllInstallationsRequest"),
+                (GetHandler) ctx.getBean("getHandlerMeasurementPowerRequestConsumption"),
+                (GetHandler) ctx.getBean("getHandlerMeasurementPowerRequestProduction"),
+                (GetHandler) ctx.getBean("getHandlerMeasurementEnergyRequestConsumption"),
+                (GetHandler) ctx.getBean("getHandlerMeasurementEnergyRequestProduction"),
+                (DeleteHandler) ctx.getBean("deleteHandlerUsernameToken"),
+                (DeleteHandler) ctx.getBean("deleteHandlerUsernameAllTokens"),
+                (DeleteHandler) ctx.getBean("deleteHandlerInstallationRequest"),
+                (SummaryHandler) ctx.getBean("summaryHandler"));
         routerConfig(router);
     }
 

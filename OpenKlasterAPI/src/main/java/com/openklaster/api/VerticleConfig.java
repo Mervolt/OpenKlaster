@@ -1,8 +1,10 @@
 package com.openklaster.api;
 
-import com.openklaster.api.handler.PostHandler;
-import com.openklaster.api.handler.PutHandler;
+import com.openklaster.api.handler.*;
+import com.openklaster.api.handler.summary.SummaryCreator;
 import com.openklaster.api.model.*;
+import com.openklaster.api.model.summary.EnvironmentalConfig;
+import com.openklaster.api.model.summary.SummaryRequest;
 import com.openklaster.api.parser.DefaultParseStrategy;
 import com.openklaster.api.properties.EndpointRouteProperties;
 import com.openklaster.api.properties.EventBusAddressProperties;
@@ -148,5 +150,103 @@ public class VerticleConfig {
     @Bean
     public DefaultParseStrategy<Installation> putInstallationDefaultParseStrategy() {
         return new DefaultParseStrategy<>(Installation.class);
+    }
+
+
+    @Autowired
+    @Bean(name = "getHandlerUser")
+    public GetHandler getHandlerUser(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
+        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("user")),
+                jsonEventBusRoute.getString("user"), EventbusMethods.INFO, usernameDefaultParseStrategy);
+    }
+
+    @Autowired
+    @Bean(name = "getHandlerInstallationRequest")
+    public GetHandler getHandlerInstallationRequest(DefaultParseStrategy<InstallationRequest> installationRequestDefaultParseStrategy) {
+        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("installation")),
+                jsonEventBusRoute.getString("installation"), installationRequestDefaultParseStrategy);
+    }
+
+    @Bean
+    public DefaultParseStrategy<InstallationRequest> installationRequestDefaultParseStrategy() {
+        return new DefaultParseStrategy<>(InstallationRequest.class);
+    }
+
+    @Autowired
+    @Bean(name = "getHandlerAllInstallationsRequest")
+    public GetHandler getHandlerAllInstallations(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
+        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("allinstallation")),
+                jsonEventBusRoute.getString("installation"), EventbusMethods.GET_ALL, usernameDefaultParseStrategy);
+    }
+
+    @Autowired
+    @Bean(name = "getHandlerMeasurementPowerRequestConsumption")
+    public GetHandler getHandlerMeasurementPowerConsumption(DefaultParseStrategy<MeasurementPowerRequest> measurementPowerRequestDefaultParseStrategy) {
+        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("powerconsumption")),
+                jsonEventBusRoute.getString("consumption"), measurementPowerRequestDefaultParseStrategy);
+    }
+
+    @Autowired
+    @Bean(name = "getHandlerMeasurementPowerRequestProduction")
+    public GetHandler getHandlerMeasurementPowerProduction(DefaultParseStrategy<MeasurementPowerRequest> measurementPowerRequestDefaultParseStrategy) {
+        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("powerproduction")),
+                jsonEventBusRoute.getString("production"), measurementPowerRequestDefaultParseStrategy);
+    }
+
+    @Bean
+    public DefaultParseStrategy<MeasurementPowerRequest> measurementPowerRequestDefaultParseStrategy() {
+        return new DefaultParseStrategy<>(MeasurementPowerRequest.class);
+    }
+
+    @Autowired
+    @Bean(name = "getHandlerMeasurementEnergyRequestConsumption")
+    public GetHandler getHandlerMeasurementEnergyConsumption(DefaultParseStrategy<MeasurementEnergyRequest> measurementEnergyRequestDefaultParseStrategy) {
+        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("energyconsumed")),
+                jsonEventBusRoute.getString("consumption"), measurementEnergyRequestDefaultParseStrategy);
+    }
+
+    @Autowired
+    @Bean(name = "getHandlerMeasurementEnergyRequestProduction")
+    public GetHandler getHandlerMeasurementEnergyProduction(DefaultParseStrategy<MeasurementEnergyRequest> measurementEnergyRequestDefaultParseStrategy) {
+        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("energyproduced")),
+                jsonEventBusRoute.getString("production"), measurementEnergyRequestDefaultParseStrategy);
+    }
+
+    @Bean
+    public DefaultParseStrategy<MeasurementEnergyRequest> measurementEnergyRequestDefaultParseStrategy() {
+        return new DefaultParseStrategy<>(MeasurementEnergyRequest.class);
+    }
+
+    @Autowired
+    @Bean(name = "deleteHandlerUsernameToken")
+    public DeleteHandler deleteHandlerUsername(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
+        return new DeleteHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("token")),
+                jsonEventBusRoute.getString("user"), EventbusMethods.DELETE_TOKEN, usernameDefaultParseStrategy)
+    }
+
+    @Autowired
+    @Bean(name = "deleteHandlerUsernameAllTokens")
+    public DeleteHandler deleteHandlerUsername(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
+        return new DeleteHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("alltokens")),
+                jsonEventBusRoute.getString("user"), EventbusMethods.DELETE_ALL_TOKENS, usernameDefaultParseStrategy)
+    }
+
+    @Autowired
+    @Bean(name = "deleteHandlerInstallationRequest")
+    public DeleteHandler deleteHandlerInstallationRequest(DefaultParseStrategy<InstallationRequest> installationRequestDefaultParseStrategy) {
+        return new DeleteHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("installation")),
+                jsonEventBusRoute.getString("installation"), installationRequestDefaultParseStrategy);
+    }
+
+    @Autowired
+    @Bean(name = "summaryHandler")
+    public SummaryHandler summaryHandler(DefaultParseStrategy<SummaryRequest> summaryRequestDefaultParseStrategy) {
+        return new SummaryHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("summary")),
+                jsonEventBusRoute.getString("production"), summaryRequestDefaultParseStrategy, new SummaryCreator(), new EnvironmentalConfig(2, 2));
+    }
+
+    @Bean
+    public DefaultParseStrategy<SummaryRequest> summaryRequestDefaultParseStrategy() {
+        return new DefaultParseStrategy<>(SummaryRequest.class);
     }
 }
