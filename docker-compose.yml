@@ -22,6 +22,10 @@ services:
     build: CassandraService
     depends_on:
       - cassandra-db
+  openklaster-filerepository:
+    build: FileRepository
+    volumes:
+      - ./file-repository:/file-repository
   openklaster-webpage:
     build: OpenKlasterWeb
     depends_on:
@@ -44,3 +48,5 @@ services:
         - ./data/cassandra:/var/lib/cassandra
         - ./cassandra-init.sh:/cassandra-init.sh
       #command: "sh /cassandra-init.sh"
+volumes:
+  file-repository:

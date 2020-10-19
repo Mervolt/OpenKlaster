@@ -24,7 +24,8 @@
       "user": "openklaster.core.user",
       "installation": "openklaster.core.installation",
       "consumption": "openklaster.core.consumption",
-      "production": "openklaster.core.production"
+      "production": "openklaster.core.production",
+      "chart": "openklaster.filerepository.chartfilerepository"
     }
   },
   "environmentalbenefits": {

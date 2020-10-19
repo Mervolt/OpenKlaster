@@ -38,7 +38,6 @@ public class ApiVerticle extends OpenklasterVerticle {
     private Vertx vertx;
     private EventBus eventBus;
     private List<Handler> handlers;
-    private FileSystem vertxFileSystem;
 
     public ApiVerticle(boolean isDevModeOn) {
         super(isDevModeOn);
@@ -53,7 +52,7 @@ public class ApiVerticle extends OpenklasterVerticle {
         super.init(vertx, context);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
-        this.vertxFileSystem = vertx.fileSystem();
+
         ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
         configFilesManager.getConfig(vertx).getConfig(result -> {
             if (result.succeeded()) {
@@ -155,9 +154,10 @@ public class ApiVerticle extends OpenklasterVerticle {
                 new SummaryHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.summaryEndpoint),
                         configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<SummaryRequest>(SummaryRequest.class), new SummaryCreator()),
-                new ChartHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.chartEndpoint),
-                        configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
-                        eventBus, configAccessor, new DefaultParseStrategy<SummaryRequest>(SummaryRequest.class), vertxFileSystem)
+
+                new GetHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.chartEndpoint),
+                        configAccessor.getString(EventBusAddressProperties.chartCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<Temporary>(Temporary.class))
         );
         routerConfig(router);
     }
