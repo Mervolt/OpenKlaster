@@ -1,6 +1,5 @@
 package com.openklaster.core.vertx.service.measurements;
 
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.core.vertx.service.EndpointService;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
@@ -13,9 +12,8 @@ public class MeasurementServiceHandler<T> extends EndpointService {
 
     private final MeasurementManager<T> measurementManager;
 
-    public MeasurementServiceHandler(NestedConfigAccessor config,
-                                     MeasurementManager<T> measurementManager) {
-        super(config);
+    public MeasurementServiceHandler(MeasurementManager<T> measurementManager, String busAddress) {
+        super(busAddress);
         this.measurementManager = measurementManager;
     }
 

@@ -21,7 +21,6 @@ import java.util.List;
 
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
-
 public class CassandraVerticle extends OpenklasterVerticle {
     private final Logger logger = LoggerFactory.getLogger(CassandraVerticle.class);
     private EventBus eventBus;

@@ -1,6 +1,5 @@
 package com.openklaster.core.vertx.service.installations;
 
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.core.vertx.service.EndpointService;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
@@ -13,8 +12,8 @@ public class InstallationServiceHandler extends EndpointService {
 
     private final InstallationModelManager installationModelManager;
 
-    public InstallationServiceHandler(NestedConfigAccessor config, InstallationModelManager installationModelManager) {
-        super(config);
+    public InstallationServiceHandler(InstallationModelManager installationModelManager, String busAddress) {
+        super(busAddress);
         this.installationModelManager = installationModelManager;
     }
 

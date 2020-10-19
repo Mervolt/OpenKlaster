@@ -8,18 +8,16 @@ import io.vertx.core.logging.Logger;
 
 public abstract class EndpointService {
 
-    protected final static String busAddressKey = "address";
-    protected final static String methodHeaderKey = "method";
     private final static int noMethodErrorCode = 0;
     protected static Logger logger;
-    protected NestedConfigAccessor config;
+    private final String eventBusAddress;
 
     public String getEventBusAddress() {
-        return config.getString(busAddressKey);
+        return eventBusAddress;
     }
 
-    public EndpointService(NestedConfigAccessor config) {
-        this.config = config;
+    public EndpointService(String eventBusAddress) {
+        this.eventBusAddress = eventBusAddress;
     }
 
     public abstract void configureEndpoints(EventBus eventBus);

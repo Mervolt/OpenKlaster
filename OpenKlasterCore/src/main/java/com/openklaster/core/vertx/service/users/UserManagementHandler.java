@@ -1,7 +1,6 @@
 package com.openklaster.core.vertx.service.users;
 
 import com.openklaster.common.authentication.tokens.TokenHandler;
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.CrudRepository;
@@ -26,9 +25,9 @@ public class UserManagementHandler extends EndpointService {
     private final TokenHandler tokenHandler;
     private final CrudRepository<User> userCrudRepository;
 
-    public UserManagementHandler(NestedConfigAccessor config, AuthenticationClient authenticationClient,
-                                 TokenHandler tokenHandler, CrudRepository<User> userCrudRepository) {
-        super(config);
+    public UserManagementHandler(AuthenticationClient authenticationClient,
+                                 TokenHandler tokenHandler, CrudRepository<User> userCrudRepository, String busAddress) {
+        super(busAddress);
         logger = LoggerFactory.getLogger(UserManagementHandler.class);
 
         this.authenticationClient = authenticationClient;

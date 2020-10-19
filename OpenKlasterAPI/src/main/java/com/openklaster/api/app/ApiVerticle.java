@@ -18,8 +18,8 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.StaticHandler;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -32,7 +32,7 @@ public class ApiVerticle extends OpenklasterVerticle {
     private Vertx vertx;
     private EventBus eventBus;
     private List<Handler> handlers;
-    private ApplicationContext ctx;
+    private GenericApplicationContext ctx;
 
     public ApiVerticle(boolean isDevModeOn) {
         super(isDevModeOn);
@@ -46,6 +46,7 @@ public class ApiVerticle extends OpenklasterVerticle {
     public void init(Vertx vertx, Context context) {
         super.init(vertx, context);
         ctx = new AnnotationConfigApplicationContext(VerticleConfig.class);
+        ctx.registerBean(EventBus.class, () -> eventBus);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
         ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
