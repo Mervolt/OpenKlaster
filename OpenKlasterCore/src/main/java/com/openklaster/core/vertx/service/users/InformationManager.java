@@ -1,12 +1,9 @@
 package com.openklaster.core.vertx.service.users;
 
 import com.openklaster.common.model.User;
-import com.openklaster.core.vertx.authentication.AuthenticationClient;
-import com.openklaster.core.vertx.messages.repository.CrudRepository;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.LoggerFactory;
 
 public class InformationManager extends UserManagerHelper {
     private static final String methodName = "info";

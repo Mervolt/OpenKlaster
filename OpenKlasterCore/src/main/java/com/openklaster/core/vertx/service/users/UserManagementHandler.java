@@ -4,6 +4,7 @@ import com.openklaster.common.authentication.tokens.TokenHandler;
 import com.openklaster.common.model.User;
 import com.openklaster.core.vertx.authentication.AuthenticationClient;
 import com.openklaster.core.vertx.messages.repository.CrudRepository;
+import com.openklaster.core.vertx.service.AuthManager;
 import com.openklaster.core.vertx.service.EndpointService;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
@@ -12,6 +13,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
@@ -24,42 +26,29 @@ public class UserManagementHandler extends EndpointService {
     private final AuthenticationClient authenticationClient;
     private final TokenHandler tokenHandler;
     private final CrudRepository<User> userCrudRepository;
+    private final ManagerContainer managers;
+    private final ManagerContainerHelper managerHelpers;
 
-    public UserManagementHandler(AuthenticationClient authenticationClient,
-                                 TokenHandler tokenHandler, CrudRepository<User> userCrudRepository, String busAddress) {
+    public UserManagementHandler(AuthenticationClient authenticationClient, TokenHandler tokenHandler,
+                                 CrudRepository<User> userCrudRepository, String busAddress, ManagerContainer managers,
+                                 ManagerContainerHelper managerHelpers, AuthenticatedUserManager authManager) {
         super(busAddress);
         logger = LoggerFactory.getLogger(UserManagementHandler.class);
 
         this.authenticationClient = authenticationClient;
         this.tokenHandler = tokenHandler;
         this.userCrudRepository = userCrudRepository;
+        this.managers = managers;
+        this.managerHelpers = managerHelpers;
+        this.authUserManager = authManager;
         prepareManagers();
     }
 
     private void prepareManagers() {
         this.userManagerMap = new HashMap<>();
-        this.authUserManager = new AuthenticatedUserManager(authenticationClient, userCrudRepository);
 
-        RegisterManager registerManager = new RegisterManager(authenticationClient, userCrudRepository);
-        userManagerMap.put(registerManager.getMethodName(), registerManager);
-
-        LoginManager loginManager = new LoginManager(authenticationClient, userCrudRepository);
-        userManagerMap.put(loginManager.getMethodName(), loginManager);
-
-        UpdateUserManager updateUserManager = new UpdateUserManager(authenticationClient, userCrudRepository);
-        userManagerMap.put(updateUserManager.getMethodName(), updateUserManager);
-
-        InformationManager informationManager = new InformationManager();
-        authUserManager.addMethodHelper(informationManager.getMethodName(), informationManager);
-
-        GenerateTokenManager generateTokenManager = new GenerateTokenManager(tokenHandler, userCrudRepository);
-        authUserManager.addMethodHelper(generateTokenManager.getMethodName(), generateTokenManager);
-
-        DeleteTokenManager deleteTokenManager = new DeleteTokenManager(userCrudRepository);
-        authUserManager.addMethodHelper(deleteTokenManager.getMethodName(), deleteTokenManager);
-
-        DeleteAllTokensManager deleteAllTokensManager = new DeleteAllTokensManager(userCrudRepository);
-        authUserManager.addMethodHelper(deleteAllTokensManager.getMethodName(), deleteAllTokensManager);
+        managers.retrieveManagers().forEach(manager -> userManagerMap.put(manager.getMethodName(), manager));
+        managerHelpers.retrieveManagerHelpers().forEach(managerHelper -> authUserManager.addMethodHelper(managerHelper.getMethodName(), managerHelper));
     }
 
     @Override
@@ -73,9 +62,9 @@ public class UserManagementHandler extends EndpointService {
         UserManager manager = userManagerMap.get(methodName);
 
         if (manager == null) {
-            if(!authUserManager.hasMessageHandler(methodName)){
+            if (!authUserManager.hasMessageHandler(methodName)) {
                 handleUnknownMethod(message, methodName);
-            } else{
+            } else {
                 authUserManager.handleMessage(message, methodName);
             }
         } else {

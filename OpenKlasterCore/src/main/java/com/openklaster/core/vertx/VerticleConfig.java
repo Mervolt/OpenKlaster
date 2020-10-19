@@ -21,7 +21,7 @@ import com.openklaster.core.vertx.service.installations.InstallationModelManager
 import com.openklaster.core.vertx.service.installations.InstallationServiceHandler;
 import com.openklaster.core.vertx.service.measurements.MeasurementManager;
 import com.openklaster.core.vertx.service.measurements.MeasurementServiceHandler;
-import com.openklaster.core.vertx.service.users.UserManagementHandler;
+import com.openklaster.core.vertx.service.users.*;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 import org.json.simple.JSONObject;
@@ -183,9 +183,11 @@ public class VerticleConfig {
     @Bean
     @Autowired
     public EndpointService userEndpointService(AuthenticationClient authenticationClient, TokenHandler tokenHandler,
-                                               CrudRepository<User> userCrudRepository) {
+                                               CrudRepository<User> userCrudRepository, ManagerContainer managerContainer,
+                                               ManagerContainerHelper managerContainerHelper, AuthenticatedUserManager authenticatedUserManager) {
         return new UserManagementHandler(authenticationClient, tokenHandler, userCrudRepository,
-                jsonObject.getJsonObject("eventbus").getJsonObject("in").getJsonObject("userManagement").getString("address"));
+                jsonObject.getJsonObject("eventbus").getJsonObject("in").getJsonObject("userManagement").getString("address"),
+                managerContainer, managerContainerHelper, authenticatedUserManager);
     }
 
     @Lazy
@@ -203,5 +205,76 @@ public class VerticleConfig {
     public EndpointService sourceMeasurementEndpointService(MeasurementManager<SourceMeasurement> sourceMeasurementMeasurementManager) {
         return new MeasurementServiceHandler<>(sourceMeasurementMeasurementManager,
                 jsonObject.getJsonObject("eventbus").getJsonObject("in").getJsonObject("sourceMeasurements").getString("address"));
+    }
+
+    @Lazy
+    @Bean
+    @Autowired
+    public RegisterManager registerManager(AuthenticationClient authenticationClient, CrudRepository<User> userCrudRepository) {
+        return new RegisterManager(authenticationClient, userCrudRepository);
+    }
+
+    @Lazy
+    @Bean
+    @Autowired
+    public LoginManager loginManager(AuthenticationClient authenticationClient, CrudRepository<User> userCrudRepository) {
+        return new LoginManager(authenticationClient, userCrudRepository);
+    }
+
+    @Lazy
+    @Bean
+    @Autowired
+    public UpdateUserManager updateUserManager(AuthenticationClient authenticationClient, CrudRepository<User> userCrudRepository) {
+        return new UpdateUserManager(authenticationClient, userCrudRepository);
+    }
+
+    @Bean
+    @Autowired
+    public InformationManager informationManager() {
+        return new InformationManager();
+    }
+
+    @Lazy
+    @Bean
+    @Autowired
+    public GenerateTokenManager generateTokenManager(TokenHandler tokenHandler, CrudRepository<User> userCrudRepository) {
+        return new GenerateTokenManager(tokenHandler, userCrudRepository);
+    }
+
+    @Lazy
+    @Bean
+    @Autowired
+    public DeleteTokenManager deleteTokenManager(CrudRepository<User> userCrudRepository) {
+        return new DeleteTokenManager(userCrudRepository);
+    }
+
+    @Lazy
+    @Bean
+    @Autowired
+    public DeleteAllTokensManager deleteAllTokensManager(CrudRepository<User> userCrudRepository) {
+        return new DeleteAllTokensManager(userCrudRepository);
+    }
+
+    @Lazy
+    @Bean
+    @Autowired
+    public ManagerContainer managerContainer(LoginManager loginManager, RegisterManager registerManager,
+                                             UpdateUserManager updateUserManager) {
+        return new ManagerContainer(loginManager, registerManager, updateUserManager);
+    }
+
+    @Lazy
+    @Bean
+    @Autowired
+    public ManagerContainerHelper managerContainerHelper(InformationManager informationManager, GenerateTokenManager generateTokenManager,
+                                                         DeleteTokenManager deleteTokenManager, DeleteAllTokensManager deleteAllTokensManager) {
+        return new ManagerContainerHelper(informationManager, generateTokenManager, deleteTokenManager, deleteAllTokensManager);
+    }
+
+    @Lazy
+    @Bean
+    @Autowired
+    public AuthenticatedUserManager authenticatedUserManager(AuthenticationClient authenticationClient, CrudRepository<User> userCrudRepository) {
+        return new AuthenticatedUserManager(authenticationClient, userCrudRepository);
     }
 }
