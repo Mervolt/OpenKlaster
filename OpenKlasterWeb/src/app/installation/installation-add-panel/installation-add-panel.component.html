@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <div class="page-container">
-    <form (ngSubmit)="installationForm.valid && onSubmit()" #installationForm="ngForm">
+    <form>
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
           <div style="margin-top: 8px">
@@ -107,7 +107,7 @@
           </mat-form-field>
         </div>
       </div>
-      <app-submit-button [onClick]="myCallbackFunction" buttonCaption="Submit Installation" 
+      <app-submit-button [onClick]="myCallbackFunction" buttonCaption="Submit Installation"
                          [requestState]="sendRequestState" style="padding-left: 20px"></app-submit-button>
     </form>
 </div>

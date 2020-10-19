@@ -18,7 +18,6 @@ import {MatOptionSelectionChange} from "@angular/material/core";
 })
 export class InstallationAddPanelComponent {
   sendRequestState = 'wait'
-  submittedObjectName = 'Installation'
   manufacturersMap: Map<string, string[]> = new Map();
 
   questions$: QuestionBase<any>[];
