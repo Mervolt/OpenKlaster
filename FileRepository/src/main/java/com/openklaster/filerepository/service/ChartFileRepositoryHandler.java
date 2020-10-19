@@ -18,6 +18,7 @@ public class ChartFileRepositoryHandler extends FileRepositoryHandler<UsernameIn
 
     @Override
     public void createGetHandler(Message<JsonObject> message) {
+        // Todo wykres zamiast kota
         vertxFileSystem.readFile("/file-repository/cat.jpg", ar -> {
             if (ar.succeeded()) {
                 byte[] content = ar.result().getBytes();
