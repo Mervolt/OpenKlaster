@@ -47,7 +47,8 @@ import {InstallationListItemComponent} from './installation/installation-list-it
 import {MatTableModule} from "@angular/material/table";
 import { SuccessfulLoginDialogComponent } from './user/successful-login-dialog/successful-login-dialog.component';
 import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
-import { ChartsComponent } from './charts/charts.component';
+import { ChartsComponent } from './installation/charts/charts.component';
+import {MatCardModule} from "@angular/material/card";
 
 
 @NgModule({
@@ -86,9 +87,8 @@ import { ChartsComponent } from './charts/charts.component';
       {path: 'installations/:id', component: SingleInstallationPanelComponent},
       {path: 'installationGeneration', component: InstallationGenerationPanelComponent},
       {path: 'editInstallation/:id', component: EditInstallationComponent},
-      {path: 'swagger-ui', component: SwaggerUiComponent},
-      {path: 'charts', component: ChartsComponent}
-    ]),
+      {path: 'swagger-ui', component: SwaggerUiComponent}
+      ]),
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -106,7 +106,8 @@ import { ChartsComponent } from './charts/charts.component';
     MatProgressBarModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatTableModule
+    MatTableModule,
+    MatCardModule
   ],
   providers: [
     RegisterFormService,

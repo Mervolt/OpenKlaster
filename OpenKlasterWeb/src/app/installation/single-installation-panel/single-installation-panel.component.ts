@@ -19,6 +19,7 @@ export class SingleInstallationPanelComponent implements OnInit {
   installationId: string
   installationIdOnlyNumber: number
   installation: Installation
+  isPopupShown: boolean = false;
 
   //TODO ent: InstallationPanelComp is only used to get form token... services are for injecting
   // if you want to pass some methods/args as params. Here it shall be deleted at all as it used to get formToken
@@ -64,6 +65,10 @@ export class SingleInstallationPanelComponent implements OnInit {
       width: '500px'
     });
     dialog.componentInstance.id = this.installationId
+  }
+
+  openChartPopup() {
+    this.isPopupShown = true;
   }
 
   navigateToEditInstallation() {

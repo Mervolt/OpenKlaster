@@ -9,7 +9,6 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 })
 export class ChartsComponent implements OnInit {
   chart: SafeResourceUrl;
-//TODO this whole package is placeholder for future feature
   constructor(private chartService: ChartService,
               private domSanitizer: DomSanitizer) { }
 
