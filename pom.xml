@@ -14,7 +14,7 @@
         <module>CassandraService</module>
         <module>OpenKlasterAPI</module>
         <module>CommonService</module>
-        <module>FileRepository</module>
+        <module>FileRepositoryService</module>
     </modules>
 
     <properties>

@@ -5,5 +5,5 @@ public class FileRepositoryProperties {
 
     public static final String ADDRESS = "address";
 
-    public static final String GET = "get";
+    public static final String GET_METHOD_NAME = "get";
 }

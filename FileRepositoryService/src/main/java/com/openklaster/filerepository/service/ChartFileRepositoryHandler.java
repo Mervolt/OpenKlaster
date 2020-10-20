@@ -18,12 +18,12 @@ public class ChartFileRepositoryHandler extends FileRepositoryHandler<UsernameIn
 
     @Override
     public void createGetHandler(Message<JsonObject> message) {
-        // Todo wykres zamiast kota
-        vertxFileSystem.readFile("/file-repository/cat.jpg", ar -> {
+        // Todo zrobić pobieranie odpowiedniego zamiast hardcode, potrzebny najpierw skrypt uruchomiony w cronie
+        vertxFileSystem.readFile("/file-repository/2020-09-23.png", ar -> {
             if (ar.succeeded()) {
                 byte[] content = ar.result().getBytes();
                 String encodeBase64 = Base64.getEncoder().encodeToString(content);
-                String response = "data:image/jpg;base64, " + encodeBase64;
+                String response = "data:image/png;base64, " + encodeBase64;
                 logger.debug("Successful request");
                 BusMessageReplyUtils.replyWithBodyAndStatus(message, response, HttpResponseStatus.OK);
             } else {

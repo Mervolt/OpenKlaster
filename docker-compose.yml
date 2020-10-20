@@ -23,7 +23,7 @@ services:
     depends_on:
       - cassandra-db
   openklaster-filerepository:
-    build: FileRepository
+    build: FileRepositoryService
     volumes:
       - ./file-repository:/file-repository
   openklaster-webpage:

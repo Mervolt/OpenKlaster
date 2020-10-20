@@ -1,7 +1,7 @@
 FROM vertx/vertx3
 
 ENV VERTICLE_NAME com.openklaster.filerepository.app.FileRepositoryVerticle
-ENV VERTICLE_FILE target/FileRepository.jar
+ENV VERTICLE_FILE target/FileRepositoryService.jar
 
 ENV VERTICLE_HOME /usr/verticles
 
