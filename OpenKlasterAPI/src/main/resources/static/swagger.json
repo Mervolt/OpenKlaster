@@ -89,6 +89,60 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/summary": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Provides manufacturer names and format of their credentials",
+        "operationId": "getSummary",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "installationId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Manufacturers credentials are:",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "manufacturer": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
