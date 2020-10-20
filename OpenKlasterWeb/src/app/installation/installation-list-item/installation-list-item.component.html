@@ -1,8 +1,8 @@
 <div class="flex-div-row">
   <div *ngIf="installation.installationType=='Solar'; then solarInstall else windInstall"></div>
-  <ng-template #solarInstall><img src="/OpenKlasterWeb/src/assets/img/solar_install.jpg" alt="" class="img-with-margin">
+  <ng-template #solarInstall><img src="assets/img/solar_install.jpg" alt="" class="img-with-margin">
   </ng-template>
-  <ng-template #windInstall><img src="/OpenKlasterWeb/src/assets/img/wind_install.jpg" alt="" class="img-with-margin"></ng-template>
+  <ng-template #windInstall><img src="assets/img/wind_install.jpg" alt="" class="img-with-margin"></ng-template>
   <div class="list-item-installation-detail">
     <div class="list-item-installation-detail-content">
       <h4>Installation description</h4>

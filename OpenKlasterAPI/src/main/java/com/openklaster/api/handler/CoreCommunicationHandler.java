@@ -4,15 +4,16 @@ import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.api.parser.IParseStrategy;
 import com.openklaster.api.validation.ModelValidationErrorMessages;
 import com.openklaster.api.validation.ValidationException;
+import com.openklaster.common.messages.HttpReplyUtils;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.ReplyException;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.api.model.Model;
@@ -28,9 +29,9 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 import static com.openklaster.common.messages.BusMessageReplyUtils.isInternalServerError;
 
 @AllArgsConstructor
-public abstract class Handler {
+public abstract class CoreCommunicationHandler implements ApiHandler {
     private static final String requestDefaultTimeout = "eventBus.timeout";
-    private static final Logger logger = LoggerFactory.getLogger(Handler.class);
+    private static final Logger logger = LoggerFactory.getLogger(CoreCommunicationHandler.class);
 
     String method;
     String route;
@@ -40,8 +41,8 @@ public abstract class Handler {
     IParseStrategy<? extends Model> parseStrategy;
     NestedConfigAccessor nestedConfigAccessor;
 
-    public Handler(String method, String route, String eventbusMethod, String address, EventBus eventBus,
-                   NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
+    public CoreCommunicationHandler(String method, String route, String eventbusMethod, String address, EventBus eventBus,
+                                    NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
         this.method = method;
         this.route = route;
         this.eventbusMethod = eventbusMethod;
@@ -51,7 +52,22 @@ public abstract class Handler {
         this.parseStrategy = parseStrategy;
     }
 
-    public abstract void handle(RoutingContext context);
+    public void configure(Router router) {
+        switch (getMethod()) {
+            case HandlerProperties.getMethodHeader:
+                router.get(getRoute()).handler(this::handle);
+                break;
+            case HandlerProperties.postMethodHeader:
+                router.post(getRoute()).consumes("application/json").handler(this::handle);
+                break;
+            case HandlerProperties.putMethodHeader:
+                router.put(getRoute()).consumes("application/json").handler(this::handle);
+                break;
+            case HandlerProperties.deleteMethodHeader:
+                router.delete(getRoute()).handler(this::handle);
+                break;
+        }
+    }
 
     public String getRoute() {
         return this.route;
@@ -80,14 +96,14 @@ public abstract class Handler {
             JsonObject validatedModel = JsonObject.mapFrom(model);
             DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, tokens);
             eventBus.request(address, validatedModel, deliveryOptions, coreResponse -> {
-                if(coreResponse.succeeded()){
-                    if (coreResponse.result().body() == null)
+                if (coreResponse.succeeded()) {
+                    if (coreResponse.result().body() == null) {
                         handleSuccessfulRequest(context.response());
-                    else
-                        context.response().end(Json.encodePrettily(coreResponse.result().body()));
-                        logger.debug("Successful request: " + coreResponse.result().body());
-                }
-                else{
+                    } else {
+                        HttpReplyUtils.sendJsonResponse(context.response(), coreResponse.result().body());
+                    }
+                    logger.debug("Successful request: " + coreResponse.result().body());
+                } else {
                     logger.info(coreResponse.cause().getMessage());
                     ReplyException replyException = (ReplyException) coreResponse.cause();
                     if (isInternalServerError(replyException))
@@ -104,11 +120,11 @@ public abstract class Handler {
 
     protected JsonObject convertMultiMapToJson(List<Map.Entry<String, String>> modelParams) {
         JsonObject jsonModel = new JsonObject();
-        modelParams.forEach(entry -> jsonModel.put(entry.getKey(),entry.getValue()));
+        modelParams.forEach(entry -> jsonModel.put(entry.getKey(), entry.getValue()));
         return jsonModel;
     }
 
-    protected Map<String, String>  retrieveTokensFromContex(RoutingContext context){
+    protected Map<String, String> retrieveTokensFromContex(RoutingContext context) {
         Map<String, String> tokens = new HashMap<>();
         if (context.queryParams().contains(HandlerProperties.apiToken)) {
             tokens.put(HandlerProperties.apiToken, context.queryParams().get(HandlerProperties.apiToken));
@@ -125,8 +141,7 @@ public abstract class Handler {
         return tokens;
     }
 
-
-    protected DeliveryOptions createRequestDeliveryOptions(String eventbusMethod, Map<String, String> tokens){
+    protected DeliveryOptions createRequestDeliveryOptions(String eventbusMethod, Map<String, String> tokens) {
         DeliveryOptions deliveryOptions = new DeliveryOptions();
         for (String token : tokens.keySet()) {
             deliveryOptions.addHeader(token, tokens.get(token));
@@ -137,21 +152,18 @@ public abstract class Handler {
     }
 
     protected void handleSuccessfulRequest(HttpServerResponse response) {
-        response.setStatusCode(HttpResponseStatus.OK.code());
-        response.end(HandlerProperties.successfulRequestMessage);
+        HttpReplyUtils.sendOkEmptyResponse(response);
         logger.debug("Successful request for: " + response);
     }
 
     protected void handleProcessingError(HttpServerResponse response, final int code, final String message) {
-        response.setStatusCode(code);
-        response.end(message);
+        HttpReplyUtils.sendFailureResponse(response, code, message);
         logger.error("Failure handling" + message + "code " + code);
     }
 
     protected void handleValidationError(HttpServerResponse response, String message) {
-        response.setStatusCode(HttpResponseStatus.BAD_REQUEST.code());
         String messageContent = ModelValidationErrorMessages.MESSAGE + message;
-        response.end(messageContent);
+        HttpReplyUtils.sendFailureResponse(response, HttpResponseStatus.BAD_REQUEST.code(), messageContent);
         logger.error(messageContent);
     }
 

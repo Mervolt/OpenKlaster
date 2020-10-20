@@ -15,7 +15,8 @@
         "energyconsumed": "/energyConsumed",
         "energyproduced": "/energyProduced",
         "summary": "/summary",
-        "chart": "/chart"
+        "chart": "/chart",
+        "manufacturerCredentials": "/manufacturerCredentials"
       }
     }
   },
@@ -34,5 +35,9 @@
   },
   "eventBus": {
     "timeout": 15000
+  },
+  "manufacturerCredentials": {
+    "Growatt" : ["Username", "Password"],
+    "Token-manufacturer" : ["Token"]
   }
 }
