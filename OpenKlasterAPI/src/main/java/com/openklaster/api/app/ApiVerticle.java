@@ -15,6 +15,7 @@ import com.openklaster.common.verticle.OpenklasterVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.file.FileSystem;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
@@ -51,6 +52,7 @@ public class ApiVerticle extends OpenklasterVerticle {
         super.init(vertx, context);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
+
         ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
         configFilesManager.getConfig(vertx).getConfig(result -> {
             if (result.succeeded()) {
@@ -152,6 +154,9 @@ public class ApiVerticle extends OpenklasterVerticle {
                 new SummaryCoreCommunicationHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.summaryEndpoint),
                         configAccessor.getString(EventBusAddressProperties.productionCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<SummaryRequest>(SummaryRequest.class), new SummaryCreator()),
+                new GetCoreCommunicationHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.chartEndpoint),
+                        configAccessor.getString(EventBusAddressProperties.chartCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<Temporary>(Temporary.class)),
                 new CredentialsApiHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.manufacturerCredentials),
                         configAccessor.getJsonObject(credentialsConfigKey))
         );

@@ -19,6 +19,7 @@ export class SingleInstallationPanelComponent implements OnInit {
   installationId: string
   installationIdOnlyNumber: number
   installation: Installation
+  isPopupShown: boolean = false;
 
   constructor(public service: SingleInstallationPanelService, private router: Router,
               public installationsService: InstallationService,
@@ -58,6 +59,10 @@ export class SingleInstallationPanelComponent implements OnInit {
       width: '500px'
     });
     dialog.componentInstance.id = this.installationId
+  }
+
+  openChartPopup() {
+    this.isPopupShown = true;
   }
 
   navigateToEditInstallation() {
