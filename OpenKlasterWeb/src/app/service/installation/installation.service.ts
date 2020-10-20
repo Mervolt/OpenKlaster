@@ -1,16 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {CookieService} from "ngx-cookie-service";
-import {Installation} from "../model/Installation";
-import {EndpointHolder} from "../model/EndpointHolder";
-import {CookieHolder} from "../model/CookieHolder";
+import {Installation} from "../../model/Installation";
+import {EndpointHolder} from "../../model/EndpointHolder";
+import {CookieHolder} from "../../model/CookieHolder";
 
 @Injectable({
   providedIn: 'root'
 })
-//TODO What 'Panel' means here?
-//MM-ANSWER: Z translatora: panel - pulpit
-export class InstallationPanelService {
+export class InstallationService {
 
   constructor(public http: HttpClient) {
   }
@@ -40,7 +38,7 @@ export class InstallationPanelService {
       'inverter': {
         'description': installation.inverter.description,
         'manufacturer': installation.inverter.manufacturer,
-        'credentials': JSON.stringify(installation.inverter.credentials),
+        'credentials': installation.inverter.credentials,
         'modelType': installation.inverter.modelType
       },
       'source': {

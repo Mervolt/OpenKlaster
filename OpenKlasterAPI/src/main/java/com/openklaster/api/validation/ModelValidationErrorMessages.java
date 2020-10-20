@@ -29,7 +29,7 @@ public class ModelValidationErrorMessages {
 
     public static final String MANUFACTURER = "Manufacturer of the inwerter is required";
 
-    public static final String CREDENTRAILS = "Credentials are required";
+    public static final String CREDENTIALS = "Credentials are required";
 
     public static final String MODEL_TYPE = "Model type is required";
 

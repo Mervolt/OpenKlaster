@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SingleInstallationPanelService} from "../single-installation-panel.service";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {ActivatedRoute, Router} from "@angular/router";
-import {InstallationPanelService} from "../installation-panel.service";
+import {InstallationService} from "../../service/installation/installation.service";
 import {InstallationDto} from "../../model/InstallationDto";
 import {CookieService} from "ngx-cookie-service";
 import {Installation} from "../../model/Installation";
@@ -20,24 +20,14 @@ export class SingleInstallationPanelComponent implements OnInit {
   installationIdOnlyNumber: number
   installation: Installation
 
-  //TODO ent: InstallationPanelComp is only used to get form token... services are for injecting
-  // if you want to pass some methods/args as params. Here it shall be deleted at all as it used to get formToken
-  // which should not exists
-  //MM-ANSWER tokens to be refactored later
   constructor(public service: SingleInstallationPanelService, private router: Router,
-              public installationsService: InstallationPanelService,
+              public installationsService: InstallationService,
               private route: ActivatedRoute, public cookieService: CookieService,
               public dialog: MatDialog) {
     this.installationId = route.snapshot.paramMap.get('id');
     this.installationIdOnlyNumber = this.stripInstallationId(this.installationId)
   }
 
-  //TOdo RG Have you tested it? I'm pretty sure it won't work?
-  // For example insteal of new Inverter(response['inverter']['description'], response['inverter']['manufacturer'],
-  //           response['inverter']['credentials'], response['inverter']['modelType'])
-  // The 2nd parenthesis will throw an exception everywhere
-  // If you want inverter object just use response['inverter'] and you get the object
-  //MM-ANSWER I think it worked but I changed it anyway since your solution also works and is used in Installations
   isLoaded: boolean;
 
   ngOnInit(): void {
@@ -52,6 +42,10 @@ export class SingleInstallationPanelComponent implements OnInit {
       this.installation = InstallationDto.fromDto(response)
       this.isLoaded = true
     })
+  }
+
+  credentialsToString(credentials: JSON) {
+    return JSON.stringify(credentials);
   }
 
   stripInstallationId(installationIdLink: string) {

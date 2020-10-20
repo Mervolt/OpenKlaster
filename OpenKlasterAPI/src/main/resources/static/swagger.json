@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0.0",
+    "version": "",
     "title": "Swagger OpenKlaster",
     "license": {
       "name": "Apache 2.0",
@@ -20,7 +20,7 @@
     },
     {
       "name": "measurement",
-      "description": "Energy measurements"
+      "description": "Energy measurements. In GET requests if no dates are provided then all measurements are retrieved."
     }
   ],
   "schemes": [
@@ -61,6 +61,34 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/manufacturerCredentials": {
+      "get": {
+        "tags": [
+          "miscellaneous"
+        ],
+        "summary": "Provides manufacturer names and format of their credentials",
+        "operationId": "getManufacturerCredentials",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Manufacturers credentials are:",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "manufacturer": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -136,7 +164,7 @@
         "tags": [
           "user"
         ],
-        "summary": "Retrieves all tokens for given user",
+        "summary": "Retrieves user info - username, email and its tokens",
         "description": "",
         "operationId": "getAllTokens",
         "parameters": [
@@ -989,10 +1017,6 @@
       "properties": {
         "data": {
           "type": "string"
-        },
-        "expires": {
-          "type": "string",
-          "format": "date-time"
         }
       }
     },
@@ -1045,6 +1069,9 @@
         },
         "description": {
           "type": "string"
+        },
+        "credentials": {
+          "type": "object"
         },
         "load": {
           "$ref": "#/definitions/load"

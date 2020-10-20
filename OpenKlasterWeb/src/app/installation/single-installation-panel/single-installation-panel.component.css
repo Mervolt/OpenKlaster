@@ -35,3 +35,14 @@ p {
   margin: 10px;
 }
 
+.mat-fab {
+  outline: none;
+  border-color: #fa0000;
+}
+
+th, td {
+  overflow: hidden;
+  width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

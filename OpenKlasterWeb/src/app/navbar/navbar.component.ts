@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
     new NavigationNameAddressTuple('Add installation', this.navigateToInstallationGeneration.bind(this)),
     new NavigationNameAddressTuple('Your installations', this.navigateToYourInstallations.bind(this)),
     new NavigationNameAddressTuple('API Documentation', this.navigateToSwagger.bind(this)),
+    new NavigationNameAddressTuple('Charts', this.navigateToCharts.bind(this)),
     new NavigationNameAddressTuple('Logout', this.logout.bind(this))
   ]
 
@@ -47,6 +48,10 @@ export class NavbarComponent implements OnInit {
 
   navigateToSwagger(): void {
     this.router.navigate(['swagger-ui']).then();
+  }
+
+  navigateToCharts(): void {
+    this.router.navigate(['charts']).then();
   }
 
   logout() {
