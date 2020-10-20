@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {InstallationPanelService} from '../installation-panel.service';
+import {InstallationService} from '../../service/installation/installation.service';
 
 import {Installation} from '../../model/Installation';
 import {AppComponent} from "../../app.component";
@@ -14,17 +14,11 @@ import {Router} from "@angular/router";
   styleUrls: ['./installation-panel.component.css']
 })
 export class InstallationPanelComponent implements OnInit {
-  //TODO unused formModel
-  //MM-ANSWER done
   installations: Installation[] = [];
   displayedInstallations: Installation[] = [];
-  //TODO ditto - value type
-  //MM-ANSWER done
   cookieService: CookieService;
 
-  //TODO installationService - more desriptive name
-  //MM-ANSWER done
-  constructor(public installationService: InstallationPanelService, private appComp: AppComponent, private router: Router) {
+  constructor(public installationService: InstallationService, private appComp: AppComponent, private router: Router) {
     this.cookieService = appComp.cookieService;
   }
 
@@ -32,7 +26,6 @@ export class InstallationPanelComponent implements OnInit {
     this.getInstallations();
   }
 
-  //TODO ditto -sesion token
   onPageChange(event: PageEvent) {
     let startIndex = event.pageIndex * event.pageSize;
     let endIndex = startIndex + event.pageSize;
@@ -47,8 +40,6 @@ export class InstallationPanelComponent implements OnInit {
     let observableInstallations = this.installationService.getInstallations(this.cookieService);
     observableInstallations.subscribe(response => {
       for (let installation in response) {
-        //TODO ditto - static keys
-        //MM-ASNWER done
         this.installations.push(InstallationDto.fromDto(response[installation]))
         this.displayedInstallations = this.installations.slice(0, 5);
       }

@@ -14,3 +14,11 @@ p {
 table {
   width: 100%;
 }
+
+.remove-cell-header {
+  color: #fa0000;
+}
+.remove-cell-header:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

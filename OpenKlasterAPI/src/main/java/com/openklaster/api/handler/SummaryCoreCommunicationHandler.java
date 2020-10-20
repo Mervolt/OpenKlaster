@@ -7,6 +7,7 @@ import com.openklaster.api.model.summary.SummaryResponse;
 import com.openklaster.api.parser.IParseStrategy;
 import com.openklaster.api.validation.ValidationException;
 import com.openklaster.common.config.NestedConfigAccessor;
+import com.openklaster.common.messages.HttpReplyUtils;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.ReplyException;
@@ -19,10 +20,10 @@ import java.util.Map;
 
 import static com.openklaster.api.validation.ValidationExecutor.validate;
 
-public class SummaryHandler extends Handler {
+public class SummaryCoreCommunicationHandler extends CoreCommunicationHandler {
     private final SummaryCreator summaryCreator;
 
-    public SummaryHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy, SummaryCreator summaryCreator) {
+    public SummaryCoreCommunicationHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy, SummaryCreator summaryCreator) {
         super(HandlerProperties.getMethodHeader, route, HandlerProperties.getMethodHeader, address, eventBus, nestedConfigAccessor, parseStrategy);
         this.summaryCreator = summaryCreator;
     }
@@ -40,7 +41,7 @@ public class SummaryHandler extends Handler {
             eventBus.<JsonArray>request(address, validatedModel, deliveryOptions, coreResponse -> {
                 if (coreResponse.succeeded()) {
                     SummaryResponse summaryResponse = summaryCreator.createSummary(coreResponse, nestedConfigAccessor);
-                    context.response().end(Json.encodePrettily(JsonObject.mapFrom(summaryResponse)));
+                    HttpReplyUtils.sendJsonResponse(context.response(), JsonObject.mapFrom(summaryResponse));
                 } else {
                     ReplyException replyException = (ReplyException) coreResponse.cause();
                     handleProcessingError(context.response(), replyException.failureCode(), replyException.getMessage());

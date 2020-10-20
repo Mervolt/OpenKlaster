@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {TokenService} from '../token.service';
+import {TokenService} from '../../service/token/token.service';
 import {AppComponent} from '../../app.component';
 
 export interface TokenResponse {
@@ -20,12 +20,10 @@ export class TokenPanelComponent implements OnInit {
   tokens: any
   tabledTokens: { number: number, token: string }[] = []
   cookieService
-  requestReceivedState = 'wait'
-  sendRequestState = 'wait'
-  submittedObjectName = 'Token'
-  displayedColumns: string[] = ['number', 'token']
-  //TODO change `service` variable name
-  //MM-ANSWER Done
+  requestState = 'none'
+  displayedColumns: string[] = ['number', 'token', 'removeButton']
+  loading: boolean = false;
+
   constructor(public tokenPanelService: TokenService, public appComp: AppComponent) {
     this.cookieService = appComp.cookieService;
   }
@@ -44,19 +42,49 @@ export class TokenPanelComponent implements OnInit {
     })
   }
 
+  myCallbackFunction = (): void => {
+    this.addToken()
+  }
+
   addToken() {
-    this.sendRequestState = 'sent'
+    this.requestState = 'waiting'
+    this.loading = true
     let addPromise = this.tokenPanelService.generateToken(this.cookieService).toPromise();
-    addPromise
+    this.resolvePromise(addPromise)
+  }
+
+  removeAllTokens() {
+    if(!window.confirm('Are sure you want to delete all tokens?')) {
+      return;
+    }
+    this.requestState = 'waiting'
+    this.loading = true
+    let removeAllPromise = this.tokenPanelService.deleteAllTokens(this.cookieService).toPromise();
+    this.resolvePromise(removeAllPromise)
+    this.loading = false
+  }
+
+  removeToken(token: string) {
+    if(!window.confirm('Are sure you want to delete this token?')) {
+      return;
+    }
+    this.requestState = 'waiting'
+    let removePromise = this.tokenPanelService.deleteToken(this.cookieService, token).toPromise();
+    this.resolvePromise(removePromise)
+  }
+
+  private resolvePromise(promise: Promise<any>) {
+    promise
       .then(() => {
-        this.sendRequestState = 'received'
-        this.requestReceivedState = 'success'
+        this.requestState = 'success'
         this.ngOnInit()
       })
       .catch(() => {
-        this.sendRequestState = 'received'
-        this.requestReceivedState = 'fail'
+        this.requestState = 'failure'
         this.ngOnInit()
       })
+    setTimeout(() => {
+      this.requestState = 'none'
+    }, 3500);
   }
 }

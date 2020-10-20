@@ -7,12 +7,12 @@ import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.ext.web.RoutingContext;
 
-public class DeleteHandler extends Handler{
-    public DeleteHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
+public class DeleteCoreCommunicationHandler extends CoreCommunicationHandler {
+    public DeleteCoreCommunicationHandler(String route, String address, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
         super(HandlerProperties.deleteMethodHeader, route, HandlerProperties.deleteMethodHeader, address, eventBus, nestedConfigAccessor, parseStrategy);
     }
 
-    public DeleteHandler(String route, String address, String eventbusMethod, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
+    public DeleteCoreCommunicationHandler(String route, String address, String eventbusMethod, EventBus eventBus, NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
         super(HandlerProperties.deleteMethodHeader, route, eventbusMethod, address, eventBus, nestedConfigAccessor, parseStrategy);
     }
 
