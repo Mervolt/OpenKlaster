@@ -161,7 +161,7 @@ public class ApiVerticle extends OpenklasterVerticle {
     private void routerConfig(Router router) {
         configureRouteHandler(router);
         handlers.forEach(handler -> handler.configure(router));
-        router.route("/*").handler(StaticHandler.create("static"));
+        router.route("/api/1/*").handler(StaticHandler.create("static"));
     }
 
     private void configureRouteHandler(Router router) {

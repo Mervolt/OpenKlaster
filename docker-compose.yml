@@ -1,5 +1,10 @@
 version: '3'
 services:
+  inverters_connectors:
+    build: InvertersConnectors
+    depends_on:
+      - mongo-db
+      - openklaster-api
   openklaster-core:
     build: OpenKlasterCore
     depends_on:
@@ -7,8 +12,6 @@ services:
       - openklaster-mongo
   openklaster-api:
     build: OpenKlasterAPI
-    ports:
-      - "8082:8082"
     depends_on:
       - openklaster-core
   openklaster-mongo:
@@ -40,4 +43,4 @@ services:
       volumes:
         - ./data/cassandra:/var/lib/cassandra
         - ./cassandra-init.sh:/cassandra-init.sh
-      command: "sh /cassandra-init.sh"
+      #command: "sh /cassandra-init.sh"

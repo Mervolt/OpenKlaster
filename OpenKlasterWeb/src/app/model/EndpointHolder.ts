@@ -1,6 +1,6 @@
 export class EndpointHolder {
   static baseProdUrl = ":)"
-  static baseUrl = "http://localhost:8082/"
+  static baseUrl = "http://localhost/"
   static baseDevUrl = EndpointHolder.baseUrl + "api/1/"
   static userEndpoint = EndpointHolder.baseDevUrl + "user";
   static tokenEndpoint = EndpointHolder.baseDevUrl + "token";
@@ -8,6 +8,7 @@ export class EndpointHolder {
   static loginEndpoint = EndpointHolder.baseDevUrl + "user/login";
   static installationEndpoint = EndpointHolder.baseDevUrl + "installations";
   static installationsEndpoint = EndpointHolder.baseDevUrl + "installations/all";
-  static swaggerEndpoint = EndpointHolder.baseUrl + "swagger.json";
   static credentialsEndpoint = EndpointHolder.baseDevUrl + 'manufacturerCredentials'
+  static swaggerEndpoint = EndpointHolder.baseDevUrl + "swagger.json";
+
 }

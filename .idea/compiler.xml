@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="OpenKlasterAPI" />
+        <module name="CommonService" />
         <module name="OpenKlasterCore" />
         <module name="CassandraService" />
         <module name="MongoService" />
-        <module name="CommonService" />
-        <module name="OpenKlasterAPI" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

@@ -1,6 +1,6 @@
 const config = {
     "installationId": "installation:1",
-    "apiToken": "hsy5L42VTEa4",
+    "apiToken": "0jNQq63d0lNH",
     "slides": {
         "intro": true,
         "trees": true,

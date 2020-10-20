@@ -134,6 +134,10 @@ public abstract class CoreCommunicationHandler implements ApiHandler {
             tokens.put(HandlerProperties.sessionToken, context.queryParams().get(HandlerProperties.sessionToken));
             context.queryParams().remove(HandlerProperties.sessionToken);
         }
+        if (context.queryParams().contains(HandlerProperties.technicalToken)) {
+            tokens.put(HandlerProperties.technicalToken, context.queryParams().get(HandlerProperties.technicalToken));
+            context.queryParams().remove(HandlerProperties.technicalToken);
+        }
         return tokens;
     }
 
