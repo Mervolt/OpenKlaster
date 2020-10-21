@@ -1,6 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-//TODO unused import
-//MM-ANSWER: Done
 import {MatMenuTrigger} from "@angular/material/menu";
 import {SingleInstallationPanelService} from "../installation/single-installation-panel.service";
 import {Router} from "@angular/router";
@@ -20,7 +18,6 @@ export class NavbarComponent implements OnInit {
     new NavigationNameAddressTuple('Add installation', this.navigateToInstallationGeneration.bind(this)),
     new NavigationNameAddressTuple('Your installations', this.navigateToYourInstallations.bind(this)),
     new NavigationNameAddressTuple('API Documentation', this.navigateToSwagger.bind(this)),
-    new NavigationNameAddressTuple('Charts', this.navigateToCharts.bind(this)),
     new NavigationNameAddressTuple('Logout', this.logout.bind(this))
   ]
 
@@ -30,10 +27,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  //TODO Maybe some global navigation/routing service would be nice as in login-form we are also using routing
-  //MM-ANSWER: I think it is better to leave in component so it has access only to redirects it can use than
-  //exposing interface with all possible interfaces
-  //And service logic should be tied to component it represents
+
   navigateToYourTokens(): void {
     this.router.navigate(['token']).then();
   }
@@ -48,10 +42,6 @@ export class NavbarComponent implements OnInit {
 
   navigateToSwagger(): void {
     this.router.navigate(['swagger-ui']).then();
-  }
-
-  navigateToCharts(): void {
-    this.router.navigate(['charts']).then();
   }
 
   logout() {
