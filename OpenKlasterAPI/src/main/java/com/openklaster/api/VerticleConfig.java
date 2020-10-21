@@ -50,6 +50,12 @@ public class VerticleConfig {
     }
 
     @Autowired
+    @Bean
+    public Integer listeningPort(){
+        return jsonConfig.getJsonObject("http").getInteger("port");
+    }
+
+    @Autowired
     @Bean(name = "postHandlerLogin")
     public PostHandler postHandlerLogin(DefaultParseStrategy<Login> loginDefaultParseStrategy) {
         return new PostHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString("login")),

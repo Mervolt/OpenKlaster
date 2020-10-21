@@ -1,11 +1,9 @@
 package com.openklaster.api.app;
 
 import com.openklaster.api.VerticleConfig;
-import com.openklaster.api.handler.*;
+import com.openklaster.api.handler.Handler;
 import com.openklaster.api.handler.properties.HandlerProperties;
-import com.openklaster.api.properties.EndpointRouteProperties;
 import com.openklaster.common.config.ConfigFilesManager;
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.verticle.OpenklasterVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
@@ -21,15 +19,18 @@ import io.vertx.ext.web.handler.StaticHandler;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ApiVerticle extends OpenklasterVerticle {
     private static final Logger logger = LoggerFactory.getLogger(ApiVerticle.class);
-    private NestedConfigAccessor configAccessor;
     private Vertx vertx;
     private EventBus eventBus;
     private List<Handler> handlers;
     private GenericApplicationContext ctx;
+    private Integer launchPort;
 
     public ApiVerticle(boolean isDevModeOn) {
         super(isDevModeOn);
@@ -49,8 +50,7 @@ public class ApiVerticle extends OpenklasterVerticle {
         ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
         configFilesManager.getConfig(vertx).getConfig(result -> {
             if (result.succeeded()) {
-                JsonObject jsonObject = result.result();
-                this.configAccessor = new NestedConfigAccessor(jsonObject);
+                launchPort = ctx.getBean(Integer.class);
                 startVerticle();
             } else {
                 logger.error("Failed to load config");
@@ -62,7 +62,7 @@ public class ApiVerticle extends OpenklasterVerticle {
         Router router = Router.router(vertx);
         vertx.createHttpServer()
                 .requestHandler(router)
-                .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
+                .listen(launchPort);
         handlers = new ArrayList<>(ctx.getBeansOfType(Handler.class).values());
         routerConfig(router);
     }

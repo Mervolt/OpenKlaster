@@ -55,27 +55,31 @@ public class VerticleConfig {
     @Bean
     @Autowired
     public LoadMeasurementHandler loadMeasurementHandler(CassandraClient cassandraClient) {
-        return new LoadMeasurementHandler(cassandraClient, jsonConfig.getJsonObject("loadmeasurement"));
+        return new LoadMeasurementHandler(cassandraClient, jsonConfig.getJsonObject("loadmeasurement").getString("address"),
+                jsonConfig.getJsonObject("loadmeasurement").getString("table"));
     }
 
     @Lazy
     @Bean
     @Autowired
     public SourceMeasurementHandler sourceMeasurementHandler(CassandraClient cassandraClient) {
-        return new SourceMeasurementHandler(cassandraClient, jsonConfig.getJsonObject("loadmeasurement"));
+        return new SourceMeasurementHandler(cassandraClient, jsonConfig.getJsonObject("sourcemeasurement").getString("address"),
+                jsonConfig.getJsonObject("sourcemeasurement").getString("table"));
     }
 
     @Lazy
     @Bean
     @Autowired
     public EnergyPredictionsHandler energyPredictionsHandler(CassandraClient cassandraClient) {
-        return new EnergyPredictionsHandler(cassandraClient, jsonConfig.getJsonObject("loadmeasurement"));
+        return new EnergyPredictionsHandler(cassandraClient, jsonConfig.getJsonObject("energypredictions").getString("address"),
+                jsonConfig.getJsonObject("energypredictions").getString("table"));
     }
 
     @Lazy
     @Bean
     @Autowired
     public WeatherConditionsHandler weatherConditionsHandler(CassandraClient cassandraClient) {
-        return new WeatherConditionsHandler(cassandraClient, jsonConfig.getJsonObject("loadmeasurement"));
+        return new WeatherConditionsHandler(cassandraClient, jsonConfig.getJsonObject("weatherconditions").getString("address"),
+                jsonConfig.getJsonObject("weatherconditions").getString("table"));
     }
 }
