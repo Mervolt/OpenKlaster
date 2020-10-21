@@ -21,10 +21,7 @@ import io.vertx.ext.web.handler.StaticHandler;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ApiVerticle extends OpenklasterVerticle {
     private static final Logger logger = LoggerFactory.getLogger(ApiVerticle.class);
@@ -66,28 +63,7 @@ public class ApiVerticle extends OpenklasterVerticle {
         vertx.createHttpServer()
                 .requestHandler(router)
                 .listen(configAccessor.getInteger(EndpointRouteProperties.listeningPortKey));
-
-        handlers = Arrays.asList(
-                (PostHandler) ctx.getBean("postHandlerLogin"),
-                (PostHandler) ctx.getBean("postHandlerRegister"),
-                (PostHandler) ctx.getBean("postHandlerUsername"),
-                (PostHandler) ctx.getBean("postHandlerPostInstallation"),
-                (PostHandler) ctx.getBean("postHandlerMeasurementPower"),
-                (PostHandler) ctx.getBean("postHandlerMeasurementEnergyConsumed"),
-                (PostHandler) ctx.getBean("postHandlerMeasurementEnergyProduced"),
-                (PutHandler) ctx.getBean("putHandlerUpdateUser"),
-                (PutHandler) ctx.getBean("putHandlerInstallation"),
-                (GetHandler) ctx.getBean("getHandlerUser"),
-                (GetHandler) ctx.getBean("getHandlerInstallationRequest"),
-                (GetHandler) ctx.getBean("getHandlerAllInstallationsRequest"),
-                (GetHandler) ctx.getBean("getHandlerMeasurementPowerRequestConsumption"),
-                (GetHandler) ctx.getBean("getHandlerMeasurementPowerRequestProduction"),
-                (GetHandler) ctx.getBean("getHandlerMeasurementEnergyRequestConsumption"),
-                (GetHandler) ctx.getBean("getHandlerMeasurementEnergyRequestProduction"),
-                (DeleteHandler) ctx.getBean("deleteHandlerUsernameToken"),
-                (DeleteHandler) ctx.getBean("deleteHandlerUsernameAllTokens"),
-                (DeleteHandler) ctx.getBean("deleteHandlerInstallationRequest"),
-                (SummaryHandler) ctx.getBean("summaryHandler"));
+        handlers = new ArrayList<>(ctx.getBeansOfType(Handler.class).values());
         routerConfig(router);
     }
 

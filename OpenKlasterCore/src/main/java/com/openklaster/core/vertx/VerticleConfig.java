@@ -178,7 +178,6 @@ public class VerticleConfig {
                 jsonObject.getJsonObject("eventbus").getJsonObject("in").getJsonObject("installations").getString("address"));
     }
 
-
     @Lazy
     @Bean
     @Autowired

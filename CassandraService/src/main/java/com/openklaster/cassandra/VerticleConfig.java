@@ -1,6 +1,5 @@
 package com.openklaster.cassandra;
 
-import com.openklaster.cassandra.properties.CassandraProperties;
 import com.openklaster.cassandra.service.EnergyPredictionsHandler;
 import com.openklaster.cassandra.service.LoadMeasurementHandler;
 import com.openklaster.cassandra.service.SourceMeasurementHandler;
