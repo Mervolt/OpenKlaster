@@ -1,6 +1,5 @@
 package com.openklaster.core.vertx.service;
 
-import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;

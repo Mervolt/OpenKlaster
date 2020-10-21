@@ -3,7 +3,6 @@ package com.openklaster.api;
 import com.openklaster.api.app.ApiVerticle;
 import com.openklaster.api.properties.EndpointRouteProperties;
 import com.openklaster.common.config.ConfigFilesManager;
-import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

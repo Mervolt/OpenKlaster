@@ -3,7 +3,6 @@ package com.openklaster.cassandra.service;
 import com.datastax.driver.core.ColumnDefinitions;
 import com.datastax.driver.core.Row;
 import com.openklaster.cassandra.properties.CassandraProperties;
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.messages.BusMessageReplyUtils;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.cassandra.CassandraClient;
