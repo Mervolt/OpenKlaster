@@ -48,5 +48,11 @@ services:
         - ./data/cassandra:/var/lib/cassandra
         - ./cassandra-init.sh:/cassandra-init.sh
       #command: "sh /cassandra-init.sh"
+  grav:
+    build: ./
+    ports:
+      - 8080:80
+    volumes:
+      - ./grav-data:/var/www/html
 volumes:
   file-repository:
