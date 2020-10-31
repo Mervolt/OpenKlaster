@@ -88,7 +88,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     MatSliderModule,
     RouterModule.forRoot([
-      {path: '', component: RegisterFormComponent},
+      {path: 'register', component: RegisterFormComponent},
       {path: 'login', component: LoginFormComponent},
       {path: 'token', component: TokenPanelComponent},
       {path: 'installations', component: InstallationPanelComponent},

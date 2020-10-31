@@ -30,6 +30,6 @@ export class LoginFormComponent implements OnInit {
     // TODO commands are empty because register is root of the page?
     //MM-ANSWER: For now register is set to be '' so we have register page when we enter our website
     //e.g localhost:4200 not localhost:4200/register
-    this.router.navigate(['']);
+    this.router.navigate(['/register']);
   }
 }
