@@ -1,6 +1,6 @@
 package com.openklaster.api.app;
 
-import com.openklaster.api.VerticleConfig;
+import com.openklaster.api.APIVerticleConfig;
 import com.openklaster.api.handler.Handler;
 import com.openklaster.api.handler.properties.HandlerProperties;
 import com.openklaster.common.verticle.OpenklasterVerticle;
@@ -41,7 +41,7 @@ public class ApiVerticle extends OpenklasterVerticle {
     @Override
     public void init(Vertx vertx, Context context) {
         super.init(vertx, context);
-        ctx = new AnnotationConfigApplicationContext(VerticleConfig.class);
+        ctx = new AnnotationConfigApplicationContext(APIVerticleConfig.class);
         ctx.registerBean(EventBus.class, () -> eventBus);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();

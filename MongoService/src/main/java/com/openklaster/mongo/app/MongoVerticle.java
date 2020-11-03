@@ -1,7 +1,7 @@
 package com.openklaster.mongo.app;
 
 import com.openklaster.common.verticle.OpenklasterVerticle;
-import com.openklaster.mongo.VerticleConfig;
+import com.openklaster.mongo.MongoVerticleConfig;
 import com.openklaster.mongo.config.EntityConfig;
 import com.openklaster.mongo.service.EntityHandler;
 import com.openklaster.mongo.service.HandlerContainer;
@@ -37,7 +37,7 @@ public class MongoVerticle extends OpenklasterVerticle {
 
     @Override
     public void init(Vertx vertx, Context context) {
-        ctx = new AnnotationConfigApplicationContext(VerticleConfig.class);
+        ctx = new AnnotationConfigApplicationContext(MongoVerticleConfig.class);
         ctx.registerBean(Vertx.class, () -> vertx);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();

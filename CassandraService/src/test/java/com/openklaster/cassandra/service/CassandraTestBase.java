@@ -1,9 +1,8 @@
 package com.openklaster.cassandra.service;
 
-import com.openklaster.cassandra.VerticleConfig;
+import com.openklaster.cassandra.CassandraVerticleConfig;
 import com.openklaster.cassandra.app.CassandraVerticle;
 import com.openklaster.cassandra.properties.CassandraProperties;
-import com.openklaster.common.config.ConfigFilesManager;
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.MappingManager;
 import io.vertx.core.Vertx;
@@ -36,7 +35,7 @@ public class CassandraTestBase {
     @Before
     public void setUp(TestContext context) {
         //IMPROVE TESTS
-        GenericApplicationContext ctx = new AnnotationConfigApplicationContext(VerticleConfig.class);
+        GenericApplicationContext ctx = new AnnotationConfigApplicationContext(CassandraVerticleConfig.class);
         Async async = context.async();
         vertx = Vertx.vertx();
         verticle = new CassandraVerticle();

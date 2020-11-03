@@ -1,10 +1,9 @@
 package com.openklaster.cassandra.app;
 
-import com.openklaster.cassandra.VerticleConfig;
+import com.openklaster.cassandra.CassandraVerticleConfig;
 import com.openklaster.cassandra.properties.CassandraProperties;
 import com.openklaster.cassandra.service.CassandraHandler;
 import com.openklaster.cassandra.service.HandlerContainer;
-import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.verticle.OpenklasterVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
@@ -36,7 +35,7 @@ public class CassandraVerticle extends OpenklasterVerticle {
 
     @Override
     public void init(Vertx vertx, Context context) {
-        ctx = new AnnotationConfigApplicationContext(VerticleConfig.class);
+        ctx = new AnnotationConfigApplicationContext(CassandraVerticleConfig.class);
         ctx.registerBean(Vertx.class, () -> vertx);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();

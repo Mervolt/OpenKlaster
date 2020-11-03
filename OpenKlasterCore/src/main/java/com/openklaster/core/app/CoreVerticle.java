@@ -1,8 +1,7 @@
 package com.openklaster.core.app;
 
-import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.verticle.OpenklasterVerticle;
-import com.openklaster.core.VerticleConfig;
+import com.openklaster.core.CoreVerticleConfig;
 import com.openklaster.core.service.EndpointService;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
@@ -32,7 +31,7 @@ public class CoreVerticle extends OpenklasterVerticle {
 
     @Override
     public void init(Vertx vertx, Context context) {
-        ctx = new AnnotationConfigApplicationContext(VerticleConfig.class);
+        ctx = new AnnotationConfigApplicationContext(CoreVerticleConfig.class);
         ctx.registerBean(EventBus.class, () -> eventBus);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
