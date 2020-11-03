@@ -36,24 +36,12 @@ public class CassandraVerticle extends OpenklasterVerticle {
 
     @Override
     public void init(Vertx vertx, Context context) {
-        this.vertx = vertx;
-        this.eventBus = vertx.eventBus();
         ctx = new AnnotationConfigApplicationContext(VerticleConfig.class);
         ctx.registerBean(Vertx.class, () -> vertx);
-
-        ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
-        configFilesManager.getConfig(vertx).getConfig(config -> {
-            if (config.succeeded()) {
-
-                List<CassandraHandler<?>> handlers = prepareHandlers();
-                eventBusConfig(handlers);
-            } else {
-                logger.error("Could not retrieve com.openklaster.cassandra.app.CassandraVerticle config!");
-                logger.error(config.cause().getMessage());
-                vertx.close();
-            }
-        });
-
+        this.vertx = vertx;
+        this.eventBus = vertx.eventBus();
+        List<CassandraHandler<?>> handlers = prepareHandlers();
+        eventBusConfig(handlers);
     }
 
     private List<CassandraHandler<?>> prepareHandlers() {

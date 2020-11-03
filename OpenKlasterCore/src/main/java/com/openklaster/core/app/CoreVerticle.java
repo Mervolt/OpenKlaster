@@ -36,17 +36,7 @@ public class CoreVerticle extends OpenklasterVerticle {
         ctx.registerBean(EventBus.class, () -> eventBus);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
-
-        ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
-        configFilesManager.getConfig(vertx).getConfig(result -> {
-            if (result.succeeded()) {
-                configureEndpoints();
-            } else {
-                logger.error("Could not retrieve CoreVerticle config");
-                logger.error(result.cause().getMessage());
-                vertx.close();
-            }
-        });
+        configureEndpoints();
     }
 
     private void configureEndpoints() {

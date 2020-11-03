@@ -1,6 +1,5 @@
 package com.openklaster.mongo.app;
 
-import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.verticle.OpenklasterVerticle;
 import com.openklaster.mongo.VerticleConfig;
 import com.openklaster.mongo.config.EntityConfig;
@@ -42,17 +41,7 @@ public class MongoVerticle extends OpenklasterVerticle {
         ctx.registerBean(Vertx.class, () -> vertx);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
-        ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
-        configFilesManager.getConfig(vertx).getConfig(config -> {
-            if (config.succeeded()) {
-                handlePostConfig();
-            } else {
-                logger.error("Could not retrieve app.MongoVerticle config!");
-                logger.error(config.cause().getMessage());
-                vertx.close();
-            }
-        });
-
+        handlePostConfig();
     }
 
     private void handlePostConfig() {

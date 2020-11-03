@@ -3,13 +3,11 @@ package com.openklaster.api.app;
 import com.openklaster.api.VerticleConfig;
 import com.openklaster.api.handler.Handler;
 import com.openklaster.api.handler.properties.HandlerProperties;
-import com.openklaster.common.config.ConfigFilesManager;
 import com.openklaster.common.verticle.OpenklasterVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpMethod;
-import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
@@ -47,15 +45,8 @@ public class ApiVerticle extends OpenklasterVerticle {
         ctx.registerBean(EventBus.class, () -> eventBus);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
-        ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
-        configFilesManager.getConfig(vertx).getConfig(result -> {
-            if (result.succeeded()) {
-                launchPort = ctx.getBean(Integer.class);
-                startVerticle();
-            } else {
-                logger.error("Failed to load config");
-            }
-        });
+        launchPort = ctx.getBean(Integer.class);
+        startVerticle();
     }
 
     private void startVerticle() {
