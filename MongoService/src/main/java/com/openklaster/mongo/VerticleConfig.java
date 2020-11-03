@@ -22,6 +22,15 @@ import java.io.IOException;
 @Configuration
 @ComponentScan
 public class VerticleConfig {
+    private static final String DATABASE_PATH = "database";
+    private static final String MONGO_FOR_DATABASE_PATH = "mongo";
+    private static final String CALCULATOR_PATH = "calculator";
+    private static final String INSTALLATION_PATH = "installation";
+    private static final String USER_PATH = "user";
+    private static final String COLLECTION_FOR_USER_PATH = "mongo";
+    private static final String COLLECTION_NAME_FOR_USER_PATH = "collectionName";
+    private static final String EVENTBUS_FOR_USER_PATH = "bus";
+    private static final String EVENTBUS_ADDRESS_FOR_USER_PATH = "address";
     private JsonObject jsonConfig;
 
     public VerticleConfig() {
@@ -40,7 +49,7 @@ public class VerticleConfig {
     @Bean
     @Autowired
     public MongoClient mongoClient(Vertx vertx) {
-        JsonObject mongoOptions = jsonConfig.getJsonObject("database").getJsonObject("mongo");
+        JsonObject mongoOptions = jsonConfig.getJsonObject(DATABASE_PATH).getJsonObject(MONGO_FOR_DATABASE_PATH);
         return MongoClient.createShared(vertx, mongoOptions);
     }
 
@@ -56,7 +65,7 @@ public class VerticleConfig {
     @Autowired
     public CalculatorConfig calculatorConfig(MongoPersistenceService mongoPersistenceService,
                                              EnergySourceCalculatorParser energySourceCalculatorParser) {
-        JsonObject jsonConfigCalculator = jsonConfig.getJsonObject("calculator");
+        JsonObject jsonConfigCalculator = jsonConfig.getJsonObject(CALCULATOR_PATH);
         return new CalculatorConfig(mongoPersistenceService, energySourceCalculatorParser,
                 retrieveCollectionNameFromEntityConfig(jsonConfigCalculator),
                 retrieveBusAddressFromEntityConfig(jsonConfigCalculator));
@@ -72,7 +81,7 @@ public class VerticleConfig {
     @Autowired
     public InstallationConfig installationConfig(MongoPersistenceService mongoPersistenceService,
                                                  InstallationParser installationParser) {
-        JsonObject jsonConfigInstallation = jsonConfig.getJsonObject("installation");
+        JsonObject jsonConfigInstallation = jsonConfig.getJsonObject(INSTALLATION_PATH);
         return new InstallationConfig(mongoPersistenceService, installationParser,
                 retrieveCollectionNameFromEntityConfig(jsonConfigInstallation),
                 retrieveBusAddressFromEntityConfig(jsonConfigInstallation));
@@ -88,7 +97,7 @@ public class VerticleConfig {
     @Autowired
     public UserConfig userConfig(MongoPersistenceService mongoPersistenceService,
                                  UserParser userParser) {
-        JsonObject jsonConfigUser = jsonConfig.getJsonObject("user");
+        JsonObject jsonConfigUser = jsonConfig.getJsonObject(USER_PATH);
         return new UserConfig(mongoPersistenceService, userParser,
                 retrieveCollectionNameFromEntityConfig(jsonConfigUser),
                 retrieveBusAddressFromEntityConfig(jsonConfigUser));
@@ -100,11 +109,11 @@ public class VerticleConfig {
     }
 
     private String retrieveCollectionNameFromEntityConfig(JsonObject jsonObject) {
-        return jsonObject.getJsonObject("mongo").getString("collectionName");
+        return jsonObject.getJsonObject(COLLECTION_FOR_USER_PATH).getString(COLLECTION_NAME_FOR_USER_PATH);
     }
 
     private String retrieveBusAddressFromEntityConfig(JsonObject jsonObject) {
-        return jsonObject.getJsonObject("bus").getString("address");
+        return jsonObject.getJsonObject(EVENTBUS_FOR_USER_PATH).getString(EVENTBUS_ADDRESS_FOR_USER_PATH);
     }
 
 }
