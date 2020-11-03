@@ -6,6 +6,7 @@ import com.openklaster.cassandra.service.EnergyPredictionsHandler;
 import com.openklaster.cassandra.service.LoadMeasurementHandler;
 import com.openklaster.cassandra.service.SourceMeasurementHandler;
 import com.openklaster.cassandra.service.WeatherConditionsHandler;
+import com.openklaster.common.SuperVerticleConfig;
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.CassandraClientOptions;
 import io.vertx.core.Vertx;
@@ -18,21 +19,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collections;
 
 @Configuration
 @ComponentScan
-public class CassandraVerticleConfig {
+public class CassandraVerticleConfig extends SuperVerticleConfig {
     private JsonObject jsonConfig;
     private JsonObject jsonCassandraConfig;
 
     public CassandraVerticleConfig() {
         JSONParser parser = new JSONParser();
         try {
-            Object object = parser.parse(new FileReader("CassandraService\\src\\main\\resources\\config-dev.json"));
+            File configFile = new ClassPathResource(configPath).getFile();
+            Object object = parser.parse(new FileReader(configFile));
             JSONObject jsonSimple = (JSONObject) object;
             //noinspection unchecked
             this.jsonConfig = new JsonObject(jsonSimple);

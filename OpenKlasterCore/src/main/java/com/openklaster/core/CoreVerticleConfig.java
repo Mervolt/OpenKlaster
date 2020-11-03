@@ -1,5 +1,6 @@
 package com.openklaster.core;
 
+import com.openklaster.common.SuperVerticleConfig;
 import com.openklaster.common.authentication.password.BCryptPasswordHandler;
 import com.openklaster.common.authentication.password.PasswordHandler;
 import com.openklaster.common.authentication.tokens.BasicTokenHandler;
@@ -36,13 +37,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 @Configuration
 @ComponentScan
-public class CoreVerticleConfig {
+public class CoreVerticleConfig extends SuperVerticleConfig {
     private JsonObject jsonSecurityConfig;
     private JsonObject jsonMongoConfig;
     private JsonObject jsonCassandraConfig;
@@ -51,7 +54,8 @@ public class CoreVerticleConfig {
     public CoreVerticleConfig() {
         JSONParser parser = new JSONParser();
         try {
-            Object object = parser.parse(new FileReader("OpenKlasterCore\\src\\main\\resources\\config-dev.json"));
+            File configFile = new ClassPathResource(configPath).getFile();
+            Object object = parser.parse(new FileReader(configFile));
             JSONObject jsonSimple = (JSONObject) object;
             //noinspection unchecked
             JsonObject jsonObject = new JsonObject(jsonSimple);

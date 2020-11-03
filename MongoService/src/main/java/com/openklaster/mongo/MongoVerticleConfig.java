@@ -1,5 +1,6 @@
 package com.openklaster.mongo;
 
+import com.openklaster.common.SuperVerticleConfig;
 import com.openklaster.mongo.config.CalculatorConfig;
 import com.openklaster.mongo.config.InstallationConfig;
 import com.openklaster.mongo.config.UserConfig;
@@ -16,19 +17,22 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 @Configuration
 @ComponentScan
-public class MongoVerticleConfig {
+public class MongoVerticleConfig extends SuperVerticleConfig {
     private JsonObject jsonConfig;
 
     public MongoVerticleConfig() {
         JSONParser parser = new JSONParser();
         try {
-            Object object = parser.parse(new FileReader("MongoService\\src\\main\\resources\\config-dev.json"));
+            File configFile = new ClassPathResource(configPath).getFile();
+            Object object = parser.parse(new FileReader(configFile));
             JSONObject jsonSimple = (JSONObject) object;
             //noinspection unchecked
             this.jsonConfig = new JsonObject(jsonSimple);

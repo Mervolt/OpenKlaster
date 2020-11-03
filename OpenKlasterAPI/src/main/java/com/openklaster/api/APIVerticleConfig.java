@@ -11,6 +11,7 @@ import com.openklaster.api.model.summary.EnvironmentalBenefits;
 import com.openklaster.api.model.summary.SummaryRequest;
 import com.openklaster.api.parser.DefaultParseStrategy;
 import com.openklaster.api.properties.EventbusMethods;
+import com.openklaster.common.SuperVerticleConfig;
 import io.vertx.core.json.JsonObject;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,13 +20,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 @Configuration
 @ComponentScan
-public class APIVerticleConfig {
+public class APIVerticleConfig extends SuperVerticleConfig {
     private JsonObject jsonConfig;
     private JsonObject jsonHttpEndpointRoute;
     private JsonObject jsonEventBusRoute;
@@ -35,7 +38,8 @@ public class APIVerticleConfig {
     public APIVerticleConfig() {
         JSONParser parser = new JSONParser();
         try {
-            Object object = parser.parse(new FileReader("OpenKlasterAPI\\src\\main\\resources\\config-dev.json"));
+            File configFile = new ClassPathResource(configPath).getFile();
+            Object object = parser.parse(new FileReader(configFile));
             JSONObject jsonSimple = (JSONObject) object;
             //noinspection unchecked
             this.jsonConfig = new JsonObject(jsonSimple);
