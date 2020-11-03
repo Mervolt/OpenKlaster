@@ -24,6 +24,20 @@ import java.util.Collections;
 @Configuration
 @ComponentScan
 public class VerticleConfig {
+    private static final String CASSANDRA_PATH = "cassandra";
+    private static final String PORT_FOR_CASSANDRA_PATH = "port";
+    private static final String KEYSPACE_FOR_CASSANDRA_PATH = "keyspace";
+    private static final String HOST_FOR_CASSANDRA_PATH = "host";
+
+    private static final String LOAD_MEASUREMENT_PATH = "loadmeasurement";
+    private static final String SOURCE_MEASUREMENT_PATH = "sourcemeasurement";
+    private static final String ENERGY_PREDICTIONS_PATH = "energypredictions";
+    private static final String WEATHER_CONDITIONS_PATH = "weatherconditions";
+
+    private static final String ADDRESS_FOR_RESOURCE_PATH = "address";
+    private static final String TABLE_FOR_RESOURCE_PATH = "table";
+
+
     private JsonObject jsonConfig;
     private JsonObject jsonCassandraConfig;
 
@@ -34,7 +48,7 @@ public class VerticleConfig {
             JSONObject jsonSimple = (JSONObject) object;
             //noinspection unchecked
             this.jsonConfig = new JsonObject(jsonSimple);
-            this.jsonCassandraConfig = jsonConfig.getJsonObject("cassandra");
+            this.jsonCassandraConfig = jsonConfig.getJsonObject(CASSANDRA_PATH);
         } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
@@ -44,9 +58,9 @@ public class VerticleConfig {
     @Bean
     public CassandraClient cassandraClient(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") Vertx vertx) {
         CassandraClientOptions options = new CassandraClientOptions()
-                .setPort(jsonCassandraConfig.getInteger("port"))
-                .setKeyspace(jsonCassandraConfig.getString("keyspace"))
-                .setContactPoints(Collections.singletonList(jsonCassandraConfig.getString("host")));
+                .setPort(jsonCassandraConfig.getInteger(PORT_FOR_CASSANDRA_PATH))
+                .setKeyspace(jsonCassandraConfig.getString(KEYSPACE_FOR_CASSANDRA_PATH))
+                .setContactPoints(Collections.singletonList(jsonCassandraConfig.getString(HOST_FOR_CASSANDRA_PATH)));
 
         return CassandraClient.create(vertx, options);
     }
@@ -55,31 +69,31 @@ public class VerticleConfig {
     @Bean
     @Autowired
     public LoadMeasurementHandler loadMeasurementHandler(CassandraClient cassandraClient) {
-        return new LoadMeasurementHandler(cassandraClient, jsonConfig.getJsonObject("loadmeasurement").getString("address"),
-                jsonConfig.getJsonObject("loadmeasurement").getString("table"));
+        return new LoadMeasurementHandler(cassandraClient, jsonConfig.getJsonObject(LOAD_MEASUREMENT_PATH).getString(ADDRESS_FOR_RESOURCE_PATH),
+                jsonConfig.getJsonObject(LOAD_MEASUREMENT_PATH).getString(TABLE_FOR_RESOURCE_PATH));
     }
 
     @Lazy
     @Bean
     @Autowired
     public SourceMeasurementHandler sourceMeasurementHandler(CassandraClient cassandraClient) {
-        return new SourceMeasurementHandler(cassandraClient, jsonConfig.getJsonObject("sourcemeasurement").getString("address"),
-                jsonConfig.getJsonObject("sourcemeasurement").getString("table"));
+        return new SourceMeasurementHandler(cassandraClient, jsonConfig.getJsonObject(SOURCE_MEASUREMENT_PATH).getString(ADDRESS_FOR_RESOURCE_PATH),
+                jsonConfig.getJsonObject(SOURCE_MEASUREMENT_PATH).getString(TABLE_FOR_RESOURCE_PATH));
     }
 
     @Lazy
     @Bean
     @Autowired
     public EnergyPredictionsHandler energyPredictionsHandler(CassandraClient cassandraClient) {
-        return new EnergyPredictionsHandler(cassandraClient, jsonConfig.getJsonObject("energypredictions").getString("address"),
-                jsonConfig.getJsonObject("energypredictions").getString("table"));
+        return new EnergyPredictionsHandler(cassandraClient, jsonConfig.getJsonObject(ENERGY_PREDICTIONS_PATH).getString(ADDRESS_FOR_RESOURCE_PATH),
+                jsonConfig.getJsonObject(ENERGY_PREDICTIONS_PATH).getString(TABLE_FOR_RESOURCE_PATH));
     }
 
     @Lazy
     @Bean
     @Autowired
     public WeatherConditionsHandler weatherConditionsHandler(CassandraClient cassandraClient) {
-        return new WeatherConditionsHandler(cassandraClient, jsonConfig.getJsonObject("weatherconditions").getString("address"),
-                jsonConfig.getJsonObject("weatherconditions").getString("table"));
+        return new WeatherConditionsHandler(cassandraClient, jsonConfig.getJsonObject(WEATHER_CONDITIONS_PATH).getString(ADDRESS_FOR_RESOURCE_PATH),
+                jsonConfig.getJsonObject(WEATHER_CONDITIONS_PATH).getString(TABLE_FOR_RESOURCE_PATH));
     }
 }
