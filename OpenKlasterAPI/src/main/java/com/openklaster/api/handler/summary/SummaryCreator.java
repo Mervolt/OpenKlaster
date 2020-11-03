@@ -68,10 +68,6 @@ public class SummaryCreator {
                 .collect(Collectors.groupingBy(Measurement::getUnit));
     }
 
-    private int calculateEnvironmentalBenefit(double energy, int value) {
-        return (int) (((double) value / 100) * energy);
-    }
-
     private String parseTimeFromTimeStamp(Date timestamp) {
         return new SimpleDateFormat(SummaryProperties.TIME_FORMAT).format(timestamp);
     }
