@@ -19,9 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.io.ClassPathResource;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 @Configuration
 @ComponentScan
@@ -31,8 +29,8 @@ public class MongoVerticleConfig extends SuperVerticleConfig {
     public MongoVerticleConfig() {
         JSONParser parser = new JSONParser();
         try {
-            File configFile = new ClassPathResource(configPath).getFile();
-            Object object = parser.parse(new FileReader(configFile));
+            InputStream configStream = new ClassPathResource(configPath).getInputStream();
+            Object object = parser.parse(new InputStreamReader(configStream));
             JSONObject jsonSimple = (JSONObject) object;
             //noinspection unchecked
             this.jsonConfig = new JsonObject(jsonSimple);
