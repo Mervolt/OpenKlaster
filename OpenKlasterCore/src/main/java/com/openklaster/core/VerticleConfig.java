@@ -39,8 +39,31 @@ import java.io.IOException;
 @Configuration
 @ComponentScan
 public class VerticleConfig {
-    private JsonObject jsonObject;
+    private static final String SECURITY_PATH = "security";
+    private static final String TOKENS_FOR_SECURITY_PATH = "tokens";
+    private static final String CHARS_PER_TYPE_FOR_TOKEN_SECURITY_PATH = "charsPerType";
+    private static final String SESSION_TOKEN_LIFETIME_FOR_TOKEN_SECURITY_PATH = "sessionTokenLifetime";
+
+    private static final String SOURCE_MEASUREMENT_FOR_CASSANDRA_PATH = "sourcemeasurement";
+    private static final String LOAD_MEASUREMENT_FOR_CASSANDRA_PATH = "loadmeasurement";
+    private static final String ADDRESS_FOR_MEASUREMENT_CASSANDRA_PATH = "address";
+
+    private static final String USERS_FOR_MONGO_PATH = "users";
+    private static final String ADDRESS_FOR_USERS_MONGO_PATH = "address";
+    private static final String INSTALLATION_FOR_MONGO_PATH = "installation";
+    private static final String ADDRESS_FOR_INSTALLATION_MONGO_PATH = "address";
+
+    private static final String LOAD_MEASUREMENTS_FOR_IN_EVENTBUS_PATH = "loadMeasurements";
+    private static final String SOURCE_MEASUREMENTS_FOR_IN_EVENTBUS_PATH = "sourceMeasurements";
+    private static final String USER_MANAGEMENT_FOR_IN_EVENTBUS_PATH = "userManagement";
+    private static final String INSTALLATIONS_FOR_IN_EVENTBUS_PATH = "installations";
+    private static final String ADDRESS_FOR_RESOURCE_IN_EVENTBUS_PATH = "address";
+
+
     private JsonObject jsonSecurityConfig;
+    private JsonObject jsonMongoConfig;
+    private JsonObject jsonCassandraConfig;
+    private JsonObject jsonInEventbusConfig;
 
     public VerticleConfig() {
         JSONParser parser = new JSONParser();
@@ -48,8 +71,11 @@ public class VerticleConfig {
             Object object = parser.parse(new FileReader("OpenKlasterCore\\src\\main\\resources\\config-dev.json"));
             JSONObject jsonSimple = (JSONObject) object;
             //noinspection unchecked
-            this.jsonObject = new JsonObject(jsonSimple);
-            this.jsonSecurityConfig = jsonObject.getJsonObject("security").getJsonObject("tokens");
+            JsonObject jsonObject = new JsonObject(jsonSimple);
+            this.jsonSecurityConfig = jsonObject.getJsonObject(SECURITY_PATH).getJsonObject(TOKENS_FOR_SECURITY_PATH);
+            this.jsonMongoConfig = jsonObject.getJsonObject("eventbus").getJsonObject("out").getJsonObject("mongo");
+            this.jsonCassandraConfig = jsonObject.getJsonObject("eventbus").getJsonObject("out").getJsonObject("cassandra");
+            this.jsonInEventbusConfig = jsonObject.getJsonObject("eventbus").getJsonObject("in");
         } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
@@ -57,8 +83,8 @@ public class VerticleConfig {
 
     @Bean
     public TokenHandler basicTokenHandler() {
-        int charsPerType = jsonSecurityConfig.getInteger("charsPerType");
-        int sessionTokenLifetime = jsonSecurityConfig.getInteger("sessionTokenLifetime");
+        int charsPerType = jsonSecurityConfig.getInteger(CHARS_PER_TYPE_FOR_TOKEN_SECURITY_PATH);
+        int sessionTokenLifetime = jsonSecurityConfig.getInteger(SESSION_TOKEN_LIFETIME_FOR_TOKEN_SECURITY_PATH);
         return new BasicTokenHandler(charsPerType, sessionTokenLifetime);
     }
 
@@ -71,8 +97,7 @@ public class VerticleConfig {
     @Bean
     @Autowired
     public DbServiceHandler<User> userDbServiceHandler(EventBus eventBus) {
-        return new DbServiceHandler<>(eventBus, User.class, jsonObject.getJsonObject("eventbus").getJsonObject("out")
-                .getJsonObject("mongo").getJsonObject("users").getString("address"));
+        return new DbServiceHandler<>(eventBus, User.class, jsonMongoConfig.getJsonObject(USERS_FOR_MONGO_PATH).getString(ADDRESS_FOR_USERS_MONGO_PATH));
     }
 
     @Lazy
@@ -94,8 +119,8 @@ public class VerticleConfig {
     @Bean
     @Autowired
     public DbServiceHandler<Installation> installationDbServiceHandler(EventBus eventBus) {
-        return new DbServiceHandler<>(eventBus, Installation.class, jsonObject.getJsonObject("eventbus").getJsonObject("out")
-                .getJsonObject("mongo").getJsonObject("installation").getString("address"));
+        return new DbServiceHandler<>(eventBus, Installation.class, jsonMongoConfig.getJsonObject(INSTALLATION_FOR_MONGO_PATH)
+                .getString(ADDRESS_FOR_INSTALLATION_MONGO_PATH));
     }
 
     @Lazy
@@ -116,8 +141,8 @@ public class VerticleConfig {
     @Bean
     @Autowired
     public DbServiceHandler<LoadMeasurement> loadMeasurementDbServiceHandler(EventBus eventBus) {
-        return new DbServiceHandler<>(eventBus, LoadMeasurement.class, jsonObject.getJsonObject("eventbus").getJsonObject("out")
-                .getJsonObject("cassandra").getJsonObject("loadmeasurement").getString("address"));
+        return new DbServiceHandler<>(eventBus, LoadMeasurement.class,
+                jsonCassandraConfig.getJsonObject(LOAD_MEASUREMENT_FOR_CASSANDRA_PATH).getString(ADDRESS_FOR_MEASUREMENT_CASSANDRA_PATH));
     }
 
     @Lazy
@@ -132,8 +157,7 @@ public class VerticleConfig {
     @Autowired
     public DbServiceHandler<SourceMeasurement> sourceMeasurementDbServiceHandler(EventBus eventBus) {
         return new DbServiceHandler<>(eventBus, SourceMeasurement.class,
-                jsonObject.getJsonObject("eventbus").getJsonObject("out").getJsonObject("cassandra")
-                        .getJsonObject("sourcemeasurement").getString("address"));
+                jsonCassandraConfig.getJsonObject(SOURCE_MEASUREMENT_FOR_CASSANDRA_PATH).getString(ADDRESS_FOR_MEASUREMENT_CASSANDRA_PATH));
     }
 
     @Lazy
@@ -175,7 +199,7 @@ public class VerticleConfig {
     @Autowired
     public EndpointService installationEndpointService(InstallationModelManager installationModelManager) {
         return new InstallationServiceHandler(installationModelManager,
-                jsonObject.getJsonObject("eventbus").getJsonObject("in").getJsonObject("installations").getString("address"));
+                jsonInEventbusConfig.getJsonObject(INSTALLATIONS_FOR_IN_EVENTBUS_PATH).getString(ADDRESS_FOR_RESOURCE_IN_EVENTBUS_PATH));
     }
 
     @Lazy
@@ -185,7 +209,7 @@ public class VerticleConfig {
                                                CrudRepository<User> userCrudRepository, ManagerContainer managerContainer,
                                                ManagerContainerHelper managerContainerHelper, AuthenticatedUserManager authenticatedUserManager) {
         return new UserManagementHandler(authenticationClient, tokenHandler, userCrudRepository,
-                jsonObject.getJsonObject("eventbus").getJsonObject("in").getJsonObject("userManagement").getString("address"),
+                jsonInEventbusConfig.getJsonObject(USER_MANAGEMENT_FOR_IN_EVENTBUS_PATH).getString(ADDRESS_FOR_RESOURCE_IN_EVENTBUS_PATH),
                 managerContainer, managerContainerHelper, authenticatedUserManager);
     }
 
@@ -194,7 +218,7 @@ public class VerticleConfig {
     @Autowired
     public EndpointService loadMeasurementEndpointService(MeasurementManager<LoadMeasurement> loadMeasurementMeasurementManager) {
         return new MeasurementServiceHandler<>(loadMeasurementMeasurementManager,
-                jsonObject.getJsonObject("eventbus").getJsonObject("in").getJsonObject("loadMeasurements").getString("address"));
+                jsonInEventbusConfig.getJsonObject(LOAD_MEASUREMENTS_FOR_IN_EVENTBUS_PATH).getString(ADDRESS_FOR_RESOURCE_IN_EVENTBUS_PATH));
     }
 
 
@@ -203,7 +227,7 @@ public class VerticleConfig {
     @Autowired
     public EndpointService sourceMeasurementEndpointService(MeasurementManager<SourceMeasurement> sourceMeasurementMeasurementManager) {
         return new MeasurementServiceHandler<>(sourceMeasurementMeasurementManager,
-                jsonObject.getJsonObject("eventbus").getJsonObject("in").getJsonObject("sourceMeasurements").getString("address"));
+                jsonInEventbusConfig.getJsonObject(SOURCE_MEASUREMENTS_FOR_IN_EVENTBUS_PATH).getString(ADDRESS_FOR_RESOURCE_IN_EVENTBUS_PATH));
     }
 
     @Lazy
