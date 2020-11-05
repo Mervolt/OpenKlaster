@@ -39,11 +39,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.ClassPathResource;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 @Configuration
 @ComponentScan
 public class CoreVerticleConfig extends SuperVerticleConfig {
+    private JsonObject jsonObject;
     private JsonObject jsonSecurityConfig;
     private JsonObject jsonMongoConfig;
     private JsonObject jsonCassandraConfig;
@@ -57,7 +60,7 @@ public class CoreVerticleConfig extends SuperVerticleConfig {
             Object object = parser.parse(new InputStreamReader(configStream));
             JSONObject jsonSimple = (JSONObject) object;
             //noinspection unchecked
-            JsonObject jsonObject = new JsonObject(jsonSimple);
+            this.jsonObject = new JsonObject(jsonSimple);
             this.jsonSecurityConfig = jsonObject.getJsonObject(CoreSecurityHolder.SECURITY_PATH)
                     .getJsonObject(CoreSecurityHolder.TOKENS_FOR_SECURITY_PATH);
             this.jsonMongoConfig = jsonObject.getJsonObject("eventbus").getJsonObject("out").getJsonObject("mongo");
@@ -100,7 +103,8 @@ public class CoreVerticleConfig extends SuperVerticleConfig {
     @Autowired
     public AuthenticationClient authenticationClient(PasswordHandler passwordHandler, TokenHandler tokenHandler,
                                                      CrudRepository<User> userCrudRepository) {
-        return new BasicAuthenticationClient(passwordHandler, tokenHandler, userCrudRepository);
+        return new BasicAuthenticationClient(passwordHandler, tokenHandler, userCrudRepository,
+                jsonObject.getJsonObject(CoreSecurityHolder.SECURITY_PATH).getString(CoreSecurityHolder.TECHNICAL_TOKEN_FOR_SECURITY_PATH));
     }
 
     @Lazy

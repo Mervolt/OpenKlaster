@@ -6,9 +6,9 @@
         <div class="image-container">
           <div *ngIf=" installation.installationType=='Solar'; then solarInstall else windInstall">
           </div>
-          <ng-template #solarInstall><img src="/OpenKlasterWeb/src/assets/img/solar_install.jpg" alt="" class="img-with-margin">
+          <ng-template #solarInstall><img src="assets/img/solar_install.jpg" alt="" class="img-with-margin">
           </ng-template>
-          <ng-template #windInstall><img src="/OpenKlasterWeb/src/assets/img/wind_install.jpg" alt="" class="img-with-margin">
+          <ng-template #windInstall><img src="assets/img/wind_install.jpg" alt="" class="img-with-margin">
           </ng-template>
         </div>
         <div class="margin-50 flex-div-column">
@@ -34,12 +34,13 @@
                 <p>Inverter:<br>
                   Inverter manufacturer: {{inverter.manufacturer}}<br>
                   Inverter model: {{inverter.modelType}}<br>
-                  Inverter credentials: {{inverter.credentials}}<br>
+                  Inverter credentials: {{credentialsToString(inverter.credentials)}}<br>
                 </p>
               </ng-container>
             </div>
           </div>
           <div class="button-container margin-15">
+            <button mat-raised-button color="primary" class="margin-5" (click)="openChartPopup()">Show current chart</button>
             <button mat-raised-button color="primary" class="margin-5" (click)="navigateToEditInstallation()">Edit
               installation data
             </button>
@@ -67,6 +68,14 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+<div class="overlay" *ngIf="isPopupShown">
+  <div class="popup">
+    <a class="close" (click)="isPopupShown = false">&times;</a>
+    <div class="content">
+      <app-charts></app-charts>
     </div>
   </div>
 </div>

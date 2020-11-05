@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
 
@@ -13,8 +13,7 @@ import {RegisterFormService} from './user/register-form.service';
 import {TokenPanelComponent} from './token/token-panel/token-panel.component';
 import {MeasurementPanelComponent} from './installation/measurement-panel/measurement-panel.component';
 import {InstallationPanelComponent} from './installation/installation-panel/installation-panel.component';
-import {TokenService} from './token/token.service';
-import {InstallationPanelService} from './installation/installation-panel.service';
+import {TokenService} from './service/token/token.service';
 import {CookieService} from 'ngx-cookie-service';
 import {LoginFormService} from './user/login-form.service';
 import {SingleInstallationPanelComponent} from './installation/single-installation-panel/single-installation-panel.component';
@@ -23,7 +22,7 @@ import {MatSliderModule} from "@angular/material/slider";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
-import {InstallationGenerationPanelComponent} from './installation/installation-generation-panel/installation-generation-panel.component';
+import {InstallationAddPanelComponent} from './installation/installation-add-panel/installation-add-panel.component';
 import {MatListModule} from "@angular/material/list";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -47,6 +46,15 @@ import {InstallationListItemComponent} from './installation/installation-list-it
 import {MatTableModule} from "@angular/material/table";
 import { SuccessfulLoginDialogComponent } from './user/successful-login-dialog/successful-login-dialog.component';
 import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
+import {MatCardModule} from "@angular/material/card";
+import {InstallationService} from "./service/installation/installation.service";
+import {HttpClientInterceptor} from "./service/interceptors/http-client-interceptor.service";
+import { ChartsComponent} from './installation/charts/charts.component';
+import { DynamicFormQuestionComponent } from './components/Question-boxes/dynamic-form-question/dynamic-form-question.component';
+import { DynamicFormComponent } from './components/Question-boxes/dynamic-form/dynamic-form.component';
+import { SubmitButtonComponent } from './components/submit-button/submit-button.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -58,7 +66,7 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
     MeasurementPanelComponent,
     InstallationPanelComponent,
     SingleInstallationPanelComponent,
-    InstallationGenerationPanelComponent,
+    InstallationAddPanelComponent,
     RequestResponseComponentComponent,
     CredentialsFormComponent,
     InstallationDetailsBoxComponent,
@@ -69,7 +77,11 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
     CredentialsUserpassComponent,
     InstallationListItemComponent,
     SuccessfulLoginDialogComponent,
-    SwaggerUiComponent
+    SwaggerUiComponent,
+    ChartsComponent,
+    DynamicFormQuestionComponent,
+    DynamicFormComponent,
+    SubmitButtonComponent
   ],
   imports: [
     BrowserModule,
@@ -81,9 +93,10 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
       {path: 'token', component: TokenPanelComponent},
       {path: 'installations', component: InstallationPanelComponent},
       {path: 'installations/:id', component: SingleInstallationPanelComponent},
-      {path: 'installationGeneration', component: InstallationGenerationPanelComponent},
+      {path: 'installationGeneration', component: InstallationAddPanelComponent},
       {path: 'editInstallation/:id', component: EditInstallationComponent},
-      {path: 'swagger-ui', component: SwaggerUiComponent}
+      {path: 'swagger-ui', component: SwaggerUiComponent},
+      {path: 'charts', component: ChartsComponent}
     ]),
     ReactiveFormsModule,
     FormsModule,
@@ -102,16 +115,23 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
     MatProgressBarModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatTableModule
+    MatTableModule,
+    MatCardModule,
+    NgbModule
   ],
   providers: [
     RegisterFormService,
     LoginFormService,
     TokenService,
-    InstallationPanelService,
+    InstallationService,
     CookieService,
     InstallationPanelComponent,
-    RequestResponseComponentComponent
+    RequestResponseComponentComponent,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpClientInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })

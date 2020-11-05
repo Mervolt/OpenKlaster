@@ -1,0 +1,8 @@
+<div>
+  <form [formGroup]="form">
+    <mat-label>Credentials</mat-label>
+    <div *ngFor="let question of questions" class="form-row">
+      <app-question [question]="question" [form]="form"></app-question>
+    </div>
+  </form>
+</div>

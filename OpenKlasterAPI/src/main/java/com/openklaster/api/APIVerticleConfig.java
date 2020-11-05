@@ -22,7 +22,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 @Configuration
 @ComponentScan
@@ -63,9 +65,9 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
-    @Bean(name = "postHandlerLogin")
-    public PostHandler postHandlerLogin(DefaultParseStrategy<Login> loginDefaultParseStrategy) {
-        return new PostHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.LOGIN_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "PostCoreCommunicationHandlerLogin")
+    public PostCoreCommunicationHandler PostCoreCommunicationHandlerLogin(DefaultParseStrategy<Login> loginDefaultParseStrategy) {
+        return new PostCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.LOGIN_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.USER_FOR_EVENTBUS_PATH), EventbusMethods.LOGIN, loginDefaultParseStrategy);
     }
 
@@ -75,9 +77,9 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
-    @Bean(name = "postHandlerRegister")
-    public PostHandler postHandlerRegister(DefaultParseStrategy<Register> registerDefaultParseStrategy) {
-        return new PostHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.USER_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "PostCoreCommunicationHandlerRegister")
+    public PostCoreCommunicationHandler PostCoreCommunicationHandlerRegister(DefaultParseStrategy<Register> registerDefaultParseStrategy) {
+        return new PostCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.USER_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.USER_FOR_EVENTBUS_PATH), EventbusMethods.REGISTER, registerDefaultParseStrategy);
     }
 
@@ -87,9 +89,9 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
-    @Bean(name = "postHandlerUsername")
-    public PostHandler postHandlerUsername(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
-        return new PostHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.TOKEN_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "PostCoreCommunicationHandlerUsername")
+    public PostCoreCommunicationHandler PostCoreCommunicationHandlerUsername(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
+        return new PostCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.TOKEN_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.USER_FOR_EVENTBUS_PATH), EventbusMethods.GENERATE_TOKEN, usernameDefaultParseStrategy);
     }
 
@@ -99,9 +101,9 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
-    @Bean(name = "postHandlerPostInstallation")
-    public PostHandler postHandlerPostInstallation(DefaultParseStrategy<PostInstallation> postInstallationDefaultParseStrategy) {
-        return new PostHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.INSTALLATION_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "PostCoreCommunicationHandlerPostInstallation")
+    public PostCoreCommunicationHandler PostCoreCommunicationHandlerPostInstallation(DefaultParseStrategy<PostInstallation> postInstallationDefaultParseStrategy) {
+        return new PostCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.INSTALLATION_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.INSTALLATION_FOR_EVENTBUS_PATH), postInstallationDefaultParseStrategy);
     }
 
@@ -111,9 +113,9 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
-    @Bean(name = "postHandlerMeasurementPower")
-    public PostHandler postHandlerMeasurementPower(DefaultParseStrategy<MeasurementPower> postMeasurementPowerDefaultParseStrategy) {
-        return new PostHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.POWER_CONSUMPTION_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "PostCoreCommunicationHandlerMeasurementPower")
+    public PostCoreCommunicationHandler PostCoreCommunicationHandlerMeasurementPower(DefaultParseStrategy<MeasurementPower> postMeasurementPowerDefaultParseStrategy) {
+        return new PostCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.POWER_CONSUMPTION_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.CONSUMPTION_FOR_EVENTBUS_PATH), postMeasurementPowerDefaultParseStrategy);
     }
 
@@ -123,16 +125,16 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
-    @Bean(name = "postHandlerMeasurementEnergyConsumed")
-    public PostHandler postHandlerMeasurementEnergyConsumed(DefaultParseStrategy<MeasurementEnergy> postMeasurementEnergyDefaultParseStrategy) {
-        return new PostHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.ENERGY_CONSUMED_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "PostCoreCommunicationHandlerMeasurementEnergyConsumed")
+    public PostCoreCommunicationHandler PostCoreCommunicationHandlerMeasurementEnergyConsumed(DefaultParseStrategy<MeasurementEnergy> postMeasurementEnergyDefaultParseStrategy) {
+        return new PostCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.ENERGY_CONSUMED_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.CONSUMPTION_FOR_EVENTBUS_PATH), postMeasurementEnergyDefaultParseStrategy);
     }
 
     @Autowired
-    @Bean(name = "postHandlerMeasurementEnergyProduced")
-    public PostHandler postHandlerMeasurementEnergyProduced(DefaultParseStrategy<MeasurementEnergy> postMeasurementEnergyDefaultParseStrategy) {
-        return new PostHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.ENERGY_PRODUCED_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "PostCoreCommunicationHandlerMeasurementEnergyProduced")
+    public PostCoreCommunicationHandler PostCoreCommunicationHandlerMeasurementEnergyProduced(DefaultParseStrategy<MeasurementEnergy> postMeasurementEnergyDefaultParseStrategy) {
+        return new PostCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.ENERGY_PRODUCED_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.PRODUCTION_FOR_EVENTBUS_PATH), postMeasurementEnergyDefaultParseStrategy);
     }
 
@@ -142,9 +144,9 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
-    @Bean(name = "putHandlerUpdateUser")
-    public PutHandler putHandlerUpdateUser(DefaultParseStrategy<UpdateUser> putUpdateUserDefaultParseStrategy) {
-        return new PutHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.USER_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "PutCoreCommunicationHandlerUpdateUser")
+    public PutCoreCommunicationHandler PutCoreCommunicationHandlerUpdateUser(DefaultParseStrategy<UpdateUser> putUpdateUserDefaultParseStrategy) {
+        return new PutCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.USER_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.USER_FOR_EVENTBUS_PATH), EventbusMethods.UPDATE_USER, putUpdateUserDefaultParseStrategy);
     }
 
@@ -154,9 +156,9 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
-    @Bean(name = "putHandlerInstallation")
-    public PutHandler putHandlerInstallation(DefaultParseStrategy<Installation> putInstallationDefaultParseStrategy) {
-        return new PutHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.INSTALLATION_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "PutCoreCommunicationHandlerInstallation")
+    public PutCoreCommunicationHandler PutCoreCommunicationHandlerInstallation(DefaultParseStrategy<Installation> putInstallationDefaultParseStrategy) {
+        return new PutCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.INSTALLATION_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.INSTALLATION_FOR_EVENTBUS_PATH), putInstallationDefaultParseStrategy);
     }
 
@@ -167,16 +169,16 @@ public class APIVerticleConfig extends SuperVerticleConfig {
 
 
     @Autowired
-    @Bean(name = "getHandlerUser")
-    public GetHandler getHandlerUser(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
-        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.USER_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "GetCoreCommunicationHandlerUser")
+    public GetCoreCommunicationHandler GetCoreCommunicationHandlerUser(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
+        return new GetCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.USER_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.USER_FOR_EVENTBUS_PATH), EventbusMethods.INFO, usernameDefaultParseStrategy);
     }
 
     @Autowired
-    @Bean(name = "getHandlerInstallationRequest")
-    public GetHandler getHandlerInstallationRequest(DefaultParseStrategy<InstallationRequest> installationRequestDefaultParseStrategy) {
-        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.INSTALLATION_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "GetCoreCommunicationHandlerInstallationRequest")
+    public GetCoreCommunicationHandler GetCoreCommunicationHandlerInstallationRequest(DefaultParseStrategy<InstallationRequest> installationRequestDefaultParseStrategy) {
+        return new GetCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.INSTALLATION_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.INSTALLATION_FOR_EVENTBUS_PATH), installationRequestDefaultParseStrategy);
     }
 
@@ -186,23 +188,23 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
-    @Bean(name = "getHandlerAllInstallationsRequest")
-    public GetHandler getHandlerAllInstallations(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
-        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.ALL_INSTALLATION_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "GetCoreCommunicationHandlerAllInstallationsRequest")
+    public GetCoreCommunicationHandler GetCoreCommunicationHandlerAllInstallations(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
+        return new GetCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.ALL_INSTALLATION_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.INSTALLATION_FOR_EVENTBUS_PATH), EventbusMethods.GET_ALL, usernameDefaultParseStrategy);
     }
 
     @Autowired
-    @Bean(name = "getHandlerMeasurementPowerRequestConsumption")
-    public GetHandler getHandlerMeasurementPowerConsumption(DefaultParseStrategy<MeasurementPowerRequest> measurementPowerRequestDefaultParseStrategy) {
-        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.POWER_CONSUMPTION_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "GetCoreCommunicationHandlerMeasurementPowerRequestConsumption")
+    public GetCoreCommunicationHandler GetCoreCommunicationHandlerMeasurementPowerConsumption(DefaultParseStrategy<MeasurementPowerRequest> measurementPowerRequestDefaultParseStrategy) {
+        return new GetCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.POWER_CONSUMPTION_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.CONSUMPTION_FOR_EVENTBUS_PATH), measurementPowerRequestDefaultParseStrategy);
     }
 
     @Autowired
-    @Bean(name = "getHandlerMeasurementPowerRequestProduction")
-    public GetHandler getHandlerMeasurementPowerProduction(DefaultParseStrategy<MeasurementPowerRequest> measurementPowerRequestDefaultParseStrategy) {
-        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.POWER_PRODUCTION_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "GetCoreCommunicationHandlerMeasurementPowerRequestProduction")
+    public GetCoreCommunicationHandler GetCoreCommunicationHandlerMeasurementPowerProduction(DefaultParseStrategy<MeasurementPowerRequest> measurementPowerRequestDefaultParseStrategy) {
+        return new GetCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.POWER_PRODUCTION_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.PRODUCTION_FOR_EVENTBUS_PATH), measurementPowerRequestDefaultParseStrategy);
     }
 
@@ -212,16 +214,16 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
-    @Bean(name = "getHandlerMeasurementEnergyRequestConsumption")
-    public GetHandler getHandlerMeasurementEnergyConsumption(DefaultParseStrategy<MeasurementEnergyRequest> measurementEnergyRequestDefaultParseStrategy) {
-        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.ENERGY_CONSUMED_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "GetCoreCommunicationHandlerMeasurementEnergyRequestConsumption")
+    public GetCoreCommunicationHandler GetCoreCommunicationHandlerMeasurementEnergyConsumption(DefaultParseStrategy<MeasurementEnergyRequest> measurementEnergyRequestDefaultParseStrategy) {
+        return new GetCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.ENERGY_CONSUMED_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.CONSUMPTION_FOR_EVENTBUS_PATH), measurementEnergyRequestDefaultParseStrategy);
     }
 
     @Autowired
-    @Bean(name = "getHandlerMeasurementEnergyRequestProduction")
-    public GetHandler getHandlerMeasurementEnergyProduction(DefaultParseStrategy<MeasurementEnergyRequest> measurementEnergyRequestDefaultParseStrategy) {
-        return new GetHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.ENERGY_PRODUCED_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "GetCoreCommunicationHandlerMeasurementEnergyRequestProduction")
+    public GetCoreCommunicationHandler GetCoreCommunicationHandlerMeasurementEnergyProduction(DefaultParseStrategy<MeasurementEnergyRequest> measurementEnergyRequestDefaultParseStrategy) {
+        return new GetCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.ENERGY_PRODUCED_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.PRODUCTION_FOR_EVENTBUS_PATH), measurementEnergyRequestDefaultParseStrategy);
     }
 
@@ -231,33 +233,41 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
-    @Bean(name = "deleteHandlerUsernameToken")
-    public DeleteHandler deleteHandlerUsernameToken(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
-        return new DeleteHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.TOKEN_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "DeleteCoreCommunicationHandlerUsernameToken")
+    public DeleteCoreCommunicationHandler DeleteCoreCommunicationHandlerUsernameToken(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
+        return new DeleteCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.TOKEN_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.USER_FOR_EVENTBUS_PATH), EventbusMethods.DELETE_TOKEN, usernameDefaultParseStrategy);
     }
 
     @Autowired
-    @Bean(name = "deleteHandlerUsernameAllTokens")
-    public DeleteHandler deleteHandlerUsernameAllTokens(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
-        return new DeleteHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.ALL_TOKENS_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "DeleteCoreCommunicationHandlerUsernameAllTokens")
+    public DeleteCoreCommunicationHandler DeleteCoreCommunicationHandlerUsernameAllTokens(DefaultParseStrategy<Username> usernameDefaultParseStrategy) {
+        return new DeleteCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.ALL_TOKENS_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.USER_FOR_EVENTBUS_PATH), EventbusMethods.DELETE_ALL_TOKENS, usernameDefaultParseStrategy);
     }
 
     @Autowired
-    @Bean(name = "deleteHandlerInstallationRequest")
-    public DeleteHandler deleteHandlerInstallationRequest(DefaultParseStrategy<InstallationRequest> installationRequestDefaultParseStrategy) {
-        return new DeleteHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.INSTALLATION_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "DeleteCoreCommunicationHandlerInstallationRequest")
+    public DeleteCoreCommunicationHandler DeleteCoreCommunicationHandlerInstallationRequest(DefaultParseStrategy<InstallationRequest> installationRequestDefaultParseStrategy) {
+        return new DeleteCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.INSTALLATION_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.INSTALLATION_FOR_EVENTBUS_PATH), installationRequestDefaultParseStrategy);
     }
 
     @Autowired
-    @Bean(name = "summaryHandler")
-    public SummaryHandler summaryHandler(DefaultParseStrategy<SummaryRequest> summaryRequestDefaultParseStrategy) {
-        return new SummaryHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.SUMMARY_FOR_HTTP_ENDPOINT_PATH)),
+    @Bean(name = "SummaryCoreCommunicationHandler")
+    public SummaryCoreCommunicationHandler SummaryCoreCommunicationHandler(DefaultParseStrategy<SummaryRequest> summaryRequestDefaultParseStrategy) {
+        return new SummaryCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.SUMMARY_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.PRODUCTION_FOR_EVENTBUS_PATH), summaryRequestDefaultParseStrategy, new SummaryCreator(),
                 new EnvironmentalBenefits(jsonEnvironmental.getInteger(EnvironmentalBenefitsHolder.CO2_REDUCED_FOR_ENVIRONMENTAL_PATH),
                         jsonEnvironmental.getInteger(EnvironmentalBenefitsHolder.TREES_SAVED_FOR_ENVIRONMENTAL_PATH)));
+    }
+
+    @Autowired
+    @Bean(name = "CredentialsApiHandler")
+    public CredentialsApiHandler CredentialsApiHandler() {
+        return new CredentialsApiHandler(buildEndpoint(apiVersion,jsonHttpEndpointRoute
+                .getString(HttpResourceHolder.MANUFACTURER_CREDENTIALS_FOR_HTTP_ENDPOINT_PATH)),
+                jsonConfig.getJsonObject(HttpResourceHolder.MANUFACTURER_CREDENTIALS_FOR_ROUTE_HTTP));
     }
 
     @Bean

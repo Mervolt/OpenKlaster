@@ -16,6 +16,7 @@ import lombok.SneakyThrows;
 
 public abstract class AuthManager {
 
+    protected final static String technicalTokenKey = "technicalToken";
     protected static final String sessionTokenKey = "sessionToken";
     protected static final String apiTokenKey = "apiToken";
     protected static final String noTokenMsg = "No token was provided to authenticate user %s";
@@ -28,7 +29,7 @@ public abstract class AuthManager {
     }
 
     public void handleMessage(Message<JsonObject> message, String methodName) {
-        authenticate(message.headers(), getUser(message.body()))
+        authenticate(message)
                 .compose(authResult -> processAuthenticatedMessage(authResult, message, methodName))
                 .onComplete(handler -> {
                     if (handler.succeeded()) {
@@ -71,7 +72,13 @@ public abstract class AuthManager {
     protected abstract Future<JsonObject> processAuthenticatedMessage(User authenticatedUser,
                                                                       Message<JsonObject> message, String methodName);
 
-    protected Future<User> authenticate(MultiMap headers, Future<User> userFuture) {
+
+    protected Future<User> authenticate(Message<JsonObject> message) {
+        MultiMap headers = message.headers();
+        JsonObject jsonBody = message.body();
+        logger.info(jsonBody);
+        System.out.println(getUser(jsonBody));
+        Future<User> userFuture = getUser(jsonBody);
         return userFuture.map(user -> authenticateUser(headers, user));
     }
 
@@ -84,6 +91,8 @@ public abstract class AuthManager {
                 authenticationResult = authenticationClient.authenticateWithApiToken(user, headers.get(apiTokenKey));
             } else if (headers.contains(sessionTokenKey)) {
                 authenticationResult = authenticationClient.authenticateWithSessionToken(user, headers.get(sessionTokenKey));
+            } else if (headers.contains(technicalTokenKey)) {
+                authenticationResult = authenticationClient.authenticateWithTechnicalToken(headers.get(technicalTokenKey));
             } else {
                 throw new IllegalArgumentException(String.format(noTokenMsg, user.getUsername()));
             }
@@ -105,5 +114,4 @@ public abstract class AuthManager {
             throw new FailedAuthenticationException(authenticationResult.getCause());
         }
     }
-
 }

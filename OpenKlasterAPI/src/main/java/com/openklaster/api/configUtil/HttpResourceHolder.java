@@ -12,4 +12,6 @@ public class HttpResourceHolder {
     public static final String SUMMARY_FOR_HTTP_ENDPOINT_PATH = "summary";
     public static final String ALL_TOKENS_FOR_HTTP_ENDPOINT_PATH = "alltokens";
     public static final String ALL_INSTALLATION_FOR_HTTP_ENDPOINT_PATH = "allinstallation";
+    public static final String MANUFACTURER_CREDENTIALS_FOR_HTTP_ENDPOINT_PATH = "manufacturerCredentials";
+    public static final String MANUFACTURER_CREDENTIALS_FOR_ROUTE_HTTP = "manufacturerCredentials";
 }

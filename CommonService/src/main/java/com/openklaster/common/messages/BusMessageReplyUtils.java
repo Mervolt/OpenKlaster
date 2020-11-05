@@ -17,7 +17,10 @@ public class BusMessageReplyUtils {
         busMessage.reply(replyBody, getOptionsForStatus(status));
     }
 
-    // I overloaded the method because I couldn't return the json array
+    public static <T> void replyWithBodyAndStatus(Message<T> busMessage, String replyBody, HttpResponseStatus status) {
+        busMessage.reply(replyBody, getOptionsForStatus(status));
+    }
+
     public static <T> void replyWithBodyAndStatus(Message<T> busMessage, JsonArray replyBody, HttpResponseStatus status) {
         busMessage.reply(replyBody, getOptionsForStatus(status));
     }

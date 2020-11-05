@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CassandraService/CassandraService.iml" filepath="$PROJECT_DIR$/CassandraService/CassandraService.iml" />
       <module fileurl="file://$PROJECT_DIR$/CommonService/CommonService.iml" filepath="$PROJECT_DIR$/CommonService/CommonService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FileRepositoryService/FileRepositoryService.iml" filepath="$PROJECT_DIR$/FileRepositoryService/FileRepositoryService.iml" />
       <module fileurl="file://$PROJECT_DIR$/MongoService/MongoService.iml" filepath="$PROJECT_DIR$/MongoService/MongoService.iml" />
       <module fileurl="file://$PROJECT_DIR$/OpenKlaster.iml" filepath="$PROJECT_DIR$/OpenKlaster.iml" />
       <module fileurl="file://$PROJECT_DIR$/OpenKlasterAPI/OpenKlasterAPI.iml" filepath="$PROJECT_DIR$/OpenKlasterAPI/OpenKlasterAPI.iml" />

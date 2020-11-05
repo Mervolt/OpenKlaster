@@ -7,6 +7,8 @@ public interface AuthenticationClient {
 
     AuthenticationResult authenticateWithSessionToken(User user, String token);
 
+    AuthenticationResult authenticateWithTechnicalToken(String token);
+
     AuthenticationResult authenticateWithPassword(User user, String password);
 
     String hashUserPassword(String plainPassword);

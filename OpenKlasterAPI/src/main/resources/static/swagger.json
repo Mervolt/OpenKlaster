@@ -1,14 +1,14 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0.0",
+    "version": "",
     "title": "Swagger OpenKlaster",
     "license": {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost:8082",
+  "host": "localhost",
   "tags": [
     {
       "name": "user",
@@ -20,7 +20,7 @@
     },
     {
       "name": "measurement",
-      "description": "Energy measurements"
+      "description": "Energy measurements. In GET requests if no dates are provided then all measurements are retrieved."
     }
   ],
   "schemes": [
@@ -54,6 +54,88 @@
             "description": "ApiToken succesfully generated",
             "schema": {
               "$ref": "#/definitions/userToken"
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/manufacturerCredentials": {
+      "get": {
+        "tags": [
+          "miscellaneous"
+        ],
+        "summary": "Provides manufacturer names and format of their credentials",
+        "operationId": "getManufacturerCredentials",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Manufacturers credentials are:",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "manufacturer": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation exception"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/1/summary": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Provides manufacturer names and format of their credentials",
+        "operationId": "getSummary",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "installationId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "apiToken",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Manufacturers credentials are:",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "manufacturer": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
             }
           },
           "400": {
@@ -136,7 +218,7 @@
         "tags": [
           "user"
         ],
-        "summary": "Retrieves all tokens for given user",
+        "summary": "Retrieves user info - username, email and its tokens",
         "description": "",
         "operationId": "getAllTokens",
         "parameters": [
@@ -989,10 +1071,6 @@
       "properties": {
         "data": {
           "type": "string"
-        },
-        "expires": {
-          "type": "string",
-          "format": "date-time"
         }
       }
     },
@@ -1045,6 +1123,9 @@
         },
         "description": {
           "type": "string"
+        },
+        "credentials": {
+          "type": "object"
         },
         "load": {
           "$ref": "#/definitions/load"

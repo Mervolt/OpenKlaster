@@ -1,8 +1,9 @@
 package com.openklaster.api.app;
 
+
 import com.openklaster.api.APIVerticleConfig;
-import com.openklaster.api.handler.Handler;
-import com.openklaster.api.handler.properties.HandlerProperties;
+import com.openklaster.api.handler.ApiHandler;
+import com.openklaster.api.handler.CredentialsApiHandler;
 import com.openklaster.common.verticle.OpenklasterVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
@@ -26,7 +27,7 @@ public class ApiVerticle extends OpenklasterVerticle {
     private static final Logger logger = LoggerFactory.getLogger(ApiVerticle.class);
     private Vertx vertx;
     private EventBus eventBus;
-    private List<Handler> handlers;
+    private List<ApiHandler> handlers;
     private GenericApplicationContext ctx;
     private Integer launchPort;
 
@@ -54,29 +55,14 @@ public class ApiVerticle extends OpenklasterVerticle {
         vertx.createHttpServer()
                 .requestHandler(router)
                 .listen(launchPort);
-        handlers = new ArrayList<>(ctx.getBeansOfType(Handler.class).values());
+        handlers = new ArrayList<>(ctx.getBeansOfType(ApiHandler.class).values());
         routerConfig(router);
     }
 
     private void routerConfig(Router router) {
-        handlers.forEach(handler -> {
-            configureRouteHandler(router);
-            switch (handler.getMethod()) {
-                case HandlerProperties.getMethodHeader:
-                    router.get(handler.getRoute()).handler(context -> handler.handle(context, eventBus));
-                    break;
-                case HandlerProperties.postMethodHeader:
-                    router.post(handler.getRoute()).consumes("application/json").handler(context -> handler.handle(context, eventBus));
-                    break;
-                case HandlerProperties.putMethodHeader:
-                    router.put(handler.getRoute()).consumes("application/json").handler(context -> handler.handle(context, eventBus));
-                    break;
-                case HandlerProperties.deleteMethodHeader:
-                    router.delete(handler.getRoute()).handler(context -> handler.handle(context, eventBus));
-                    break;
-            }
-        });
-        router.route("/*").handler(StaticHandler.create("static"));
+        configureRouteHandler(router);
+        handlers.forEach(handler -> handler.configure(router, eventBus));
+        router.route("/api/1/*").handler(StaticHandler.create("static"));
     }
 
     private void configureRouteHandler(Router router) {

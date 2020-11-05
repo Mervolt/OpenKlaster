@@ -3,7 +3,8 @@
     "tokens": {
       "charsPerType": 4,
       "sessionTokenLifetime": 30
-    }
+    },
+    "technicalToken": "PDcX1hJkKfNPLfuBAses8wq3QiwRQRttkvh9CQjbTUOvY8WmpYFnkTeZZyGDfZWn"
   },
   "eventbus": {
     "in": {

@@ -1,6 +1,8 @@
 package com.openklaster.common.tests.model;
 
 import com.openklaster.common.model.*;
+import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
 
 public class InstallationTestUtil {
 
@@ -22,7 +24,7 @@ public class InstallationTestUtil {
 
     public static Inverter prepareInverter() {
         Inverter inverter = new Inverter();
-        inverter.setCredentials("invCreds");
+        inverter.setCredentials(new Credentials(new JsonObject().put("password","123")));
         inverter.setDescription("invDescr");
         inverter.setManufacturer("invManufacturer");
         inverter.setModelType("invModelType");

@@ -1,0 +1,10 @@
+address: mongodb://mongo-db:27017/
+database: DEFAULT_DB
+collection: installations
+request:
+  headers: { 'content-type': 'application/json' }
+  params: { 'technicalToken': 'PDcX1hJkKfNPLfuBAses8wq3QiwRQRttkvh9CQjbTUOvY8WmpYFnkTeZZyGDfZWn' }
+  powerProductionUrl: http://openklaster-api:8082/api/1/powerProduction
+  powerProducedUrl: http://openklaster-api:8082/api/1/energyProduced
+producers:
+  growatt: Growatt

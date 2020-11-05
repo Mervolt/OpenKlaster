@@ -11,12 +11,14 @@ public class BasicAuthenticationClient implements AuthenticationClient {
     private final PasswordHandler passwordHandler;
     private final TokenHandler tokenHandler;
     private final CrudRepository<User> userCrudRepository;
+    private final String technicalToken;
 
     public BasicAuthenticationClient(PasswordHandler passwordHandler,
-                                     TokenHandler tokenHandler, CrudRepository<User> userCrudRepository) {
+                                     TokenHandler tokenHandler, CrudRepository<User> userCrudRepository, String technicalToken) {
         this.passwordHandler = passwordHandler;
         this.tokenHandler = tokenHandler;
         this.userCrudRepository = userCrudRepository;
+        this.technicalToken = technicalToken;
     }
 
     @Override
@@ -43,6 +45,17 @@ public class BasicAuthenticationClient implements AuthenticationClient {
         } catch (Exception e ) {
             return new FailedAuthentication(e);
         }
+    }
+
+    @Override
+    public AuthenticationResult authenticateWithTechnicalToken(String token) {
+        TokenValidationResult result;
+        if (token.equals(technicalToken))
+            result = TokenValidationResult.VALID;
+        else {
+            result = TokenValidationResult.INVALID;
+        }
+        return authenticationTokenResult(result, null);
     }
 
     private void persistSessionToken(User user, SessionToken refreshedToken) {
@@ -100,5 +113,4 @@ public class BasicAuthenticationClient implements AuthenticationClient {
     private String unknownTokenAuth(String username) {
         return String.format("Unknown token validation result for user %s", username);
     }
-
 }
