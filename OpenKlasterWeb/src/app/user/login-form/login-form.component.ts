@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../model/User';
-import {LoginFormService} from '../login-form.service';
 import {Router} from '@angular/router';
-//TODO unused import
 import {AppComponent} from '../../app.component';
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-login-form',
@@ -13,7 +12,7 @@ import {AppComponent} from '../../app.component';
 export class LoginFormComponent implements OnInit {
   model = new User('', '', '');
 
-  constructor(public service: LoginFormService, public appComp: AppComponent, private router: Router) {
+  constructor(public service: UserService, public appComp: AppComponent, private router: Router) {
     this.appComp.refreshBackground(0)
   }
 
@@ -27,9 +26,6 @@ export class LoginFormComponent implements OnInit {
   }
 
   redirectToRegister() {
-    // TODO commands are empty because register is root of the page?
-    //MM-ANSWER: For now register is set to be '' so we have register page when we enter our website
-    //e.g localhost:4200 not localhost:4200/register
     this.router.navigate(['']);
   }
 }

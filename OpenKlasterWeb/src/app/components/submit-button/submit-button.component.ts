@@ -7,13 +7,16 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class SubmitButtonComponent implements OnInit {
 
-  @Input() buttonCaption : string;
-  @Input() onClick : () => void;
+  @Input() buttonCaption: string;
+  @Input() onClick: () => void;
   @Input() requestState: string = 'none';
-  constructor() { }
-  callCallbackFunction(){
+  @Input() disabled: boolean = false;
+
+  constructor() {}
+
+  callCallbackFunction() {
     this.onClick();
   }
-  ngOnInit(): void {
-  }
+
+  ngOnInit(): void {}
 }

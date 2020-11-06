@@ -1,6 +1,7 @@
 <app-navbar></app-navbar>
 <div class="page-container">
-    <form>
+    <form (ngSubmit)="installationForm.valid && onSubmit()" #installationForm="ngForm">
+      <mat-label>Installation Info</mat-label>
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
           <div style="margin-top: 8px">
@@ -33,6 +34,7 @@
           </mat-form-field>
         </div>
       </div>
+      <mat-label>Load Information</mat-label>
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
           <mat-form-field appearance="outline" class="userformfield">
@@ -49,6 +51,7 @@
           </mat-form-field>
         </div>
       </div>
+      <mat-label>Inverter Information</mat-label>
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
           <mat-form-field appearance="outline" class="userformfield">
@@ -66,6 +69,7 @@
             </mat-select>
           </mat-form-field>
           <div>
+            <mat-label *ngIf="questions$.length!==0">Credentials</mat-label>
             <app-dynamic-form [questions]="questions$"
                               (credentialsEventEmitter)="handleCredentialsChange($event)">
             </app-dynamic-form>
@@ -79,6 +83,7 @@
           </mat-form-field>
         </div>
       </div>
+      <mat-label>Source Information</mat-label>
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
           <mat-form-field appearance="outline" class="userformfield">

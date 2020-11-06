@@ -1,0 +1,19 @@
+.header-container {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.mat-icon {
+  font-size: 48px;
+}
+.mat-icon-button.large {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+}
+.buttons-container {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
