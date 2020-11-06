@@ -14,5 +14,6 @@ public class EndpointRouteProperties {
     public static final String energyconsumedEndpoint= "http.endpoint.route.energyconsumed";
     public static final String energyproducedEndpoint= "http.endpoint.route.energyproduced";
     public static final String summaryEndpoint= "http.endpoint.route.summary";
+    public static final String chartEndpoint = "http.endpoint.route.chart";
     public static final String manufacturerCredentials = "http.endpoint.route.manufacturerCredentials";
 }

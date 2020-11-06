@@ -13,8 +13,8 @@ public class CredentialsSerializer extends StdSerializer<Credentials> {
         this(null);
     }
 
-    public CredentialsSerializer(Class<Credentials> t) {
-        super(t);
+    public CredentialsSerializer(Class<Credentials> credentialsClass) {
+        super(credentialsClass);
     }
 
     @Override

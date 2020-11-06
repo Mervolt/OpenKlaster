@@ -4,6 +4,8 @@
     <file url="file://$PROJECT_DIR$/CassandraService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CassandraService/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CommonService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/FileRepositoryService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/FileRepositoryService/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/MongoService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/MongoService/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/OpenKlasterAPI/src/main/java" charset="UTF-8" />

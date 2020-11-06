@@ -9,6 +9,7 @@ public class CoreVerticleProperties {
 
     static final String sourceMeasurementConfigPath = "eventbus.in.sourceMeasurements";
     static final String loadMeasurementConfigPath = "eventbus.in.loadMeasurements";
+    static final String technicalTokenConfigPath = "security.technicalToken";
 
     static final String mongoUserAddressConfigPath = "eventbus.out.mongo.users.address";
     static final String mongoInstallationAddressConfigPath = "eventbus.out.mongo.installation.address";

@@ -80,7 +80,7 @@ public class CoreVerticle extends OpenklasterVerticle {
         PasswordHandler passwordHandler = configureNewPasswordHandler();
         CrudRepository<User> userCrudRepository = configureNewUserRepository();
         AuthenticationClient authenticationClient = new BasicAuthenticationClient(passwordHandler,
-                tokenHandler, userCrudRepository);
+                tokenHandler, userCrudRepository, configAccessor.getString(technicalTokenConfigPath));
         CrudRepository<Installation> installationCrudRepository = configureNewInstallationRepository();
         UserRetriever userRetriever = new BasicUserRetriever(userCrudRepository, installationCrudRepository);
         CassandraRepository<LoadMeasurement> loadMeasurementCassandraRepository = configureLoadMeasurementRepository();
@@ -142,13 +142,15 @@ public class CoreVerticle extends OpenklasterVerticle {
             MeasurementManager<LoadMeasurement> loadMeasurementMeasurementManager) {
 
         return new MeasurementServiceHandler<>(
-                configAccessor.getPathConfigAccessor(loadMeasurementConfigPath), loadMeasurementMeasurementManager);
+                configAccessor.getPathConfigAccessor(loadMeasurementConfigPath),
+                loadMeasurementMeasurementManager);
     }
 
     private EndpointService configureSourceMeasurementService(
             MeasurementManager<SourceMeasurement> sourceMeasurementMeasurementManager) {
         return new MeasurementServiceHandler<>(
-                configAccessor.getPathConfigAccessor(sourceMeasurementConfigPath), sourceMeasurementMeasurementManager);
+                configAccessor.getPathConfigAccessor(sourceMeasurementConfigPath),
+                sourceMeasurementMeasurementManager);
     }
 
     private EndpointService configureInstallationManagement(AuthenticationClient authenticationClient,

@@ -3,7 +3,10 @@ package com.openklaster.api.validation;
 import com.openklaster.api.handler.properties.HandlerProperties;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.*;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,7 +38,8 @@ public class ValidationExecutor {
 
     private static boolean isThereAtLeastOneToken(Map<String, String> tokens) {
         return (!isTokenPresent(tokens, HandlerProperties.apiToken)) &&
-                (!isTokenPresent(tokens, HandlerProperties.sessionToken));
+                (!isTokenPresent(tokens, HandlerProperties.sessionToken)) &&
+                (!isTokenPresent(tokens, HandlerProperties.technicalToken));
     }
 
     private static boolean isTokenPresent(Map<String, String> tokens, String tokenType) {

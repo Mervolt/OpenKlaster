@@ -45,9 +45,10 @@ import {InstallationListItemComponent} from './installation/installation-list-it
 import {MatTableModule} from "@angular/material/table";
 import { SuccessfulLoginDialogComponent } from './user/successful-login-dialog/successful-login-dialog.component';
 import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
+import {MatCardModule} from "@angular/material/card";
 import {InstallationService} from "./service/installation/installation.service";
 import {HttpClientInterceptor} from "./service/interceptors/http-client-interceptor.service";
-import { ChartsComponent } from './charts/charts.component';
+import { ChartsComponent} from './installation/charts/charts.component';
 import { DynamicFormQuestionComponent } from './components/Question-boxes/dynamic-form-question/dynamic-form-question.component';
 import { DynamicFormComponent } from './components/Question-boxes/dynamic-form/dynamic-form.component';
 import { SubmitButtonComponent } from './components/submit-button/submit-button.component';
@@ -56,6 +57,7 @@ import { UserEditionComponent } from './user/user-edition/user-edition.component
 import { EditionInputComponent } from './components/edition-input/edition-input.component';
 import { UserPanelComponent } from './user/user-panel/user-panel.component';
 import { EqualsToDirective } from './validators/equals-to.directive';
+
 
 @NgModule({
   declarations: [
@@ -121,6 +123,7 @@ import { EqualsToDirective } from './validators/equals-to.directive';
     MatCheckboxModule,
     MatDialogModule,
     MatTableModule,
+    MatCardModule,
     NgbModule
   ],
   providers: [

@@ -36,7 +36,7 @@ public class UserManagerTest {
         this.userCrudRepository = new InMemoryCrudRepository<>();
         this.passwordHandler = new BCryptPasswordHandler();
         this.tokenHandler = new BasicTokenHandler(tokenHandlerArg, tokenHandlerArg);
-        this.authenticationClient = new BasicAuthenticationClient(passwordHandler, tokenHandler, userCrudRepository);
+        this.authenticationClient = new BasicAuthenticationClient(passwordHandler, tokenHandler, userCrudRepository,  "techinicalToken");
         this.testUser = UserTestUtil.prepareUser("test");
         this.authenticatedUserManager = new AuthenticatedUserManager(authenticationClient, userCrudRepository);
         prepareAuthManager();
