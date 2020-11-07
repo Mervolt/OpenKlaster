@@ -157,6 +157,12 @@ public class ApiVerticle extends OpenklasterVerticle {
                 new GetCoreCommunicationHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.chartEndpoint),
                         configAccessor.getString(EventBusAddressProperties.chartCoreAddressKey),
                         eventBus, configAccessor, new DefaultParseStrategy<Temporary>(Temporary.class)),
+                new GetCoreCommunicationHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.chartEndpoint),
+                        configAccessor.getString(EventBusAddressProperties.chartCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<Temporary>(Temporary.class)),
+                new GetCoreCommunicationHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.selectabledatesEndpoint),
+                        configAccessor.getString(EventBusAddressProperties.selectabledatesCoreAddressKey),
+                        eventBus, configAccessor, new DefaultParseStrategy<Temporary>(Temporary.class)),
                 new CredentialsApiHandler(buildEndpoint(configAccessor, VERSION1, EndpointRouteProperties.manufacturerCredentials),
                         configAccessor.getJsonObject(credentialsConfigKey))
         );

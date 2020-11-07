@@ -1,5 +1,8 @@
 {
   "chartfilerepository": {
     "address": "openklaster.filerepository.chartfilerepository"
+  },
+  "selectabledates": {
+    "address": "openklaster.filerepository.selectabledates"
   }
 }

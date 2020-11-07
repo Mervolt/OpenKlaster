@@ -95,6 +95,7 @@ public abstract class CoreCommunicationHandler implements ApiHandler {
             validate(model, tokens);
             JsonObject validatedModel = JsonObject.mapFrom(model);
             DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, tokens);
+            System.out.println(address);
             eventBus.request(address, validatedModel, deliveryOptions, coreResponse -> {
                 if (coreResponse.succeeded()) {
                     if (coreResponse.result().body() == null) {

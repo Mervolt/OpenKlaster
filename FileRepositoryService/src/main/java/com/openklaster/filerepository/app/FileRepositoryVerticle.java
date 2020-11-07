@@ -6,6 +6,7 @@ import com.openklaster.common.verticle.OpenklasterVerticle;
 import com.openklaster.filerepository.properties.FileRepositoryProperties;
 import com.openklaster.filerepository.service.ChartFileRepositoryHandler;
 import com.openklaster.filerepository.service.FileRepositoryHandler;
+import com.openklaster.filerepository.service.SelectableDates;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -60,7 +61,8 @@ public class FileRepositoryVerticle extends OpenklasterVerticle {
 
     private List<FileRepositoryHandler<?>> prepareHandlers() {
         return Arrays.asList(
-                new ChartFileRepositoryHandler(vertxFileSystem, configAccessor.getPathConfigAccessor(FileRepositoryProperties.CHART_FILE_REPOSITORY))
+                new ChartFileRepositoryHandler(vertxFileSystem, configAccessor.getPathConfigAccessor(FileRepositoryProperties.CHART_FILE_REPOSITORY)),
+                new SelectableDates(vertxFileSystem, configAccessor.getPathConfigAccessor(FileRepositoryProperties.SELECTABLE_DATES))
         );
     }
 
