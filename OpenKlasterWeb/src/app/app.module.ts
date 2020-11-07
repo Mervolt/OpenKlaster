@@ -57,6 +57,8 @@ import { UserEditionComponent } from './user/user-edition/user-edition.component
 import { EditionInputComponent } from './components/edition-input/edition-input.component';
 import { UserPanelComponent } from './user/user-panel/user-panel.component';
 import { EqualsToDirective } from './validators/equals-to.directive';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 
 @NgModule({
@@ -124,7 +126,9 @@ import { EqualsToDirective } from './validators/equals-to.directive';
     MatDialogModule,
     MatTableModule,
     MatCardModule,
-    NgbModule
+    NgbModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
     UserService,

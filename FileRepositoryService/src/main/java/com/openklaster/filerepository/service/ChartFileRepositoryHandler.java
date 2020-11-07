@@ -19,7 +19,7 @@ public class ChartFileRepositoryHandler extends FileRepositoryHandler<UsernameIn
     @Override
     public void createGetHandler(Message<JsonObject> message) {
         // Todo zrobić pobieranie odpowiedniego zamiast hardcode, potrzebny najpierw skrypt uruchomiony w cronie
-        vertxFileSystem.readFile("/file-repository/2020-09-23.png", ar -> {
+        vertxFileSystem.readFile("file-repository/2020-09-23.png", ar -> {
             if (ar.succeeded()) {
                 byte[] content = ar.result().getBytes();
                 String encodeBase64 = Base64.getEncoder().encodeToString(content);
