@@ -15,6 +15,11 @@ export class ChartService {
   getChart(): Observable<any> {
     return this.http.get(EndpointHolder.chartEndpoint)
   }
+
+  getSelectableDates(): Observable<any> {
+    return this.http.get(EndpointHolder.selectableDatesEndpoint)
+  }
+
   //TODO when proper backend api is ready use it instead of getChart()
   getChartForInstallation(installationId: string, cookieService: CookieService): Observable<any> {
     let params = new HttpParams()
