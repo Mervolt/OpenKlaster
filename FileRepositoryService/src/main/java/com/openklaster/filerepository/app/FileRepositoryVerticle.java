@@ -39,16 +39,17 @@ public class FileRepositoryVerticle extends OpenklasterVerticle {
 
     @Override
     public void init(Vertx vertx, Context context) {
+        ctx = new AnnotationConfigApplicationContext(FileRepositoryVerticleConfig.class);
+        ctx.registerBean(FileSystem.class, () -> vertxFileSystem);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
         this.vertxFileSystem = vertx.fileSystem();
-        ctx = new AnnotationConfigApplicationContext(FileRepositoryVerticleConfig.class);
-        ctx.registerBean(FileSystem.class, () -> vertxFileSystem);
         List<FileRepositoryHandler<?>> handlers = prepareHandlers();
         eventBusConfig(handlers);
     }
 
     private List<FileRepositoryHandler<?>> prepareHandlers() {
+        System.out.println(ctx.getBean(ChartFileRepositoryHandler.class).getAddress());
         return Arrays.asList(ctx.getBean(ChartFileRepositoryHandler.class));
 
     }
