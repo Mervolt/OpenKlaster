@@ -1,0 +1,47 @@
+.main-card-container {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--installation-card-color);
+  gap: 24px;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.left-margin-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.right-margin-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.dashboard-card {
+  background-color: var(--installation-card-color);
+}
+
+.right-margin-card {
+  background-color: var(--installation-card-color);
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  height: 40%;
+
+}
+
+.right-margin-card-info {
+  background-color: var(--installation-card-text-color);
+  flex-grow: 1;
+}
+
+

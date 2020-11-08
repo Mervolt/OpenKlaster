@@ -1,0 +1,47 @@
+<app-navbar></app-navbar>
+<div class ="page-container" >
+  <mat-card class ="main-card-container">
+  <div [ngClass]="['left-margin-container', 'dashboard-card' ]">
+    <app-description-tile description="xd" tileTitle="Installation" icon="wb_sunny" [ngClass]="'dashboard-card'" style="height:30%" ></app-description-tile>
+    <app-measurements-summary [installationSummary]="installationSummary"></app-measurements-summary>
+    <button mat-raised-button color="primary" type="button" class="btn btn-primary"
+            (click)="navigateToCharts()">Show charts</button>
+    <button mat-raised-button color="primary" type="button" class="btn btn-primary"
+            (click)="navigateToEditInstallation()">Edit installation</button>
+    <button mat-raised-button color="warn" type="button" class="btn btn-danger"
+            (click)="openDeleteConfirmationWindow()">Remove installation</button>
+  </div>
+  <div [ngClass]="['right-margin-container', 'dashboard-card']">
+    <mat-card [ngClass]="['right-margin-card']">
+      <app-description-tile description="Opis inwerterka" tileTitle="Inverter" icon="wb_sunny" [ngClass]="'dashboard-card'" ></app-description-tile>
+      <mat-card [ngClass]="['right-margin-card-info']">
+        <p>Model type: {{installation.inverter.modelType}}</p>
+        <p>Manufacturer: {{installation.inverter.manufacturer}}</p>
+      </mat-card>
+    </mat-card>
+    <mat-card [ngClass]="['right-margin-card']">
+      <app-description-tile description="Opis source'a" tileTitle="Source" icon="wb_sunny" [ngClass]="'dashboard-card'" ></app-description-tile>
+      <mat-card [ngClass]="['right-margin-card-info']">
+        <p>Latitude: {{installation.latitude}}</p>
+        <p>Longitude: {{installation.longitude}}</p>
+        <p>Tilt: {{installation.source.tilt}}</p>
+        <p>Azimuth: {{installation.source.azimuth}}</p>
+        <p>Capacity: {{installation.source.capacity}}</p>
+      </mat-card>
+    </mat-card>
+    <mat-card [ngClass]="['right-margin-card']">
+      <app-description-tile description="Opis domkuOpis domkuOpis domkuOpis domku Opis domkuOpis domkuOpis domkuOpis domkuOpis domkuOpis domkuOpis domkuOpis domkuOpis domkuOpis domkuOpis domkuOpis domkuOpis domkuOpis domkuOpis domkuOpis domku" tileTitle="Load" icon="home" [ngClass]="'dashboard-card'" ></app-description-tile>
+      <mat-card [ngClass]="['right-margin-card-info']">
+        <p>Name: {{installation.load.name}}</p>
+      </mat-card>
+    </mat-card>
+  </div>
+  </mat-card>
+</div>
+
+
+<!--
+<div class ="location-div">
+  <h1>Location</h1>
+  <p>Latitude: {{installation.latitude}}</p>
+</div>-->

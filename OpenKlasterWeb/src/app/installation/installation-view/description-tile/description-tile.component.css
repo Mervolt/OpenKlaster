@@ -1,0 +1,43 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  background-color: var(--installation-card-color);
+}
+
+.description-container {
+  height: 75%;
+  width: 320px;
+  background: var(--installation-card-text-color);
+  overflow: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.description-container ::-webkit-scrollbar {
+  display: none;
+}
+
+
+.header-container {
+  display: flex;
+  font-size: 36px;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 20%;
+}
+
+.mat-icon {
+  font-size: 36px;
+}
+
+.mat-card-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.mat-card-header-text {
+  align-content: flex-start;
+}

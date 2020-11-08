@@ -5,7 +5,7 @@ import {UserService} from '../../service/user.service';
 import {User} from '../../model/User';
 import {AppComponent} from "../../app.component";
 import {MatDialog} from "@angular/material/dialog";
-import {SuccessfulLoginDialogComponent} from "../successful-login-dialog/successful-login-dialog.component";
+import {ConfirmationDialogPopupComponent} from "../../components/confirmation-dialog-popup/confirmation-dialog-popup.component";
 
 
 @Component({
@@ -26,11 +26,11 @@ export class RegisterFormComponent implements OnInit {
   async onSubmit() {
     let success = await this.service.addUser(this.model);
     if (success) {
-      let dialog = this.dialog.open(SuccessfulLoginDialogComponent, {
+      let dialog = this.dialog.open(ConfirmationDialogPopupComponent, {
         width: '500px'
       })
 
-      dialog.componentInstance.user = this.model.username
+      dialog.componentInstance.popupContent = `Account for user ${this.model.username} has been created successfully!`
 
       this.router.navigate(['/login']).then();
     }

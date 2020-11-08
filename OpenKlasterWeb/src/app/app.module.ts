@@ -43,7 +43,7 @@ import {CredentialsTokenComponent} from './credentials/credentials-token/credent
 import {CredentialsUserpassComponent} from './credentials/credentials-userpass/credentials-userpass.component';
 import {InstallationListItemComponent} from './installation/installation-list-item/installation-list-item.component';
 import {MatTableModule} from "@angular/material/table";
-import { SuccessfulLoginDialogComponent } from './user/successful-login-dialog/successful-login-dialog.component';
+import { ConfirmationDialogPopupComponent } from './components/confirmation-dialog-popup/confirmation-dialog-popup.component';
 import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
 import {MatCardModule} from "@angular/material/card";
 import {InstallationService} from "./service/installation/installation.service";
@@ -57,7 +57,9 @@ import { UserEditionComponent } from './user/user-edition/user-edition.component
 import { EditionInputComponent } from './components/edition-input/edition-input.component';
 import { UserPanelComponent } from './user/user-panel/user-panel.component';
 import { EqualsToDirective } from './validators/equals-to.directive';
-
+import { InstallationViewComponent } from './installation/installation-view/installation-view.component';
+import { DescriptionTileComponent } from './installation/installation-view/description-tile/description-tile.component';
+import { InstallationSummaryComponent } from './components/measurements-summary/installation-summary.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,7 @@ import { EqualsToDirective } from './validators/equals-to.directive';
     CredentialsTokenComponent,
     CredentialsUserpassComponent,
     InstallationListItemComponent,
-    SuccessfulLoginDialogComponent,
+    ConfirmationDialogPopupComponent,
     SwaggerUiComponent,
     ChartsComponent,
     DynamicFormQuestionComponent,
@@ -88,7 +90,10 @@ import { EqualsToDirective } from './validators/equals-to.directive';
     UserEditionComponent,
     EditionInputComponent,
     UserPanelComponent,
-    EqualsToDirective
+    EqualsToDirective,
+    InstallationViewComponent,
+    DescriptionTileComponent,
+    InstallationSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -99,7 +104,7 @@ import { EqualsToDirective } from './validators/equals-to.directive';
       {path: 'login', component: LoginFormComponent},
       {path: 'user', component: UserPanelComponent},
       {path: 'installations', component: InstallationPanelComponent},
-      {path: 'installations/:id', component: SingleInstallationPanelComponent},
+      {path: 'installations/:id', component: InstallationViewComponent},
       {path: 'installationGeneration', component: InstallationAddPanelComponent},
       {path: 'editInstallation/:id', component: EditInstallationComponent},
       {path: 'swagger-ui', component: SwaggerUiComponent},

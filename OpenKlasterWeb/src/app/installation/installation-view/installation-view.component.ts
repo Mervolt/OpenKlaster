@@ -1,30 +1,28 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {SingleInstallationPanelService} from "../single-installation-panel.service";
-import {MatMenuTrigger} from "@angular/material/menu";
+import { Component, OnInit } from '@angular/core';
+import {Installation} from "../../model/Installation";
 import {ActivatedRoute, Router} from "@angular/router";
 import {InstallationService} from "../../service/installation/installation.service";
-import {InstallationDto} from "../../model/InstallationDto";
 import {CookieService} from "ngx-cookie-service";
-import {Installation} from "../../model/Installation";
 import {MatDialog} from "@angular/material/dialog";
+import {InstallationDto} from "../../model/InstallationDto";
 import {DeleteInstallationDialogComponent} from "../delete-installation-dialog/delete-installation-dialog.component";
+import {InstallationSummary} from "../../model/InstallationSummary";
+import {ConfirmationDialogPopupComponent} from "../../components/confirmation-dialog-popup/confirmation-dialog-popup.component";
 
 @Component({
-  selector: 'app-single-installation-panel',
-  templateUrl: './single-installation-panel.component.html',
-  styleUrls: ['./single-installation-panel.component.css']
+  selector: 'app-installation-view',
+  templateUrl: './installation-view.component.html',
+  styleUrls: ['./installation-view.component.css']
 })
-export class SingleInstallationPanelComponent implements OnInit {
-  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+export class InstallationViewComponent implements OnInit {
+
   installationId: string
   installationIdOnlyNumber: number
   installation: Installation
-  isPopupShown: boolean = false;
-
-  constructor(private router: Router,
-              public installationsService: InstallationService,
-              private route: ActivatedRoute, public cookieService: CookieService,
-              public dialog: MatDialog) {
+  installationSummary: InstallationSummary
+  constructor(private router: Router, private installationsService: InstallationService,
+              private route: ActivatedRoute, private cookieService: CookieService,
+              private dialog: MatDialog) {
     this.installationId = route.snapshot.paramMap.get('id');
     this.installationIdOnlyNumber = this.stripInstallationId(this.installationId)
   }
@@ -38,11 +36,10 @@ export class SingleInstallationPanelComponent implements OnInit {
   async getInstallation(id: number) {
     let observableInstallation = this.installationsService.getInstallation(this.cookieService, id);
     observableInstallation.subscribe(response => {
-      //TODO ditto fromDto method
-      //MM-ANSWER Done
       this.installation = InstallationDto.fromDto(response)
       this.isLoaded = true
     })
+    this.installationSummary = new InstallationSummary()
   }
 
   credentialsToString(credentials: JSON) {
@@ -54,18 +51,21 @@ export class SingleInstallationPanelComponent implements OnInit {
     return Number(splitInstallation[1])
   }
 
-  openDialog() {
+  openDeleteConfirmationWindow() {
     let dialog = this.dialog.open(DeleteInstallationDialogComponent, {
       width: '500px'
     });
     dialog.componentInstance.id = this.installationId
   }
 
-  openChartPopup() {
-    this.isPopupShown = true;
-  }
-
   navigateToEditInstallation() {
     this.router.navigate(['editInstallation', this.installationIdOnlyNumber]).then()
   }
+  navigateToCharts() {
+    let dialog = this.dialog.open(ConfirmationDialogPopupComponent, {
+      width: '500px'
+    })
+    dialog.componentInstance.popupContent = "Soon there will be redirection to charts panel for this installation."
+  }
+
 }
