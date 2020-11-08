@@ -14,6 +14,8 @@ services:
     build: OpenKlasterAPI
     depends_on:
       - openklaster-core
+    ports:
+      - "8082:8082"
   openklaster-mongo:
     build: MongoService
     depends_on:
@@ -26,12 +28,12 @@ services:
     build: FileRepositoryService
     volumes:
       - ./file-repository:/file-repository
-  openklaster-webpage:
-    build: OpenKlasterWeb
-    depends_on:
-      - openklaster-api
-    ports:
-      - "80:80"
+#  openklaster-webpage:
+#    build: OpenKlasterWeb
+#    depends_on:
+#      - openklaster-api
+#    ports:
+#      - "80:80"
   mongo-db:
     image: 'mongo'
     environment:

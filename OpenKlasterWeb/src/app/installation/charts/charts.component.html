@@ -1,13 +1,49 @@
 <app-navbar></app-navbar>
 
-<mat-form-field class="example-full-width" appearance="fill">
-  <mat-label>Choose a date</mat-label>
-  <input matInput [matDatepicker]="picker">
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker touchUi [dateClass]="dateClass" #picker></mat-datepicker>
-</mat-form-field>
 
-<mat-card-header>
-  <mat-card-title>Current chart</mat-card-title>
-  <img mat-card-image [src]=this.chart alt="user image">
-</mat-card-header>
+<div fxLayoutAlign="center center" fxLayout="column">
+  <mat-vertical-stepper linear="Enable linear mode" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Choose your installation</ng-template>
+        <mat-form-field appearance="standard">
+          <mat-label>Select an option</mat-label>
+          <mat-select formControlName="firstCtrl">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let id of installationIDs" [value]="id">{{id}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext (click)="print()">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup" class="center">
+        <ng-template matStepLabel>Choose date</ng-template>
+        <mat-form-field>
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepickerFilter]="dateFilter" formControlName="secondCtrl"  [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi [dateClass]="dateClass" #picker></mat-datepicker>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="dateChoosen()">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Watch charts</ng-template>
+      <div style='min-height:800px'>
+        <mat-tab-group>
+          <mat-tab *ngFor="let item of this.charts" [label]=formatTime(item.name)>
+            <mat-card-header>
+              <img mat-card-image class="center" [src]=item.data alt="user image">
+            </mat-card-header>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>

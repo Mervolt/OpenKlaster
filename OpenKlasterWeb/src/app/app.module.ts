@@ -58,7 +58,8 @@ import { EditionInputComponent } from './components/edition-input/edition-input.
 import { UserPanelComponent } from './user/user-panel/user-panel.component';
 import { EqualsToDirective } from './validators/equals-to.directive';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
+import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import {MatStepperModule} from '@angular/material/stepper';
 
 
 @NgModule({
@@ -129,6 +130,7 @@ import {MatNativeDateModule} from '@angular/material/core';
     NgbModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatStepperModule,
   ],
   providers: [
     UserService,
@@ -137,6 +139,9 @@ import {MatNativeDateModule} from '@angular/material/core';
     CookieService,
     InstallationPanelComponent,
     RequestResponseComponentComponent,
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'pl-PL'
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpClientInterceptor,

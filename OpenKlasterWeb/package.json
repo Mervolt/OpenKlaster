@@ -25,6 +25,7 @@
     "@angular/router": "~10.0.4",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "bootstrap": "^4.5.0",
+    "date-fns": "^2.16.1",
     "ngx-cookie-service": "^3.0.4",
     "rxjs": "~6.5.5",
     "swagger-ui-dist": "^3.32.4",
