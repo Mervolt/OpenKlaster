@@ -56,14 +56,12 @@ public class ApiVerticle extends OpenklasterVerticle {
                 .requestHandler(router)
                 .listen(launchPort);
         handlers = new ArrayList<>(ctx.getBeansOfType(ApiHandler.class).values());
-        System.out.println(handlers.size());
         routerConfig(router);
     }
 
     private void routerConfig(Router router) {
         configureRouteHandler(router);
         handlers.forEach(handler -> handler.configure(router, eventBus));
-        handlers.forEach(handler -> System.out.println());
         router.route("/api/1/*").handler(StaticHandler.create("static"));
     }
 
