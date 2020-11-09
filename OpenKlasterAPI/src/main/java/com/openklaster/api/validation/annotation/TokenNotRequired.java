@@ -1,4 +1,4 @@
-package com.openklaster.api.validation;
+package com.openklaster.api.validation.annotation;
 
 
 import java.lang.annotation.ElementType;

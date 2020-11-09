@@ -18,10 +18,23 @@ public class FileRepository {
     private final EventBus eventBus;
     private final String address;
 
-    public Future<JsonArray> handleWithListContent(String methodName, JsonObject content) {
+    public Future<JsonArray> handleJsonArrayResult(String methodName, JsonObject content) {
         Promise<JsonArray> resultPromise = Promise.promise();
         DeliveryOptions options = getMethodOptions(methodName);
         eventBus.<JsonArray>request(address + ".selectableDates", content, options, handler -> {
+            if (handler.succeeded()) {
+                resultPromise.complete(handler.result().body());
+            } else {
+                handleFailure(resultPromise, handler);
+            }
+        });
+        return resultPromise.future();
+    }
+
+    public Future<JsonObject> handleJsonObjectResult(String methodName, JsonObject content) {
+        Promise<JsonObject> resultPromise = Promise.promise();
+        DeliveryOptions options = getMethodOptions(methodName);
+        eventBus.<JsonObject>request(address + ".charts", content, options, handler -> {
             if (handler.succeeded()) {
                 resultPromise.complete(handler.result().body());
             } else {

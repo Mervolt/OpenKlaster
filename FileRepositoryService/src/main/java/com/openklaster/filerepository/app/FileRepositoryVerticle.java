@@ -63,8 +63,6 @@ public class FileRepositoryVerticle extends OpenklasterVerticle {
     }
 
     private void handlerMap(FileRepositoryHandler<?> handler, Message<JsonObject> message) {
-        System.out.println(message.headers());
-        System.out.println(message.body());
         switch (message.headers().get(METHOD_KEY)) {
             case FileRepositoryProperties.GET_METHOD_NAME:
                 handler.createGetHandler(message);

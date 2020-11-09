@@ -8,4 +8,10 @@ public class FileRepositoryProperties {
     public static final String ADDRESS = "address";
 
     public static final String GET_METHOD_NAME = "get";
+
+    public final static String USERNAME_TO_REPLACE = "\\{username\\}";
+
+    public final static String INSTALLATION_ID_TO_REPLACE = "\\{installationId\\}";
+
+    public final static String DATE_TO_REPLACE = "\\{date\\}";
 }

@@ -29,4 +29,8 @@ public abstract class FileRepositoryHandler<T> {
     public T parseToModel(JsonObject jsonObject) {
         return jsonObject.mapTo(this.modelClass);
     }
+
+    protected String removeInstallationPrefix(String installation) {
+        return installation.split(":")[1];
+    }
 }

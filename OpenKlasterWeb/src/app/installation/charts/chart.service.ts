@@ -12,20 +12,18 @@ export class ChartService {
 
   constructor(private http: HttpClient) {}
 
-  getChart(): Observable<any> {
-    return this.http.get(EndpointHolder.chartEndpoint)
-  }
-
-  getSelectableDates(): Observable<any> {
-    return this.http.get(EndpointHolder.selectableDatesEndpoint)
-  }
-
-  //TODO when proper backend api is ready use it instead of getChart()
-  getChartForInstallation(installationId: string, cookieService: CookieService): Observable<any> {
+  getSelectableDates(cookieService: CookieService, installationId: string): Observable<any> {
     let params = new HttpParams()
-      .set('username', cookieService.get(CookieHolder.usernameKey))
       .set('sessionToken', cookieService.get(CookieHolder.tokenKey))
       .set('installationId', installationId);
+    return this.http.get(EndpointHolder.selectableDatesEndpoint, {params: params})
+  }
+
+  getChartsForInstallation(cookieService: CookieService, installationId: string, date: string): Observable<any> {
+    let params = new HttpParams()
+      .set('sessionToken', cookieService.get(CookieHolder.tokenKey))
+      .set('installationId', installationId)
+      .set('date', date);
     return this.http.get(EndpointHolder.chartEndpoint, {params: params});
   }
 }
