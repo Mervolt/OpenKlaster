@@ -3,7 +3,6 @@ package com.openklaster.cassandra.service;
 import com.datastax.driver.core.ColumnDefinitions;
 import com.datastax.driver.core.Row;
 import com.openklaster.cassandra.properties.CassandraProperties;
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.messages.BusMessageReplyUtils;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.cassandra.CassandraClient;
@@ -26,22 +25,20 @@ import java.util.List;
 public abstract class CassandraHandler<T> {
     protected final CassandraClient cassandraClient;
     protected final MappingManager mappingManager;
-    protected final NestedConfigAccessor config;
     protected final Class<T> modelClass;
     protected final Logger logger;
     protected final Mapper<T> mapper;
     protected final String address;
     protected final String table;
 
-    public CassandraHandler(CassandraClient cassandraClient, JsonObject configObject, Class<T> modelClass) {
+    public CassandraHandler(CassandraClient cassandraClient, Class<T> modelClass, String address, String table) {
         this.cassandraClient = cassandraClient;
         this.mappingManager = MappingManager.create(cassandraClient);
-        this.config = new NestedConfigAccessor(configObject);
         this.modelClass = modelClass;
         this.logger = LoggerFactory.getLogger(modelClass);
         this.mapper = mappingManager.mapper(modelClass);
-        this.address = config.getString(CassandraProperties.ADDRESS);
-        this.table = config.getString(CassandraProperties.TABLE);
+        this.address = address;
+        this.table = table;
     }
 
     public String getAddress() {
@@ -92,7 +89,7 @@ public abstract class CassandraHandler<T> {
         DateFormat dateFormat = new SimpleDateFormat(CassandraProperties.DATETIME_FORMAT);
         JsonObject jsonObject = new JsonObject();
         for (ColumnDefinitions.Definition column : row.getColumnDefinitions()) {
-            switch(column.getType().toString()) {
+            switch (column.getType().toString()) {
                 case CassandraProperties.TIMESTAMP:
                     jsonObject.put(column.getName(), dateFormat.format(row.getTimestamp(column.getName())));
                     break;
@@ -119,13 +116,13 @@ public abstract class CassandraHandler<T> {
         String installationId = message.body().getString(CassandraProperties.INSTALLATION_ID);
         String startDate = getValidatedDate(message, "startDate");
         String endDate = getValidatedDate(message, "endDate");
-        String unit =  message.body().getString(CassandraProperties.UNIT);
+        String unit = message.body().getString(CassandraProperties.UNIT);
 
         // Todo maybe query builder
         return "SELECT * FROM " + table + " " + "WHERE " + CassandraProperties.INSTALLATION_ID.toLowerCase() + " = '" + installationId + "'" +
                 (startDate != null ? " AND timestamp >= '" + startDate + "'" : "") +
                 (endDate != null ? " AND timestamp <= '" + endDate + "'" : "") +
-                (unit != null ? " AND unit = '" + unit + "'" : "")+
+                (unit != null ? " AND unit = '" + unit + "'" : "") +
                 " ALLOW FILTERING";
     }
 
@@ -137,10 +134,10 @@ public abstract class CassandraHandler<T> {
         String date = message.body().getString(dateProperty);
         if (date == null) return null;
 
-        String dateFormat = "[" +  CassandraProperties.DATETIME_FORMAT + "]";
-        String dateFormatWithoutSeconds = "[" +  CassandraProperties.DATE_FORMAT_MINUTES + "]";
-        String dateFormatWithoutMinutes = "[" +  CassandraProperties.DATE_FORMAT_HOURS + "]";
-        String dateFormatWithoutHour = "[" +  CassandraProperties.DATE_FORMAT + "]";
+        String dateFormat = "[" + CassandraProperties.DATETIME_FORMAT + "]";
+        String dateFormatWithoutSeconds = "[" + CassandraProperties.DATE_FORMAT_MINUTES + "]";
+        String dateFormatWithoutMinutes = "[" + CassandraProperties.DATE_FORMAT_HOURS + "]";
+        String dateFormatWithoutHour = "[" + CassandraProperties.DATE_FORMAT + "]";
 
         try {
             DateTimeFormatter formatter = new DateTimeFormatterBuilder()

@@ -1,4 +1,4 @@
-package com.openklaster.core.vertx.service.users;
+package com.openklaster.core.service.users;
 
 import com.openklaster.common.model.SessionToken;
 import com.openklaster.common.model.User;

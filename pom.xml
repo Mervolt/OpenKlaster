@@ -28,6 +28,8 @@
         <slf4j-simple.version>1.7.30</slf4j-simple.version>
         <jebrains-annotations.version>13.0</jebrains-annotations.version>
         <log4j.version>2.0</log4j.version>
+        <spring.version>5.2.9.RELEASE</spring.version>
+        <json-simple.version>1.1.1</json-simple.version>
     </properties>
     <dependencies>
         <dependency>
@@ -107,6 +109,19 @@
             <artifactId>vertx-auth-jwt</artifactId>
             <version>${vertx.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>${json-simple.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>

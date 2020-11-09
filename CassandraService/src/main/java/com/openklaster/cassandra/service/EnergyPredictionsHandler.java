@@ -8,8 +8,8 @@ import io.vertx.core.json.JsonObject;
 import java.util.Date;
 
 public class EnergyPredictionsHandler extends CassandraHandler<EnergyPredictions> {
-    public EnergyPredictionsHandler(CassandraClient cassandraClient, JsonObject configObject) {
-        super(cassandraClient, configObject, EnergyPredictions.class);
+    public EnergyPredictionsHandler(CassandraClient cassandraClient, String address, String table) {
+        super(cassandraClient, EnergyPredictions.class, address, table);
     }
 
     @Override

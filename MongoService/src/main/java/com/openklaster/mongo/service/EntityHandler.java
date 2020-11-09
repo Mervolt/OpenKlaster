@@ -1,6 +1,5 @@
 package com.openklaster.mongo.service;
 
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.mongo.exceptions.MongoExceptionHandler;
 import com.openklaster.mongo.parser.EntityParser;
@@ -15,22 +14,21 @@ public abstract class EntityHandler {
 
     protected static Logger logger;
     protected EntityParser parser;
-    protected NestedConfigAccessor config;
     protected MongoPersistenceService persistenceService;
     protected MongoExceptionHandler exceptionHandler;
-    private final String mongoCollectionNameKey = "mongo.collectionName";
+    private final String collectionName;
     protected static String ID_KEY = "_id";
     protected static String NAME_KEY = "username";
 
-    public EntityHandler(EntityParser parser, MongoPersistenceService service, NestedConfigAccessor config) {
+    public EntityHandler(EntityParser parser, MongoPersistenceService service, String collectionName) {
         this.parser = parser;
         this.persistenceService = service;
-        this.config = config;
-        this.exceptionHandler=new MongoExceptionHandler();
+        this.exceptionHandler = new MongoExceptionHandler();
+        this.collectionName = collectionName;
     }
 
     protected String getCollectionName() {
-        return config.getString(mongoCollectionNameKey);
+        return collectionName;
     }
 
     public void add(Message<JsonObject> busMessage) {
@@ -41,7 +39,7 @@ public abstract class EntityHandler {
                         logger.debug(String.format("Entity added - %s", jsonObject.getString("_id")));
                         BusMessageReplyUtils.replyWithBodyAndStatus(busMessage, jsonObject, HttpResponseStatus.OK);
                     } else {
-                        handleFailedQuery(jsonObject.getString("_id"),busMessage,handler.cause(),
+                        handleFailedQuery(jsonObject.getString("_id"), busMessage, handler.cause(),
                                 "Problem with adding entity.");
                     }
                 });
@@ -67,7 +65,7 @@ public abstract class EntityHandler {
                                     HttpResponseStatus.OK);
                         }
                     } else {
-                        handleFailedQuery(id,busMessage,handler.cause(),"Problem with finding entity.");
+                        handleFailedQuery(id, busMessage, handler.cause(), "Problem with finding entity.");
                     }
                 });
     }
@@ -92,7 +90,7 @@ public abstract class EntityHandler {
                             BusMessageReplyUtils.replyWithBodyAndStatus(busMessage, jsonArray, HttpResponseStatus.OK);
                         }
                     } else {
-                        handleFailedQuery(name,busMessage,handler.cause(),"Problem with finding entities.");
+                        handleFailedQuery(name, busMessage, handler.cause(), "Problem with finding entities.");
                     }
                 });
     }
@@ -109,21 +107,22 @@ public abstract class EntityHandler {
                     if (handler.succeeded()) {
                         long removedEntities = handler.result().getRemovedCount();
                         logger.debug(String.format("Entity to delete - %s. Removed %d", id, removedEntities));
-                        BusMessageReplyUtils.replyWithBodyAndStatus(busMessage,handler.result().toJson(),HttpResponseStatus.OK);
+                        BusMessageReplyUtils.replyWithBodyAndStatus(busMessage, handler.result().toJson(), HttpResponseStatus.OK);
                     } else {
-                        handleFailedQuery(id,busMessage,handler.cause(),"Problem with removing entity.");
+                        handleFailedQuery(id, busMessage, handler.cause(), "Problem with removing entity.");
                     }
                 });
     }
-    protected void handleFailedQuery(Object id, Message<JsonObject> busMessage, Throwable cause, String logMessage){
-        Pair<HttpResponseStatus,String> handledErrorResult =
+
+    protected void handleFailedQuery(Object id, Message<JsonObject> busMessage, Throwable cause, String logMessage) {
+        Pair<HttpResponseStatus, String> handledErrorResult =
                 exceptionHandler.getStatusAndMessageForException(cause);
 
-        logger.warn(exceptionHandler.getWarnLogMessage(id,getCollectionName(),
-                logMessage + " " +handledErrorResult.getRight()));
+        logger.warn(exceptionHandler.getWarnLogMessage(id, getCollectionName(),
+                logMessage + " " + handledErrorResult.getRight()));
 
-        BusMessageReplyUtils.replyWithError(busMessage,handledErrorResult.getLeft(),
-                exceptionHandler.getReplyFailureMessage(id,logMessage + " " +handledErrorResult.getRight()));
+        BusMessageReplyUtils.replyWithError(busMessage, handledErrorResult.getLeft(),
+                exceptionHandler.getReplyFailureMessage(id, logMessage + " " + handledErrorResult.getRight()));
     }
 
     public void update(Message<JsonObject> busMessage) {
@@ -133,7 +132,7 @@ public abstract class EntityHandler {
             BusMessageReplyUtils.replyWithError(busMessage, HttpResponseStatus.BAD_REQUEST, "No _id provided");
             return;
         }
-        JsonObject findQuery = new JsonObject().put(ID_KEY,id);
+        JsonObject findQuery = new JsonObject().put(ID_KEY, id);
 
         persistenceService.replaceByQuery(findQuery, updateBody, this.getCollectionName(),
                 handler -> {
@@ -141,7 +140,7 @@ public abstract class EntityHandler {
                         logger.debug(String.format("Entity updated - %s", updateBody));
                         BusMessageReplyUtils.replyWithBodyAndStatus(busMessage, updateBody, HttpResponseStatus.OK);
                     } else {
-                        handleFailedQuery(id,busMessage,handler.cause(),
+                        handleFailedQuery(id, busMessage, handler.cause(),
                                 "Problem with adding entity.");
                     }
                 });

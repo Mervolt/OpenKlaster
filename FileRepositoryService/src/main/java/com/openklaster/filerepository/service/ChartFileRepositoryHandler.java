@@ -1,6 +1,5 @@
 package com.openklaster.filerepository.service;
 
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.UsernameInstallation;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -12,8 +11,8 @@ import io.vertx.core.logging.LoggerFactory;
 import java.util.Base64;
 
 public class ChartFileRepositoryHandler extends FileRepositoryHandler<UsernameInstallation> {
-    public ChartFileRepositoryHandler(FileSystem vertxFileSystem, NestedConfigAccessor config) {
-        super(vertxFileSystem, config, LoggerFactory.getLogger(ChartFileRepositoryHandler.class), UsernameInstallation.class);
+    public ChartFileRepositoryHandler(FileSystem vertxFileSystem, String address) {
+        super(vertxFileSystem, address, LoggerFactory.getLogger(ChartFileRepositoryHandler.class), UsernameInstallation.class);
     }
 
     @Override

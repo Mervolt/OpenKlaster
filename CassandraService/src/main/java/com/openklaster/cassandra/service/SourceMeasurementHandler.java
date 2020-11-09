@@ -8,8 +8,8 @@ import io.vertx.core.json.JsonObject;
 import java.util.Date;
 
 public class SourceMeasurementHandler extends CassandraHandler<SourceMeasurement> {
-    public SourceMeasurementHandler(CassandraClient cassandraClient, JsonObject configObject) {
-        super(cassandraClient, configObject, SourceMeasurement.class);
+    public SourceMeasurementHandler(CassandraClient cassandraClient, String address, String table) {
+        super(cassandraClient, SourceMeasurement.class, address, table);
     }
 
     @Override
