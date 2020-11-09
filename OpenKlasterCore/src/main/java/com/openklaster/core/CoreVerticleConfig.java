@@ -11,17 +11,13 @@ import com.openklaster.common.model.SourceMeasurement;
 import com.openklaster.common.model.User;
 import com.openklaster.core.authentication.AuthenticationClient;
 import com.openklaster.core.authentication.BasicAuthenticationClient;
-import com.openklaster.core.configUtil.CoreCassandraHolder;
-import com.openklaster.core.configUtil.CoreEventbusHolder;
-import com.openklaster.core.configUtil.CoreMongoHolder;
-import com.openklaster.core.configUtil.CoreSecurityHolder;
-import com.openklaster.core.repository.CassandraRepository;
-import com.openklaster.core.repository.CrudRepository;
-import com.openklaster.core.repository.DbServiceHandler;
-import com.openklaster.core.repository.MongoCrudRepository;
+import com.openklaster.core.configUtil.*;
+import com.openklaster.core.repository.*;
 import com.openklaster.core.service.BasicUserRetriever;
 import com.openklaster.core.service.EndpointService;
 import com.openklaster.core.service.UserRetriever;
+import com.openklaster.core.service.filerepository.FileRepositoryManager;
+import com.openklaster.core.service.filerepository.FileRepositoryServiceHandler;
 import com.openklaster.core.service.installations.InstallationModelManager;
 import com.openklaster.core.service.installations.InstallationServiceHandler;
 import com.openklaster.core.service.measurements.MeasurementManager;
@@ -50,6 +46,7 @@ public class CoreVerticleConfig extends SuperVerticleConfig {
     private JsonObject jsonSecurityConfig;
     private JsonObject jsonMongoConfig;
     private JsonObject jsonCassandraConfig;
+    private JsonObject fileRepositoryConfig;
     private JsonObject jsonInEventbusConfig;
 
     public CoreVerticleConfig() {
@@ -65,6 +62,7 @@ public class CoreVerticleConfig extends SuperVerticleConfig {
                     .getJsonObject(CoreSecurityHolder.TOKENS_FOR_SECURITY_PATH);
             this.jsonMongoConfig = jsonObject.getJsonObject("eventbus").getJsonObject("out").getJsonObject("mongo");
             this.jsonCassandraConfig = jsonObject.getJsonObject("eventbus").getJsonObject("out").getJsonObject("cassandra");
+            this.fileRepositoryConfig = jsonObject.getJsonObject("eventbus").getJsonObject("out").getJsonObject("fileRepository");
             this.jsonInEventbusConfig = jsonObject.getJsonObject("eventbus").getJsonObject("in");
         } catch (ParseException | IOException e) {
             e.printStackTrace();
@@ -231,6 +229,15 @@ public class CoreVerticleConfig extends SuperVerticleConfig {
     @Lazy
     @Bean
     @Autowired
+    public EndpointService fileRepositoryEndpointService(FileRepositoryManager fileRepositoryManager) {
+        return new FileRepositoryServiceHandler(fileRepositoryManager,
+                jsonInEventbusConfig.getJsonObject(CoreEventbusHolder.FILE_REPOSITORY_FOR_IN_EVENTBUS_PATH)
+                        .getString(CoreEventbusHolder.ADDRESS_FOR_RESOURCE_IN_EVENTBUS_PATH));
+    }
+
+    @Lazy
+    @Bean
+    @Autowired
     public RegisterManager registerManager(AuthenticationClient authenticationClient, CrudRepository<User> userCrudRepository) {
         return new RegisterManager(authenticationClient, userCrudRepository);
     }
@@ -297,5 +304,21 @@ public class CoreVerticleConfig extends SuperVerticleConfig {
     @Autowired
     public AuthenticatedUserManager authenticatedUserManager(AuthenticationClient authenticationClient, CrudRepository<User> userCrudRepository) {
         return new AuthenticatedUserManager(authenticationClient, userCrudRepository);
+    }
+
+    @Lazy
+    @Bean
+    @Autowired
+    public FileRepository fileRepository(EventBus eventBus) {
+        return new FileRepository(eventBus, fileRepositoryConfig.getString(CoreFileRepositoryHolder.ADDRESS_FOR_FILE_REPOSITORY_PATH));
+    }
+
+    @Lazy
+    @Bean
+    @Autowired
+    public FileRepositoryManager fileRepositoryManager(AuthenticationClient authenticationClient,
+                                                       UserRetriever userRetriever,
+                                                       FileRepository fileRepository) {
+        return new FileRepositoryManager(authenticationClient, userRetriever, fileRepository);
     }
 }

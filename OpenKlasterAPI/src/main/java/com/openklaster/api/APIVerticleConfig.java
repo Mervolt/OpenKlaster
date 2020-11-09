@@ -299,6 +299,6 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     @Bean(name = "SelectableDatesApiHandler")
     public GetCoreCommunicationHandler selectableDatesHandler(DefaultParseStrategy<Temporary> temporaryDefaultParseStrategy) {
         return new GetCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.SELECTABLE_DATES_FOR_HTTP_ENDPOINT_PATH)),
-                jsonEventBusRoute.getString(EventBusHolder.SELECTABLE_DATES_FOR_EVENTBUS_PATH), temporaryDefaultParseStrategy);
+                jsonEventBusRoute.getString(EventBusHolder.SELECTABLE_DATES_FOR_EVENTBUS_PATH), "selectableDates", temporaryDefaultParseStrategy);
     }
 }
