@@ -6,8 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="OpenKlasterAPI" />
         <module name="FileRepositoryService" />
+        <module name="OpenKlasterAPI" />
         <module name="CommonService" />
         <module name="OpenKlasterCore" />
         <module name="CassandraService" />

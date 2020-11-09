@@ -1,6 +1,7 @@
 package com.openklaster.api.handler;
 
 import com.openklaster.api.handler.properties.HandlerProperties;
+import com.openklaster.api.model.Model;
 import com.openklaster.api.parser.IParseStrategy;
 import com.openklaster.api.validation.ModelValidationErrorMessages;
 import com.openklaster.api.validation.ValidationException;
@@ -15,8 +16,6 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import com.openklaster.common.config.NestedConfigAccessor;
-import com.openklaster.api.model.Model;
 import lombok.AllArgsConstructor;
 
 import java.util.HashMap;
@@ -37,34 +36,21 @@ public abstract class CoreCommunicationHandler implements ApiHandler {
     String route;
     String eventbusMethod;
     String address;
-    EventBus eventBus;
     IParseStrategy<? extends Model> parseStrategy;
-    NestedConfigAccessor nestedConfigAccessor;
 
-    public CoreCommunicationHandler(String method, String route, String eventbusMethod, String address, EventBus eventBus,
-                                    NestedConfigAccessor nestedConfigAccessor, IParseStrategy<? extends Model> parseStrategy) {
-        this.method = method;
-        this.route = route;
-        this.eventbusMethod = eventbusMethod;
-        this.address = address;
-        this.eventBus = eventBus;
-        this.nestedConfigAccessor = nestedConfigAccessor;
-        this.parseStrategy = parseStrategy;
-    }
-
-    public void configure(Router router) {
+    public void configure(Router router, EventBus eventBus) {
         switch (getMethod()) {
             case HandlerProperties.getMethodHeader:
-                router.get(getRoute()).handler(this::handle);
+                router.get(getRoute()).handler(context -> handle(context, eventBus));
                 break;
             case HandlerProperties.postMethodHeader:
-                router.post(getRoute()).consumes("application/json").handler(this::handle);
+                router.post(getRoute()).consumes("application/json").handler(context -> handle(context, eventBus));
                 break;
             case HandlerProperties.putMethodHeader:
-                router.put(getRoute()).consumes("application/json").handler(this::handle);
+                router.put(getRoute()).consumes("application/json").handler(context -> handle(context, eventBus));
                 break;
             case HandlerProperties.deleteMethodHeader:
-                router.delete(getRoute()).handler(this::handle);
+                router.delete(getRoute()).handler(context -> handle(context, eventBus));
                 break;
         }
     }
@@ -77,25 +63,25 @@ public abstract class CoreCommunicationHandler implements ApiHandler {
         return method;
     }
 
-    protected void sendGetDeleteRequest(RoutingContext context) {
+    protected void sendGetDeleteRequest(RoutingContext context, EventBus eventBus) {
         Map<String, String> tokens = retrieveTokensFromContex(context);
         JsonObject jsonModel = convertMultiMapToJson(context.queryParams().entries());
-        handleRequest(context, tokens, jsonModel);
+        handleRequest(context, tokens, jsonModel, eventBus);
     }
 
-    protected void sendPutPostRequest(RoutingContext context) {
+    protected void sendPutPostRequest(RoutingContext context, EventBus eventBus) {
         Map<String, String> tokens = retrieveTokensFromContex(context);
         JsonObject jsonModel = context.getBodyAsJson();
-        handleRequest(context, tokens, jsonModel);
+        handleRequest(context, tokens, jsonModel, eventBus);
     }
 
-    private void handleRequest(RoutingContext context, Map<String, String> tokens, JsonObject jsonModel) {
+    private void handleRequest(RoutingContext context, Map<String, String> tokens, JsonObject jsonModel, EventBus eventBus) {
         try {
             Model model = parseStrategy.parseToModel(jsonModel);
             validate(model, tokens);
             JsonObject validatedModel = JsonObject.mapFrom(model);
             DeliveryOptions deliveryOptions = createRequestDeliveryOptions(eventbusMethod, tokens);
-            System.out.println(address);
+
             eventBus.request(address, validatedModel, deliveryOptions, coreResponse -> {
                 if (coreResponse.succeeded()) {
                     if (coreResponse.result().body() == null) {
@@ -148,7 +134,6 @@ public abstract class CoreCommunicationHandler implements ApiHandler {
             deliveryOptions.addHeader(token, tokens.get(token));
         }
         deliveryOptions.addHeader(METHOD_KEY, eventbusMethod);
-        deliveryOptions.setSendTimeout(nestedConfigAccessor.getInteger(requestDefaultTimeout));
         return deliveryOptions;
     }
 
@@ -175,9 +160,7 @@ public abstract class CoreCommunicationHandler implements ApiHandler {
                 ", route='" + route + '\'' +
                 ", eventbusMethod='" + eventbusMethod + '\'' +
                 ", address='" + address + '\'' +
-                ", eventBus=" + eventBus +
                 ", parseStrategy=" + parseStrategy +
-                ", nestedConfigAccessor=" + nestedConfigAccessor +
                 '}';
     }
 }

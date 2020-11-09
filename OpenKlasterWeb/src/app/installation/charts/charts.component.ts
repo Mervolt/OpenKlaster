@@ -39,11 +39,10 @@ export class ChartsComponent implements OnInit {
   ngOnInit(): void {
     this.installationService.getInstallations(this.cookieService).subscribe(response => {
       this.installationIDs = response.map(installation => installation['_id'])
-      console.log(this.installationIDs)
     })
-    console.log(this.installationIDs)
     this.chartService.getSelectableDates().subscribe(response => {
       this.selectableDates = response.map(date => new Date(date));
+      console.log(this.selectableDates)
     })
 
 

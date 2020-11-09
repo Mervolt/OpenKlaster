@@ -1,8 +1,7 @@
 package com.openklaster.filerepository.app;
 
-import com.openklaster.common.config.ConfigFilesManager;
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.verticle.OpenklasterVerticle;
+import com.openklaster.filerepository.FileRepositoryVerticleConfig;
 import com.openklaster.filerepository.properties.FileRepositoryProperties;
 import com.openklaster.filerepository.service.ChartFileRepositoryHandler;
 import com.openklaster.filerepository.service.FileRepositoryHandler;
@@ -16,6 +15,8 @@ import io.vertx.core.file.FileSystem;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,10 +25,10 @@ import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 
 public class FileRepositoryVerticle extends OpenklasterVerticle {
-    private NestedConfigAccessor configAccessor;
     private final Logger logger = LoggerFactory.getLogger(FileRepositoryVerticle.class);
     private EventBus eventBus;
     private FileSystem vertxFileSystem;
+    private GenericApplicationContext ctx;
 
     public FileRepositoryVerticle(boolean isDevMode) {
         super(isDevMode);
@@ -39,41 +40,31 @@ public class FileRepositoryVerticle extends OpenklasterVerticle {
 
     @Override
     public void init(Vertx vertx, Context context) {
+        ctx = new AnnotationConfigApplicationContext(FileRepositoryVerticleConfig.class);
+        ctx.registerBean(FileSystem.class, () -> vertxFileSystem);
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
         this.vertxFileSystem = vertx.fileSystem();
-
-        ConfigFilesManager configFilesManager = new ConfigFilesManager(this.configFilenamePrefix);
-        configFilesManager.getConfig(vertx).getConfig(config -> {
-            if (config.succeeded()) {
-                this.configAccessor = new NestedConfigAccessor(config.result());
-
-                List<FileRepositoryHandler<?>> handlers = prepareHandlers();
-                eventBusConfig(handlers);
-            } else {
-                logger.error("Could not retrieve com.openklaster.filerepository.app.FileRepositoryVerticle config!");
-                logger.error(config.cause().getMessage());
-                vertx.close();
-            }
-        });
-
+        List<FileRepositoryHandler<?>> handlers = prepareHandlers();
+        eventBusConfig(handlers);
     }
 
     private List<FileRepositoryHandler<?>> prepareHandlers() {
         return Arrays.asList(
-                new ChartFileRepositoryHandler(vertxFileSystem, configAccessor.getPathConfigAccessor(FileRepositoryProperties.CHART_FILE_REPOSITORY)),
-                new SelectableDates(vertxFileSystem, configAccessor.getPathConfigAccessor(FileRepositoryProperties.SELECTABLE_DATES))
-        );
+                ctx.getBean(SelectableDates.class),
+                ctx.getBean(ChartFileRepositoryHandler.class));
     }
 
     private void eventBusConfig(List<FileRepositoryHandler<?>> handlers) {
-        handlers.forEach(config -> {
-            MessageConsumer<JsonObject> consumer = eventBus.consumer(config.getAddress());
-            consumer.handler(message -> handlerMap(config, message));
+        handlers.forEach(handler -> {
+            MessageConsumer<JsonObject> consumer = eventBus.consumer(handler.getAddress());
+            consumer.handler(message -> handlerMap(handler, message));
         });
     }
 
     private void handlerMap(FileRepositoryHandler<?> handler, Message<JsonObject> message) {
+        System.out.println(message.headers());
+        System.out.println(message.body());
         switch (message.headers().get(METHOD_KEY)) {
             case FileRepositoryProperties.GET_METHOD_NAME:
                 handler.createGetHandler(message);

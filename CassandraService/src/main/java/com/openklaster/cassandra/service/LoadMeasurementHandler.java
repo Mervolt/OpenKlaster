@@ -8,8 +8,8 @@ import io.vertx.core.json.JsonObject;
 import java.util.Date;
 
 public class LoadMeasurementHandler extends CassandraHandler<LoadMeasurement> {
-    public LoadMeasurementHandler(CassandraClient cassandraClient, JsonObject configObject) {
-        super(cassandraClient, configObject, LoadMeasurement.class);
+    public LoadMeasurementHandler(CassandraClient cassandraClient, String address, String table) {
+        super(cassandraClient, LoadMeasurement.class, address, table);
     }
 
     @Override

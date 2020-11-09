@@ -1,6 +1,5 @@
 package com.openklaster.filerepository.service;
 
-import com.openklaster.common.config.NestedConfigAccessor;
 import com.openklaster.common.messages.BusMessageReplyUtils;
 import com.openklaster.common.model.UsernameInstallation;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -20,15 +19,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ChartFileRepositoryHandler extends FileRepositoryHandler<UsernameInstallation> {
-    public ChartFileRepositoryHandler(FileSystem vertxFileSystem, NestedConfigAccessor config) {
-        super(vertxFileSystem, config, LoggerFactory.getLogger(ChartFileRepositoryHandler.class), UsernameInstallation.class);
+    public ChartFileRepositoryHandler(FileSystem vertxFileSystem, String address) {
+        super(vertxFileSystem, address, LoggerFactory.getLogger(ChartFileRepositoryHandler.class), UsernameInstallation.class);
     }
 
     @Override
     public void createGetHandler(Message<JsonObject> message) {
         File directoryPath = new File("file-repository/data/user_423432/1/2020-09-06/charts");
         File filesList[] = directoryPath.listFiles();
-        System.out.println(filesList.length);
 
         vertxFileSystem.readDir("file-repository/data/user_423432/1/2020-09-06/charts", ar -> {
             if (ar.succeeded()) {
