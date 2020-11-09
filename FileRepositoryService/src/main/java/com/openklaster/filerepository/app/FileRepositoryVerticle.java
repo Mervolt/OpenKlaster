@@ -49,7 +49,6 @@ public class FileRepositoryVerticle extends OpenklasterVerticle {
     }
 
     private List<FileRepositoryHandler<?>> prepareHandlers() {
-        System.out.println(ctx.getBean(ChartFileRepositoryHandler.class).getAddress());
         return Arrays.asList(ctx.getBean(ChartFileRepositoryHandler.class));
 
     }

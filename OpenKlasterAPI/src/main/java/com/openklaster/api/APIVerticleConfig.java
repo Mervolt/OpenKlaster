@@ -113,8 +113,8 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
-    @Bean(name = "PostCoreCommunicationHandlerMeasurementPower")
-    public PostCoreCommunicationHandler PostCoreCommunicationHandlerMeasurementPower(DefaultParseStrategy<MeasurementPower> postMeasurementPowerDefaultParseStrategy) {
+    @Bean(name = "PostCoreCommunicationHandlerMeasurementPowerConsumed")
+    public PostCoreCommunicationHandler PostCoreCommunicationHandlerMeasurementPowerConsumed(DefaultParseStrategy<MeasurementPower> postMeasurementPowerDefaultParseStrategy) {
         return new PostCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.POWER_CONSUMPTION_FOR_HTTP_ENDPOINT_PATH)),
                 jsonEventBusRoute.getString(EventBusHolder.CONSUMPTION_FOR_EVENTBUS_PATH), postMeasurementPowerDefaultParseStrategy);
     }
@@ -122,6 +122,13 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     @Bean
     public DefaultParseStrategy<MeasurementPower> postMeasurementPowerDefaultParseStrategy() {
         return new DefaultParseStrategy<>(MeasurementPower.class);
+    }
+
+    @Autowired
+    @Bean(name = "PostCoreCommunicationHandlerMeasurementPowerProduced")
+    public PostCoreCommunicationHandler PostCoreCommunicationHandlerMeasurementPowerProduced(DefaultParseStrategy<MeasurementPower> postMeasurementPowerDefaultParseStrategy) {
+        return new PostCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.POWER_PRODUCTION_FOR_HTTP_ENDPOINT_PATH)),
+                jsonEventBusRoute.getString(EventBusHolder.PRODUCTION_FOR_EVENTBUS_PATH), postMeasurementPowerDefaultParseStrategy);
     }
 
     @Autowired
@@ -263,12 +270,25 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     }
 
     @Autowired
+    @Bean(name = "ChartApiHandler")
+    public GetCoreCommunicationHandler chartHandler(DefaultParseStrategy<Temporary> temporaryDefaultParseStrategy) {
+        return new GetCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.CHART_FOR_HTTP_ENDPOINT_PATH)),
+                jsonEventBusRoute.getString(EventBusHolder.CHART_FOR_EVENTBUS_PATH), temporaryDefaultParseStrategy);
+    }
+
+    @Bean
+    public DefaultParseStrategy<Temporary> temporaryDefaultParseStrategy() {
+        return new DefaultParseStrategy<>(Temporary.class);
+    }
+
+    @Autowired
     @Bean(name = "CredentialsApiHandler")
     public CredentialsApiHandler CredentialsApiHandler() {
-        return new CredentialsApiHandler(buildEndpoint(apiVersion,jsonHttpEndpointRoute
+        return new CredentialsApiHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute
                 .getString(HttpResourceHolder.MANUFACTURER_CREDENTIALS_FOR_HTTP_ENDPOINT_PATH)),
                 jsonConfig.getJsonObject(HttpResourceHolder.MANUFACTURER_CREDENTIALS_FOR_ROUTE_HTTP));
     }
+
 
     @Bean
     public DefaultParseStrategy<SummaryRequest> summaryRequestDefaultParseStrategy() {
