@@ -10,6 +10,7 @@ export class DescriptionTileComponent implements OnInit {
   @Input() description: string
   @Input() tileTitle: string
   @Input() icon: string
+  @Input() properties: Map<string, any>;
 
   constructor() { }
 

@@ -59,7 +59,7 @@ import { UserPanelComponent } from './user/user-panel/user-panel.component';
 import { EqualsToDirective } from './validators/equals-to.directive';
 import { InstallationViewComponent } from './installation/installation-view/installation-view.component';
 import { DescriptionTileComponent } from './installation/installation-view/description-tile/description-tile.component';
-import { InstallationSummaryComponent } from './components/measurements-summary/installation-summary.component';
+import { DashboardPropertiesComponent } from './components/dashboard-properties/dashboard-properties.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +93,7 @@ import { InstallationSummaryComponent } from './components/measurements-summary/
     EqualsToDirective,
     InstallationViewComponent,
     DescriptionTileComponent,
-    InstallationSummaryComponent
+    DashboardPropertiesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
 @import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
 :root {
-  --installation-card-color: #acb4fc;
-  --installation-card-text-color: #838bff;
+  --installation-card-color: rgb(215, 217, 239);
+  --installation-card-text-color: rgb(188, 193, 248);
 }
 .container.background {
   width: 100%;

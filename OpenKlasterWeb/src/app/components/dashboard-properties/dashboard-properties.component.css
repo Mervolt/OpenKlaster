@@ -1,0 +1,14 @@
+.properties-container {
+  display: grid;
+  grid-template-columns: 49% 49%;
+  grid-gap: 2%;
+}
+
+.property-container {
+  display: flex;
+  background: var(--installation-card-text-color);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}

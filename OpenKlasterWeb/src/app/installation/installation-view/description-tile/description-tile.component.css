@@ -1,23 +1,27 @@
 .page-container {
   display: flex;
   flex-direction: column;
-  justify-content: stretch;
+  align-content: stretch;
   background-color: var(--installation-card-color);
 }
 
-.description-container {
+.content-container {
+  background-color: var(--installation-card-color);
+  display: flex;
+  gap: 5%;
   height: 75%;
+}
+/*TODO wyjustowac*/
+.description-container {
   width: 320px;
   background: var(--installation-card-text-color);
   overflow: auto;
   -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
 }
 
 .description-container ::-webkit-scrollbar {
   display: none;
 }
-
 
 .header-container {
   display: flex;
@@ -40,4 +44,7 @@
 
 .mat-card-header-text {
   align-content: flex-start;
+}
+.right-margin-card-info {
+  width: 40%;
 }

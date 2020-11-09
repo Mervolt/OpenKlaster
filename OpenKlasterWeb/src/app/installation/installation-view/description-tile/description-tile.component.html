@@ -5,7 +5,12 @@
       <mat-icon *ngIf="icon">{{icon}}</mat-icon>
     </div>
   </mat-card-title>
-  <mat-card class="description-container">
+  <div class="content-container">
+    <mat-card class="description-container">
       {{description}}
-  </mat-card>
+    </mat-card>
+    <app-dashboard-properties *ngIf="!!properties" [properties]="properties"
+                              class="right-margin-card-info">
+    </app-dashboard-properties>
+  </div>
 </div>

@@ -22,7 +22,6 @@
 .right-margin-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
   align-items: stretch;
 }
 
@@ -32,16 +31,51 @@
 
 .right-margin-card {
   background-color: var(--installation-card-color);
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
+  margin-bottom: 16px;
   height: 40%;
-
 }
 
-.right-margin-card-info {
-  background-color: var(--installation-card-text-color);
-  flex-grow: 1;
+.left-margin-card {
+  background-color: var(--installation-card-color);
+  display: flex;
+  flex-direction: column;
+  height: 60%;
+  gap: 5%;
 }
 
+.installation-container {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  background-color: var(--installation-card-color);
+  height: 50%;
+}
+
+.installation-header-container {
+  display: flex;
+  font-size: 36px;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 20%;
+}
+
+.installation-description-container {
+  height: 75%;
+  width: 320px;
+  background: var(--installation-card-text-color);
+  overflow: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.installation-properties-container {
+  height: 45%;
+
+}
+.installation-properties-container::ng-deep.properties-container {
+  height: 100%;
+}
+
+.installation-properties-container::ng-deep.property-container {
+  background: #333333;
+}
 
