@@ -6,28 +6,27 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CheckDateValidator implements ConstraintValidator<CheckDateFormat, String> {
 
-    private static final String pattern = "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))";
+    private String pattern;
 
     @Override
     public void initialize(CheckDateFormat constraintAnnotation) {
+        this.pattern = constraintAnnotation.pattern();
     }
 
     @Override
     public boolean isValid(String object, ConstraintValidatorContext constraintContext) {
-        if ( object == null ) {
+        if (object == null) {
             return true;
         }
-        Pattern datePattern = Pattern.compile(pattern);
-        Matcher matcher = datePattern.matcher(object);
-        if (matcher.matches()) {
+
+        try {
+            Date date = new SimpleDateFormat(pattern).parse(object);
             return true;
-        }
-        else {
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

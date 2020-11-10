@@ -52,6 +52,7 @@ public class FileRepositoryVerticle extends OpenklasterVerticle {
 
     private void eventBusConfig(List<FileRepositoryHandler<?>> handlers) {
         handlers.forEach(handler -> {
+            System.out.println(handler.getAddress());
             MessageConsumer<JsonObject> consumer = eventBus.consumer(handler.getAddress());
             consumer.handler(handler::handle);
         });

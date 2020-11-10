@@ -33,7 +33,6 @@ public class SelectableDates extends FileRepositoryHandler<SelectableDatesReques
 
         List<String> response = new ArrayList<>();
         if (filesList != null && filesList.length > 0) response = Arrays.stream(filesList)
-                .filter(file -> file.getName().matches("\\d{4}-\\d{2}-\\d{2}"))
                 .filter(File::isDirectory)
                 .map(File::getName)
                 .collect(Collectors.toList());

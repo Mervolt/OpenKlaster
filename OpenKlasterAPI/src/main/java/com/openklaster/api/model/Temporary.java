@@ -17,6 +17,6 @@ public class Temporary extends Model {
     @NotBlank(message = ModelValidationErrorMessages.INSTALLATION_ID)
     private String installationId;
     @NotBlank(message = ModelValidationErrorMessages.DATE)
-    @CheckDateFormat()
+    @CheckDateFormat(pattern = "yyyy-MM-dd", message = ModelValidationErrorMessages.DATE_FORMAT)
     private String date;
 }

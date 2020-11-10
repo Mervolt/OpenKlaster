@@ -37,8 +37,8 @@ public class ChartsHandler extends FileRepositoryHandler<ChartsRequest> {
                 logger.debug("Successful request");
                 BusMessageReplyUtils.replyWithBodyAndStatus(message, JsonObject.mapFrom(charts), HttpResponseStatus.OK);
             } else {
-                BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.INTERNAL_SERVER_ERROR, "Unsuccessful request");
-                logger.debug("Unsuccessful request");
+                logger.warn(ar.cause());
+                BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.INTERNAL_SERVER_ERROR, ar.cause().toString());
             }
         });
     }

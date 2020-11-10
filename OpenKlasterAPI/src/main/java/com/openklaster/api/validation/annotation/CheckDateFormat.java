@@ -17,9 +17,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface CheckDateFormat {
 
-    String message() default "Date must be in the format yyyy-MM-dd";
+    String message() default "Invalid date format";
 
     Class<?>[] groups() default { };
 
     Class<? extends Payload>[] payload() default { };
+
+    String pattern();
 }
