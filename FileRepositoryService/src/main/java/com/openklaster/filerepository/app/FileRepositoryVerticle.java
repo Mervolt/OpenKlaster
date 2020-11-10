@@ -2,14 +2,13 @@ package com.openklaster.filerepository.app;
 
 import com.openklaster.common.verticle.OpenklasterVerticle;
 import com.openklaster.filerepository.FileRepositoryVerticleConfig;
-import com.openklaster.filerepository.properties.FileRepositoryProperties;
-import com.openklaster.filerepository.service.ChartFileRepositoryHandler;
+import com.openklaster.filerepository.service.ChartsHandler;
 import com.openklaster.filerepository.service.FileRepositoryHandler;
+import com.openklaster.filerepository.service.HandlerContainer;
 import com.openklaster.filerepository.service.SelectableDates;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.eventbus.Message;
 import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.file.FileSystem;
 import io.vertx.core.json.JsonObject;
@@ -20,8 +19,6 @@ import org.springframework.context.support.GenericApplicationContext;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static com.openklaster.common.messages.BusMessageReplyUtils.METHOD_KEY;
 
 
 public class FileRepositoryVerticle extends OpenklasterVerticle {
@@ -50,23 +47,13 @@ public class FileRepositoryVerticle extends OpenklasterVerticle {
     }
 
     private List<FileRepositoryHandler<?>> prepareHandlers() {
-        return Arrays.asList(
-                ctx.getBean(SelectableDates.class),
-                ctx.getBean(ChartFileRepositoryHandler.class));
+        return ctx.getBean(HandlerContainer.class).retrieveHandlers();
     }
 
     private void eventBusConfig(List<FileRepositoryHandler<?>> handlers) {
         handlers.forEach(handler -> {
             MessageConsumer<JsonObject> consumer = eventBus.consumer(handler.getAddress());
-            consumer.handler(message -> handlerMap(handler, message));
+            consumer.handler(handler::handle);
         });
-    }
-
-    private void handlerMap(FileRepositoryHandler<?> handler, Message<JsonObject> message) {
-        switch (message.headers().get(METHOD_KEY)) {
-            case FileRepositoryProperties.GET_METHOD_NAME:
-                handler.createGetHandler(message);
-                break;
-        }
     }
 }

@@ -24,7 +24,7 @@ public abstract class FileRepositoryHandler<T> {
         return this.address;
     }
 
-    abstract public void createGetHandler(Message<JsonObject> message);
+    abstract public void handle(Message<JsonObject> message);
 
     public T parseToModel(JsonObject jsonObject) {
         return jsonObject.mapTo(this.modelClass);

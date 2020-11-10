@@ -45,12 +45,12 @@ public class FileRepositoryManager extends AuthManager {
 
     private Future<JsonArray> getSelectableDates(JsonObject query, String username) {
         query.put(USERNAME, username);
-        return fileRepository.handleJsonArrayResult("get", query);
+        return fileRepository.handleJsonArrayResult(getSelectableDatesMethodName, query);
     }
 
     private Future<JsonObject> getCharts(JsonObject query, String username) {
         query.put(USERNAME, username);
-        return fileRepository.handleJsonObjectResult("get", query);
+        return fileRepository.handleJsonObjectResult(getChartsMethodName, query);
     }
 
     @Override

@@ -11,6 +11,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,24 +20,25 @@ public class SelectableDates extends FileRepositoryHandler<SelectableDatesReques
     private final static String PATH = "file-repository/data/{username}/{installationId}";
 
     public SelectableDates(FileSystem vertxFileSystem, String address) {
-        super(vertxFileSystem, address, LoggerFactory.getLogger(ChartFileRepositoryHandler.class), SelectableDatesRequest.class);
+        super(vertxFileSystem, address, LoggerFactory.getLogger(ChartsHandler.class), SelectableDatesRequest.class);
     }
 
     @Override
-    public void createGetHandler(Message<JsonObject> message) {
+    public void handle(Message<JsonObject> message) {
         SelectableDatesRequest selectableDatesRequest = parseToModel(message.body());
         String path = getPath(selectableDatesRequest);
 
         File directory = new File(path);
         File[] filesList = directory.listFiles();
 
-        List<String> a = Arrays.stream(filesList)
+        List<String> response = new ArrayList<>();
+        if (filesList != null && filesList.length > 0) response = Arrays.stream(filesList)
                 .filter(file -> file.getName().matches("\\d{4}-\\d{2}-\\d{2}"))
                 .filter(File::isDirectory)
                 .map(File::getName)
                 .collect(Collectors.toList());
 
-        BusMessageReplyUtils.replyWithBodyAndStatus(message, new JsonArray(a), HttpResponseStatus.OK);
+        BusMessageReplyUtils.replyWithBodyAndStatus(message, new JsonArray(response), HttpResponseStatus.OK);
     }
 
     private String getPath(SelectableDatesRequest selectableDatesRequest) {

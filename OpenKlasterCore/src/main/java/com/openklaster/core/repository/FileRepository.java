@@ -20,8 +20,7 @@ public class FileRepository {
 
     public Future<JsonArray> handleJsonArrayResult(String methodName, JsonObject content) {
         Promise<JsonArray> resultPromise = Promise.promise();
-        DeliveryOptions options = getMethodOptions(methodName);
-        eventBus.<JsonArray>request(address + ".selectableDates", content, options, handler -> {
+        eventBus.<JsonArray>request(getAddress(methodName), content, handler -> {
             if (handler.succeeded()) {
                 resultPromise.complete(handler.result().body());
             } else {
@@ -33,8 +32,7 @@ public class FileRepository {
 
     public Future<JsonObject> handleJsonObjectResult(String methodName, JsonObject content) {
         Promise<JsonObject> resultPromise = Promise.promise();
-        DeliveryOptions options = getMethodOptions(methodName);
-        eventBus.<JsonObject>request(address + ".charts", content, options, handler -> {
+        eventBus.<JsonObject>request(getAddress(methodName), content, handler -> {
             if (handler.succeeded()) {
                 resultPromise.complete(handler.result().body());
             } else {
@@ -44,8 +42,8 @@ public class FileRepository {
         return resultPromise.future();
     }
 
-    private DeliveryOptions getMethodOptions(String methodName) {
-        return new DeliveryOptions().addHeader(METHOD_KEY, methodName);
+    private String getAddress(String methodName) {
+        return address + "." + methodName;
     }
 
     public void handleFailure(Promise resultPromise, AsyncResult handler) {

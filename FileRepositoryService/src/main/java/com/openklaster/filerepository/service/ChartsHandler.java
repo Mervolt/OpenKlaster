@@ -17,16 +17,16 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ChartFileRepositoryHandler extends FileRepositoryHandler<ChartsRequest> {
+public class ChartsHandler extends FileRepositoryHandler<ChartsRequest> {
     private final static String PATH = "file-repository/data/{username}/{installationId}/{date}/charts";
 
 
-    public ChartFileRepositoryHandler(FileSystem vertxFileSystem, String address) {
-        super(vertxFileSystem, address, LoggerFactory.getLogger(ChartFileRepositoryHandler.class), ChartsRequest.class);
+    public ChartsHandler(FileSystem vertxFileSystem, String address) {
+        super(vertxFileSystem, address, LoggerFactory.getLogger(ChartsHandler.class), ChartsRequest.class);
     }
 
     @Override
-    public void createGetHandler(Message<JsonObject> message) {
+    public void handle(Message<JsonObject> message) {
         ChartsRequest chartsRequest = parseToModel(message.body());
         String path = getPath(chartsRequest);
 

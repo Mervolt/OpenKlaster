@@ -28,7 +28,7 @@
       "installation": "openklaster.core.installation",
       "consumption": "openklaster.core.consumption",
       "production": "openklaster.core.production",
-      "filerepository": "openklaster.core.filerepository",
+      "filerepository": "openklaster.core.filerepository"
     }
   },
   "environmentalbenefits": {

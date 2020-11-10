@@ -3,6 +3,6 @@
     "address": "openklaster.filerepository.charts"
   },
   "selectabledates": {
-    "address": "openklaster.filerepository.selectabledates"
+    "address": "openklaster.filerepository.selectableDates"
   }
 }

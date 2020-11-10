@@ -2,7 +2,7 @@ package com.openklaster.filerepository;
 
 import com.openklaster.common.SuperVerticleConfig;
 import com.openklaster.filerepository.properties.FileRepositoryProperties;
-import com.openklaster.filerepository.service.ChartFileRepositoryHandler;
+import com.openklaster.filerepository.service.ChartsHandler;
 import com.openklaster.filerepository.service.SelectableDates;
 import io.vertx.core.file.FileSystem;
 import io.vertx.core.json.JsonObject;
@@ -41,8 +41,8 @@ public class FileRepositoryVerticleConfig extends SuperVerticleConfig {
     @Lazy
     @Bean
     @Autowired
-    public ChartFileRepositoryHandler chartFileRepositoryHandler(FileSystem vertxFileSystem) {
-        return new ChartFileRepositoryHandler(vertxFileSystem, jsonConfig.getJsonObject(FileRepositoryProperties.CHART_FILE_REPOSITORY)
+    public ChartsHandler chartFileRepositoryHandler(FileSystem vertxFileSystem) {
+        return new ChartsHandler(vertxFileSystem, jsonConfig.getJsonObject(FileRepositoryProperties.CHART_FILE_REPOSITORY)
                 .getString(FileRepositoryProperties.ADDRESS));
     }
 
