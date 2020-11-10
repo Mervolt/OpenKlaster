@@ -48,7 +48,7 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
 import {MatCardModule} from "@angular/material/card";
 import {InstallationService} from "./service/installation/installation.service";
 import {HttpClientInterceptor} from "./service/interceptors/http-client-interceptor.service";
-import { ChartsComponent} from './installation/charts/charts.component';
+import { ChartsComponent} from './charts/charts.component';
 import { DynamicFormQuestionComponent } from './components/Question-boxes/dynamic-form-question/dynamic-form-question.component';
 import { DynamicFormComponent } from './components/Question-boxes/dynamic-form/dynamic-form.component';
 import { SubmitButtonComponent } from './components/submit-button/submit-button.component';

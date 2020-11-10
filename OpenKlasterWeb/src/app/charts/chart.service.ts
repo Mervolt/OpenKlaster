@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {EndpointHolder} from '../../model/EndpointHolder';
+import {EndpointHolder} from '../model/EndpointHolder';
 import {CookieService} from "ngx-cookie-service";
-import {CookieHolder} from "../../model/CookieHolder";
+import {CookieHolder} from "../model/CookieHolder";
 
 @Injectable({
   providedIn: 'root'
