@@ -50,9 +50,7 @@ services:
       #command: "sh /cassandra-init.sh"
   grav:
     build: ./
-    ports:
-      - 8080:80
     volumes:
-      - ./grav-data:/var/www/html
+      - .grav/grav-data:/var/www/html/user
 volumes:
   file-repository:
