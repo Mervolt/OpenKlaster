@@ -49,8 +49,8 @@ services:
         - ./cassandra-init.sh:/cassandra-init.sh
       #command: "sh /cassandra-init.sh"
   grav:
-    build: ./
+    build: grav
     volumes:
-      - .grav/grav-data:/var/www/html/user
+      - ./grav/grav-data/:/var/www/html/user
 volumes:
   file-repository:
