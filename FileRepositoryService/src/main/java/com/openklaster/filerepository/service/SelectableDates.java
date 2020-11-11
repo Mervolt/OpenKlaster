@@ -9,6 +9,7 @@ import io.vertx.core.file.FileSystem;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.LoggerFactory;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,10 +18,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SelectableDates extends FileRepositoryHandler<SelectableDatesRequest> {
-    private final static String PATH = "file-repository/data/{username}/{installationId}";
+    private final String basePath;
 
-    public SelectableDates(FileSystem vertxFileSystem, String address) {
+    public SelectableDates(FileSystem vertxFileSystem, String address, String basePath) {
         super(vertxFileSystem, address, LoggerFactory.getLogger(ChartsHandler.class), SelectableDatesRequest.class);
+        this.basePath = basePath;
     }
 
     @Override
@@ -28,20 +30,23 @@ public class SelectableDates extends FileRepositoryHandler<SelectableDatesReques
         SelectableDatesRequest selectableDatesRequest = parseToModel(message.body());
         String path = getPath(selectableDatesRequest);
 
-        File directory = new File(path);
-        File[] filesList = directory.listFiles();
-
-        List<String> response = new ArrayList<>();
-        if (filesList != null && filesList.length > 0) response = Arrays.stream(filesList)
-                .filter(File::isDirectory)
-                .map(File::getName)
-                .collect(Collectors.toList());
-
-        BusMessageReplyUtils.replyWithBodyAndStatus(message, new JsonArray(response), HttpResponseStatus.OK);
+        vertxFileSystem.readDir(path, ar -> {
+            if (ar.succeeded()) {
+                List<String> response = ar.result().stream()
+                        .filter(file -> (FilenameUtils.getExtension(file).isEmpty()))
+                        .map(FilenameUtils::getBaseName)
+                        .collect(Collectors.toList());
+                BusMessageReplyUtils.replyWithBodyAndStatus(message, new JsonArray(response), HttpResponseStatus.OK);
+            }
+            else {
+                logger.warn(ar.cause());
+                BusMessageReplyUtils.replyWithError(message, HttpResponseStatus.INTERNAL_SERVER_ERROR, ar.cause().toString());
+            }
+        });
     }
 
     private String getPath(SelectableDatesRequest selectableDatesRequest) {
-        return PATH.replaceAll(FileRepositoryProperties.USERNAME_TO_REPLACE, selectableDatesRequest.getUsername())
+        return basePath.replaceAll(FileRepositoryProperties.USERNAME_TO_REPLACE, selectableDatesRequest.getUsername())
                 .replaceAll(FileRepositoryProperties.INSTALLATION_ID_TO_REPLACE, removeInstallationPrefix(selectableDatesRequest.getInstallationId()));
 
     }

@@ -18,11 +18,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ChartsHandler extends FileRepositoryHandler<ChartsRequest> {
-    private final static String PATH = "file-repository/data/{username}/{installationId}/{date}/charts";
+    private final String basePath;
 
-
-    public ChartsHandler(FileSystem vertxFileSystem, String address) {
+    public ChartsHandler(FileSystem vertxFileSystem, String address, String basePath) {
         super(vertxFileSystem, address, LoggerFactory.getLogger(ChartsHandler.class), ChartsRequest.class);
+        this.basePath = basePath;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ChartsHandler extends FileRepositoryHandler<ChartsRequest> {
     }
 
     private String getPath(ChartsRequest chartsRequest) {
-        return PATH.replaceAll(FileRepositoryProperties.USERNAME_TO_REPLACE, chartsRequest.getUsername())
+        return basePath.replaceAll(FileRepositoryProperties.USERNAME_TO_REPLACE, chartsRequest.getUsername())
                 .replaceAll(FileRepositoryProperties.INSTALLATION_ID_TO_REPLACE, removeInstallationPrefix(chartsRequest.getInstallationId()))
                 .replaceAll(FileRepositoryProperties.DATE_TO_REPLACE, chartsRequest.getDate());
 

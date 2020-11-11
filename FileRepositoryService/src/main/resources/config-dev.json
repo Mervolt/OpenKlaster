@@ -1,8 +1,10 @@
 {
   "chartfilerepository": {
-    "address": "openklaster.filerepository.charts"
+    "address": "openklaster.filerepository.charts",
+    "path": "file-repository/data/{username}/{installationId}/{date}/charts"
   },
   "selectabledates": {
-    "address": "openklaster.filerepository.selectableDates"
+    "address": "openklaster.filerepository.selectableDates",
+    "path": "file-repository/data/{username}/{installationId}"
   }
 }

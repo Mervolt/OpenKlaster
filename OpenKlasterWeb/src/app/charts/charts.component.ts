@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {ChartService} from './chart.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -7,6 +7,8 @@ import {AppComponent} from '../app.component';
 import {InstallationService} from '../service/installation/installation.service';
 import {Chart} from '../model/chart';
 import {compareAsc, format, parse} from 'date-fns';
+import {ActivatedRoute} from '@angular/router';
+import {MatHorizontalStepper, MatStepper} from '@angular/material/stepper';
 
 @Component({
   selector: 'app-charts',
@@ -15,13 +17,17 @@ import {compareAsc, format, parse} from 'date-fns';
   encapsulation: ViewEncapsulation.None,
 })
 export class ChartsComponent implements OnInit {
+  @ViewChild('stepper') private stepper: MatHorizontalStepper;
   loading: boolean = false;
+  getChartsError: boolean = false;
+  getSelectableDatesError: boolean = false;
+
   cookieService: CookieService;
   charts: Array<Chart> = new Array<Chart>();
   selectableDates: Array<Date>;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  installationId: string;
+  installationForm: FormGroup;
+  datePickerForm: FormGroup;
+  installationId: string = '';
   selectedDate: string;
   installationIDs: Array<String>
 
@@ -32,8 +38,14 @@ export class ChartsComponent implements OnInit {
               private domSanitizer: DomSanitizer,
               private fb: FormBuilder,
               private appComp: AppComponent,
-              private installationService: InstallationService) {
+              private installationService: InstallationService,
+              private route: ActivatedRoute) {
     this.cookieService = appComp.cookieService;
+    this.route.queryParams.subscribe(params => {
+      if (params['installationId'] != undefined) {
+        this.installationId = params['installationId'];
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -43,41 +55,60 @@ export class ChartsComponent implements OnInit {
       this.loading = false;
     })
 
+    this.installationForm = this.fb.group({
+      installationId: [this.installationId, Validators.required]
+    });
+    this.datePickerForm = this.fb.group({
+      date: ['', Validators.required]
+    });
 
-    this.firstFormGroup = this.fb.group({
-      firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this.fb.group({
-      secondCtrl: ['', Validators.required]
-    });
   }
 
-  print() {
-    if (this.firstFormGroup.get('firstCtrl').value != '' && this.firstFormGroup.get('firstCtrl').value != undefined) {
-      this.installationId = this.firstFormGroup.get('firstCtrl').value;
-      this.loading = true;
-      this.chartService.getSelectableDates(this.cookieService, this.installationId).subscribe(response => {
-        this.selectableDates = response.map(date => new Date(date));
-        this.loading = false;
-      })
-      this.secondFormGroup.get('secondCtrl').setValue('');
+  ngAfterViewInit() {
+    if (this.installationId != '') {
+      this.installationForm.get('installationId').setValue(this.installationId);
+      this.installationSelected();
+      this.stepper.next();
     }
   }
 
-  dateChoosen() {
-    if (this.secondFormGroup.get('secondCtrl').value != '' && this.secondFormGroup.get('secondCtrl').value != null) {
+  installationSelected() {
+    if (this.installationForm.get('installationId').value != '' && this.installationForm.get('installationId').value != undefined) {
+      this.getSelectableDatesError = false;
+      this.installationId = this.installationForm.get('installationId').value;
       this.loading = true;
-      this.selectedDate = this.formatDate(this.secondFormGroup.get('secondCtrl').value);
+      this.chartService.getSelectableDates(this.cookieService, this.installationId).subscribe(response => {
+          this.selectableDates = response.map(date => new Date(date));
+          this.loading = false;
+        }, () => {
+          this.getSelectableDatesError = true;
+          this.loading = false;
+        }
+      )
+      this.datePickerForm.get('date').setValue('');
+    }
+  }
+
+  dateSelected() {
+    if (this.datePickerForm.get('date').value != '' && this.datePickerForm.get('date').value != null) {
+      this.loading = true;
+      this.getChartsError = false;
+      this.selectedDate = this.formatDate(this.datePickerForm.get('date').value);
       let chartsArray = [];
       this.chartService.getChartsForInstallation(this.cookieService, this.installationId, this.selectedDate)
         .subscribe(response => {
-          let dateKeys = Object.keys(response).sort((a, b) => compareAsc(this.parseDateTime(a), this.parseDateTime(b)));
-          dateKeys.forEach(value =>
-            chartsArray.push(new Chart(this.parseDateTime(value),
-              this.domSanitizer.bypassSecurityTrustResourceUrl(response[value]))));
-          this.charts = chartsArray;
-          this.loading = false;
-        })
+            let dateKeys = Object.keys(response).sort((a, b) => compareAsc(this.parseDateTime(a), this.parseDateTime(b)));
+            dateKeys.forEach(value =>
+              chartsArray.push(new Chart(this.parseDateTime(value),
+                this.domSanitizer.bypassSecurityTrustResourceUrl(response[value]))));
+            this.charts = chartsArray;
+            this.loading = false;
+          },
+          () => {
+            this.getChartsError = true
+            this.loading = false;
+          }
+        )
     }
   }
 
