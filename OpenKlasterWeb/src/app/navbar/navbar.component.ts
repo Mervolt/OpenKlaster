@@ -1,6 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-//TODO unused import
-//MM-ANSWER: Done
 import {MatMenuTrigger} from "@angular/material/menu";
 import {SingleInstallationPanelService} from "../installation/single-installation-panel.service";
 import {Router} from "@angular/router";
