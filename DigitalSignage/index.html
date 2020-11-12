@@ -19,12 +19,13 @@
         <div class="row">
             <div class="col-xl-5 col-md-6">
                 <div class="left-panel">
-                    <div class="h2 text-white font-weight-bold mb-1" style="margin: 50px; min-width: 200px;">Ten budynek wytwarza
+                    <div class="h2 text-white font-weight-bold mb-1" style="margin: 50px; min-width: 200px;">Ten budynek
+                        wytwarza
                         zrównoważoną energię dzięki energii słonecznej
                     </div>
-                    <div class="logo" style="vertical-align: bottom">
-                        <img src="img/logo.png" style="width: 100%">
-                        <img src="img/OpenKlaster.png" style="width: 100%">
+                    <div class="logo logo-left-panel">
+                            <img src="img/logo.png" style="width: 100%">
+                            <img src="img/OpenKlaster.png" style="width: 100%">
                     </div>
                 </div>
             </div>
@@ -307,13 +308,13 @@
 
     function latestDayDate(date) {
         const dayEndDate = new Date(date)
-        dayEndDate.setHours(23,59,59);
+        dayEndDate.setHours(23, 59, 59);
         return dayEndDate;
     }
 
     function earliestDayDate(date) {
         const dayStartDate = new Date(date)
-        dayStartDate.setHours(0,0,0,0);
+        dayStartDate.setHours(0, 0, 0, 0);
         return dayStartDate;
     }
 
@@ -336,7 +337,7 @@
             installationId: id,
             apiToken: apiToken
         };
-  
+
         Object.keys(params).forEach(key => sendUrl.searchParams.append(key, params[key]))
 
         fetch(sendUrl, {
