@@ -9,7 +9,7 @@
     <mat-card class="description-container">
       {{description}}
     </mat-card>
-    <app-dashboard-properties *ngIf="!!properties" [properties]="properties"
+    <app-dashboard-properties *ngIf="!!properties" [properties]="properties" [singlePropertiesDisplay]="singlePropertiesDisplay"
                               class="right-margin-card-info">
     </app-dashboard-properties>
   </div>

@@ -23,6 +23,11 @@ export class InstallationService {
     return this.http.get(EndpointHolder.installationEndpoint, {params: params});
   }
 
+  getInstallationSummary(cookieService: CookieService, id: number) {
+    let params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey)).set('installationId', 'installation:' + id);
+    return this.http.get(EndpointHolder.summaryEndpoint, {params:params});
+  }
+
   addInstallation(installation: Installation, cookieService: CookieService) {
     let params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey));
     return this.http.post(EndpointHolder.installationEndpoint, {

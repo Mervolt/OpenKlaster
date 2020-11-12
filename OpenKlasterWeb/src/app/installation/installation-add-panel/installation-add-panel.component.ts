@@ -10,6 +10,8 @@ import {QuestionTextbox} from "../../components/Question-boxes/question-textbox"
 import {DynamicFormComponent} from "../../components/Question-boxes/dynamic-form/dynamic-form.component";
 import {$e} from "codelyzer/angular/styles/chars";
 import {MatOptionSelectionChange} from "@angular/material/core";
+import {ConfirmationDialogPopupComponent} from "../../components/confirmation-dialog-popup/confirmation-dialog-popup.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-installation-generation-panel',
@@ -28,7 +30,7 @@ export class InstallationAddPanelComponent {
 
   constructor(public installationService: InstallationService,
               public manufacturerCredentialService: ManufacturerCredentialService,
-              private cookieService: CookieService, private cd: ChangeDetectorRef) {
+              private cookieService: CookieService, private dialog: MatDialog) {
     manufacturerCredentialService.getCredentials().toPromise().then(response => {
       for (let manufacturer in response) {
         this.manufacturersMap.set(manufacturer, response[manufacturer]);
@@ -70,5 +72,13 @@ export class InstallationAddPanelComponent {
     return credentials.map(credential => {
       return new QuestionTextbox(credential, credential);
     });
+  }
+  onWindInstallationType(event, group) {
+    let dialog = this.dialog.open(ConfirmationDialogPopupComponent, {
+      width: '500px'
+    })
+    dialog.componentInstance.popupContent = "There is no support for Wind installations yet.."
+    group.value= "";
+    this.formModel.installationType ="";
   }
 }

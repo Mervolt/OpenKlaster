@@ -11,6 +11,7 @@ export class DescriptionTileComponent implements OnInit {
   @Input() tileTitle: string
   @Input() icon: string
   @Input() properties: Map<string, any>;
+  @Input() singlePropertiesDisplay = false;
 
   constructor() { }
 

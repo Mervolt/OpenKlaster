@@ -55,7 +55,6 @@
   display: flex;
   font-size: 36px;
   flex-direction: row;
-  justify-content: space-between;
   height: 20%;
 }
 
@@ -75,6 +74,9 @@
 }
 
 .installation-properties-container::ng-deep.property-container {
-  background: #ffe600;
+  background: #8cbf5c;
 }
 
+.mat-icon {
+  font-size: 36px;
+}

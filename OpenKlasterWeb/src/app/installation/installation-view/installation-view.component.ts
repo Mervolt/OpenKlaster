@@ -28,28 +28,21 @@ export class InstallationViewComponent implements OnInit {
     this.installationIdOnlyNumber = this.stripInstallationId(this.installationId)
   }
 
-  isLoaded: boolean;
-
   ngOnInit(): void {
-    this.getInstallation(this.installationIdOnlyNumber)
+    this.getInstallation(this.installationIdOnlyNumber).then(() => {
+
+    })
   }
 
   async getInstallation(id: number) {
     let observableInstallation = this.installationsService.getInstallation(this.cookieService, id);
     observableInstallation.subscribe(response => {
       this.installation = InstallationDto.fromDto(response)
-      this.isLoaded = true
     })
-    this.installationSummary = new InstallationSummary()
-    this.installationSummary.currentPower= 32.4;
-    this.installationSummary.totalEnergy= 3202.4;
-    this.installationSummary.todayEnergy= 603.4;
-    this.installationSummary.environmentalBenefits.co2Reduced= 463;
-    this.installationSummary.environmentalBenefits.treesSaved= 321;
-  }
-
-  credentialsToString(credentials: JSON) {
-    return JSON.stringify(credentials);
+    let observableSummary = this.installationsService.getInstallationSummary(this.cookieService, id);
+    observableSummary.subscribe(response => {
+      this.installationSummary = InstallationSummary.fromDto(response)
+    })
   }
 
   stripInstallationId(installationIdLink: string) {

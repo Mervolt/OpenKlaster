@@ -1,7 +1,6 @@
 .properties-container {
   display: grid;
-  grid-template-columns: 49% 49%;
-  grid-gap: 2%;
+  grid-gap: 5%;
 }
 
 .property-container {

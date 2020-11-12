@@ -9,4 +9,5 @@ import {QuestionBase} from "../question-base";
 export class DynamicFormQuestionComponent {
   @Input() question: QuestionBase<string>;
   @Input() form: FormGroup;
+  hide: boolean = true;
 }

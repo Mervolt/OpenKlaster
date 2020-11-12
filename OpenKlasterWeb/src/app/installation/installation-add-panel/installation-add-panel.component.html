@@ -5,9 +5,11 @@
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
           <div style="margin-top: 8px">
-            <mat-button-toggle-group [(ngModel)]="formModel.installationType" name="installationType">
+            <mat-button-toggle-group [(ngModel)]="formModel.installationType" name="installationType"
+                                     #group="matButtonToggleGroup">
               <mat-button-toggle value="Solar" style="min-width: 200px">Solar</mat-button-toggle>
-              <mat-button-toggle value="Wind" style="min-width: 200px">Wind</mat-button-toggle>
+              <mat-button-toggle value="Wind" style="min-width: 200px"
+                                 (change)="onWindInstallationType($event, group)" >Wind</mat-button-toggle>
             </mat-button-toggle-group>
           </div>
           <br>
