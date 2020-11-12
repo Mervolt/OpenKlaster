@@ -1,3 +1,11 @@
+.left-panel {
+    height: 100vh;
+    width: 25vw;
+    min-width: 300px;
+    background-color: rgba(16, 12, 18, 0.7);
+    display: inline-block!important;
+}
+
 .infocard {
     margin-top: 75px;
 }
