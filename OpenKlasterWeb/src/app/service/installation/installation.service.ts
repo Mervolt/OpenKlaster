@@ -4,6 +4,7 @@ import {CookieService} from "ngx-cookie-service";
 import {Installation} from "../../model/Installation";
 import {EndpointHolder} from "../../model/EndpointHolder";
 import {CookieHolder} from "../../model/CookieHolder";
+import {InstallationPostDto} from "../../model/InstallationPostDto";
 
 @Injectable({
   providedIn: 'root'
@@ -30,29 +31,16 @@ export class InstallationService {
 
   addInstallation(installation: Installation, cookieService: CookieService) {
     let params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey));
-    return this.http.post(EndpointHolder.installationEndpoint, {
-      'username': cookieService.get('username'),
-      'installationType': installation.installationType,
-      'longitude': installation.longitude,
-      'latitude': installation.latitude,
-      'description': installation.description,
-      'load': {
-        'name': installation.load.name,
-        'description': installation.load.description
-      },
-      'inverter': {
-        'description': installation.inverter.description,
-        'manufacturer': installation.inverter.manufacturer,
-        'credentials': installation.inverter.credentials,
-        'modelType': installation.inverter.modelType
-      },
-      'source': {
-        'azimuth': installation.source.azimuth,
-        'tilt': installation.source.tilt,
-        'capacity': installation.source.capacity,
-        'description': installation.source.description
-      }
-    }, {params: params}).toPromise();
+    return this.http.post(EndpointHolder.installationEndpoint,
+      InstallationPostDto.fromInstallationWithUser(installation, cookieService.get(CookieHolder.usernameKey)),
+      {params: params}).toPromise();
+  }
+
+  editInstallation(installation: Installation, cookieService: CookieService) {
+    let params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey));
+    return this.http.put(EndpointHolder.installationEndpoint,
+      InstallationPostDto.fromInstallationWithUser(installation, cookieService.get(CookieHolder.usernameKey)),
+      {params:params}).toPromise()
   }
 
 }
