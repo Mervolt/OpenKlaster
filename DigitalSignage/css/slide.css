@@ -17,7 +17,9 @@
 }
 
 .infocard {
-    margin-top: 75px;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    height: 20vh;
 }
 
 .minicard {
