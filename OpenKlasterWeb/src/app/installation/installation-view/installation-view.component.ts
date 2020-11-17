@@ -23,14 +23,12 @@ export class InstallationViewComponent implements OnInit {
 
   constructor(private router: Router, private installationsService: InstallationService,
               private route: ActivatedRoute, private cookieService: CookieService,
-              private dialog: MatDialog) {
-    this.installationId = route.snapshot.paramMap.get('id');
-    this.installationIdOnlyNumber = this.stripInstallationId(this.installationId)
-  }
+              private dialog: MatDialog) {}
 
   ngOnInit(): void {
+    this.installationId = this.route.snapshot.paramMap.get('id');
+    this.installationIdOnlyNumber = this.stripInstallationIdIfRequired(this.installationId)
     this.getInstallation(this.installationIdOnlyNumber).then(() => {
-
     })
   }
 
@@ -45,9 +43,13 @@ export class InstallationViewComponent implements OnInit {
     })
   }
 
-  stripInstallationId(installationIdLink: string) {
-    let splitInstallation = installationIdLink.split(":")
-    return Number(splitInstallation[1])
+  stripInstallationIdIfRequired(installationId: string) {
+    if (!installationId.includes(":")) {
+      return Number(installationId)
+    } else {
+      let splitInstallation = installationId.split(":")
+      return Number(splitInstallation[1])
+    }
   }
 
   openDeleteConfirmationWindow() {

@@ -1,15 +1,16 @@
 <div class="page-container">
-  <mat-card-title class="header-container">
-    <div>{{tileTitle}}</div>
-    <div>
-      <mat-icon *ngIf="icon">{{icon}}</mat-icon>
-    </div>
-  </mat-card-title>
+  <mat-card-header class="header-container">
+    <mat-card-title class="title-container">
+      {{tileTitle}}
+    </mat-card-title>
+    <mat-icon *ngIf="icon">{{icon}}</mat-icon>
+  </mat-card-header>
   <div class="content-container">
     <mat-card class="description-container">
       {{description}}
     </mat-card>
-    <app-dashboard-properties *ngIf="!!properties" [properties]="properties" [singlePropertiesDisplay]="singlePropertiesDisplay"
+    <app-dashboard-properties *ngIf="!!properties" [properties]="properties"
+                              [singlePropertiesDisplay]="singlePropertiesDisplay"
                               class="right-margin-card-info">
     </app-dashboard-properties>
   </div>

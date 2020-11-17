@@ -11,9 +11,9 @@
   gap: 5%;
   height: 75%;
 }
-/*TODO wyjustowac*/
 .description-container {
   width: 320px;
+  text-align: justify;
   background: var(--installation-card-text-color);
   overflow: auto;
 }
@@ -24,12 +24,12 @@
 
 .header-container {
   display: flex;
-  font-size: 36px;
   flex-direction: row;
-  justify-content: space-between;
-  height: 20%;
 }
-
+.title-container {
+  display: flex;
+  flex-direction: row;
+}
 .mat-icon {
   font-size: 36px;
 }

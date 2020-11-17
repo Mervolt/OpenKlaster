@@ -46,6 +46,7 @@ export class EditInstallationComponent extends InstallationAddPanelComponent imp
     editPromise
       .then(() => {
         this.sendRequestState = 'success'
+        this.router.navigate(['installations', this.installationId]).then()
       })
       .catch(() => {
         this.sendRequestState = 'failure'
