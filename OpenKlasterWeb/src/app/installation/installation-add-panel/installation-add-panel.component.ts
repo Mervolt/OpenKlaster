@@ -49,8 +49,10 @@ export class InstallationAddPanelComponent {
     this.sendRequestState = 'waiting'
     let addPromise = this.installationService.addInstallation(this.formModel, this.cookieService);
     addPromise
-      .then(() => {
+      .then(response  => {
+        let id = response['_id']
         this.sendRequestState = 'success'
+        this.router.navigate(['installations', id]).then()
       })
       .catch(() => {
         this.sendRequestState = 'failure'
@@ -61,7 +63,7 @@ export class InstallationAddPanelComponent {
   }
 
   myCallbackFunction = (): void => {
-    this.onSubmit();
+    //TODO get rid of this - there was POST duplication due to calling it on button and form
   }
 
   changeCredentials(selectionChange: MatOptionSelectionChange) {
