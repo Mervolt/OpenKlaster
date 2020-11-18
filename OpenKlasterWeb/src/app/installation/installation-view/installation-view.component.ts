@@ -64,10 +64,7 @@ export class InstallationViewComponent implements OnInit {
   }
 
   navigateToCharts() {
-    let dialog = this.dialog.open(ConfirmationDialogPopupComponent, {
-      width: '500px'
-    })
-    dialog.componentInstance.popupContent = "Soon there will be redirection to charts panel for this installation."
+    this.router.navigate(['charts'], {queryParams: {'installationId': [this.installationId]}}).then()
   }
 
   getInverterProperties(): Map<string, any> {
