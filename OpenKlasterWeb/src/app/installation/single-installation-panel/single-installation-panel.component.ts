@@ -62,7 +62,7 @@ export class SingleInstallationPanelComponent implements OnInit {
   }
 
   openChartPopup() {
-    this.isPopupShown = true;
+    this.router.navigate(['charts'], {queryParams: {'installationId': [this.installationId]}}).then()
   }
 
   navigateToEditInstallation() {

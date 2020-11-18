@@ -12,4 +12,5 @@ export class EndpointHolder {
   static swaggerEndpoint = EndpointHolder.apiUrl + environment.swaggerUrl;
   static chartEndpoint = EndpointHolder.apiUrl + "chart";
   static summaryEndpoint = EndpointHolder.apiUrl + "summary"
+  static selectableDatesEndpoint = EndpointHolder.apiUrl + "selectableDates";
 }

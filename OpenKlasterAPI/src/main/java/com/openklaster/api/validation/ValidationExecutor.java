@@ -1,6 +1,7 @@
 package com.openklaster.api.validation;
 
 import com.openklaster.api.handler.properties.HandlerProperties;
+import com.openklaster.api.validation.annotation.TokenNotRequired;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintViolation;

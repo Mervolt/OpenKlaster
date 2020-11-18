@@ -3,8 +3,6 @@ import {RouterModule} from '@angular/router';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
-
-
 import {AppComponent} from './app.component';
 import {LoginFormComponent} from './user/login-form/login-form.component';
 import {NavbarComponent} from './navbar/navbar.component';
@@ -48,7 +46,7 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
 import {MatCardModule} from "@angular/material/card";
 import {InstallationService} from "./service/installation/installation.service";
 import {HttpClientInterceptor} from "./service/interceptors/http-client-interceptor.service";
-import { ChartsComponent} from './installation/charts/charts.component';
+import { ChartsComponent} from './charts/charts.component';
 import { DynamicFormQuestionComponent } from './components/Question-boxes/dynamic-form-question/dynamic-form-question.component';
 import { DynamicFormComponent } from './components/Question-boxes/dynamic-form/dynamic-form.component';
 import { SubmitButtonComponent } from './components/submit-button/submit-button.component';
@@ -60,6 +58,9 @@ import { EqualsToDirective } from './validators/equals-to.directive';
 import { InstallationViewComponent } from './installation/installation-view/installation-view.component';
 import { DescriptionTileComponent } from './installation/installation-view/description-tile/description-tile.component';
 import { DashboardPropertiesComponent } from './components/dashboard-properties/dashboard-properties.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,7 @@ import { DashboardPropertiesComponent } from './components/dashboard-properties/
     HttpClientModule,
     MatSliderModule,
     RouterModule.forRoot([
-      {path: '', component: RegisterFormComponent},
+      {path: 'register', component: RegisterFormComponent},
       {path: 'login', component: LoginFormComponent},
       {path: 'user', component: UserPanelComponent},
       {path: 'installations', component: InstallationPanelComponent},
@@ -129,7 +130,10 @@ import { DashboardPropertiesComponent } from './components/dashboard-properties/
     MatDialogModule,
     MatTableModule,
     MatCardModule,
-    NgbModule
+    NgbModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatStepperModule,
   ],
   providers: [
     UserService,
@@ -138,6 +142,9 @@ import { DashboardPropertiesComponent } from './components/dashboard-properties/
     CookieService,
     InstallationPanelComponent,
     RequestResponseComponentComponent,
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'pl-PL'
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpClientInterceptor,

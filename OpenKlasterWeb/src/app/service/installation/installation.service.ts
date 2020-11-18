@@ -5,6 +5,7 @@ import {Installation} from "../../model/Installation";
 import {EndpointHolder} from "../../model/EndpointHolder";
 import {CookieHolder} from "../../model/CookieHolder";
 import {InstallationPostDto} from "../../model/InstallationPostDto";
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class InstallationService {
   constructor(public http: HttpClient) {
   }
 
-  getInstallations(cookieService: CookieService) {
+  getInstallations(cookieService: CookieService): Observable<any> {
     let params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey)).set('username', cookieService.get('username'));
     return this.http.get(EndpointHolder.installationsEndpoint, {params: params})
   }

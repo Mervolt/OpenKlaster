@@ -14,6 +14,8 @@ services:
     build: OpenKlasterAPI
     depends_on:
       - openklaster-core
+    ports:
+      - "8082:8082"
   openklaster-mongo:
     build: MongoService
     depends_on:
@@ -48,5 +50,9 @@ services:
         - ./data/cassandra:/var/lib/cassandra
         - ./cassandra-init.sh:/cassandra-init.sh
       #command: "sh /cassandra-init.sh"
+  grav:
+    build: grav
+    volumes:
+      - ./grav/grav-data/:/var/www/html/user
 volumes:
   file-repository:

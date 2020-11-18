@@ -1,11 +1,9 @@
 package com.openklaster.api.handler.summary;
 
-import com.openklaster.api.handler.properties.SummaryProperties;
 import com.openklaster.api.model.Unit;
 import com.openklaster.api.model.summary.EnvironmentalBenefits;
 import com.openklaster.api.model.summary.Measurement;
 import com.openklaster.api.model.summary.SummaryResponse;
-import com.openklaster.common.config.NestedConfigAccessor;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
@@ -13,30 +11,24 @@ import io.vertx.core.json.JsonObject;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class SummaryCreator {
 
-    public SummaryResponse createSummary(AsyncResult<Message<JsonArray>> response, NestedConfigAccessor config) {
+    public SummaryResponse createSummary(AsyncResult<Message<JsonArray>> response, EnvironmentalBenefits environmentalConfig) {
         Map<Unit, List<Measurement>> measurements = groupMeasurementsFromJsonArray(response.result().body());
         Measurement latestEnergyMeasurement = findLastMeasurement(measurements.get(Unit.kWh));
         Measurement latestPowerMeasurement = findLastMeasurement(measurements.get(Unit.kW));
         Map<Date, BigDecimal> powerMeasurements = convertMeasurementArraysIntoMap(measurements.get(Unit.kW));
         BigDecimal energyProducedToday = countEnergyProducedToday(measurements.get(Unit.kWh));
-        EnvironmentalBenefits environmentalBenefits = EnvironmentalBenefits.builder()
-                .co2Reduced(calculateEnvironmentalBenefit(SummaryProperties.CO2REDUCED, latestEnergyMeasurement.getValue(), config))
-                .treesSaved(calculateEnvironmentalBenefit(SummaryProperties.TREES_SAVED, latestEnergyMeasurement.getValue(), config))
-                .build();
-        ;
 
         return SummaryResponse.builder()
                 .totalEnergy(BigDecimal.valueOf(latestEnergyMeasurement.getValue()))
                 .currentPower(BigDecimal.valueOf(latestPowerMeasurement.getValue()))
                 .power(powerMeasurements)
                 .energyProducedToday(energyProducedToday)
-                .environmentalBenefits(environmentalBenefits)
+                .environmentalBenefits(environmentalConfig)
                 .build();
     }
 
@@ -73,10 +65,6 @@ public class SummaryCreator {
         return jsonArray.stream()
                 .map(result -> JsonObject.mapFrom(result).mapTo(Measurement.class))
                 .collect(Collectors.groupingBy(Measurement::getUnit));
-    }
-
-    private int calculateEnvironmentalBenefit(String path, double energy, NestedConfigAccessor config) {
-        return (int) (((double) config.getInteger(path) / 100) * energy);
     }
 
     private boolean isItToday(Date timestamp) {
