@@ -1,0 +1,14 @@
+<header id="header">
+    <h1 id="logo"><a href="#intro">{{ site.title }}</a></h1>
+    <nav id="nav">
+        <ul>
+            {% if page.template() != 'modular' and page.header.home_menu_item is not empty %}
+              <li><a href="{{ base_url == '' ? '/' : base_url }}">{{ page.header.home_menu_item }}</a></li>
+            {% endif %}
+            {% for module in page.collection() %}
+            <li><a href="#{{ module.folder|replace({'_': ''}) }}">{{ module.menu }}</a></li>
+            {% endfor %}
+			<li><a href="/login"><b>Przejdź do systemu</b></a></li>
+        </ul>
+    </nav>
+</header>

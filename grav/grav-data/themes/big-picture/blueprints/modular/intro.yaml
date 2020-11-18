@@ -1,0 +1,28 @@
+title: Intro
+'@extends':
+    type: default
+
+form:
+  fields:
+    tabs:
+      type: tabs
+      active: 1
+      fields:
+        content:
+          type: tab
+          title: PLUGIN_ADMIN.CONTENT
+          fields:
+            header.heading:
+              type: text
+              label: Heading
+              help: Section's heading.
+            header.background_image:
+              type: filepicker
+              folder: '@self'
+              preview_images: true
+              accept:
+                - .png
+                - .jpg
+              label: Background Image
+              help: Image filename that exists in the page folder.
+              placeholder: For example: myimage.jpg

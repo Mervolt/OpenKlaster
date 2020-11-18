@@ -1,0 +1,6 @@
+title: 'OpenKlaster'
+summary:
+  enabled: true
+  format: short
+  size: 300
+  delimiter: '==='

@@ -98,7 +98,7 @@ import {MatStepperModule} from '@angular/material/stepper';
     HttpClientModule,
     MatSliderModule,
     RouterModule.forRoot([
-      {path: '', component: RegisterFormComponent},
+      {path: 'register', component: RegisterFormComponent},
       {path: 'login', component: LoginFormComponent},
       {path: 'user', component: UserPanelComponent},
       {path: 'installations', component: InstallationPanelComponent},
