@@ -273,7 +273,7 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     @Bean(name = "ChartApiHandler")
     public GetCoreCommunicationHandler chartHandler(DefaultParseStrategy<Temporary> temporaryDefaultParseStrategy) {
         return new GetCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.CHART_FOR_HTTP_ENDPOINT_PATH)),
-                jsonEventBusRoute.getString(EventBusHolder.CHART_FOR_EVENTBUS_PATH), temporaryDefaultParseStrategy);
+                jsonEventBusRoute.getString(EventBusHolder.FILE_REPOSITORY_FOR_EVENTBUS_PATH), "charts", temporaryDefaultParseStrategy);
     }
 
     @Bean
@@ -293,5 +293,12 @@ public class APIVerticleConfig extends SuperVerticleConfig {
     @Bean
     public DefaultParseStrategy<SummaryRequest> summaryRequestDefaultParseStrategy() {
         return new DefaultParseStrategy<>(SummaryRequest.class);
+    }
+
+    @Autowired
+    @Bean(name = "SelectableDatesApiHandler")
+    public GetCoreCommunicationHandler selectableDatesHandler(DefaultParseStrategy<InstallationRequest> installationRequestDefaultParseStrategy) {
+        return new GetCoreCommunicationHandler(buildEndpoint(apiVersion, jsonHttpEndpointRoute.getString(HttpResourceHolder.SELECTABLE_DATES_FOR_HTTP_ENDPOINT_PATH)),
+                jsonEventBusRoute.getString(EventBusHolder.FILE_REPOSITORY_FOR_EVENTBUS_PATH), "selectableDates", installationRequestDefaultParseStrategy);
     }
 }

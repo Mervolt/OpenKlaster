@@ -2,7 +2,7 @@ package com.openklaster.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.openklaster.api.validation.ModelValidationErrorMessages;
-import com.openklaster.api.validation.TokenNotRequired;
+import com.openklaster.api.validation.annotation.TokenNotRequired;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

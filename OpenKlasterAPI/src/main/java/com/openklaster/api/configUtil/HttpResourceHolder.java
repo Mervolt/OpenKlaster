@@ -15,4 +15,5 @@ public class HttpResourceHolder {
     public static final String MANUFACTURER_CREDENTIALS_FOR_HTTP_ENDPOINT_PATH = "manufacturerCredentials";
     public static final String MANUFACTURER_CREDENTIALS_FOR_ROUTE_HTTP = "manufacturerCredentials";
     public static final String CHART_FOR_HTTP_ENDPOINT_PATH = "chart";
+    public static final String SELECTABLE_DATES_FOR_HTTP_ENDPOINT_PATH = "selectabledates";
 }

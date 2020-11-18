@@ -16,6 +16,7 @@
         "energyconsumed": "/energyConsumed",
         "energyproduced": "/energyProduced",
         "summary": "/summary",
+        "selectabledates": "/selectableDates",
         "chart": "/chart",
         "manufacturerCredentials": "/manufacturerCredentials"
       }
@@ -27,7 +28,7 @@
       "installation": "openklaster.core.installation",
       "consumption": "openklaster.core.consumption",
       "production": "openklaster.core.production",
-      "chart": "openklaster.filerepository.chartfilerepository"
+      "filerepository": "openklaster.core.filerepository"
     }
   },
   "environmentalbenefits": {

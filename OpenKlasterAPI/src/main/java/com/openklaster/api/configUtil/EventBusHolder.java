@@ -7,5 +7,5 @@ public class EventBusHolder {
     public static final String INSTALLATION_FOR_EVENTBUS_PATH = "installation";
     public static final String PRODUCTION_FOR_EVENTBUS_PATH = "production";
     public static final String CONSUMPTION_FOR_EVENTBUS_PATH = "consumption";
-    public static final String CHART_FOR_EVENTBUS_PATH = "chart";
+    public static final String FILE_REPOSITORY_FOR_EVENTBUS_PATH = "filerepository";
 }

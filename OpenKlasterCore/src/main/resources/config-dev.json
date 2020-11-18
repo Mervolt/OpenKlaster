@@ -19,6 +19,9 @@
       },
       "loadMeasurements": {
         "address": "openklaster.core.consumption"
+      },
+      "fileRepository": {
+        "address": "openklaster.core.filerepository"
       }
     },
     "out": {
@@ -37,6 +40,9 @@
         "sourcemeasurement": {
           "address": "openklaster.cassandraservice.sourcemeasurement"
         }
+      },
+      "fileRepository": {
+        "address": "openklaster.filerepository"
       }
     }
   }

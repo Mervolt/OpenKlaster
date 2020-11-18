@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsernameInstallation {
+public class SelectableDatesRequest {
     private String username;
-    private String installation;
+    private String installationId;
 }

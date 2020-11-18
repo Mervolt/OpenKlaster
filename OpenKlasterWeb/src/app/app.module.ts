@@ -48,7 +48,7 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
 import {MatCardModule} from "@angular/material/card";
 import {InstallationService} from "./service/installation/installation.service";
 import {HttpClientInterceptor} from "./service/interceptors/http-client-interceptor.service";
-import { ChartsComponent} from './installation/charts/charts.component';
+import { ChartsComponent} from './charts/charts.component';
 import { DynamicFormQuestionComponent } from './components/Question-boxes/dynamic-form-question/dynamic-form-question.component';
 import { DynamicFormComponent } from './components/Question-boxes/dynamic-form/dynamic-form.component';
 import { SubmitButtonComponent } from './components/submit-button/submit-button.component';
@@ -57,6 +57,9 @@ import { UserEditionComponent } from './user/user-edition/user-edition.component
 import { EditionInputComponent } from './components/edition-input/edition-input.component';
 import { UserPanelComponent } from './user/user-panel/user-panel.component';
 import { EqualsToDirective } from './validators/equals-to.directive';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import {MatStepperModule} from '@angular/material/stepper';
 
 
 @NgModule({
@@ -124,7 +127,10 @@ import { EqualsToDirective } from './validators/equals-to.directive';
     MatDialogModule,
     MatTableModule,
     MatCardModule,
-    NgbModule
+    NgbModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatStepperModule,
   ],
   providers: [
     UserService,
@@ -133,6 +139,9 @@ import { EqualsToDirective } from './validators/equals-to.directive';
     CookieService,
     InstallationPanelComponent,
     RequestResponseComponentComponent,
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'pl-PL'
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpClientInterceptor,

@@ -76,8 +76,6 @@ public abstract class AuthManager {
     protected Future<User> authenticate(Message<JsonObject> message) {
         MultiMap headers = message.headers();
         JsonObject jsonBody = message.body();
-        logger.info(jsonBody);
-        System.out.println(getUser(jsonBody));
         Future<User> userFuture = getUser(jsonBody);
         return userFuture.map(user -> authenticateUser(headers, user));
     }
