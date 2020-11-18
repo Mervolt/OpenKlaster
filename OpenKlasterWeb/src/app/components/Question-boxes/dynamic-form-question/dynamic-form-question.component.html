@@ -3,7 +3,8 @@
     <mat-form-field appearance="outline" class="userformfield">
       <mat-label>{{question.label}}</mat-label>
       <input matInput [formControlName]="question.label" [required]="question.required" [name]="question.label"
-             [id]="question.label">
+             [id]="question.label" [type]="hide ? 'password' : 'text'">
+      <mat-icon matSuffix (click)="hide = !hide" style="cursor:pointer">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </mat-form-field>
   </div>
 </div>

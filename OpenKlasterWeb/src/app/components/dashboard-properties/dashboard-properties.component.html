@@ -1,0 +1,6 @@
+<div class="properties-container" [ngStyle]="{'grid-template-columns': getGridTemplateColumns()}">
+  <div *ngFor="let property of properties | keyvalue" class="property-container">
+    <span>{{property.key}}</span>
+    <span>{{property.value}}</span>
+  </div>
+</div>

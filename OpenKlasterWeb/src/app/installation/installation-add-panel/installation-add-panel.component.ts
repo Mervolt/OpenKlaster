@@ -10,6 +10,9 @@ import {QuestionTextbox} from "../../components/Question-boxes/question-textbox"
 import {DynamicFormComponent} from "../../components/Question-boxes/dynamic-form/dynamic-form.component";
 import {$e} from "codelyzer/angular/styles/chars";
 import {MatOptionSelectionChange} from "@angular/material/core";
+import {ConfirmationDialogPopupComponent} from "../../components/confirmation-dialog-popup/confirmation-dialog-popup.component";
+import {MatDialog} from "@angular/material/dialog";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-installation-generation-panel',
@@ -19,21 +22,24 @@ import {MatOptionSelectionChange} from "@angular/material/core";
 export class InstallationAddPanelComponent {
   sendRequestState = 'wait'
   manufacturersMap: Map<string, string[]> = new Map();
+  isEditing = false;
 
   questions$: QuestionBase<any>[];
 
   @ViewChild(CredentialsFormComponent) credentialsForm;
   @ViewChild(DynamicFormComponent) credentialsDynamicForm;
-  formModel = new Installation();
+  formModel: Installation;
 
   constructor(public installationService: InstallationService,
               public manufacturerCredentialService: ManufacturerCredentialService,
-              private cookieService: CookieService, private cd: ChangeDetectorRef) {
+              public cookieService: CookieService, public dialog: MatDialog,
+              public router: Router) {
     manufacturerCredentialService.getCredentials().toPromise().then(response => {
       for (let manufacturer in response) {
         this.manufacturersMap.set(manufacturer, response[manufacturer]);
       }
     });
+    this.formModel = new Installation();
     this.questions$ = [];
   }
 
@@ -43,8 +49,10 @@ export class InstallationAddPanelComponent {
     this.sendRequestState = 'waiting'
     let addPromise = this.installationService.addInstallation(this.formModel, this.cookieService);
     addPromise
-      .then(() => {
+      .then(response  => {
+        let id = response['_id']
         this.sendRequestState = 'success'
+        this.router.navigate(['installations', id]).then()
       })
       .catch(() => {
         this.sendRequestState = 'failure'
@@ -55,11 +63,11 @@ export class InstallationAddPanelComponent {
   }
 
   myCallbackFunction = (): void => {
-    this.onSubmit();
+    //TODO get rid of this - there was POST duplication due to calling it on button and form
   }
 
   changeCredentials(selectionChange: MatOptionSelectionChange) {
-    if(!selectionChange.isUserInput){
+    if (!selectionChange.isUserInput || this.isEditing) {
       return
     }
     let credentials = this.manufacturersMap.get(selectionChange.source.value);
@@ -70,5 +78,14 @@ export class InstallationAddPanelComponent {
     return credentials.map(credential => {
       return new QuestionTextbox(credential, credential);
     });
+  }
+
+  onWindInstallationType(event, group) {
+    let dialog = this.dialog.open(ConfirmationDialogPopupComponent, {
+      width: '500px'
+    })
+    dialog.componentInstance.popupContent = "There is no support for Wind installations yet.."
+    group.value = "";
+    this.formModel.installationType = "";
   }
 }

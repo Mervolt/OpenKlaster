@@ -21,7 +21,7 @@ export class SingleInstallationPanelComponent implements OnInit {
   installation: Installation
   isPopupShown: boolean = false;
 
-  constructor(public service: SingleInstallationPanelService, private router: Router,
+  constructor(private router: Router,
               public installationsService: InstallationService,
               private route: ActivatedRoute, public cookieService: CookieService,
               public dialog: MatDialog) {

@@ -3,8 +3,6 @@ import {RouterModule} from '@angular/router';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
-
-
 import {AppComponent} from './app.component';
 import {LoginFormComponent} from './user/login-form/login-form.component';
 import {NavbarComponent} from './navbar/navbar.component';
@@ -43,7 +41,7 @@ import {CredentialsTokenComponent} from './credentials/credentials-token/credent
 import {CredentialsUserpassComponent} from './credentials/credentials-userpass/credentials-userpass.component';
 import {InstallationListItemComponent} from './installation/installation-list-item/installation-list-item.component';
 import {MatTableModule} from "@angular/material/table";
-import { SuccessfulLoginDialogComponent } from './user/successful-login-dialog/successful-login-dialog.component';
+import { ConfirmationDialogPopupComponent } from './components/confirmation-dialog-popup/confirmation-dialog-popup.component';
 import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
 import {MatCardModule} from "@angular/material/card";
 import {InstallationService} from "./service/installation/installation.service";
@@ -57,10 +55,12 @@ import { UserEditionComponent } from './user/user-edition/user-edition.component
 import { EditionInputComponent } from './components/edition-input/edition-input.component';
 import { UserPanelComponent } from './user/user-panel/user-panel.component';
 import { EqualsToDirective } from './validators/equals-to.directive';
+import { InstallationViewComponent } from './installation/installation-view/installation-view.component';
+import { DescriptionTileComponent } from './installation/installation-view/description-tile/description-tile.component';
+import { DashboardPropertiesComponent } from './components/dashboard-properties/dashboard-properties.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import {MatStepperModule} from '@angular/material/stepper';
-
 
 @NgModule({
   declarations: [
@@ -82,7 +82,7 @@ import {MatStepperModule} from '@angular/material/stepper';
     CredentialsTokenComponent,
     CredentialsUserpassComponent,
     InstallationListItemComponent,
-    SuccessfulLoginDialogComponent,
+    ConfirmationDialogPopupComponent,
     SwaggerUiComponent,
     ChartsComponent,
     DynamicFormQuestionComponent,
@@ -91,7 +91,10 @@ import {MatStepperModule} from '@angular/material/stepper';
     UserEditionComponent,
     EditionInputComponent,
     UserPanelComponent,
-    EqualsToDirective
+    EqualsToDirective,
+    InstallationViewComponent,
+    DescriptionTileComponent,
+    DashboardPropertiesComponent
   ],
   imports: [
     BrowserModule,
@@ -102,7 +105,7 @@ import {MatStepperModule} from '@angular/material/stepper';
       {path: 'login', component: LoginFormComponent},
       {path: 'user', component: UserPanelComponent},
       {path: 'installations', component: InstallationPanelComponent},
-      {path: 'installations/:id', component: SingleInstallationPanelComponent},
+      {path: 'installations/:id', component: InstallationViewComponent},
       {path: 'installationGeneration', component: InstallationAddPanelComponent},
       {path: 'editInstallation/:id', component: EditInstallationComponent},
       {path: 'swagger-ui', component: SwaggerUiComponent},

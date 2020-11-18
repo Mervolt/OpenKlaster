@@ -33,12 +33,13 @@ public class SummaryCreator {
     }
 
 
-    private Map<Date, BigDecimal> convertMeasurementArraysIntoMap(List<Measurement> measurements) {
-        return measurements.stream()
-                .filter(measurement -> isItToday(measurement.getTimestamp()))
-                .collect(Collectors.toMap(Measurement::getTimestamp,
-                        value -> BigDecimal.valueOf(value.getValue()),
-                        (prev, next) -> next, HashMap::new));
+    private Map<Date, BigDecimal> convertMeasurementArraysIntoMap(List<Measurement> measurementsList) {
+        return Optional.ofNullable(measurementsList).map(measurements ->
+                measurements.stream().filter(measurement -> isItToday(measurement.getTimestamp()))
+                        .collect(Collectors.toMap(Measurement::getTimestamp,
+                                value -> BigDecimal.valueOf(value.getValue()),
+                                (prev, next) -> next, HashMap::new)))
+                .orElse(new HashMap<>());
     }
 
     private Measurement findLastMeasurement(List<Measurement> energyMeasurements) {

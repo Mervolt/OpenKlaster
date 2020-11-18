@@ -1,0 +1,89 @@
+.main-card-container {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--installation-card-color);
+  gap: 24px;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.left-margin-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.right-margin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.dashboard-card {
+  background-color: var(--installation-card-color);
+}
+
+.right-margin-card {
+  background-color: var(--installation-card-color);
+  margin-bottom: 16px;
+  height: 40%;
+}
+
+.left-margin-card {
+  background-color: var(--installation-card-color);
+  display: flex;
+  flex-direction: column;
+  height: 60%;
+  gap: 5%;
+}
+
+.installation-container {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  background-color: var(--installation-card-color);
+  height: 50%;
+}
+
+.installation-header-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.title-container {
+  height: 100%;
+}
+
+.mat-card-header-text {
+  align-content: stretch;
+}
+
+.installation-description-container {
+  height: 75%;
+  width: 320px;
+  background: var(--installation-card-text-color);
+  overflow: auto;
+  text-align: justify;
+}
+
+.installation-properties-container {
+  height: 45%;
+
+}
+.installation-properties-container::ng-deep.properties-container {
+  height: 100%;
+}
+
+.installation-properties-container::ng-deep.property-container {
+  background: #8cbf5c;
+}
+
+.mat-icon {
+  font-size: 36px;
+}

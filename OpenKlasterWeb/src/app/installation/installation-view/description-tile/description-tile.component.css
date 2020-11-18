@@ -1,0 +1,49 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  background-color: var(--installation-card-color);
+}
+
+.content-container {
+  background-color: var(--installation-card-color);
+  display: flex;
+  gap: 5%;
+  height: 75%;
+}
+.description-container {
+  width: 320px;
+  text-align: justify;
+  background: var(--installation-card-text-color);
+  overflow: auto;
+}
+
+.description-container ::-webkit-scrollbar {
+  display: none;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: row;
+}
+.title-container {
+  display: flex;
+  flex-direction: row;
+}
+.mat-icon {
+  font-size: 36px;
+}
+
+.mat-card-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.mat-card-header-text {
+  align-content: flex-start;
+}
+.right-margin-card-info {
+  width: 40%;
+}
