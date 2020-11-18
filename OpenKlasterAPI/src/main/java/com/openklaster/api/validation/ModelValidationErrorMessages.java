@@ -42,4 +42,8 @@ public class ModelValidationErrorMessages {
     public static final String TILT = "Tilt is required";
 
     public static final String CAPACITY = "Capacity is required";
+
+    public static final String DATE = "Date is required";
+
+    public static final String DATE_FORMAT = "Date must be in the format yyyy-MM-dd";
 }

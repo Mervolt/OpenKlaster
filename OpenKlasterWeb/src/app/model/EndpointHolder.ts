@@ -11,4 +11,5 @@ export class EndpointHolder {
   static credentialsEndpoint = EndpointHolder.apiUrl + 'manufacturerCredentials'
   static swaggerEndpoint = EndpointHolder.apiUrl + "swagger.json";
   static chartEndpoint = EndpointHolder.apiUrl + "chart";
+  static selectableDatesEndpoint = EndpointHolder.apiUrl + "selectableDates";
 }

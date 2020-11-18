@@ -1,8 +1,8 @@
 package com.openklaster.cassandra.service;
 
+import com.openklaster.cassandra.CassandraVerticleConfig;
 import com.openklaster.cassandra.app.CassandraVerticle;
 import com.openklaster.cassandra.properties.CassandraProperties;
-import com.openklaster.common.config.ConfigFilesManager;
 import io.vertx.cassandra.CassandraClient;
 import io.vertx.cassandra.MappingManager;
 import io.vertx.core.Vertx;
@@ -16,6 +16,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,12 +34,15 @@ public class CassandraTestBase {
 
     @Before
     public void setUp(TestContext context) {
+        //IMPROVE TESTS
+        GenericApplicationContext ctx = new AnnotationConfigApplicationContext(CassandraVerticleConfig.class);
         Async async = context.async();
         vertx = Vertx.vertx();
         verticle = new CassandraVerticle();
 
         vertx.deployVerticle(verticle, result -> {
-            cassandraClient = verticle.getCassandraClient();
+            ctx.registerBean(Vertx.class, () -> vertx);
+            cassandraClient = ctx.getBean(CassandraClient.class);
             mappingManager = MappingManager.create(cassandraClient);
             async.complete();
         });

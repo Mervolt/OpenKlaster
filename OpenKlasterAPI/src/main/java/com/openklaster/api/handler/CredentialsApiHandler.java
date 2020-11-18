@@ -1,6 +1,7 @@
 package com.openklaster.api.handler;
 
 import com.openklaster.common.messages.HttpReplyUtils;
+import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
@@ -27,12 +28,12 @@ public class CredentialsApiHandler implements ApiHandler {
     }
 
     @Override
-    public void handle(RoutingContext context) {
+    public void handle(RoutingContext context, EventBus eventBus) {
         HttpReplyUtils.sendJsonResponse(context.response(), JsonObject.mapFrom(manufacturersCredentialsMap));
     }
 
     @Override
-    public void configure(Router router) {
-        router.get(this.route).handler(this::handle);
+    public void configure(Router router, EventBus eventBus) {
+        router.get(this.route).handler(context -> handle(context, eventBus));
     }
 }

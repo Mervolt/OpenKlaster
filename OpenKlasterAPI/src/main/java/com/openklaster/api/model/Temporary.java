@@ -1,12 +1,22 @@
 package com.openklaster.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.openklaster.api.validation.TokenNotRequired;
+import com.openklaster.api.validation.ModelValidationErrorMessages;
+import com.openklaster.api.validation.annotation.CheckDateFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotBlank;
 
 @Data
-@TokenNotRequired
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Temporary extends Model {
-    // Todo fields and validation for chart
+    @NotBlank(message = ModelValidationErrorMessages.INSTALLATION_ID)
+    private String installationId;
+    @NotBlank(message = ModelValidationErrorMessages.DATE)
+    @CheckDateFormat(pattern = "yyyy-MM-dd", message = ModelValidationErrorMessages.DATE_FORMAT)
+    private String date;
 }

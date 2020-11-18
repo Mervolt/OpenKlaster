@@ -9,13 +9,12 @@ import {AppComponent} from './app.component';
 import {LoginFormComponent} from './user/login-form/login-form.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {RegisterFormComponent} from './user/register-form/register-form.component';
-import {RegisterFormService} from './user/register-form.service';
+import {UserService} from './service/user.service';
 import {TokenPanelComponent} from './token/token-panel/token-panel.component';
 import {MeasurementPanelComponent} from './installation/measurement-panel/measurement-panel.component';
 import {InstallationPanelComponent} from './installation/installation-panel/installation-panel.component';
 import {TokenService} from './service/token/token.service';
 import {CookieService} from 'ngx-cookie-service';
-import {LoginFormService} from './user/login-form.service';
 import {SingleInstallationPanelComponent} from './installation/single-installation-panel/single-installation-panel.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSliderModule} from "@angular/material/slider";
@@ -49,11 +48,18 @@ import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
 import {MatCardModule} from "@angular/material/card";
 import {InstallationService} from "./service/installation/installation.service";
 import {HttpClientInterceptor} from "./service/interceptors/http-client-interceptor.service";
-import { ChartsComponent} from './installation/charts/charts.component';
+import { ChartsComponent} from './charts/charts.component';
 import { DynamicFormQuestionComponent } from './components/Question-boxes/dynamic-form-question/dynamic-form-question.component';
 import { DynamicFormComponent } from './components/Question-boxes/dynamic-form/dynamic-form.component';
 import { SubmitButtonComponent } from './components/submit-button/submit-button.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserEditionComponent } from './user/user-edition/user-edition.component';
+import { EditionInputComponent } from './components/edition-input/edition-input.component';
+import { UserPanelComponent } from './user/user-panel/user-panel.component';
+import { EqualsToDirective } from './validators/equals-to.directive';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import {MatStepperModule} from '@angular/material/stepper';
 
 
 @NgModule({
@@ -81,7 +87,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ChartsComponent,
     DynamicFormQuestionComponent,
     DynamicFormComponent,
-    SubmitButtonComponent
+    SubmitButtonComponent,
+    UserEditionComponent,
+    EditionInputComponent,
+    UserPanelComponent,
+    EqualsToDirective
   ],
   imports: [
     BrowserModule,
@@ -90,7 +100,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     RouterModule.forRoot([
       {path: 'register', component: RegisterFormComponent},
       {path: 'login', component: LoginFormComponent},
-      {path: 'token', component: TokenPanelComponent},
+      {path: 'user', component: UserPanelComponent},
       {path: 'installations', component: InstallationPanelComponent},
       {path: 'installations/:id', component: SingleInstallationPanelComponent},
       {path: 'installationGeneration', component: InstallationAddPanelComponent},
@@ -117,16 +127,21 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatDialogModule,
     MatTableModule,
     MatCardModule,
-    NgbModule
+    NgbModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatStepperModule,
   ],
   providers: [
-    RegisterFormService,
-    LoginFormService,
+    UserService,
     TokenService,
     InstallationService,
     CookieService,
     InstallationPanelComponent,
     RequestResponseComponentComponent,
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'pl-PL'
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpClientInterceptor,

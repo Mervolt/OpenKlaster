@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {RegisterFormService} from '../register-form.service';
+import {UserService} from '../../service/user.service';
 import {User} from '../../model/User';
 import {AppComponent} from "../../app.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -16,7 +16,7 @@ import {SuccessfulLoginDialogComponent} from "../successful-login-dialog/success
 export class RegisterFormComponent implements OnInit {
   model = new User('', '', '');
 
-  constructor(public service: RegisterFormService, public appComp: AppComponent, private router: Router, public dialog: MatDialog) {
+  constructor(public service: UserService, public appComp: AppComponent, private router: Router, public dialog: MatDialog) {
     this.appComp.refreshBackground(0)
   }
 

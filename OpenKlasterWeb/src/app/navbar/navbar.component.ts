@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 
   links: NavigationNameAddressTuple[] = [
-    new NavigationNameAddressTuple('Tokens', this.navigateToYourTokens.bind(this)),
+    new NavigationNameAddressTuple('User Panel', this.navigateToUserPanel.bind(this)),
     new NavigationNameAddressTuple('Add installation', this.navigateToInstallationGeneration.bind(this)),
     new NavigationNameAddressTuple('Your installations', this.navigateToYourInstallations.bind(this)),
     new NavigationNameAddressTuple('API Documentation', this.navigateToSwagger.bind(this)),
@@ -30,12 +30,8 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  //TODO Maybe some global navigation/routing service would be nice as in login-form we are also using routing
-  //MM-ANSWER: I think it is better to leave in component so it has access only to redirects it can use than
-  //exposing interface with all possible interfaces
-  //And service logic should be tied to component it represents
-  navigateToYourTokens(): void {
-    this.router.navigate(['token']).then();
+  navigateToUserPanel(): void {
+    this.router.navigate(['user']).then();
   }
 
   navigateToYourInstallations(): void {

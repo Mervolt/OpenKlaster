@@ -1,6 +1,6 @@
 FROM vertx/vertx3
 
-ENV VERTICLE_NAME com.openklaster.core.vertx.app.CoreVerticle
+ENV VERTICLE_NAME com.openklaster.core.app.CoreVerticle
 ENV VERTICLE_FILE target/OpenKlasterCore.jar
 
 ENV VERTICLE_HOME /usr/verticles
