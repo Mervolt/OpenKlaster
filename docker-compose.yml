@@ -22,12 +22,15 @@ services:
       - "8082:8082"
   openklaster-mongo:
     build: MongoService
+    environment:
+      - MONGO_DB={"port":27017,"host":"mongo-db"}
     depends_on:
       - mongo-db
   openklaster-cassandra:
     build: CassandraService
     environment:
       - TZ=Poland
+      - CASSANDRA_DB={"keyspace":"openklaster","port":9042,"host":"cassandra-db"}
     depends_on:
       - cassandra-db
   openklaster-filerepository:

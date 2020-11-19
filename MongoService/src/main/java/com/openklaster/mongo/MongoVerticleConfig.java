@@ -12,6 +12,9 @@ import com.openklaster.mongo.service.MongoPersistenceService;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.diagnostics.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -20,6 +23,8 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.*;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Configuration
 @ComponentScan
@@ -44,6 +49,12 @@ public class MongoVerticleConfig extends SuperVerticleConfig {
     @Autowired
     public MongoClient mongoClient(Vertx vertx) {
         JsonObject mongoOptions = jsonConfig.getJsonObject(MongoHolder.DATABASE_PATH).getJsonObject(MongoHolder.MONGO_FOR_DATABASE_PATH);
+
+        Optional<String> mongoDbConfig = Optional.ofNullable(System.getenv(MongoHolder.MONGO_DB));
+        if (mongoDbConfig.isPresent()) {
+            mongoOptions = new JsonObject(mongoDbConfig.get());
+        }
+
         return MongoClient.createShared(vertx, mongoOptions);
     }
 
