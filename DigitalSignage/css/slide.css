@@ -18,6 +18,8 @@
     margin-top: 10vh;
     margin-bottom: 10vh;
     height: 20vh;
+    min-width: 400px;
+    position: relative;
 }
 
 .minicard {
