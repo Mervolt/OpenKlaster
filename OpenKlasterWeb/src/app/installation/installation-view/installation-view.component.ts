@@ -92,9 +92,9 @@ export class InstallationViewComponent implements OnInit {
 
   getSummaryProperties(): Map<string, any> {
     let outp = new Map<string, any>();
-    outp.set('Total energy', this.installationSummary.totalEnergy + " kW")
-    outp.set('Today energy', this.installationSummary.todayEnergy + " kW")
-    outp.set('Current power', this.installationSummary.currentPower + " W")
+    outp.set('Total energy', this.installationSummary.totalEnergy + " kWh")
+    outp.set('Today energy', this.installationSummary.todayEnergy + " kWh")
+    outp.set('Current power', this.installationSummary.currentPower + " kW")
     outp.set('Trees saved', this.installationSummary.environmentalBenefits.treesSaved)
     outp.set('Co2 reduced', this.installationSummary.environmentalBenefits.co2Reduced + " tons")
     return outp;
