@@ -7,11 +7,15 @@ services:
       - openklaster-api
   openklaster-core:
     build: OpenKlasterCore
+    environment:
+      - TZ=Poland
     depends_on:
       - openklaster-cassandra
       - openklaster-mongo
   openklaster-api:
     build: OpenKlasterAPI
+    environment:
+      - TZ=Poland
     depends_on:
       - openklaster-core
     ports:
@@ -22,6 +26,8 @@ services:
       - mongo-db
   openklaster-cassandra:
     build: CassandraService
+    environment:
+      - TZ=Poland
     depends_on:
       - cassandra-db
   openklaster-filerepository:
