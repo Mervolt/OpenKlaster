@@ -8,7 +8,6 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost",
   "tags": [
     {
       "name": "user",
@@ -24,7 +23,8 @@
     }
   ],
   "schemes": [
-    "http"
+    "http",
+    "https"
   ],
   "paths": {
     "/api/1/user/login": {

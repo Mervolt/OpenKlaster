@@ -35,6 +35,8 @@ services:
       - cassandra-db
   openklaster-filerepository:
     build: FileRepositoryService
+    environment:
+      - VOLUME_PATH=/file-repository
     volumes:
       - ./file-repository:/file-repository
   openklaster-webpage:

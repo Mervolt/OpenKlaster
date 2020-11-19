@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8082/',
-  swaggerUrl: 'swagger-dev.json'
+  apiUrl: 'http://localhost:8082/'
 };
 
 /*
