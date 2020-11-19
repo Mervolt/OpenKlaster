@@ -27,10 +27,6 @@ public class MongoVerticle extends OpenklasterVerticle {
     private static final Logger logger = LoggerFactory.getLogger(MongoVerticle.class);
     private GenericApplicationContext ctx;
 
-    public MongoVerticle(boolean isDevModeOn) {
-        super(isDevModeOn);
-    }
-
     public MongoVerticle() {
         super();
     }

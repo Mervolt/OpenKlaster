@@ -25,10 +25,6 @@ public class CassandraVerticle extends OpenklasterVerticle {
     private EventBus eventBus;
     GenericApplicationContext ctx;
 
-    public CassandraVerticle(boolean isDevMode) {
-        super(isDevMode);
-    }
-
     public CassandraVerticle() {
         super();
     }

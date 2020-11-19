@@ -25,10 +25,6 @@ public class CoreVerticle extends OpenklasterVerticle {
         super();
     }
 
-    public CoreVerticle(boolean isDevModeOn) {
-        super(isDevModeOn);
-    }
-
     @Override
     public void init(Vertx vertx, Context context) {
         ctx = new AnnotationConfigApplicationContext(CoreVerticleConfig.class);
