@@ -1,2 +1,24 @@
 <app-navbar></app-navbar>
-<button (click)="downloadFile()">Button</button>
+
+<mat-horizontal-stepper class="font-20" linear="Enable linear mode" #stepper>
+  <mat-step [stepControl]="installationForm">
+    <form [formGroup]="installationForm">
+      <ng-template matStepLabel>Choose your installation</ng-template>
+      <div class="step" *ngIf="!loading">
+        <mat-form-field appearance="standard">
+          <mat-label>Select an option</mat-label>
+          <mat-select formControlName="installationId">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let id of installationIDs" [value]="id">{{id}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-fab matStepperNext style="margin-left: 100px;" color="primary" (click)="installationSelected()">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+      <div class="centered" *ngIf="loading">
+        <mat-spinner></mat-spinner>
+      </div>
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>

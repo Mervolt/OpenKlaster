@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-digital-signage',
@@ -6,10 +7,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./digital-signage.component.css']
 })
 export class DigitalSignageComponent implements OnInit {
+  loading: boolean = false;
+  installationForm: FormGroup;
+  installationIDs: Array<String>;
+  installationId: String;
 
-  constructor() { }
+  constructor(private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
+    this.installationForm = this.fb.group({
+      installationId: [this.installationId, Validators.required]
+    });
+  }
+
+
+  installationSelected() {
+
   }
 
   downloadFile(): void {
