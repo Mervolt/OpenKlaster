@@ -20,6 +20,7 @@ export class InstallationViewComponent implements OnInit {
   installationIdOnlyNumber: number
   installation: Installation
   installationSummary: InstallationSummary
+  summaryProperties: Map<string, any>
 
   constructor(private router: Router, private installationsService: InstallationService,
               private route: ActivatedRoute, private cookieService: CookieService,
@@ -30,6 +31,18 @@ export class InstallationViewComponent implements OnInit {
     this.installationIdOnlyNumber = this.stripInstallationIdIfRequired(this.installationId)
     this.getInstallation(this.installationIdOnlyNumber).then(() => {
     })
+
+    let observableSummary = this.installationsService.getInstallationSummary(this.cookieService, this.installationIdOnlyNumber);
+    observableSummary.subscribe(response => {
+      this.installationSummary = InstallationSummary.fromDto(response)
+      let outp = new Map<string, any>();
+      outp.set('Total energy', this.installationSummary.totalEnergy + " kWh")
+      outp.set('Today energy', this.installationSummary.todayEnergy + " kWh")
+      outp.set('Current power', this.installationSummary.currentPower + " kW")
+      outp.set('Trees saved', this.installationSummary.environmentalBenefits.treesSaved)
+      outp.set('Co2 reduced', this.installationSummary.environmentalBenefits.co2Reduced + " tons")
+      this.summaryProperties = outp
+    })
   }
 
   async getInstallation(id: number) {
@@ -37,10 +50,7 @@ export class InstallationViewComponent implements OnInit {
     observableInstallation.subscribe(response => {
       this.installation = InstallationDto.fromDto(response)
     })
-    let observableSummary = this.installationsService.getInstallationSummary(this.cookieService, id);
-    observableSummary.subscribe(response => {
-      this.installationSummary = InstallationSummary.fromDto(response)
-    })
+
   }
 
   stripInstallationIdIfRequired(installationId: string) {
@@ -91,13 +101,9 @@ export class InstallationViewComponent implements OnInit {
   }
 
   getSummaryProperties(): Map<string, any> {
-    let outp = new Map<string, any>();
-    outp.set('Total energy', this.installationSummary.totalEnergy + " kWh")
-    outp.set('Today energy', this.installationSummary.todayEnergy + " kWh")
-    outp.set('Current power', this.installationSummary.currentPower + " kW")
-    outp.set('Trees saved', this.installationSummary.environmentalBenefits.treesSaved)
-    outp.set('Co2 reduced', this.installationSummary.environmentalBenefits.co2Reduced + " tons")
-    return outp;
+    return this.summaryProperties;
   }
+
+
 
 }

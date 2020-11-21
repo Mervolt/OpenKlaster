@@ -14,8 +14,15 @@
             {{installation.description}}
           </mat-card>
         </div>
-        <app-dashboard-properties [properties]="getSummaryProperties()"
-                                  [ngClass]="['installation-properties-container']"></app-dashboard-properties>
+        <div [ngClass]="['installation-properties-container']">
+          <div class="properties-container" [ngStyle]="{'grid-template-columns': '49% 49%'}">
+            <div *ngFor="let property of summaryProperties | keyvalue" class="property-container">
+              <span>{{property.key}}</span>
+              <span>{{property.value}}</span>
+            </div>
+          </div>
+        </div>
+
       </mat-card>
       <button mat-raised-button color="primary" type="button" class="btn btn-primary"
               (click)="navigateToCharts()">Show charts

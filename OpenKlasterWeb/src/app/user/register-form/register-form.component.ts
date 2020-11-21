@@ -26,12 +26,6 @@ export class RegisterFormComponent implements OnInit {
   async onSubmit() {
     let success = await this.service.addUser(this.model);
     if (success) {
-      let dialog = this.dialog.open(ConfirmationDialogPopupComponent, {
-        width: '500px'
-      })
-
-      dialog.componentInstance.popupContent = `Account for user ${this.model.username} has been created successfully!`
-
       this.router.navigate(['/login']).then();
     }
   }

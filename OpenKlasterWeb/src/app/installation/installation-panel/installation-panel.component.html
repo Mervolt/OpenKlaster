@@ -4,7 +4,6 @@
                (page)="onPageChange($event)">
 </mat-paginator>
 <mat-action-list style="background-color: white">
-  <h1 style="text-align: center">Your installations</h1>
   <mat-list-item *ngFor="let installation of displayedInstallations"
                  (click)="navigateToInstallation(installation.installationId)" class="basic-list-item">
     <div style="min-width: 100%">

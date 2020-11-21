@@ -18,6 +18,8 @@ services:
     build: OpenKlasterAPI
     environment:
       - TZ=Poland
+    ports:
+      - "8082:8082"
     depends_on:
       - openklaster-core
   openklaster-mongo:
@@ -62,7 +64,7 @@ services:
       expose:
         - "9042"
       volumes:
-        - ./cassandra-volume:/var/lib/cassandra
+        - ./data/cassandra:/var/lib/cassandra
   grav:
     build:
       context: grav

@@ -62,6 +62,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import {MatStepperModule} from '@angular/material/stepper';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -136,6 +137,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     MatNativeDateModule,
     MatStepperModule,
     NgxSpinnerModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     UserService,

@@ -87,3 +87,17 @@
 .mat-icon {
   font-size: 36px;
 }
+
+.properties-container {
+  display: grid;
+  grid-gap: 5%;
+}
+
+.property-container {
+  display: flex;
+  background: var(--installation-card-text-color);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
