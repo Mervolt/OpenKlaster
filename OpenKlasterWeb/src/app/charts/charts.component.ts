@@ -18,7 +18,6 @@ import {MatHorizontalStepper, MatStepper} from '@angular/material/stepper';
 })
 export class ChartsComponent implements OnInit {
   @ViewChild('stepper') private stepper: MatHorizontalStepper;
-  loading: boolean = false;
   getChartsError: boolean = false;
   getSelectableDatesError: boolean = false;
 
@@ -49,10 +48,8 @@ export class ChartsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loading = true;
     this.installationService.getInstallations(this.cookieService).subscribe(response => {
       this.installationIDs = response.map(installation => installation['_id'])
-      this.loading = false;
     })
 
     this.installationForm = this.fb.group({
@@ -76,13 +73,10 @@ export class ChartsComponent implements OnInit {
     if (this.installationForm.get('installationId').value != '' && this.installationForm.get('installationId').value != undefined) {
       this.getSelectableDatesError = false;
       this.installationId = this.installationForm.get('installationId').value;
-      this.loading = true;
       this.chartService.getSelectableDates(this.cookieService, this.installationId).subscribe(response => {
           this.selectableDates = response.map(date => new Date(date));
-          this.loading = false;
         }, () => {
           this.getSelectableDatesError = true;
-          this.loading = false;
         }
       )
       this.datePickerForm.get('date').setValue('');
@@ -91,7 +85,6 @@ export class ChartsComponent implements OnInit {
 
   dateSelected() {
     if (this.datePickerForm.get('date').value != '' && this.datePickerForm.get('date').value != null) {
-      this.loading = true;
       this.getChartsError = false;
       this.selectedDate = this.formatDate(this.datePickerForm.get('date').value);
       let chartsArray = [];
@@ -102,11 +95,9 @@ export class ChartsComponent implements OnInit {
               chartsArray.push(new Chart(this.parseDateTime(value),
                 this.domSanitizer.bypassSecurityTrustResourceUrl(response[value]))));
             this.charts = chartsArray;
-            this.loading = false;
           },
           () => {
             this.getChartsError = true
-            this.loading = false;
           }
         )
     }

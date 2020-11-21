@@ -61,6 +61,7 @@ import { DashboardPropertiesComponent } from './components/dashboard-properties/
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import {MatStepperModule} from '@angular/material/stepper';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -134,6 +135,7 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatDatepickerModule,
     MatNativeDateModule,
     MatStepperModule,
+    NgxSpinnerModule,
   ],
   providers: [
     UserService,
