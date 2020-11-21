@@ -5,22 +5,24 @@
     <form [formGroup]="installationForm">
       <ng-template matStepLabel>Choose your installation and API token</ng-template>
       <div class="step" *ngIf="!loading">
-        <h3>Installation</h3>
-        <mat-form-field appearance="standard">
-          <mat-label>Select an option</mat-label>
-          <mat-select formControlName="installationId">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let id of installationIDs" [value]="id">{{id}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <h3>API Token</h3>
-        <mat-form-field appearance="standard">
-          <mat-label>Select an option</mat-label>
-          <mat-select formControlName="apiToken">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let token of apiTokens" [value]="token">{{token}}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div style="flex-direction: column">
+          <h3>Installation</h3>
+          <mat-form-field appearance="standard">
+            <mat-label>Select an option</mat-label>
+            <mat-select formControlName="installationId">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let id of installationIDs" [value]="id">{{id}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <h3>API Token</h3>
+          <mat-form-field appearance="standard">
+            <mat-label>Select an option</mat-label>
+            <mat-select formControlName="apiToken">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let token of apiTokens" [value]="token">{{token}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
         <button mat-fab matStepperNext style="margin-left: 100px;" color="primary" (click)="installationSelected()">
           <mat-icon>arrow_forward</mat-icon>
         </button>
