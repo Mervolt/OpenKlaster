@@ -19,7 +19,7 @@ public abstract class MongoServiceTest {
     public void setup(TestContext context) {
         Async async = context.async();
         this.vertx = Vertx.vertx();
-        MongoVerticle myMongoVerticle = new MongoVerticle(true);
+        MongoVerticle myMongoVerticle = new MongoVerticle();
         this.vertx.deployVerticle(myMongoVerticle, result -> async.complete());
         this.eventBus = vertx.eventBus();
         async.awaitSuccess();

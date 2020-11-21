@@ -1,0 +1,14 @@
+version: '3'
+services:
+  openklaster-webpage:
+    environment:
+      - API_URL=https://energia.dev.ki.agh.edu.pl/
+  mongo-db:
+    volumes:
+      - /var/volumes/mongo-volume:/data/db
+  cassandra-db:
+    volumes:
+      - /var/volumes/cassandra-volume:/var/lib/cassandra
+  openklaster-filerepository:
+    volumes:
+      - /var/volumes/file-repository:/file-repository
