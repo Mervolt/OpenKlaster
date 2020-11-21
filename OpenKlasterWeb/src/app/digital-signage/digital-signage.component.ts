@@ -12,4 +12,14 @@ export class DigitalSignageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  downloadFile(): void {
+    let res = "Wygenerowany plik :)";
+    const blob = new Blob([res], {type: 'text/plain'});
+    const url = window.URL.createObjectURL(blob);
+    const downloadAnchor = document.createElement("a");
+    downloadAnchor.href = url;
+    downloadAnchor.download = "config.js";
+    downloadAnchor.click();
+  }
+
 }
