@@ -61,10 +61,23 @@
   <mat-step>
     <ng-template matStepLabel>Summarization</ng-template>
     <div class="step">
-      <button mat-fab color="primary" matStepperPrevious>
+      <button mat-fab color="primary" style="margin-right: 100px" matStepperPrevious>
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <button mat-raised-button color="primary" (click)="downloadFile()">Download</button>
+      <div style="border: solid black 1px; padding: 5px">
+        <h3>File preview:</h3>
+        <p>const config = {{'{'}}</p>
+        <p>"installationId": {{this.installationId}},</p>
+        <p>"apiToken": {{this.apiToken}},</p>
+        <p>"slides": {{'{'}}</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;"intro": {{this.introSelected}}</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;"trees": {{this.treesSelected}}</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;"power_chart": {{this.chartsSelected}}</p>
+        <p>{{'}'}},</p>
+        <p>"slideChangeTimeout": {{this.desiredTimeout}}</p>
+        <p>{{'}'}};</p>
+      </div>
+      <button mat-raised-button color="primary" style="margin-left: 30px" (click)="downloadFile()">Download</button>
     </div>
   </mat-step>
 
