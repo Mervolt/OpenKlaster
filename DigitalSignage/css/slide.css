@@ -1,5 +1,25 @@
+.left-panel {
+    height: 100vh;
+    width: 25vw;
+    min-width: 300px;
+    background-color: rgba(16, 12, 18, 0.7);
+    display: inline-block !important;
+    position: relative;
+}
+
+.logo-left-panel {
+    position: absolute;
+    padding: 20% 20% 10%;
+    width: 100%;
+    bottom: 0;
+}
+
 .infocard {
-    margin-top: 75px;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    height: 20vh;
+    min-width: 400px;
+    position: relative;
 }
 
 .minicard {
@@ -11,13 +31,6 @@
 img.icon {
     width: 150px;
     height: 150px;
-}
-
-.logo {
-    width: 10em;
-    position: absolute;
-    left: 25%;
-    bottom: 5%;
 }
 
 .vertical-center {
