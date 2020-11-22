@@ -43,9 +43,6 @@ export class DigitalSignageComponent implements OnInit {
       installationId: [this.installationId, Validators.required],
       apiToken: [this.apiToken, Validators.required]
     });
-    this.slidesForm = this.fb.group({
-      desiredTimeout: [this.desiredTimeout, Validators.required]
-    });
 
     this.desiredTimeout=10000
   }
@@ -82,9 +79,5 @@ export class DigitalSignageComponent implements OnInit {
     downloadAnchor.href = url;
     downloadAnchor.download = "config.js";
     downloadAnchor.click();
-  }
-
-  viewsSelected() {
-    this.loading = true;
   }
 }

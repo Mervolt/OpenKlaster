@@ -29,7 +29,6 @@
       </div>
     </form>
   </mat-step>
-
   <mat-step [stepControl]="slidesForm">
     <ng-template matStepLabel>Choose desired views and time per one</ng-template>
     <div class="step">
@@ -45,9 +44,18 @@
           <input [ngModel]="desiredTimeout" required matInput>
         </mat-form-field>
       </div>
-      <button mat-fab matStepperNext style="margin-left: 100px;" color="primary" (click)="viewsSelected()">
+      <button mat-fab matStepperNext style="margin-left: 100px;" color="primary">
         <mat-icon>arrow_forward</mat-icon>
       </button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Summarization</ng-template>
+    <div class="step">
+      <button mat-fab color="primary" matStepperPrevious>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <button mat-raised-button color="primary" (click)="downloadFile()">Download</button>
     </div>
   </mat-step>
 
