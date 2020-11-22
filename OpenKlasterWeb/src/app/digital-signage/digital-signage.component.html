@@ -29,4 +29,23 @@
       </div>
     </form>
   </mat-step>
+
+  <mat-step [stepControl]="slidesForm">
+    <form [formGroup]="slidesForm">
+      <ng-template matStepLabel>Choose date</ng-template>
+      <div class="step">
+        <button mat-fab style="margin-right: 100px;" color="primary" matStepperPrevious>
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+          <mat-checkbox>Intros</mat-checkbox>
+          <mat-checkbox>Trees</mat-checkbox>
+          <mat-checkbox>Charts</mat-checkbox>
+        <button mat-fab matStepperNext style="margin-left: 100px;" color="primary" (click)="viewsSelected()">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+
 </mat-horizontal-stepper>

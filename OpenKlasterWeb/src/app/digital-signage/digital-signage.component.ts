@@ -21,6 +21,11 @@ export class DigitalSignageComponent implements OnInit {
   installationId: String;
   apiTokens: Array<String>;
   apiToken: String;
+  slidesForm: FormGroup;
+  introSelected: boolean = false;
+  treesSelected: boolean = false;
+  chartsSelected: boolean = false;
+
 
   constructor(private fb: FormBuilder,
               private appComp: AppComponent,
@@ -37,6 +42,12 @@ export class DigitalSignageComponent implements OnInit {
       installationId: [this.installationId, Validators.required],
       apiToken: [this.apiToken, Validators.required]
     });
+
+    this.slidesForm = this.fb.group({
+      introSelected: [this.introSelected, Validators.required],
+      treesSelected: [this.treesSelected, Validators.required],
+      chartsSelected: [this.chartsSelected, Validators.required]
+    });
   }
 
   getFormOptions(): void {
@@ -45,7 +56,6 @@ export class DigitalSignageComponent implements OnInit {
       this.installationsLoaded = true;
       if(this.tokensLoaded === true)
         this.loading = false
-
     })
 
     this.tokenService.getTokens(this.appComp.cookieService).subscribe(response => {
@@ -74,4 +84,7 @@ export class DigitalSignageComponent implements OnInit {
     downloadAnchor.click();
   }
 
+  viewsSelected() {
+
+  }
 }
