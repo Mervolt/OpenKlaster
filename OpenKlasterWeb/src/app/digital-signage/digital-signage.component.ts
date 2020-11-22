@@ -27,7 +27,6 @@ export class DigitalSignageComponent implements OnInit {
   chartsSelected: boolean = false;
   desiredTimeout: number;
 
-
   constructor(private fb: FormBuilder,
               private appComp: AppComponent,
               private installationService: InstallationService,
@@ -44,14 +43,14 @@ export class DigitalSignageComponent implements OnInit {
       apiToken: [this.apiToken, Validators.required]
     });
 
-    this.desiredTimeout=10000
+    this.desiredTimeout = 10000
   }
 
   getFormOptions(): void {
     this.installationService.getInstallations(this.cookieService).subscribe(response => {
       this.installationIDs = response.map(installation => installation['_id'])
       this.installationsLoaded = true;
-      if(this.tokensLoaded === true)
+      if (this.tokensLoaded === true)
         this.loading = false
     })
 
@@ -59,7 +58,7 @@ export class DigitalSignageComponent implements OnInit {
       let tokensData: TokenResponse[] = <TokenResponse[]>(response["userTokens"])
       this.apiTokens = tokensData.map(token => token.data)
       this.tokensLoaded = true;
-      if(this.installationsLoaded === true)
+      if (this.installationsLoaded === true)
         this.loading = false;
     })
   }
@@ -69,10 +68,26 @@ export class DigitalSignageComponent implements OnInit {
       this.installationId = this.installationForm.get('installationId').value;
       this.loading = true;
     }
+
+    if (this.installationForm.get('apiToken').value != '' && this.installationForm.get('apiToken').value != undefined) {
+      this.apiToken = this.installationForm.get('apiToken').value;
+      this.loading = true;
+    }
   }
 
   downloadFile(): void {
-    let res = "Wygenerowany plik :)";
+    let resJsonAny: any = {
+      "installationId": this.installationId,
+      "apiToken": this.apiToken,
+      "slides": {
+        "intro": this.introSelected,
+        "trees": this.treesSelected,
+        "power_chart": this.chartsSelected
+      },
+      "slideChangeTimeout": this.desiredTimeout
+    };
+    let resJson: JSON = <JSON>resJsonAny;
+    let res = "const config = " + JSON.stringify(resJson);
     const blob = new Blob([res], {type: 'text/plain'});
     const url = window.URL.createObjectURL(blob);
     const downloadAnchor = document.createElement("a");
