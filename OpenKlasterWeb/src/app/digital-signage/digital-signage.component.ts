@@ -66,12 +66,10 @@ export class DigitalSignageComponent implements OnInit {
   installationSelected() {
     if (this.installationForm.get('installationId').value != '' && this.installationForm.get('installationId').value != undefined) {
       this.installationId = this.installationForm.get('installationId').value;
-      this.loading = true;
     }
 
     if (this.installationForm.get('apiToken').value != '' && this.installationForm.get('apiToken').value != undefined) {
       this.apiToken = this.installationForm.get('apiToken').value;
-      this.loading = true;
     }
   }
 
