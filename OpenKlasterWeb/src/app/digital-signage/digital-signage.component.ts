@@ -25,6 +25,7 @@ export class DigitalSignageComponent implements OnInit {
   introSelected: boolean = false;
   treesSelected: boolean = false;
   chartsSelected: boolean = false;
+  desiredTimeout: number;
 
 
   constructor(private fb: FormBuilder,
@@ -42,6 +43,11 @@ export class DigitalSignageComponent implements OnInit {
       installationId: [this.installationId, Validators.required],
       apiToken: [this.apiToken, Validators.required]
     });
+    this.slidesForm = this.fb.group({
+      desiredTimeout: [this.desiredTimeout, Validators.required]
+    });
+
+    this.desiredTimeout=10000
   }
 
   getFormOptions(): void {
@@ -79,5 +85,6 @@ export class DigitalSignageComponent implements OnInit {
   }
 
   viewsSelected() {
+    this.loading = true;
   }
 }
