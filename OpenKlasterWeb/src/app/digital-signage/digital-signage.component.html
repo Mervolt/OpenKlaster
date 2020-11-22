@@ -31,20 +31,20 @@
   </mat-step>
 
   <mat-step [stepControl]="slidesForm">
-    <form [formGroup]="slidesForm">
       <ng-template matStepLabel>Choose date</ng-template>
       <div class="step">
         <button mat-fab style="margin-right: 100px;" color="primary" matStepperPrevious>
           <mat-icon>arrow_back</mat-icon>
         </button>
-          <mat-checkbox>Intros</mat-checkbox>
-          <mat-checkbox>Trees</mat-checkbox>
-          <mat-checkbox>Charts</mat-checkbox>
+        <div style="display: flex; flex-direction: column">
+          <mat-checkbox [(ngModel)]="introSelected" style="font-size: 30px">Intros</mat-checkbox>
+          <mat-checkbox [(ngModel)]="treesSelected" style="font-size: 30px">Trees</mat-checkbox>
+          <mat-checkbox [(ngModel)]="chartsSelected" style="font-size: 30px">Charts</mat-checkbox>
+        </div>
         <button mat-fab matStepperNext style="margin-left: 100px;" color="primary" (click)="viewsSelected()">
           <mat-icon>arrow_forward</mat-icon>
         </button>
       </div>
-    </form>
   </mat-step>
 
 

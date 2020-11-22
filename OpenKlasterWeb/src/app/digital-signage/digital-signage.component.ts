@@ -42,12 +42,6 @@ export class DigitalSignageComponent implements OnInit {
       installationId: [this.installationId, Validators.required],
       apiToken: [this.apiToken, Validators.required]
     });
-
-    this.slidesForm = this.fb.group({
-      introSelected: [this.introSelected, Validators.required],
-      treesSelected: [this.treesSelected, Validators.required],
-      chartsSelected: [this.chartsSelected, Validators.required]
-    });
   }
 
   getFormOptions(): void {
@@ -85,6 +79,5 @@ export class DigitalSignageComponent implements OnInit {
   }
 
   viewsSelected() {
-
   }
 }
