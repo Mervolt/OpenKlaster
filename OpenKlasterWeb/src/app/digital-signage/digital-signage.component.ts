@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AppComponent} from "../app.component";
 import {InstallationService} from "../service/installation/installation.service";
 import {CookieService} from "ngx-cookie-service";
 import {TokenService} from "../service/token/token.service";
 import {TokenResponse} from "../token/token-panel/token-panel.component";
+import {MatHorizontalStepper} from "@angular/material/stepper";
+import {ActivatedRoute, Route} from "@angular/router";
 
 @Component({
   selector: 'app-digital-signage',
@@ -12,6 +14,7 @@ import {TokenResponse} from "../token/token-panel/token-panel.component";
   styleUrls: ['./digital-signage.component.css']
 })
 export class DigitalSignageComponent implements OnInit {
+  @ViewChild('stepper') private stepper: MatHorizontalStepper;
   installationsLoaded: boolean = false;
   tokensLoaded: boolean = false;
   loading: boolean = false;
@@ -30,7 +33,8 @@ export class DigitalSignageComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private appComp: AppComponent,
               private installationService: InstallationService,
-              private tokenService: TokenService) {
+              private tokenService: TokenService,
+              private route: ActivatedRoute) {
     this.cookieService = appComp.cookieService;
   }
 
@@ -38,12 +42,24 @@ export class DigitalSignageComponent implements OnInit {
     this.loading = true;
     this.getFormOptions()
 
+    this.route.queryParams.subscribe(params => {
+      if (params['installationId'] != undefined) {
+        this.installationId = params['installationId'][0];
+      }
+    });
+
     this.installationForm = this.fb.group({
       installationId: [this.installationId, Validators.required],
       apiToken: [this.apiToken, Validators.required]
     });
 
     this.desiredTimeout = 10000
+  }
+
+  ngAfterViewInit(): void {
+    if (this.installationId != '') {
+      this.installationForm.get('installationId').setValue(this.installationId);
+    }
   }
 
   getFormOptions(): void {
