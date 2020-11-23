@@ -45,12 +45,12 @@
           <mat-checkbox [(ngModel)]="treesSelected" style="font-size: 30px; margin: 30px">Trees</mat-checkbox>
         </div>
         <div style="display: flex;flex-direction: row">
-          <img class="thumbnail" height="90" width="160" src="assets/img/PolskaChmura-znaczek.300x237.a2419eab.png">
+          <img class="thumbnail" height="90" width="160" src="assets/img/chartsDigital.png">
           <mat-checkbox [(ngModel)]="chartsSelected" style="font-size: 30px; margin: 30px">Charts</mat-checkbox>
         </div>
         <mat-form-field style="margin: 30px">
-          <mat-label>Time per view</mat-label>
-          <input [(ngModel)]="desiredTimeout" matInput required>
+          <mat-label>Time per view [ms]</mat-label>
+          <input [(ngModel)]="desiredTimePerSlide" matInput required>
         </mat-form-field>
       </div>
       <button mat-fab matStepperNext style="margin-left: 100px;" color="primary">
@@ -74,7 +74,7 @@
         <p>&nbsp;&nbsp;&nbsp;&nbsp;"trees": {{this.treesSelected}}</p>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;"power_chart": {{this.chartsSelected}}</p>
         <p>{{'}'}},</p>
-        <p>"slideChangeTimeout": {{this.desiredTimeout}}</p>
+        <p>"slideChangeTimeout": {{this.desiredTimePerSlide}}</p>
         <p>{{'}'}};</p>
       </div>
       <button mat-raised-button color="primary" style="margin-left: 30px" (click)="downloadFile()">Download</button>

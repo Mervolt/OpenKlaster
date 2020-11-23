@@ -28,7 +28,7 @@ export class DigitalSignageComponent implements OnInit {
   introSelected: boolean = false;
   treesSelected: boolean = false;
   chartsSelected: boolean = false;
-  desiredTimeout: number;
+  desiredTimePerSlide: number;
 
   constructor(private fb: FormBuilder,
               private appComp: AppComponent,
@@ -53,7 +53,7 @@ export class DigitalSignageComponent implements OnInit {
       apiToken: [this.apiToken, Validators.required]
     });
 
-    this.desiredTimeout = 10000
+    this.desiredTimePerSlide = 10000
   }
 
   ngAfterViewInit(): void {
@@ -98,10 +98,10 @@ export class DigitalSignageComponent implements OnInit {
         "trees": this.treesSelected,
         "power_chart": this.chartsSelected
       },
-      "slideChangeTimeout": this.desiredTimeout
+      "slideChangeTimeout": this.desiredTimePerSlide
     };
     let resJson: JSON = <JSON>resJsonAny;
-    let res = "const config = " + JSON.stringify(resJson);
+    let res = "const config = " + JSON.stringify(resJson, null, 2);
     const blob = new Blob([res], {type: 'text/plain'});
     const url = window.URL.createObjectURL(blob);
     const downloadAnchor = document.createElement("a");
