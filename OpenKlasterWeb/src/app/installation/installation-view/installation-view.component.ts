@@ -77,6 +77,10 @@ export class InstallationViewComponent implements OnInit {
     this.router.navigate(['charts'], {queryParams: {'installationId': [this.installationId]}}).then()
   }
 
+  navigateToDigitalSignage() {
+    this.router.navigate(['digitalSignage'], {queryParams: {'installationId': [this.installationId]}}).then()
+  }
+
   getInverterProperties(): Map<string, any> {
     let outp = new Map<string, any>();
     outp.set('Model type', this.installation.inverter.modelType)
@@ -103,7 +107,4 @@ export class InstallationViewComponent implements OnInit {
   getSummaryProperties(): Map<string, any> {
     return this.summaryProperties;
   }
-
-
-
 }

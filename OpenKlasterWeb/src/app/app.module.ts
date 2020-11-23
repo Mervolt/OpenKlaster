@@ -62,6 +62,7 @@ import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import {MatStepperModule} from '@angular/material/stepper';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {ToastrModule} from 'ngx-toastr';
+import { DigitalSignageComponent } from './digital-signage/digital-signage.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import {ToastrModule} from 'ngx-toastr';
     EqualsToDirective,
     InstallationViewComponent,
     DescriptionTileComponent,
-    DashboardPropertiesComponent
+    DashboardPropertiesComponent,
+    DigitalSignageComponent
   ],
   imports: [
     BrowserModule,
@@ -109,7 +111,8 @@ import {ToastrModule} from 'ngx-toastr';
       {path: 'installationGeneration', component: InstallationAddPanelComponent},
       {path: 'editInstallation/:id', component: EditInstallationComponent},
       {path: 'swagger-ui', component: SwaggerUiComponent},
-      {path: 'charts', component: ChartsComponent}
+      {path: 'charts', component: ChartsComponent},
+      {path: 'digitalSignage', component: DigitalSignageComponent}
     ]),
     ReactiveFormsModule,
     FormsModule,
