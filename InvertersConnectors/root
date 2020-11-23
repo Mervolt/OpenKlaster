@@ -1,1 +1,1 @@
-* * * * * python3 /bin/MeasurementsExtractor/measurements_extractor.py /bin/MeasurementsExtractor/config.yml
+0,30 * * * * cd /bin/MeasurementsExtractor/; python3 measurements_extractor.py config.yml
