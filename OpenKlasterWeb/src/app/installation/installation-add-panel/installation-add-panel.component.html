@@ -61,7 +61,7 @@
             <input matInput id="inverterModelType" name="inverterModelType" required
                    [(ngModel)]="formModel.inverter.modelType">
           </mat-form-field>
-          <mat-form-field appearance="outline" class="userformfield" *ngIf="!isEditing">
+          <mat-form-field appearance="outline" class="userformfield">
             <mat-label>Inverter manufacturer</mat-label>
             <mat-select [(value)]="formModel.inverter.manufacturer" >
               <mat-option style="background-color: white" *ngFor="let manufacturer of manufacturersMap.keys()"

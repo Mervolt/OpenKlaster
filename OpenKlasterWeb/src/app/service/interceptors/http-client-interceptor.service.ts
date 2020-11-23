@@ -25,10 +25,9 @@ export class HttpClientInterceptor implements HttpInterceptor {
         (error: HttpErrorResponse) => {
           let errorMessage = error.message;
           let errorStatus = error.status;
-          console.error("Error occurred while performing http request1: " + errorMessage)
           if (errorStatus !== HttpResponseCode.Unauthorized) {
             if (request.url.indexOf('user') === -1 ) {
-              this.toastr.error('Wystąpił problem z połączeniem z systemtu.');
+              this.toastr.error('Wystąpił problem z połączeniem z systemem.');
             }
             return throwError(error)
           }

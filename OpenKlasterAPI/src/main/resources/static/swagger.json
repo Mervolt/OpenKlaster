@@ -502,7 +502,7 @@
           {
             "name": "installationId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": true
           },
           {
@@ -588,7 +588,7 @@
           {
             "name": "installationId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": true
           },
           {
@@ -693,7 +693,7 @@
           {
             "name": "installationId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": true
           },
           {
@@ -838,7 +838,7 @@
           {
             "name": "installationId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": true
           },
           {
@@ -943,7 +943,7 @@
           {
             "name": "installationId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": true
           },
           {

@@ -69,7 +69,7 @@ import {ToastrModule} from 'ngx-toastr';
     LoginFormComponent,
     NavbarComponent,
     RegisterFormComponent,
-    TokenPanelComponent,gi s
+    TokenPanelComponent,
     InstallationPanelComponent,
     SingleInstallationPanelComponent,
     InstallationAddPanelComponent,
