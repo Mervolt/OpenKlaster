@@ -19,6 +19,7 @@ export class NavbarComponent implements OnInit {
     new NavigationNameAddressTuple('Charts', this.navigateToCharts.bind(this)),
     new NavigationNameAddressTuple('User Panel', this.navigateToUserPanel.bind(this)),
     new NavigationNameAddressTuple('API Documentation', this.navigateToSwagger.bind(this)),
+    new NavigationNameAddressTuple('Digital Signage', this.navigateToDigitalSignage.bind(this)),
     new NavigationNameAddressTuple('Logout', this.logout.bind(this))
   ]
 
@@ -46,6 +47,10 @@ export class NavbarComponent implements OnInit {
 
   navigateToCharts(): void {
     this.router.navigate(['charts']).then();
+  }
+
+  navigateToDigitalSignage(): void{
+    this.router.navigate(['digitalSignage']).then();
   }
 
   logout() {

@@ -61,6 +61,7 @@ import { DashboardPropertiesComponent } from './components/dashboard-properties/
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import {MatStepperModule} from '@angular/material/stepper';
+import { DigitalSignageComponent } from './digital-signage/digital-signage.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import {MatStepperModule} from '@angular/material/stepper';
     EqualsToDirective,
     InstallationViewComponent,
     DescriptionTileComponent,
-    DashboardPropertiesComponent
+    DashboardPropertiesComponent,
+    DigitalSignageComponent
   ],
   imports: [
     BrowserModule,
@@ -109,7 +111,8 @@ import {MatStepperModule} from '@angular/material/stepper';
       {path: 'installationGeneration', component: InstallationAddPanelComponent},
       {path: 'editInstallation/:id', component: EditInstallationComponent},
       {path: 'swagger-ui', component: SwaggerUiComponent},
-      {path: 'charts', component: ChartsComponent}
+      {path: 'charts', component: ChartsComponent},
+      {path: 'digitalSignage', component: DigitalSignageComponent}
     ]),
     ReactiveFormsModule,
     FormsModule,

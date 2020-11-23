@@ -1,0 +1,85 @@
+<app-navbar></app-navbar>
+
+<mat-horizontal-stepper class="font-20" linear="Enable linear mode" #stepper>
+  <mat-step [stepControl]="installationForm">
+    <form [formGroup]="installationForm">
+      <ng-template matStepLabel>Choose your installation and API token</ng-template>
+      <div class="step" *ngIf="!loading">
+        <div style="flex-direction: column">
+          <h3>Installation</h3>
+          <mat-form-field appearance="standard">
+            <mat-label>Select an option</mat-label>
+            <mat-select formControlName="installationId">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let id of installationIDs" [value]="id">{{id}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <h3>API Token</h3>
+          <mat-form-field appearance="standard">
+            <mat-label>Select an option</mat-label>
+            <mat-select formControlName="apiToken">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let token of apiTokens" [value]="token">{{token}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <button mat-fab matStepperNext style="margin-left: 100px;" color="primary" (click)="installationSelected()">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="slidesForm">
+    <ng-template matStepLabel>Choose desired views and time per one</ng-template>
+    <div class="step">
+      <button mat-fab style="margin-right: 100px;" color="primary" matStepperPrevious>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div style="align-items: center; display: flex; flex-direction: column">
+        <div style="display:flex; flex-direction: row; min-width: 350px">
+          <img class="thumbnail" height="90" width="160" src="assets/img/introDigital.png">
+          <mat-checkbox [(ngModel)]="introSelected" style="font-size: 30px; margin: 30px">Intros</mat-checkbox>
+        </div>
+        <div style="display: flex;flex-direction: row; min-width: 350px">
+          <img class="thumbnail" height="90" width="160" src="assets/img/treesDigital.png">
+          <mat-checkbox [(ngModel)]="treesSelected" style="font-size: 30px; margin: 30px">Trees</mat-checkbox>
+        </div>
+        <div style="display: flex;flex-direction: row; min-width: 350px">
+          <img class="thumbnail" height="90" width="160" src="assets/img/chartsDigital.png">
+          <mat-checkbox [(ngModel)]="chartsSelected" style="font-size: 30px; margin: 30px">Charts</mat-checkbox>
+        </div>
+        <mat-form-field style="margin: 30px">
+          <mat-label>Time per view [ms]</mat-label>
+          <input [(ngModel)]="desiredTimePerSlide" matInput required>
+        </mat-form-field>
+      </div>
+      <button mat-fab matStepperNext style="margin-left: 100px;" color="primary">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Summarization</ng-template>
+    <div class="step">
+      <button mat-fab color="primary" style="margin-right: 100px" matStepperPrevious>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div style="border: solid black 1px; padding: 5px">
+        <h3>File preview:</h3>
+        <p>const config = {{'{'}}</p>
+        <p>"installationId": {{this.installationId}},</p>
+        <p>"apiToken": {{this.apiToken}},</p>
+        <p>"slides": {{'{'}}</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;"intro": {{this.introSelected}}</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;"trees": {{this.treesSelected}}</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;"power_chart": {{this.chartsSelected}}</p>
+        <p>{{'}'}},</p>
+        <p>"slideChangeTimeout": {{this.desiredTimePerSlide}}</p>
+        <p>{{'}'}};</p>
+      </div>
+      <button mat-raised-button color="primary" style="margin-left: 30px" (click)="downloadFile()">Download</button>
+    </div>
+  </mat-step>
+
+
+</mat-horizontal-stepper>

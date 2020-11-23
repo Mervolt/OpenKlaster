@@ -1,0 +1,39 @@
+.step {
+  margin-top: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.container{
+  border-width: 1px;
+  border-style: solid;
+  border-color: silver;
+}
+
+.mat-datepicker-toggle-default-icon {
+  width: 3em !important;
+  height: 3em !important;
+}
+
+.mat-form-field-underline {
+  width: 170px !important;
+}
+.mat-input-element {
+  color: currentColor !important;
+}
+
+.font-20 {
+  font-size: 20px;
+}
+
+.thumbnail:hover {
+  position:relative;
+  top:-25%;
+  left:-25%;
+  width:500px;
+  height:auto;
+  display:block;
+  z-index:999;
+}
