@@ -67,7 +67,7 @@ export class InstallationAddPanelComponent {
   }
 
   changeCredentials(selectionChange: MatOptionSelectionChange) {
-    if (!selectionChange.isUserInput || this.isEditing) {
+    if (!selectionChange.isUserInput) {
       return
     }
     let credentials = this.manufacturersMap.get(selectionChange.source.value);

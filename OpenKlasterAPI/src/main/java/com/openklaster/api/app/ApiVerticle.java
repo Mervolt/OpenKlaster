@@ -31,10 +31,6 @@ public class ApiVerticle extends OpenklasterVerticle {
     private GenericApplicationContext ctx;
     private Integer launchPort;
 
-    public ApiVerticle(boolean isDevModeOn) {
-        super(isDevModeOn);
-    }
-
     public ApiVerticle() {
         super();
     }

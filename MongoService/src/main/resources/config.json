@@ -1,12 +1,6 @@
 {
   "database": {
     "mongo": {
-      "host": "mongo-db",
-      "port": 27017
-    }
-  },
-  "database-dev": {
-    "mongo": {
       "host": "localhost",
       "port": 27017
     }

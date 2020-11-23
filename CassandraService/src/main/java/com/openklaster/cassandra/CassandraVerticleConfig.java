@@ -23,6 +23,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.*;
 import java.util.Collections;
+import java.util.Optional;
 
 @Configuration
 @ComponentScan
@@ -38,7 +39,10 @@ public class CassandraVerticleConfig extends SuperVerticleConfig {
             JSONObject jsonSimple = (JSONObject) object;
             //noinspection unchecked
             this.jsonConfig = new JsonObject(jsonSimple);
-            this.jsonCassandraConfig = jsonConfig.getJsonObject(CassandraLaunchHolder.CASSANDRA_PATH);
+
+            Optional<String> cassandraDbConfig = Optional.ofNullable(System.getenv(CassandraLaunchHolder.CASSANDRA_DB));
+            this.jsonCassandraConfig = cassandraDbConfig.map(JsonObject::new)
+                    .orElseGet(() -> jsonConfig.getJsonObject(CassandraLaunchHolder.CASSANDRA_PATH));
         } catch (ParseException | IOException e) {
             e.printStackTrace();
         }

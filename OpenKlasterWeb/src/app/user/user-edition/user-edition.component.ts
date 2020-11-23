@@ -19,6 +19,8 @@ export class UserEditionComponent implements OnInit {
   requestState: string = 'none'
   newPasswordConfirm: string;
   oldEmail: string;
+  username: string;
+  email: string;
 
   myCallbackFunction = (): void => {
     if(this.isPasswordDisabled){
@@ -43,10 +45,10 @@ export class UserEditionComponent implements OnInit {
   prepareUser() {
     this.newPasswordConfirm = ''
     this.tokenService.getTokens(this.cookieService).toPromise().then(response => {
-      const email = response['email'];
-      this.oldEmail = email;
-      const username = this.cookieService.get(CookieHolder.usernameKey);
-      this.formModel = new UserUpdateDto(username, "", "", email)
+      this.email = response['email'];
+      this.oldEmail = this.email;
+      this.username = this.cookieService.get(CookieHolder.usernameKey);
+      this.formModel = new UserUpdateDto(this.username, "", "", this.email)
     })
   }
 

@@ -1,5 +1,5 @@
 ---
-title: Home
+title: OpenKlaster
 content:
     items: '@self.modular'
     order:

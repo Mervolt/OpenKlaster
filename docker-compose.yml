@@ -1,35 +1,52 @@
 version: '3'
 services:
   inverters_connectors:
-    build: InvertersConnectors
+    build:
+      context: InvertersConnectors
+      network: host
     depends_on:
       - mongo-db
       - openklaster-api
   openklaster-core:
     build: OpenKlasterCore
+    environment:
+      - TZ=Poland
     depends_on:
       - openklaster-cassandra
       - openklaster-mongo
   openklaster-api:
     build: OpenKlasterAPI
-    depends_on:
-      - openklaster-core
+    environment:
+      - TZ=Poland
     ports:
       - "8082:8082"
+    depends_on:
+      - openklaster-core
   openklaster-mongo:
     build: MongoService
+    environment:
+      - MONGO_DB={"port":27017,"host":"mongo-db"}
     depends_on:
       - mongo-db
   openklaster-cassandra:
     build: CassandraService
+    environment:
+      - TZ=Poland
+      - CASSANDRA_DB={"keyspace":"openklaster","port":9042,"host":"cassandra-db"}
     depends_on:
       - cassandra-db
   openklaster-filerepository:
     build: FileRepositoryService
+    environment:
+      - VOLUME_PATH=/file-repository
     volumes:
       - ./file-repository:/file-repository
   openklaster-webpage:
-    build: OpenKlasterWeb
+    build:
+      context: OpenKlasterWeb
+      network: host
+    environment:
+      - API_URL=http://localhost/
     depends_on:
       - openklaster-api
     ports:
@@ -48,11 +65,9 @@ services:
         - "9042"
       volumes:
         - ./data/cassandra:/var/lib/cassandra
-        - ./cassandra-init.sh:/cassandra-init.sh
-      #command: "sh /cassandra-init.sh"
   grav:
-    build: grav
+    build:
+      context: grav
+      network: host
     volumes:
       - ./grav/grav-data/:/var/www/html/user
-volumes:
-  file-repository:

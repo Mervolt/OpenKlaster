@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="page-container">
+<div class="container">
     <form (ngSubmit)="installationForm.valid && onSubmit()" #installationForm="ngForm">
       <mat-label>Installation Info</mat-label>
       <div style="display: flex">
@@ -15,14 +15,14 @@
           <br>
           <div style="">
             <mat-form-field appearance="outline" class="userformfield">
-              <mat-label>Longitude</mat-label>
+              <mat-label>Longitude [°]</mat-label>
               <input matInput id="longitude" name="longitude" required
                      [(ngModel)]="formModel.longitude">
             </mat-form-field>
           </div>
           <div>
             <mat-form-field appearance="outline" class="userformfield">
-              <mat-label>Latitude</mat-label>
+              <mat-label>Latitude [°]</mat-label>
               <input matInput id="latitude" name="latitude" required
                      [(ngModel)]="formModel.latitude">
             </mat-form-field>
@@ -61,7 +61,7 @@
             <input matInput id="inverterModelType" name="inverterModelType" required
                    [(ngModel)]="formModel.inverter.modelType">
           </mat-form-field>
-          <mat-form-field appearance="outline" class="userformfield" *ngIf="!isEditing">
+          <mat-form-field appearance="outline" class="userformfield">
             <mat-label>Inverter manufacturer</mat-label>
             <mat-select [(value)]="formModel.inverter.manufacturer" >
               <mat-option style="background-color: white" *ngFor="let manufacturer of manufacturersMap.keys()"
@@ -89,19 +89,19 @@
       <div style="display: flex">
         <div class="half-div-line-margins-max400">
           <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Source Azimuth</mat-label>
+            <mat-label>Source Azimuth [°]</mat-label>
             <input matInput id="sourceAzimuth" name="sourceAzimuth" required
                    [(ngModel)]="formModel.source.azimuth">
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Source Capacity</mat-label>
+            <mat-label>Source Capacity [W]</mat-label>
             <input matInput id="sourceCapacity" name="sourceCapacity" required
                    [(ngModel)]="formModel.source.capacity">
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Source Tilt</mat-label>
+            <mat-label>Source Tilt [°]</mat-label>
             <input matInput id="sourceTilt" name="sourceTilt" required
                    [(ngModel)]="formModel.source.tilt">
           </mat-form-field>

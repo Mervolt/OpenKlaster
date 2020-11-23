@@ -27,10 +27,6 @@ public class FileRepositoryVerticle extends OpenklasterVerticle {
     private FileSystem vertxFileSystem;
     private GenericApplicationContext ctx;
 
-    public FileRepositoryVerticle(boolean isDevMode) {
-        super(isDevMode);
-    }
-
     public FileRepositoryVerticle() {
         super();
     }

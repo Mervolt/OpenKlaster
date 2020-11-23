@@ -4,6 +4,7 @@ import {User} from '../model/User';
 import {EndpointHolder} from "../model/EndpointHolder";
 import {CookieService} from "ngx-cookie-service";
 import {UserUpdateDto} from "../model/UserUpdateDto";
+import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import {UserUpdateDto} from "../model/UserUpdateDto";
 export class UserService {
   errorReasonKey: string = 'error'
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient,
+              private toastr: ToastrService) {
   }
 
   async addUser(user: User): Promise<boolean> {
@@ -28,10 +30,11 @@ export class UserService {
 
   private updateUser(updateDto: UserUpdateDto): Promise<boolean> {
     return this.http.put(EndpointHolder.userEndpoint, updateDto).toPromise().then(response => {
+      this.toastr.success('Pomyślnie zaktualizowane twoje dane');
       return true;
     })
       .catch((error: any) => {
-        alert(error[this.errorReasonKey]);
+        this.toastr.error('Wystąpił problem z aktualizowaniem twoich danych.')
         return false;
       });
   }
@@ -40,10 +43,11 @@ export class UserService {
     return this.http.post(EndpointHolder.userEndpoint, user, {responseType: 'text'})
       .toPromise()
       .then(response => {
+        this.toastr.success('Konto użytkownika ' + user.username + ' zostało utworzone pomyślnie!');
         return true;
       })
-      .catch((error: any) => {
-        alert(error[this.errorReasonKey]);//TODO
+      .catch(() => {
+        this.toastr.error('Wystąpił problem z utworzeniem użytkownika. Spróbuj użyć innej nazwy.');
         return false;
       })
   }
@@ -59,10 +63,11 @@ export class UserService {
       .then(response => {
         cookieService.set("username", user.username);
         cookieService.set("sessionToken", response['sessionToken']['data']);
+        this.toastr.success('Pomyślnie zalogowano');
         return true;
       })
-      .catch((error: any) => {
-        alert(error[this.errorReasonKey]);//TODO
+      .catch(() => {
+        this.toastr.error('Następił problem z logowaniem. Sprawdź swoją nazwę użytkownika oraz hasło.');
         return false;
       })
   }

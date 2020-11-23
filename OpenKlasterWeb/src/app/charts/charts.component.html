@@ -4,7 +4,7 @@
   <mat-step [stepControl]="installationForm">
     <form [formGroup]="installationForm">
       <ng-template matStepLabel>Choose your installation</ng-template>
-      <div class="step" *ngIf="!loading">
+      <div class="step">
         <mat-form-field appearance="standard">
           <mat-label>Select an option</mat-label>
           <mat-select formControlName="installationId">
@@ -15,9 +15,6 @@
         <button mat-fab matStepperNext style="margin-left: 100px;" color="primary" (click)="installationSelected()">
           <mat-icon>arrow_forward</mat-icon>
         </button>
-      </div>
-      <div class="centered" *ngIf="loading">
-        <mat-spinner></mat-spinner>
       </div>
     </form>
   </mat-step>
@@ -44,9 +41,6 @@
             <mat-icon>arrow_forward</mat-icon>
           </button>
         </div>
-        <div class="centered" *ngIf="loading">
-          <mat-spinner></mat-spinner>
-        </div>
       </div>
     </form>
   </mat-step>
@@ -58,16 +52,13 @@
       </div>
     </div>
     <div *ngIf="!getChartsError" style='min-height:800px'>
-      <mat-tab-group *ngIf="!loading">
+      <mat-tab-group>
         <mat-tab *ngFor="let item of this.charts" [label]=formatTime(item.name)>
           <mat-card-header>
             <img mat-card-image class="center" [src]=item.data alt="img">
           </mat-card-header>
         </mat-tab>
       </mat-tab-group>
-      <div class="centered" *ngIf="loading">
-        <mat-spinner></mat-spinner>
-      </div>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

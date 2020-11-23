@@ -8,7 +8,6 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost",
   "tags": [
     {
       "name": "user",
@@ -24,7 +23,8 @@
     }
   ],
   "schemes": [
-    "http"
+    "http",
+    "https"
   ],
   "paths": {
     "/api/1/user/login": {
@@ -502,7 +502,7 @@
           {
             "name": "installationId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": true
           },
           {
@@ -588,7 +588,7 @@
           {
             "name": "installationId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": true
           },
           {
@@ -693,7 +693,7 @@
           {
             "name": "installationId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": true
           },
           {
@@ -838,7 +838,7 @@
           {
             "name": "installationId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": true
           },
           {
@@ -943,7 +943,7 @@
           {
             "name": "installationId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": true
           },
           {
@@ -1183,7 +1183,8 @@
         },
         "timestamp": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "example":"yyyy-MM-dd HH:mm:ss"
         },
         "value": {
           "type": "number"
@@ -1198,7 +1199,8 @@
         },
         "timestamp": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "example":"yyyy-MM-dd HH:mm:ss"
         },
         "unit": {
           "type": "string"

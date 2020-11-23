@@ -16,19 +16,24 @@ import java.util.stream.Collectors;
 
 public class SummaryCreator {
 
-    public SummaryResponse createSummary(AsyncResult<Message<JsonArray>> response, EnvironmentalBenefits environmentalConfig) {
+    public SummaryResponse createSummary(AsyncResult<Message<JsonArray>> response, EnvironmentalBenefits benefitsCoefficients) {
         Map<Unit, List<Measurement>> measurements = groupMeasurementsFromJsonArray(response.result().body());
         Measurement latestEnergyMeasurement = findLastMeasurement(measurements.get(Unit.kWh));
         Measurement latestPowerMeasurement = findLastMeasurement(measurements.get(Unit.kW));
         Map<Date, BigDecimal> powerMeasurements = convertMeasurementArraysIntoMap(measurements.get(Unit.kW));
         BigDecimal energyProducedToday = countEnergyProducedToday(measurements.get(Unit.kWh));
+        EnvironmentalBenefits environmentalBenefits = EnvironmentalBenefits.builder()
+                .co2Reduced(calculateEnvironmentalBenefit(latestEnergyMeasurement.getValue(), benefitsCoefficients.getCo2Reduced()))
+                .treesSaved(calculateEnvironmentalBenefit(latestEnergyMeasurement.getValue(), benefitsCoefficients.getTreesSaved()))
+                .build();
+        ;
 
         return SummaryResponse.builder()
                 .totalEnergy(BigDecimal.valueOf(latestEnergyMeasurement.getValue()))
                 .currentPower(BigDecimal.valueOf(latestPowerMeasurement.getValue()))
                 .power(powerMeasurements)
                 .energyProducedToday(energyProducedToday)
-                .environmentalBenefits(environmentalConfig)
+                .environmentalBenefits(environmentalBenefits)
                 .build();
     }
 
@@ -65,6 +70,10 @@ public class SummaryCreator {
         return jsonArray.stream()
                 .map(result -> JsonObject.mapFrom(result).mapTo(Measurement.class))
                 .collect(Collectors.groupingBy(Measurement::getUnit));
+    }
+
+    private int calculateEnvironmentalBenefit(double energy, int coefficient) {
+        return (int) (((double) coefficient / 100) * energy);
     }
 
     private boolean isItToday(Date timestamp) {

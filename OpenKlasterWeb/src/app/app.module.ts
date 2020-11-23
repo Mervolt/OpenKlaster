@@ -9,7 +9,6 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {RegisterFormComponent} from './user/register-form/register-form.component';
 import {UserService} from './service/user.service';
 import {TokenPanelComponent} from './token/token-panel/token-panel.component';
-import {MeasurementPanelComponent} from './installation/measurement-panel/measurement-panel.component';
 import {InstallationPanelComponent} from './installation/installation-panel/installation-panel.component';
 import {TokenService} from './service/token/token.service';
 import {CookieService} from 'ngx-cookie-service';
@@ -41,26 +40,28 @@ import {CredentialsTokenComponent} from './credentials/credentials-token/credent
 import {CredentialsUserpassComponent} from './credentials/credentials-userpass/credentials-userpass.component';
 import {InstallationListItemComponent} from './installation/installation-list-item/installation-list-item.component';
 import {MatTableModule} from "@angular/material/table";
-import { ConfirmationDialogPopupComponent } from './components/confirmation-dialog-popup/confirmation-dialog-popup.component';
-import { SwaggerUiComponent } from './swagger-ui/swagger-ui.component';
+import {ConfirmationDialogPopupComponent} from './components/confirmation-dialog-popup/confirmation-dialog-popup.component';
+import {SwaggerUiComponent} from './swagger-ui/swagger-ui.component';
 import {MatCardModule} from "@angular/material/card";
 import {InstallationService} from "./service/installation/installation.service";
 import {HttpClientInterceptor} from "./service/interceptors/http-client-interceptor.service";
-import { ChartsComponent} from './charts/charts.component';
-import { DynamicFormQuestionComponent } from './components/Question-boxes/dynamic-form-question/dynamic-form-question.component';
-import { DynamicFormComponent } from './components/Question-boxes/dynamic-form/dynamic-form.component';
-import { SubmitButtonComponent } from './components/submit-button/submit-button.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { UserEditionComponent } from './user/user-edition/user-edition.component';
-import { EditionInputComponent } from './components/edition-input/edition-input.component';
-import { UserPanelComponent } from './user/user-panel/user-panel.component';
-import { EqualsToDirective } from './validators/equals-to.directive';
-import { InstallationViewComponent } from './installation/installation-view/installation-view.component';
-import { DescriptionTileComponent } from './installation/installation-view/description-tile/description-tile.component';
-import { DashboardPropertiesComponent } from './components/dashboard-properties/dashboard-properties.component';
+import {ChartsComponent} from './charts/charts.component';
+import {DynamicFormQuestionComponent} from './components/Question-boxes/dynamic-form-question/dynamic-form-question.component';
+import {DynamicFormComponent} from './components/Question-boxes/dynamic-form/dynamic-form.component';
+import {SubmitButtonComponent} from './components/submit-button/submit-button.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {UserEditionComponent} from './user/user-edition/user-edition.component';
+import {EditionInputComponent} from './components/edition-input/edition-input.component';
+import {UserPanelComponent} from './user/user-panel/user-panel.component';
+import {EqualsToDirective} from './validators/equals-to.directive';
+import {InstallationViewComponent} from './installation/installation-view/installation-view.component';
+import {DescriptionTileComponent} from './installation/installation-view/description-tile/description-tile.component';
+import {DashboardPropertiesComponent} from './components/dashboard-properties/dashboard-properties.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import {MatStepperModule} from '@angular/material/stepper';
+import {NgxSpinnerModule} from 'ngx-spinner';
+import {ToastrModule} from 'ngx-toastr';
 import { DigitalSignageComponent } from './digital-signage/digital-signage.component';
 
 @NgModule({
@@ -70,7 +71,6 @@ import { DigitalSignageComponent } from './digital-signage/digital-signage.compo
     NavbarComponent,
     RegisterFormComponent,
     TokenPanelComponent,
-    MeasurementPanelComponent,
     InstallationPanelComponent,
     SingleInstallationPanelComponent,
     InstallationAddPanelComponent,
@@ -137,6 +137,8 @@ import { DigitalSignageComponent } from './digital-signage/digital-signage.compo
     MatDatepickerModule,
     MatNativeDateModule,
     MatStepperModule,
+    NgxSpinnerModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     UserService,

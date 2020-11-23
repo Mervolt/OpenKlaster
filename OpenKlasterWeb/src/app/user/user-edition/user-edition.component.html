@@ -5,14 +5,14 @@
   <mat-form-field appearance="outline" class="userformfield">
     <mat-label>Username</mat-label>
     <input matInput id="username" name="username" required [disabled]="true"
-           [(ngModel)]="formModel.username">
+           [(ngModel)]="username">
   </mat-form-field>
 </div>
 <div>
   <mat-form-field appearance="outline" class="userformfield">
     <mat-label>Email</mat-label>
     <input matInput id="email" name="email" required [disabled]="isEmailDisabled"
-           [(ngModel)]="formModel.email">
+           [(ngModel)]="email">
   </mat-form-field>
 </div>
 <div *ngIf="!isPasswordDisabled || !isEmailDisabled">

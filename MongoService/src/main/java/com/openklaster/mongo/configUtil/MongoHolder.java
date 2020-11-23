@@ -10,4 +10,5 @@ public class MongoHolder {
     public static final String COLLECTION_NAME_FOR_USER_PATH = "collectionName";
     public static final String EVENTBUS_FOR_USER_PATH = "bus";
     public static final String EVENTBUS_ADDRESS_FOR_USER_PATH = "address";
+    public static final String MONGO_DB = "MONGO_DB";
 }

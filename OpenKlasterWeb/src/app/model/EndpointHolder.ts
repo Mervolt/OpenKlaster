@@ -9,7 +9,7 @@ export class EndpointHolder {
   static installationEndpoint = EndpointHolder.apiUrl + "installations";
   static installationsEndpoint = EndpointHolder.apiUrl + "installations/all";
   static credentialsEndpoint = EndpointHolder.apiUrl + 'manufacturerCredentials'
-  static swaggerEndpoint = EndpointHolder.apiUrl + environment.swaggerUrl;
+  static swaggerEndpoint = EndpointHolder.apiUrl + "swagger.json";
   static chartEndpoint = EndpointHolder.apiUrl + "chart";
   static summaryEndpoint = EndpointHolder.apiUrl + "summary"
   static selectableDatesEndpoint = EndpointHolder.apiUrl + "selectableDates";

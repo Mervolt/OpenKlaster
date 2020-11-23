@@ -1,4 +1,9 @@
 <nav mat-tab-nav-bar [backgroundColor]="'primary'">
+  <span class="logo container_row">
+    <img src="assets/favicon-white.png">
+    OpenKlaster
+  </span>
+  <span class="fill-remaining-space"></span>
   <a mat-tab-link *ngFor="let link of links"
      (click)="route(link.navigation)"> {{link.name}} </a>
 </nav>
