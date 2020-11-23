@@ -86,11 +86,11 @@ export class InstallationViewComponent implements OnInit {
 
   getSourceProperties(): Map<string, any> {
     let outp = new Map<string, any>();
-    outp.set('Latitude', this.installation.latitude)
-    outp.set('Longitude', this.installation.longitude)
-    outp.set('Tilt', this.installation.source.tilt)
-    outp.set('Azimuth', this.installation.source.azimuth)
-    outp.set('Capacity', this.installation.source.capacity)
+    outp.set('Latitude', this.installation.latitude + '°')
+    outp.set('Longitude', this.installation.longitude + '°')
+    outp.set('Tilt', this.installation.source.tilt + '°')
+    outp.set('Azimuth', this.installation.source.azimuth + '°')
+    outp.set('Capacity', this.installation.source.capacity + ' W')
     return outp
   }
 

@@ -1183,7 +1183,8 @@
         },
         "timestamp": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "example":"yyyy-MM-dd HH:mm:ss"
         },
         "value": {
           "type": "number"
@@ -1198,7 +1199,8 @@
         },
         "timestamp": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "example":"yyyy-MM-dd HH:mm:ss"
         },
         "unit": {
           "type": "string"

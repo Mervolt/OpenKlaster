@@ -23,7 +23,6 @@ export class HttpClientInterceptor implements HttpInterceptor {
       .pipe(tap(() => {
         },
         (error: HttpErrorResponse) => {
-          let errorMessage = error.message;
           let errorStatus = error.status;
           if (errorStatus !== HttpResponseCode.Unauthorized) {
             if (request.url.indexOf('user') === -1 ) {

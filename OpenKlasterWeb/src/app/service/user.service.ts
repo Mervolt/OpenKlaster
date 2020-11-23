@@ -67,7 +67,7 @@ export class UserService {
         return true;
       })
       .catch(() => {
-        this.toastr.error('Następił problem z logowaniem. Sprawdź swoją nazwę użydkownika oraz hasło.');
+        this.toastr.error('Następił problem z logowaniem. Sprawdź swoją nazwę użytkownika oraz hasło.');
         return false;
       })
   }
