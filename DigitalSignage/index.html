@@ -315,8 +315,11 @@
     }
 
     function main() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const apiToken = urlParams.get('apiToken') != null ? urlParams.get('apiToken') : config["apiToken"];
+        const installationId = urlParams.get('installationId') != null ? urlParams.get('installationId') : config["installationId"];
         (function () {
-            getSummary(properties["url"], config["installationId"], config["apiToken"]);
+            getSummary(properties["url"], installationId, apiToken);
             setTimeout(arguments.callee, properties["refreshTime"]);
         })();
     }
