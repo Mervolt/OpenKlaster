@@ -7,6 +7,8 @@ import {TokenService} from "../service/token/token.service";
 import {TokenResponse} from "../token/token-panel/token-panel.component";
 import {MatHorizontalStepper} from "@angular/material/stepper";
 import {ActivatedRoute, Route} from "@angular/router";
+import {EndpointHolder} from '../model/EndpointHolder';
+import {ClipboardService} from 'ngx-clipboard';
 
 @Component({
   selector: 'app-digital-signage',
@@ -29,6 +31,8 @@ export class DigitalSignageComponent implements OnInit {
   treesSelected: boolean = false;
   chartsSelected: boolean = false;
   desiredTimePerSlide: number;
+  couponText = EndpointHolder.digitalSignageEndpoint + "...";
+  contenCopied = false;
 
   constructor(private fb: FormBuilder,
               private appComp: AppComponent,
@@ -54,6 +58,11 @@ export class DigitalSignageComponent implements OnInit {
     });
 
     this.desiredTimePerSlide = 10000
+  }
+
+  contentCopied(e) {
+    this.contenCopied = e.isSuccess;
+    console.log(this.contenCopied)
   }
 
   ngAfterViewInit(): void {
@@ -108,5 +117,19 @@ export class DigitalSignageComponent implements OnInit {
     downloadAnchor.href = url;
     downloadAnchor.download = "config.js";
     downloadAnchor.click();
+  }
+
+  goToDigitalSignage() {
+    window.location.href=this.getDigitalSignageLink();
+  }
+
+  getDigitalSignageLink(): string {
+    return EndpointHolder.digitalSignageEndpoint + "?" +
+      "installationId=" + this.installationId + "&" +
+      "apiToken=" + this.apiToken + "&" +
+      "intro=" + this.introSelected + "&" +
+      "trees=" + this.treesSelected + "&" +
+      "power_chart=" + this.chartsSelected + "&" +
+      "slideChangeTimeout=" + this.desiredTimePerSlide;
   }
 }

@@ -25,7 +25,6 @@ function getSlides() {
         const bool = urlParams.get(value) != null ? urlParams.get(value) : config["slides"][value];
         if (bool === true || bool === 'true') slidesToShow.push(value)
     });
-    console.log(slidesToShow)
     for (i = 0; i < classSlides.length; i++) {
         classSlides[i].style.display = "none";
         if (slidesToShow.includes(classSlides[i].id)) filteredSlides.push(classSlides[i])
