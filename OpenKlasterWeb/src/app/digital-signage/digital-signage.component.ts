@@ -62,7 +62,6 @@ export class DigitalSignageComponent implements OnInit {
 
   contentCopied(e) {
     this.contenCopied = e.isSuccess;
-    console.log(this.contenCopied)
   }
 
   ngAfterViewInit(): void {
