@@ -27,9 +27,9 @@ export class DigitalSignageComponent implements OnInit {
   apiTokens: Array<String>;
   apiToken: String;
   slidesForm: FormGroup;
-  introSelected: boolean = false;
-  treesSelected: boolean = false;
-  chartsSelected: boolean = false;
+  introSelected: boolean = true;
+  treesSelected: boolean = true;
+  chartsSelected: boolean = true;
   desiredTimePerSlide: number;
   couponText = EndpointHolder.digitalSignageEndpoint + "...";
   contenCopied = false;
