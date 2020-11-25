@@ -54,6 +54,7 @@
   width: 550px;
   display: inline-block;
   font-size: 20px;
+  height: 50px;
 }
 
 .web-path-code {
@@ -63,7 +64,7 @@
 }
 
 .copy-url {
-  padding: 12px;
+  padding: 6px;
   display: flex;
   cursor: pointer;
   align-items: center;
@@ -71,7 +72,7 @@
 }
 
 .url-copied {
-  padding: 15px 0px;
+  padding: 10px 0px;
   color: #ffffff;
   font-size: 20px;
   display: inline-block;
