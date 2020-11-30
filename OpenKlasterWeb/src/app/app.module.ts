@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
@@ -63,6 +63,8 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {ToastrModule} from 'ngx-toastr';
 import { DigitalSignageComponent } from './digital-signage/digital-signage.component';
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 
 @NgModule({
   declarations: [
@@ -139,6 +141,13 @@ import { DigitalSignageComponent } from './digital-signage/digital-signage.compo
     MatStepperModule,
     NgxSpinnerModule,
     ToastrModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslation,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     UserService,
@@ -159,4 +168,8 @@ import { DigitalSignageComponent } from './digital-signage/digital-signage.compo
   bootstrap: [AppComponent]
 })
 export class AppModule {
+}
+
+export function httpTranslation(http: HttpClient) {
+  return new TranslateHttpLoader(http);
 }
