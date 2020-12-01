@@ -72,7 +72,7 @@
           </mat-select>
         </mat-form-field>
         <div>
-          <mat-label *ngIf="questions$.length!==0">Credentials</mat-label>
+          <mat-label *ngIf="questions$.length!==0">{{'AddInstallation_InverterCredentials' | translate}}</mat-label>
           <app-dynamic-form [questions]="questions$"
                             (credentialsEventEmitter)="handleCredentialsChange($event)">
           </app-dynamic-form>

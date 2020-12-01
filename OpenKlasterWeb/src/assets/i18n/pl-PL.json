@@ -12,10 +12,17 @@
   "AddInstallation_InverterModelType": "Typ modelu inwertera",
   "AddInstallation_InverterDescription": "Dodatkowe informacje o inwerterze",
   "AddInstallation_InverterManufacturer": "Producent inwertera",
+  "AddInstallation_InverterCredentials": "Uwierzytelnienie inwertera",
   "AddInstallation_SourceInfo": "Informacje o źródle energii",
   "AddInstallation_SourceAzimuth": "Azymut źródła energii",
   "AddInstallation_SourceCapacity": "Source Capacity",
   "AddInstallation_SourceTilt": "Pochylenie źródła energii",
   "AddInstallation_SourceDescription": "Dodatkowe informacje o źródle energii",
-  "AddInstallation_Submit": "Zatwierdź instalację"
+  "AddInstallation_Submit": "Zatwierdź instalację",
+  "Credentials_ProvideToken": "Wprowadź uwierzytelniający ciąg znaków",
+  "Credentials_Token": "Uwierzytelniający ciąg znaków",
+  "Credentials_Userpass": "Wprowadź nazwę użytkownika i hasło",
+  "Credentials_Username": "Nazwa użytkownika",
+  "Credentials_Password": "Hasło",
+  "Credentials_EmptyManufacturer": "Wybierz producenta inwertera"
 }
