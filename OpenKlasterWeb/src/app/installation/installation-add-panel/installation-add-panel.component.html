@@ -16,14 +16,14 @@
           <div style="">
             <mat-form-field appearance="outline" class="userformfield">
               <mat-label>Longitude [°]</mat-label>
-              <input matInput id="longitude" name="longitude" required
+              <input matInput id="longitude" name="longitude" required type="number" step="any"
                      [(ngModel)]="formModel.longitude">
             </mat-form-field>
           </div>
           <div>
             <mat-form-field appearance="outline" class="userformfield">
               <mat-label>Latitude [°]</mat-label>
-              <input matInput id="latitude" name="latitude" required
+              <input matInput id="latitude" name="latitude" required type="number" step="any"
                      [(ngModel)]="formModel.latitude">
             </mat-form-field>
           </div>
@@ -41,7 +41,7 @@
         <div class="half-div-line-margins-max400">
           <mat-form-field appearance="outline" class="userformfield">
             <mat-label>Load Name</mat-label>
-            <input matInput id="loadName" name="loadName" required
+            <input matInput id="loadName" name="loadName"
                    [(ngModel)]="formModel.load.name">
           </mat-form-field>
         </div>
@@ -90,19 +90,19 @@
         <div class="half-div-line-margins-max400">
           <mat-form-field appearance="outline" class="userformfield">
             <mat-label>Source Azimuth [°]</mat-label>
-            <input matInput id="sourceAzimuth" name="sourceAzimuth" required
+            <input matInput id="sourceAzimuth" name="sourceAzimuth" required type="number" step="any"
                    [(ngModel)]="formModel.source.azimuth">
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline" class="userformfield">
             <mat-label>Source Capacity [W]</mat-label>
-            <input matInput id="sourceCapacity" name="sourceCapacity" required
+            <input matInput id="sourceCapacity" name="sourceCapacity" required type="number" step="any"
                    [(ngModel)]="formModel.source.capacity">
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline" class="userformfield">
             <mat-label>Source Tilt [°]</mat-label>
-            <input matInput id="sourceTilt" name="sourceTilt" required
+            <input matInput id="sourceTilt" name="sourceTilt" required type="number" step="any"  min="0"
                    [(ngModel)]="formModel.source.tilt">
           </mat-form-field>
         </div>

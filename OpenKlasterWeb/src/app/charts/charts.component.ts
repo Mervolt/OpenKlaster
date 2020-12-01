@@ -9,6 +9,8 @@ import {Chart} from '../model/chart';
 import {compareAsc, format, parse} from 'date-fns';
 import {ActivatedRoute} from '@angular/router';
 import {MatHorizontalStepper, MatStepper} from '@angular/material/stepper';
+import {MatOptionSelectionChange} from "@angular/material/core";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'app-charts',
@@ -61,12 +63,12 @@ export class ChartsComponent implements OnInit {
 
   }
 
-  ngAfterViewInit() {
-    if (this.installationId != '') {
-      this.installationForm.get('installationId').setValue(this.installationId);
-      this.installationSelected();
-      this.stepper.next();
-    }
+  installationSelectedOption() {
+    document.getElementById('ChooseInstallationNext').click()
+  }
+
+  dateSelectedOption() {
+    document.getElementById('ChooseDateNext').click()
   }
 
   installationSelected() {

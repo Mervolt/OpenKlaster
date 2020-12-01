@@ -11,7 +11,7 @@
             <mat-label>Select an option</mat-label>
             <mat-select formControlName="installationId">
               <mat-option>None</mat-option>
-              <mat-option *ngFor="let id of installationIDs" [value]="id">{{id}}</mat-option>
+              <mat-option *ngFor="let id of installationDescriptions" [value]="id">{{id}}</mat-option>
             </mat-select>
           </mat-form-field>
           <h3>API Token</h3>
