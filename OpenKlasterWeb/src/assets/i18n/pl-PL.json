@@ -1,0 +1,21 @@
+{
+  "AddInstallation_InstallationInfo": "Informacje o instalacji",
+  "AddInstallation_InstallationSolar": "Słoneczna",
+  "AddInstallation_InstallationWind" : "Wiatrowa",
+  "AddInstallation_InstallationLongitude" : "Długość geograficzna",
+  "AddInstallation_InstallationLatitude" : "Szerokość geograficzna",
+  "AddInstallation_InstallationDescription": "Dodatkowe informacje o instalacji",
+  "AddInstallation_LoadInfo": "Informacje o odbiorniku",
+  "AddInstallation_LoadName": "Nazwa odbiornika",
+  "AddInstallation_LoadDescription": "Dodatkowe informacje o odbiorniku",
+  "AddInstallation_InverterInfo": "Informacje o inwerterze",
+  "AddInstallation_InverterModelType": "Typ modelu inwertera",
+  "AddInstallation_InverterDescription": "Dodatkowe informacje o inwerterze",
+  "AddInstallation_InverterManufacturer": "Producent inwertera",
+  "AddInstallation_SourceInfo": "Informacje o źródle energii",
+  "AddInstallation_SourceAzimuth": "Azymut źródła energii",
+  "AddInstallation_SourceCapacity": "Source Capacity",
+  "AddInstallation_SourceTilt": "Pochylenie źródła energii",
+  "AddInstallation_SourceDescription": "Dodatkowe informacje o źródle energii",
+  "AddInstallation_Submit": "Zatwierdź instalację"
+}

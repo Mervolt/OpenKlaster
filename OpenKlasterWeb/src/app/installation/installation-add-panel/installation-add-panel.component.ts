@@ -43,8 +43,12 @@ export class InstallationAddPanelComponent {
     });
     this.formModel = new Installation();
     this.questions$ = [];
-    this.translateService.addLangs(['en', 'pl']);
-    this.translateService.setDefaultLang('pl');
+    this.translateService.addLangs(['en-US', 'pl-PL']);
+    if(navigator.language === 'pl-PL' || navigator.language === 'en-US')
+      this.translateService.setDefaultLang(navigator.language)
+    else
+      this.translateService.setDefaultLang('en-US')
+    this.translateService.setDefaultLang(navigator.language);
   }
 
   ngOnInit(): void {}
