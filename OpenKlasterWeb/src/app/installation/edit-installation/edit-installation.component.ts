@@ -7,6 +7,7 @@ import {CookieService} from "ngx-cookie-service";
 import {MatDialog} from "@angular/material/dialog";
 import {ActivatedRoute, Router} from "@angular/router";
 import {InstallationDto} from "../../model/InstallationDto";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-edit-installation',
@@ -22,8 +23,9 @@ export class EditInstallationComponent extends InstallationAddPanelComponent imp
               public manufacturerCredentialService: ManufacturerCredentialService,
               public cookieService: CookieService,
               public dialog: MatDialog,
-              private route: ActivatedRoute, public router: Router) {
-    super(installationService, manufacturerCredentialService, cookieService, dialog, router)
+              private route: ActivatedRoute, public router: Router,
+              public translateService: TranslateService) {
+    super(installationService, manufacturerCredentialService, cookieService, dialog, router, translateService)
     this.installationId = Number(route.snapshot.paramMap.get('id'));
   }
 

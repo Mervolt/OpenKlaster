@@ -13,6 +13,7 @@ import {MatOptionSelectionChange} from "@angular/material/core";
 import {ConfirmationDialogPopupComponent} from "../../components/confirmation-dialog-popup/confirmation-dialog-popup.component";
 import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-installation-generation-panel',
@@ -33,7 +34,8 @@ export class InstallationAddPanelComponent {
   constructor(public installationService: InstallationService,
               public manufacturerCredentialService: ManufacturerCredentialService,
               public cookieService: CookieService, public dialog: MatDialog,
-              public router: Router) {
+              public router: Router,
+              public translateService: TranslateService) {
     manufacturerCredentialService.getCredentials().toPromise().then(response => {
       for (let manufacturer in response) {
         this.manufacturersMap.set(manufacturer, response[manufacturer]);
@@ -41,6 +43,8 @@ export class InstallationAddPanelComponent {
     });
     this.formModel = new Installation();
     this.questions$ = [];
+    this.translateService.addLangs(['en', 'pl']);
+    this.translateService.setDefaultLang('pl');
   }
 
   ngOnInit(): void {}

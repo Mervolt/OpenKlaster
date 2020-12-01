@@ -1,0 +1,21 @@
+{
+  "AddInstallation_InstallationInfo": "Installation information",
+  "AddInstallation_InstallationSolar": "Solar",
+  "AddInstallation_InstallationWind" : "Wind",
+  "AddInstallation_InstallationLongitude" : "Longitude",
+  "AddInstallation_InstallationLatitude" : "Latitude",
+  "AddInstallation_InstallationDescription": "Description",
+  "AddInstallation_LoadInfo": "Load information",
+  "AddInstallation_LoadName": "Load Name",
+  "AddInstallation_LoadDescription": "Load Description",
+  "AddInstallation_InverterInfo": "Inverter information",
+  "AddInstallation_InverterModelType": "Inverter Model Type",
+  "AddInstallation_InverterDescription": "Inverter Description",
+  "AddInstallation_InverterManufacturer": "Inverter Manufacturer",
+  "AddInstallation_SourceInfo": "Source information",
+  "AddInstallation_SourceAzimuth": "Source Azimuth",
+  "AddInstallation_SourceCapacity": "Source Capacity",
+  "AddInstallation_SourceTilt": "Source Tilt",
+  "AddInstallation_SourceDescription": "Source Description",
+  "AddInstallation_Submit": "Submit Installation"
+}
