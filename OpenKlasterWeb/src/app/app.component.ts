@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {CookieService} from 'ngx-cookie-service';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,14 @@ export class AppComponent {
     'url(/assets/img/background2.jpg)']
   background = 'url(/assets/img/background.jpg)';
 
-  constructor(public cookieService: CookieService) {
+  constructor(public cookieService: CookieService,
+              public translateService: TranslateService) {
+    this.translateService.addLangs(['en-US', 'pl-PL']);
+    if(navigator.language === 'pl-PL' || navigator.language === 'en-US')
+      this.translateService.setDefaultLang(navigator.language)
+    else
+      this.translateService.setDefaultLang('en-US')
+    this.translateService.setDefaultLang(navigator.language);
   }
 
   refreshBackground(backgroundNumber: number) {

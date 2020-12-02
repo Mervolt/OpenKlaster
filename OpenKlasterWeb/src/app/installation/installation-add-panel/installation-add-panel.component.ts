@@ -34,8 +34,7 @@ export class InstallationAddPanelComponent {
   constructor(public installationService: InstallationService,
               public manufacturerCredentialService: ManufacturerCredentialService,
               public cookieService: CookieService, public dialog: MatDialog,
-              public router: Router,
-              public translateService: TranslateService) {
+              public router: Router) {
     manufacturerCredentialService.getCredentials().toPromise().then(response => {
       for (let manufacturer in response) {
         this.manufacturersMap.set(manufacturer, response[manufacturer]);
@@ -43,12 +42,6 @@ export class InstallationAddPanelComponent {
     });
     this.formModel = new Installation();
     this.questions$ = [];
-    this.translateService.addLangs(['en-US', 'pl-PL']);
-    if(navigator.language === 'pl-PL' || navigator.language === 'en-US')
-      this.translateService.setDefaultLang(navigator.language)
-    else
-      this.translateService.setDefaultLang('en-US')
-    this.translateService.setDefaultLang(navigator.language);
   }
 
   ngOnInit(): void {}
