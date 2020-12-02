@@ -24,5 +24,11 @@
   "Credentials_Userpass": "Provide username and password",
   "Credentials_Username": "Username",
   "Credentials_Password": "Password",
-  "Credentials_EmptyManufacturer": "Select inverter manufacturer"
+  "Credentials_EmptyManufacturer": "Select inverter manufacturer",
+  "AllInstallations_InstallationDescription": "Installation description",
+  "AllInstallations_SourceDescription": "Source description",
+  "AllInstallations_InverterManufacturer": "Inverter manufacturer",
+  "AllInstallations_InverterDescription": "Inverter description",
+  "AllInstallations_LoadName": "Load name",
+  "AllInstallations_LoadDescription": "Load description"
 }

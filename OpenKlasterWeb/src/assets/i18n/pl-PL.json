@@ -24,5 +24,11 @@
   "Credentials_Userpass": "Wprowadź nazwę użytkownika i hasło",
   "Credentials_Username": "Nazwa użytkownika",
   "Credentials_Password": "Hasło",
-  "Credentials_EmptyManufacturer": "Wybierz producenta inwertera"
+  "Credentials_EmptyManufacturer": "Wybierz producenta inwertera",
+  "AllInstallations_InstallationDescription": "Informacje o instalacji",
+  "AllInstallations_SourceDescription": "Informacje o źródle energii",
+  "AllInstallations_InverterManufacturer": "Producent inwertera",
+  "AllInstallations_InverterDescription": "Informacje o inwerterze",
+  "AllInstallations_LoadName": "Nazwa odbiornika",
+  "AllInstallations_LoadDescription": "Informacje o odbiorniku"
 }
