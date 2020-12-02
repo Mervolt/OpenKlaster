@@ -30,5 +30,19 @@
   "AllInstallations_InverterManufacturer": "Producent inwertera",
   "AllInstallations_InverterDescription": "Informacje o inwerterze",
   "AllInstallations_LoadName": "Nazwa odbiornika",
-  "AllInstallations_LoadDescription": "Informacje o odbiorniku"
+  "AllInstallations_LoadDescription": "Informacje o odbiorniku",
+  "UserPanel_YourTokens": "Twoje kody uwierzytelniające",
+  "UserPanel_TokenData": "Kod uwierzytelniający",
+  "UserPanel_TokenRemove": "Usuń",
+  "UserPanel_TokenNumber": "Nr",
+  "UserPanel_GenerateNewToken": "Wygeneruj nowy kod",
+  "UserPanel_YourUserInfo": "Informacje o Twoim użytkowniku",
+  "UserPanel_YourUserUsername": "Nazwa użytkownika",
+  "UserPanel_YourUserEmail": "Email",
+  "UserPanel_YourUserCurrentPassword": "Aktualne hasło",
+  "UserPanel_YourUserNewPassword": "Nowe hasło",
+  "UserPanel_YourUserConfirmNewPassword": "Potwierdź nowe hasło",
+  "UserPanel_YourUserSubmitEdition": "Zatwierdź zmiany",
+  "UserPanel_YourUserChangeEmail": "Zmień email",
+  "UserPanel_YourUserChangePassword": "Zmień hasło"
 }

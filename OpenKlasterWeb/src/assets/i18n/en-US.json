@@ -30,5 +30,19 @@
   "AllInstallations_InverterManufacturer": "Inverter manufacturer",
   "AllInstallations_InverterDescription": "Inverter description",
   "AllInstallations_LoadName": "Load name",
-  "AllInstallations_LoadDescription": "Load description"
+  "AllInstallations_LoadDescription": "Load description",
+  "UserPanel_YourTokens": "Your tokens",
+  "UserPanel_TokenData": "Token",
+  "UserPanel_TokenRemove": "Remove",
+  "UserPanel_TokenNumber": "No",
+  "UserPanel_GenerateNewToken": "Generate new token",
+  "UserPanel_YourUserInfo": "Your user info",
+  "UserPanel_YourUserUsername": "Username",
+  "UserPanel_YourUserEmail": "Email",
+  "UserPanel_YourUserCurrentPassword": "Current Password",
+  "UserPanel_YourUserNewPassword": "New Password",
+  "UserPanel_YourUserConfirmNewPassword": "Confirm New Password",
+  "UserPanel_YourUserSubmitEdition": "Submit Edition",
+  "UserPanel_YourUserChangeEmail": "Change Email",
+  "UserPanel_YourUserChangePassword": "Change Password"
 }
