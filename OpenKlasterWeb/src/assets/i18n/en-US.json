@@ -44,5 +44,13 @@
   "UserPanel_YourUserConfirmNewPassword": "Confirm New Password",
   "UserPanel_YourUserSubmitEdition": "Submit Edition",
   "UserPanel_YourUserChangeEmail": "Change Email",
-  "UserPanel_YourUserChangePassword": "Change Password"
+  "UserPanel_YourUserChangePassword": "Change Password",
+  "EditInstallation_Installation": "Installation",
+  "EditInstallation_ShowCharts": "Show charts",
+  "EditInstallation_CreateConfig": "Create digital signage config",
+  "EditInstallation_EditInstallation": "Edit installation",
+  "EditInstallation_RemoveInstallation": "Remove installation",
+  "EditInstallation_Inverter": "Inverter",
+  "EditInstallation_Source": "Source",
+  "EditInstallation_Load": "Load"
 }

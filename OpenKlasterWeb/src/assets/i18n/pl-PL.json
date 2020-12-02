@@ -44,5 +44,13 @@
   "UserPanel_YourUserConfirmNewPassword": "Potwierdź nowe hasło",
   "UserPanel_YourUserSubmitEdition": "Zatwierdź zmiany",
   "UserPanel_YourUserChangeEmail": "Zmień email",
-  "UserPanel_YourUserChangePassword": "Zmień hasło"
+  "UserPanel_YourUserChangePassword": "Zmień hasło",
+  "EditInstallation_Installation": "Instalacja",
+  "EditInstallation_ShowCharts": "Pokaż wykresy",
+  "EditInstallation_CreateConfig": "Skonfiguruj Digital Signage",
+  "EditInstallation_EditInstallation": "Edytuj instalację",
+  "EditInstallation_RemoveInstallation": "Usuń instalację",
+  "EditInstallation_Inverter": "Inwerter",
+  "EditInstallation_Source": "Źródło energii",
+  "EditInstallation_Load": "Odbiornik"
 }
