@@ -81,5 +81,12 @@
   "Navbar_UserPanel":"Panel użytkownika",
   "Navbar_APIDocumentation":"Dokumentacja API",
   "Navbar_DigitalSignage":"Digital signage",
-  "Navbar_Logout":"Wyloguj"
+  "Navbar_Logout":"Wyloguj",
+  "Charts_ChooseYourInstallation": "Wybierz swoją instalację",
+  "Charts_SelectOption": "Wybierz opcję",
+  "Charts_NoInstallation": "Brak instalacji",
+  "Charts_ChooseDate": "Wybierz datę",
+  "Charts_NoChartsForInstallation": "Nie znaleziono wykresów dla tej instalacji",
+  "Charts_WatchCharts": "Obejrzyj wykresy",
+  "Charts_NoCharts": "Nie znaleziono wykresów dla Twoich instalacji"
 }

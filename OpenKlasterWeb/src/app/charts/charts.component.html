@@ -3,12 +3,12 @@
 <mat-horizontal-stepper class="font-20" linear="Enable linear mode" #stepper>
   <mat-step [stepControl]="installationForm">
     <form [formGroup]="installationForm">
-      <ng-template matStepLabel>Choose your installation</ng-template>
+      <ng-template matStepLabel>{{'Charts_ChooseYourInstallation' | translate}}</ng-template>
       <div class="step">
         <mat-form-field appearance="standard">
-          <mat-label>Select an option</mat-label>
+          <mat-label>{{'Charts_SelectOption' | translate}}</mat-label>
           <mat-select formControlName="installationId">
-            <mat-option>None</mat-option>
+            <mat-option>{{'Charts_NoInstallation' | translate}}</mat-option>
             <mat-option *ngFor="let id of installationIDs" [value]="id">{{id}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -20,10 +20,10 @@
   </mat-step>
   <mat-step [stepControl]="datePickerForm">
     <form [formGroup]="datePickerForm">
-      <ng-template matStepLabel>Choose date</ng-template>
+      <ng-template matStepLabel>{{'Charts_ChooseDate' | translate}}</ng-template>
       <div *ngIf="getSelectableDatesError">
         <div class="center alert alert-danger" role="alert">
-          No charts were found for this installation
+          {{'Charts_NoChartsForInstallation' | translate}}
         </div>
       </div>
       <div *ngIf="!getSelectableDatesError">
@@ -32,7 +32,7 @@
             <mat-icon>arrow_back</mat-icon>
           </button>
           <mat-form-field class="component-container">
-            <mat-label>Choose a date</mat-label>
+            <mat-label>{{'Charts_ChooseDate' | translate}}</mat-label>
             <input matInput disabled class="component-container" [matDatepickerFilter]="dateFilter" formControlName="date" [matDatepicker]="picker">
             <mat-datepicker-toggle class="component-container" matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker disabled="false" touchUi class="component-container" [dateClass]="dateClass" #picker></mat-datepicker>
@@ -45,10 +45,10 @@
     </form>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Watch charts</ng-template>
+    <ng-template matStepLabel>{{'Charts_WatchCharts' | translate}}</ng-template>
     <div *ngIf="getChartsError">
       <div class="center alert alert-danger" role="alert">
-        No charts were found
+        {{'Charts_NoCharts' | translate}}
       </div>
     </div>
     <div *ngIf="!getChartsError" style='min-height:800px'>
