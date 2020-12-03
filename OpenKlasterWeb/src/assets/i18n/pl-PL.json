@@ -65,5 +65,9 @@
   "EditInstallationProperty_TodayEnergy": "Dzisiejsza energia",
   "EditInstallationProperty_CurrentPower": "Aktualna moc",
   "EditInstallationProperty_TreesSaved": "Uratowane drzewa",
-  "EditInstallationProperty_Co2Reduced": "Redukcja CO2"
+  "EditInstallationProperty_Co2Reduced": "Redukcja CO2",
+  "LoginForm_Username": "Nazwa użytkownika",
+  "LoginForm_Password": "Hasło",
+  "LoginForm_Login": "Zaloguj się",
+  "LoginForm_NoAccount": "Brak konta?"
 }

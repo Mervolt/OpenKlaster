@@ -65,5 +65,9 @@
   "EditInstallationProperty_TodayEnergy": "TodayEnergy",
   "EditInstallationProperty_CurrentPower": "CurrentPower",
   "EditInstallationProperty_TreesSaved": "TreesSaved",
-  "EditInstallationProperty_Co2Reduced": "Co2Reduced"
+  "EditInstallationProperty_Co2Reduced": "Co2Reduced",
+  "LoginForm_Username": "Username",
+  "LoginForm_Password": "Password",
+  "LoginForm_Login": "Login",
+  "LoginForm_NoAccount": "Don't have account yet?"
 }
