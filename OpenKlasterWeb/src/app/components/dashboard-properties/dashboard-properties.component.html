@@ -1,6 +1,6 @@
 <div class="properties-container" [ngStyle]="{'grid-template-columns': '49% 49%'}">
   <div *ngFor="let property of properties | keyvalue" class="property-container">
-    <span>{{property.key | translate}}</span>
-    <span>{{property.value}}</span>
+    <span style="text-align: center">{{property.key | translate}}</span>
+    <span style="text-align: center">{{property.value}}</span>
   </div>
 </div>
