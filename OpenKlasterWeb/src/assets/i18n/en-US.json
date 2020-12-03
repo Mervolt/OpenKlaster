@@ -74,6 +74,12 @@
   "RegisterForm_Username": "Username",
   "RegisterForm_Password": "Password",
   "RegisterForm_Register": "Register",
-  "RegisterForm_Account": "Already have an account?"
-
+  "RegisterForm_Account": "Already have an account?",
+  "Navbar_YourInstallations":"Your installations",
+  "Navbar_AddInstallation":"Add installation",
+  "Navbar_Charts":"Charts",
+  "Navbar_UserPanel":"User panel",
+  "Navbar_APIDocumentation":"API Documentation",
+  "Navbar_DigitalSignage":"Digital signage",
+  "Navbar_Logout":"Logout"
 }
