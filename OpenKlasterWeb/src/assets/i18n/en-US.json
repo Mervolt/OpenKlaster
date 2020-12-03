@@ -69,5 +69,11 @@
   "LoginForm_Username": "Username",
   "LoginForm_Password": "Password",
   "LoginForm_Login": "Login",
-  "LoginForm_NoAccount": "Don't have account yet?"
+  "LoginForm_NoAccount": "Don't have account yet?",
+  "RegisterForm_Email": "Email",
+  "RegisterForm_Username": "Username",
+  "RegisterForm_Password": "Password",
+  "RegisterForm_Register": "Register",
+  "RegisterForm_Account": "Already have an account?"
+
 }

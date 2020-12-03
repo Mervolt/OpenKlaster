@@ -69,5 +69,10 @@
   "LoginForm_Username": "Nazwa użytkownika",
   "LoginForm_Password": "Hasło",
   "LoginForm_Login": "Zaloguj się",
-  "LoginForm_NoAccount": "Brak konta?"
+  "LoginForm_NoAccount": "Brak konta?",
+  "RegisterForm_Email": "Email",
+  "RegisterForm_Username": "Nazwa użytkownika",
+  "RegisterForm_Password": "Hasło",
+  "RegisterForm_Register": "Zarejestruj",
+  "RegisterForm_Account": "Już posiadasz konto?"
 }
