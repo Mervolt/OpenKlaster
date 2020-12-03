@@ -52,5 +52,18 @@
   "EditInstallation_RemoveInstallation": "Remove installation",
   "EditInstallation_Inverter": "Inverter",
   "EditInstallation_Source": "Source",
-  "EditInstallation_Load": "Load"
+  "EditInstallation_Load": "Load",
+  "EditInstallationProperty_Latitude": "Latitude",
+  "EditInstallationProperty_Longitude": "Longitude",
+  "EditInstallationProperty_Tilt": "Tilt",
+  "EditInstallationProperty_Azimuth": "Azimuth",
+  "EditInstallationProperty_Capacity": "Capacity",
+  "EditInstallationProperty_Name": "Name",
+  "EditInstallationProperty_ModelType": "ModelType",
+  "EditInstallationProperty_Manufacturer": "Manufacturer",
+  "EditInstallationProperty_TotalEnergy": "TotalEnergy",
+  "EditInstallationProperty_TodayEnergy": "TodayEnergy",
+  "EditInstallationProperty_CurrentPower": "CurrentPower",
+  "EditInstallationProperty_TreesSaved": "TreesSaved",
+  "EditInstallationProperty_Co2Reduced": "Co2Reduced"
 }

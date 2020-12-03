@@ -52,5 +52,18 @@
   "EditInstallation_RemoveInstallation": "Usuń instalację",
   "EditInstallation_Inverter": "Inwerter",
   "EditInstallation_Source": "Źródło energii",
-  "EditInstallation_Load": "Odbiornik"
+  "EditInstallation_Load": "Odbiornik",
+  "EditInstallationProperty_Latitude": "Długość geograficzna",
+  "EditInstallationProperty_Longitude": "Szerekość geograficzna",
+  "EditInstallationProperty_Tilt": "Tilt",
+  "EditInstallationProperty_Azimuth": "Azymut",
+  "EditInstallationProperty_Capacity": "Pojemność",
+  "EditInstallationProperty_Name": "Nazwa",
+  "EditInstallationProperty_ModelType": "Typ modelu",
+  "EditInstallationProperty_Manufacturer": "Producent",
+  "EditInstallationProperty_TotalEnergy": "Całkowita energia",
+  "EditInstallationProperty_TodayEnergy": "Dzisiejsza energia",
+  "EditInstallationProperty_CurrentPower": "Aktualna moc",
+  "EditInstallationProperty_TreesSaved": "Uratowane drzewa",
+  "EditInstallationProperty_Co2Reduced": "Redukcja CO2"
 }
