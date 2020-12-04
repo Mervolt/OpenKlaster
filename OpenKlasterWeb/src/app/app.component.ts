@@ -15,12 +15,15 @@ export class AppComponent {
 
   constructor(public cookieService: CookieService,
               public translateService: TranslateService) {
-    this.translateService.addLangs(['en-US', 'pl-PL']);
+    this.translateService.addLangs(['en-US', 'pl-PL', 'pl', 'en']);
     if(navigator.language === 'pl-PL' || navigator.language === 'en-US')
       this.translateService.setDefaultLang(navigator.language)
+    else if(navigator.language === 'pl')
+      this.translateService.setDefaultLang('pl-PL')
+    else if(navigator.language === 'en')
+        this.translateService.setDefaultLang('en-US')
     else
       this.translateService.setDefaultLang('en-US')
-    this.translateService.setDefaultLang(navigator.language);
   }
 
   refreshBackground(backgroundNumber: number) {
