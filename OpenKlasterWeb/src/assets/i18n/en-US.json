@@ -88,5 +88,18 @@
   "Charts_ChooseDate": "Choose date",
   "Charts_NoChartsForInstallation": "No charts were found for this installation",
   "Charts_WatchCharts": "Watch charts",
-  "Charts_NoCharts": "No charts"
+  "Charts_NoCharts": "No charts",
+  "DigitalSignage_ChooseInst": "Choose your installation and API token",
+  "DigitalSignage_Installation": "Installation",
+  "DigitalSignage_SelectOption": "Select an option",
+  "DigitalSignage_None": "None",
+  "DigitalSignage_APIToken": "API Token",
+  "DigitalSignage_ChooseView": "Choose desired views and time per one",
+  "DigitalSignage_Intros": "Intros",
+  "DigitalSignage_Trees": "Trees",
+  "DigitalSignage_Charts": "Charts",
+  "DigitalSignage_TimePerView": "Time per view [ms]",
+  "DigitalSignage_Summarization": "Summarization",
+  "DigitalSignage_FilePreview": "File preview:",
+  "DigitalSignage_Download": "Download"
 }

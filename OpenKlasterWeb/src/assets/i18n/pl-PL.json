@@ -88,5 +88,18 @@
   "Charts_ChooseDate": "Wybierz datę",
   "Charts_NoChartsForInstallation": "Nie znaleziono wykresów dla tej instalacji",
   "Charts_WatchCharts": "Obejrzyj wykresy",
-  "Charts_NoCharts": "Nie znaleziono wykresów dla Twoich instalacji"
+  "Charts_NoCharts": "Nie znaleziono wykresów dla Twoich instalacji",
+  "DigitalSignage_ChooseInst": "Wybierz instalację oraz token utwierzytelnienia",
+  "DigitalSignage_Installation": "Instalacja",
+  "DigitalSignage_SelectOption": "Wybierz opcję",
+  "DigitalSignage_None": "Brak",
+  "DigitalSignage_APIToken": "Token uwierzytelnienia",
+  "DigitalSignage_ChooseView": "Wybierz pożądane widoki oraz czas dla widoku",
+  "DigitalSignage_Intros": "Podstawowy",
+  "DigitalSignage_Trees": "Środowiskowy",
+  "DigitalSignage_Charts": "Wykresy",
+  "DigitalSignage_TimePerView": "Czas dla widoku [ms]",
+  "DigitalSignage_Summarization": "Podsumowanie",
+  "DigitalSignage_FilePreview": "Podgląd pliku:",
+  "DigitalSignage_Download": "Pobierz"
 }
