@@ -35,7 +35,7 @@
       <button mat-fab style="margin-right: 100px;" color="primary" matStepperPrevious>
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <div style="align-items: center; display: flex; flex-direction: column">
+      <div style="align-items: flex-start; display: flex; flex-direction: column">
         <div style="display:flex; flex-direction: row; min-width: 350px">
           <img class="thumbnail" height="90" width="160" src="assets/img/introDigital.png">
           <mat-checkbox [(ngModel)]="introSelected" style="font-size: 30px; margin: 30px">{{'DigitalSignage_Intros' | translate}}</mat-checkbox>
@@ -48,7 +48,7 @@
           <img class="thumbnail" height="90" width="160" src="assets/img/chartsDigital.png">
           <mat-checkbox [(ngModel)]="chartsSelected" style="font-size: 30px; margin: 30px">{{'DigitalSignage_Charts' | translate}}</mat-checkbox>
         </div>
-        <mat-form-field style="margin: 30px">
+        <mat-form-field style="margin: 30 0px; min-width: 300px">
           <mat-label>{{'DigitalSignage_TimePerView' | translate}}</mat-label>
           <input [(ngModel)]="desiredTimePerSlide" matInput required>
         </mat-form-field>
