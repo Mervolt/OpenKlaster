@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {CookieService} from 'ngx-cookie-service';
 import {TranslateService} from "@ngx-translate/core";
+import {DateAdapter} from "@angular/material/core";
 
 @Component({
   selector: 'app-root',
@@ -14,16 +15,25 @@ export class AppComponent {
   background = 'url(/assets/img/background.jpg)';
 
   constructor(public cookieService: CookieService,
-              public translateService: TranslateService) {
+              public translateService: TranslateService,
+              private dateAdapter: DateAdapter<Date>) {
     this.translateService.addLangs(['en-US', 'pl-PL', 'pl', 'en']);
-    if(navigator.language === 'pl-PL' || navigator.language === 'en-US')
+    if(navigator.language === 'pl-PL' || navigator.language === 'en-US') {
       this.translateService.setDefaultLang(navigator.language)
-    else if(navigator.language === 'pl')
+      this.dateAdapter.setLocale(navigator.language)
+    }
+    else if(navigator.language === 'pl') {
       this.translateService.setDefaultLang('pl-PL')
-    else if(navigator.language === 'en')
-        this.translateService.setDefaultLang('en-US')
-    else
+      this.dateAdapter.setLocale('pl-PL')
+    }
+    else if(navigator.language === 'en') {
       this.translateService.setDefaultLang('en-US')
+      this.dateAdapter.setLocale('en-US')
+    }
+    else {
+      this.translateService.setDefaultLang('pl-PL')
+      this.dateAdapter.setLocale('pl-PL')
+    }
   }
 
   refreshBackground(backgroundNumber: number) {

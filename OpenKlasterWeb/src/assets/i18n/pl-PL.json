@@ -109,7 +109,9 @@
   "DialogRegister_Failure": "Wystąpił problem z utworzeniem użytkownika. Spróbuj użyć innej nazwy.",
   "DialogUpdate_Success": "Pomyślnie zaktualizowane twoje dane",
   "DialogUpdate_Failure": "Wystąpił problem z aktualizowaniem twoich danych.",
-
+  "DeleteInstallation_Question": "Czy na pewno chcesz usunąć tą instalację?",
+  "DeleteInstallation_Confirm": "Tak",
+  "DeleteInstallation_Cancel": "Anuluj",
   "RANGE_PAGE_LABEL_1": "0 z {{length}}",
   "RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} z {{length}}"
 }
