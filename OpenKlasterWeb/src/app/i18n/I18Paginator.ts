@@ -7,7 +7,6 @@ export class I18Paginator {
 
   getPaginatorIntl(): MatPaginatorIntl {
     const paginatorIntl = new MatPaginatorIntl();
-    console.log('XD')
     if(navigator.language === 'pl' || navigator.language === 'pl-PL') {
       paginatorIntl.itemsPerPageLabel = 'Pozycje na stronie:';
       paginatorIntl.nextPageLabel = 'Następna strona';

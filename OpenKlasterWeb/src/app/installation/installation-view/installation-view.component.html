@@ -17,7 +17,7 @@
         <div [ngClass]="['installation-properties-container']">
           <div class="properties-container" [ngStyle]="{'grid-template-columns': '49% 49%'}">
             <div *ngFor="let property of summaryProperties | keyvalue" class="property-container">
-              <span>{{property.key}}</span>
+              <span>{{property.key | translate}}</span>
               <span>{{property.value}}</span>
             </div>
           </div>

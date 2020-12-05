@@ -61,11 +61,11 @@
   "EditInstallationProperty_Name": "Name",
   "EditInstallationProperty_ModelType": "ModelType",
   "EditInstallationProperty_Manufacturer": "Manufacturer",
-  "EditInstallationProperty_TotalEnergy": "TotalEnergy",
-  "EditInstallationProperty_TodayEnergy": "TodayEnergy",
-  "EditInstallationProperty_CurrentPower": "CurrentPower",
-  "EditInstallationProperty_TreesSaved": "TreesSaved",
-  "EditInstallationProperty_Co2Reduced": "Co2Reduced",
+  "EditInstallationProperty_TotalEnergy": "Total energy",
+  "EditInstallationProperty_TodayEnergy": "Today energy",
+  "EditInstallationProperty_CurrentPower": "Current power",
+  "EditInstallationProperty_TreesSaved": "Trees saved",
+  "EditInstallationProperty_Co2Reduced": "Co2 Reduced",
   "LoginForm_Username": "Username",
   "LoginForm_Password": "Password",
   "LoginForm_Login": "Login",
@@ -101,5 +101,6 @@
   "DigitalSignage_TimePerView": "Time per view [ms]",
   "DigitalSignage_Summarization": "Summarization",
   "DigitalSignage_FilePreview": "File preview:",
-  "DigitalSignage_Download": "Download"
+  "DigitalSignage_Download": "Download",
+  "Amount_Tons": "tons"
 }
