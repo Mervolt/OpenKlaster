@@ -7,12 +7,13 @@ export class I18Paginator {
 
   getPaginatorIntl(): MatPaginatorIntl {
     const paginatorIntl = new MatPaginatorIntl();
+    console.log('XD')
     if(navigator.language === 'pl' || navigator.language === 'pl-PL') {
-      paginatorIntl.itemsPerPageLabel = this.translate.instant('ITEMS_PER_PAGE_LABEL');
-      paginatorIntl.nextPageLabel = this.translate.instant('NEXT_PAGE_LABEL');
-      paginatorIntl.previousPageLabel = this.translate.instant('PREVIOUS_PAGE_LABEL');
-      paginatorIntl.firstPageLabel = this.translate.instant('FIRST_PAGE_LABEL');
-      paginatorIntl.lastPageLabel = this.translate.instant('LAST_PAGE_LABEL');
+      paginatorIntl.itemsPerPageLabel = 'Pozycje na stronie:';
+      paginatorIntl.nextPageLabel = 'Następna strona';
+      paginatorIntl.previousPageLabel = 'Poprzednia strona';
+      paginatorIntl.firstPageLabel = 'Pierwsza strona';
+      paginatorIntl.lastPageLabel = 'Ostatnia strona';
       paginatorIntl.getRangeLabel = this.getRangeLabel.bind(this);
     }
     return paginatorIntl;
