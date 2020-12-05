@@ -101,6 +101,5 @@
   "DigitalSignage_TimePerView": "Time per view [ms]",
   "DigitalSignage_Summarization": "Summarization",
   "DigitalSignage_FilePreview": "File preview:",
-  "DigitalSignage_Download": "Download",
-  "Amount_Tons": "tons"
+  "DigitalSignage_Download": "Download"
 }

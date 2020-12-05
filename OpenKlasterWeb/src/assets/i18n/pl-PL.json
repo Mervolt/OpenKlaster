@@ -102,5 +102,7 @@
   "DigitalSignage_Summarization": "Podsumowanie",
   "DigitalSignage_FilePreview": "Podgląd pliku:",
   "DigitalSignage_Download": "Pobierz",
-  "Amount_Tons": "tony"
+
+  "RANGE_PAGE_LABEL_1": "0 z {{length}}",
+  "RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} z {{length}}"
 }
