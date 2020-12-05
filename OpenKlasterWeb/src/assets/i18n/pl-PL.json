@@ -104,6 +104,11 @@
   "DigitalSignage_Download": "Pobierz",
   "DialogLogin_Success": "Pomyślnie zalogowano",
   "DialogLogin_Failure": "Następił problem z logowaniem. Sprawdź swoją nazwę użytkownika oraz hasło.",
+  "DialogRegister_Success1": "Konto użytkownika ",
+  "DialogRegister_Success2": " zostało utworzone pomyślnie!",
+  "DialogRegister_Failure": "Wystąpił problem z utworzeniem użytkownika. Spróbuj użyć innej nazwy.",
+  "DialogUpdate_Success": "Pomyślnie zaktualizowane twoje dane",
+  "DialogUpdate_Failure": "Wystąpił problem z aktualizowaniem twoich danych.",
 
   "RANGE_PAGE_LABEL_1": "0 z {{length}}",
   "RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} z {{length}}"

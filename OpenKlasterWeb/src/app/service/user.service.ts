@@ -32,11 +32,11 @@ export class UserService {
 
   private updateUser(updateDto: UserUpdateDto): Promise<boolean> {
     return this.http.put(EndpointHolder.userEndpoint, updateDto).toPromise().then(response => {
-      this.toastr.success('Pomyślnie zaktualizowane twoje dane');
+      this.toastr.success(this.getSuccessUpdateTranslation());
       return true;
     })
       .catch((error: any) => {
-        this.toastr.error('Wystąpił problem z aktualizowaniem twoich danych.')
+        this.toastr.error(this.getFailureUpdateTranslation())
         return false;
       });
   }
@@ -45,11 +45,11 @@ export class UserService {
     return this.http.post(EndpointHolder.userEndpoint, user, {responseType: 'text'})
       .toPromise()
       .then(response => {
-        this.toastr.success('Konto użytkownika ' + user.username + ' zostało utworzone pomyślnie!');
+        this.toastr.success(this.getSuccessRegisterTranslation(user.username));
         return true;
       })
       .catch(() => {
-        this.toastr.error('Wystąpił problem z utworzeniem użytkownika. Spróbuj użyć innej nazwy.');
+        this.toastr.error(this.getFailureRegisterTranslation());
         return false;
       })
   }
@@ -65,22 +65,37 @@ export class UserService {
       .then(response => {
         cookieService.set("username", user.username);
         cookieService.set("sessionToken", response['sessionToken']['data']);
-        this.toastr.success(this.getSuccessTranslation());
+        this.toastr.success(this.getSuccessLoginTranslation());
         return true;
       })
       .catch(() => {
-        this.toastr.error(this.getFailureTranslation());
+        this.toastr.error(this.getFailureLoginTranslation());
         return false;
       })
   }
 
-  private getSuccessTranslation(){
+  private getSuccessLoginTranslation(){
     return this.translateService.instant("DialogLogin_Success");
   }
 
-  private getFailureTranslation(){
+  private getFailureLoginTranslation(){
     return this.translateService.instant("DialogLogin_Failure");
   }
 
+  private getSuccessRegisterTranslation(username: String){
+    return this.translateService.instant("DialogRegister_Success1") + username + this.translateService.instant("DialogRegister_Success2");
+  }
+
+  private getFailureRegisterTranslation(){
+    return this.translateService.instant("DialogRegister_Failure");
+  }
+
+  private getSuccessUpdateTranslation(){
+    return this.translateService.instant("DialogUpdate_Success");
+  }
+
+  private getFailureUpdateTranslation(){
+    return this.translateService.instant("DialogUpdate_Failure");
+  }
 
 }

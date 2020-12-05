@@ -103,5 +103,10 @@
   "DigitalSignage_FilePreview": "File preview:",
   "DigitalSignage_Download": "Download",
   "DialogLogin_Success": "Successfully logged in",
-  "DialogLogin_Failure": "Error during login. Check your username and password."
+  "DialogLogin_Failure": "Error during login. Check your username and password.",
+  "DialogRegister_Success1": "User account ",
+  "DialogRegister_Success2": " has been created!",
+  "DialogRegister_Failure": "Error while creating user. Try to use other username",
+  "DialogUpdate_Success": "Your data has been updated",
+  "DialogUpdate_Failure": "Error while updating your data, try again"
 }
