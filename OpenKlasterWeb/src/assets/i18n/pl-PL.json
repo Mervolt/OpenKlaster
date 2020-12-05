@@ -102,6 +102,8 @@
   "DigitalSignage_Summarization": "Podsumowanie",
   "DigitalSignage_FilePreview": "Podgląd pliku:",
   "DigitalSignage_Download": "Pobierz",
+  "DialogLogin_Success": "Pomyślnie zalogowano",
+  "DialogLogin_Failure": "Następił problem z logowaniem. Sprawdź swoją nazwę użytkownika oraz hasło.",
 
   "RANGE_PAGE_LABEL_1": "0 z {{length}}",
   "RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} z {{length}}"

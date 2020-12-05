@@ -5,6 +5,7 @@ import {EndpointHolder} from "../model/EndpointHolder";
 import {CookieService} from "ngx-cookie-service";
 import {UserUpdateDto} from "../model/UserUpdateDto";
 import {ToastrService} from 'ngx-toastr';
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class UserService {
   errorReasonKey: string = 'error'
 
   constructor(public http: HttpClient,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private translateService: TranslateService) {
   }
 
   async addUser(user: User): Promise<boolean> {
@@ -63,13 +65,21 @@ export class UserService {
       .then(response => {
         cookieService.set("username", user.username);
         cookieService.set("sessionToken", response['sessionToken']['data']);
-        this.toastr.success('Pomyślnie zalogowano');
+        this.toastr.success(this.getSuccessTranslation());
         return true;
       })
       .catch(() => {
-        this.toastr.error('Następił problem z logowaniem. Sprawdź swoją nazwę użytkownika oraz hasło.');
+        this.toastr.error(this.getFailureTranslation());
         return false;
       })
+  }
+
+  private getSuccessTranslation(){
+    return this.translateService.instant("DialogLogin_Success");
+  }
+
+  private getFailureTranslation(){
+    return this.translateService.instant("DialogLogin_Failure");
   }
 
 

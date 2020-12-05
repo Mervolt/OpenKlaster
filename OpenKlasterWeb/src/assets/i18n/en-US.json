@@ -101,5 +101,7 @@
   "DigitalSignage_TimePerView": "Time per view [ms]",
   "DigitalSignage_Summarization": "Summarization",
   "DigitalSignage_FilePreview": "File preview:",
-  "DigitalSignage_Download": "Download"
+  "DigitalSignage_Download": "Download",
+  "DialogLogin_Success": "Successfully logged in",
+  "DialogLogin_Failure": "Error during login. Check your username and password."
 }
