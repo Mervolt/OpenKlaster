@@ -63,6 +63,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {ToastrModule} from 'ngx-toastr';
 import { DigitalSignageComponent } from './digital-signage/digital-signage.component';
+import {ClipboardModule} from 'ngx-clipboard';
 
 @NgModule({
   declarations: [
@@ -112,7 +113,7 @@ import { DigitalSignageComponent } from './digital-signage/digital-signage.compo
       {path: 'editInstallation/:id', component: EditInstallationComponent},
       {path: 'swagger-ui', component: SwaggerUiComponent},
       {path: 'charts', component: ChartsComponent},
-      {path: 'digitalSignage', component: DigitalSignageComponent}
+      {path: 'digitalSignage', component: DigitalSignageComponent},
     ]),
     ReactiveFormsModule,
     FormsModule,
@@ -139,6 +140,7 @@ import { DigitalSignageComponent } from './digital-signage/digital-signage.compo
     MatStepperModule,
     NgxSpinnerModule,
     ToastrModule.forRoot(),
+    ClipboardModule
   ],
   providers: [
     UserService,

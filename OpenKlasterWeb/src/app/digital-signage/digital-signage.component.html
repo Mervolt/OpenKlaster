@@ -38,15 +38,15 @@
       <div style="align-items: center; display: flex; flex-direction: column">
         <div style="display:flex; flex-direction: row; min-width: 350px">
           <img class="thumbnail" height="90" width="160" src="assets/img/introDigital.png">
-          <mat-checkbox [(ngModel)]="introSelected" style="font-size: 30px; margin: 30px">Intros</mat-checkbox>
+          <mat-checkbox [(ngModel)]="introSelected" color="primary" class="thumbnail-text">Intros</mat-checkbox>
         </div>
         <div style="display: flex;flex-direction: row; min-width: 350px">
           <img class="thumbnail" height="90" width="160" src="assets/img/treesDigital.png">
-          <mat-checkbox [(ngModel)]="treesSelected" style="font-size: 30px; margin: 30px">Trees</mat-checkbox>
+          <mat-checkbox [(ngModel)]="treesSelected" color="primary" class="thumbnail-text">Trees</mat-checkbox>
         </div>
         <div style="display: flex;flex-direction: row; min-width: 350px">
           <img class="thumbnail" height="90" width="160" src="assets/img/chartsDigital.png">
-          <mat-checkbox [(ngModel)]="chartsSelected" style="font-size: 30px; margin: 30px">Charts</mat-checkbox>
+          <mat-checkbox [(ngModel)]="chartsSelected" color="primary" class="thumbnail-text">Charts</mat-checkbox>
         </div>
         <mat-form-field style="margin: 30px">
           <mat-label>Time per view [ms]</mat-label>
@@ -60,24 +60,83 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Summarization</ng-template>
-    <div class="step">
+    <div class="summary">
       <button mat-fab color="primary" style="margin-right: 100px" matStepperPrevious>
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <div style="border: solid black 1px; padding: 5px">
-        <h3>File preview:</h3>
-        <p>const config = {{'{'}}</p>
-        <p>"installationId": {{this.installationId}},</p>
-        <p>"apiToken": {{this.apiToken}},</p>
-        <p>"slides": {{'{'}}</p>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;"intro": {{this.introSelected}}</p>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;"trees": {{this.treesSelected}}</p>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;"power_chart": {{this.chartsSelected}}</p>
-        <p>{{'}'}},</p>
-        <p>"slideChangeTimeout": {{this.desiredTimePerSlide}}</p>
-        <p>{{'}'}};</p>
+
+      <div>
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title>You can go to digital signage in your browser</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div>
+              <h5>Copy from Clipboard URL</h5>
+              <div [ngClass]="contenCopied ? 'web-path url-init' : 'web-path'">
+                <div class="web-path-code">{{couponText}}</div>
+
+                <ng-container *ngIf="contenCopied; else copiedNgTemp">
+                  <div class="url-copied">Copied!</div>
+                </ng-container>
+
+                <ng-template #copiedNgTemp>
+                  <div (cbOnSuccess)="contentCopied($event)" ngxClipboard [cbContent]="getDigitalSignageLink()">
+                    <div class="copy-url">
+                      <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                          <path
+                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+            <h5>Or go directly</h5>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" style="margin-left: 30px" (click)="goToDigitalSignage()">Go</button>
+          </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="example-card" style="margin-top: 25px">
+          <mat-card-header>
+            <mat-card-title>You can download the files and run them on the microcomputer</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <h5>1. Download the configuration file</h5>
+            <div style="border: solid black 1px; padding: 5px">
+              <h3>File preview:</h3>
+              <p>const config = {{'{'}}</p>
+              <p>"installationId": {{this.installationId}},</p>
+              <p>"apiToken": {{this.apiToken}},</p>
+              <p>"slides": {{'{'}}</p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;"intro": {{this.introSelected}}</p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;"trees": {{this.treesSelected}}</p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;"power_chart": {{this.chartsSelected}}</p>
+              <p>{{'}'}},</p>
+              <p>"slideChangeTimeout": {{this.desiredTimePerSlide}}</p>
+              <p>{{'}'}};</p>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" style="margin-left: 30px" (click)="downloadFile()">Download</button>
+          </mat-card-actions>
+          <mat-card-content>
+            <h5>2. Download the rest of the files</h5>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" style="margin-left: 30px">TODO</button>
+          </mat-card-actions>
+          <mat-card-content>
+            <h5>3. Drop the configuration file into the rest of the files</h5>
+
+            <h5>4. You can run it</h5>
+          </mat-card-content>
+        </mat-card>
       </div>
-      <button mat-raised-button color="primary" style="margin-left: 30px" (click)="downloadFile()">Download</button>
     </div>
   </mat-step>
 
