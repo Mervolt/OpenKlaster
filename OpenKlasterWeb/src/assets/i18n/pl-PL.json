@@ -101,5 +101,13 @@
   "DigitalSignage_TimePerView": "Czas dla widoku [ms]",
   "DigitalSignage_Summarization": "Podsumowanie",
   "DigitalSignage_FilePreview": "Podgląd pliku:",
-  "DigitalSignage_Download": "Pobierz"
+  "DigitalSignage_Download": "Pobierz",
+
+  "ITEMS_PER_PAGE_LABEL": "Pozycje na stronie",
+  "NEXT_PAGE_LABEL": "Następna strona",
+  "PREVIOUS_PAGE_LABEL": "Poprzednia strona",
+  "FIRST_PAGE_LABEL": "Pierwsza strona",
+  "LAST_PAGE_LABEL": "Ostatnia strona",
+  "RANGE_PAGE_LABEL_1": "0 z {{length}}",
+  "RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} z {{length}}"
 }

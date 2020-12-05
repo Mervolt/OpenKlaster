@@ -20,7 +20,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {InstallationAddPanelComponent} from './installation/installation-add-panel/installation-add-panel.component';
 import {MatListModule} from "@angular/material/list";
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {RequestResponseComponentComponent} from './request-response-component/request-response-component.component';
@@ -63,8 +63,9 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {ToastrModule} from 'ngx-toastr';
 import { DigitalSignageComponent } from './digital-signage/digital-signage.component';
-import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {I18Paginator} from "./i18n/I18Paginator";
 
 @NgModule({
   declarations: [
@@ -150,6 +151,10 @@ import {TranslateHttpLoader} from "@ngx-translate/http-loader";
     })
   ],
   providers: [
+    {
+      provide: MatPaginatorIntl, deps: [TranslateService],
+      useFactory: (translateService: TranslateService) => new I18Paginator(translateService).getPaginatorIntl()
+    },
     UserService,
     TokenService,
     InstallationService,
