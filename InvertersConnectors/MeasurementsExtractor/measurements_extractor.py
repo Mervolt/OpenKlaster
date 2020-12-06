@@ -21,12 +21,13 @@ def post_measurements_growatt(id, username, password):
         energy_value = float(
             converts(plant_info['totalData']['totalEnergySum'].replace('Wh', 'W*h'), 'kW*h').split()[0])
         energy_status_code = post_energy_produced(energy_value, id)
-        return power_status_code, energy_status_code
+        return id, power_status_code, energy_status_code
 
 
 def post_power_production(value, id):
     global power_production_url, headers, params
     obj = get_json_object(id, value)
+    print(obj)
     response = requests.post(power_production_url, data=json.dumps(obj), headers=headers, params=params, timeout=5)
     return response.status_code
 
@@ -71,7 +72,7 @@ if __name__ == '__main__':
 
             for future in concurrent.futures.as_completed(futures):
                 try:
-                    power_status_code, energy_status_code = future.result()
-                    print('Post for %s - Status code (Power: %s Energy: %s)' % (installation["_id"], power_status_code, energy_status_code))
+                    id, power_status_code, energy_status_code = future.result()
+                    print('Post for %s - Status code (Power: %s Energy: %s)' % (id, power_status_code, energy_status_code))
                 except Exception as exc:
                     print('%s generated an exception: %s' % (installation["_id"], exc))
