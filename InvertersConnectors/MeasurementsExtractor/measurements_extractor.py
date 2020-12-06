@@ -27,7 +27,6 @@ def post_measurements_growatt(id, username, password):
 def post_power_production(value, id):
     global power_production_url, headers, params
     obj = get_json_object(id, value)
-    print(obj)
     response = requests.post(power_production_url, data=json.dumps(obj), headers=headers, params=params, timeout=5)
     return response.status_code
 
