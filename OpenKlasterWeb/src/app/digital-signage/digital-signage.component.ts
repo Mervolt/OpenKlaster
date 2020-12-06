@@ -20,7 +20,7 @@ export class DigitalSignageComponent implements OnInit {
   loading: boolean = false;
   cookieService: CookieService;
   installationForm: FormGroup;
-  installationDescriptions: Array<String>;
+  installationIDs: Array<String>;
   installationId: String;
   apiTokens: Array<String>;
   apiToken: String;
@@ -64,7 +64,7 @@ export class DigitalSignageComponent implements OnInit {
 
   getFormOptions(): void {
     this.installationService.getInstallations(this.cookieService).subscribe(response => {
-      this.installationDescriptions = response.map(installation => installation['description'])
+      this.installationIDs = response.map(installation => installation['_id'])
       this.installationsLoaded = true;
       if (this.tokensLoaded === true)
         this.loading = false
