@@ -8,70 +8,81 @@
     <script src="js/d3.min.js"></script>
     <script src="config.js"></script>
     <script src="js/properties.js"></script>
-
+    <link rel="icon" href="img/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body style="overflow: hidden; margin:0;">
 
 <div class="slideshow-container">
+    <button id="preds" type="button" onclick="openFullscreen();" class="btn btn-primary">Naciśnij, aby rozpocząć pokaz slajdów
+    </button>
     <!-- INTRO -->
-    <div id="intro" class="slide" style="background-image: url('img/solar_panels.jpg');">
-        <div class="row">
-            <div class="col-xl-5 col-md-6">
-                <div class="left-panel">
-                    <div id="building_desc" class="h2 text-white font-weight-bold mb-1" style="margin: 50px; min-width: 200px;">
-                        Ten budynek wytwarza zrównoważoną energię dzięki energii słonecznej
-                    </div>
-                    <div class="logo logo-left-panel">
+    <div id="ds" style="display: none">
+        <div id="intro" class="slide" style="background-image: url('img/solar_panels.jpg');">
+            <div class="row">
+                <div class="col-xl-5 col-md-6">
+                    <div class="left-panel">
+                        <div id="building_desc" class="h2 text-white font-weight-bold mb-1"
+                             style="margin: 50px; min-width: 200px;">
+                            Ten budynek wytwarza zrównoważoną energię dzięki energii słonecznej
+                        </div>
+                        <div class="logo logo-left-panel">
                             <img src="img/logo.png" style="width: 100%">
                             <img src="img/OpenKlaster.png" style="width: 100%">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-5 col-md-6">
-                <div class="infocard">
-                    <div class="card h-100 bg-dark text-white">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div id="current_power_intro" class="h5 font-weight-bold mb-1">AKTUALNA MOC (kW)</div>
-                                    <div class="current_power display-1 mb-0 font-weight-bold text-gray-800">0</div>
-                                </div>
-                                <div class="col-auto">
-                                    <img class="icon" src="img/power.png">
+                <div class="col-xl-5 col-md-6">
+                    <div class="infocard">
+                        <div class="card h-100 bg-dark text-white">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div id="current_power_intro" class="h5 font-weight-bold mb-1">AKTUALNA MOC
+                                            (kW)
+                                        </div>
+                                        <div class="current_power display-1 mb-0 font-weight-bold text-gray-800">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <img class="icon" src="img/power.png">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="infocard">
-                    <div class="card h-100 bg-dark text-white">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div id="produced_energy_intro" class="h5 font-weight-bold text-uppercase mb-1">WYPRODUKOWANA ENERGIA (kWh)
+                    <div class="infocard">
+                        <div class="card h-100 bg-dark text-white">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div id="produced_energy_intro" class="h5 font-weight-bold text-uppercase mb-1">
+                                            WYPRODUKOWANA ENERGIA (kWh)
+                                        </div>
+                                        <div class="total_energy display-1 mb-0 font-weight-bold text-gray-800">0</div>
                                     </div>
-                                    <div class="total_energy display-1 mb-0 font-weight-bold text-gray-800">0</div>
-                                </div>
-                                <div class="col-auto">
-                                    <img class="icon" src="img/energy.png">
+                                    <div class="col-auto">
+                                        <img class="icon" src="img/energy.png">
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="infocard">
-                    <div class="card h-100 bg-dark text-white">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div id="reduced_co2_intro" class="h5 font-weight-bold text-uppercase mb-1">OGRANICZONA EMISJA CO2 (t)
+                    <div class="infocard">
+                        <div class="card h-100 bg-dark text-white">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div id="reduced_co2_intro" class="h5 font-weight-bold text-uppercase mb-1">
+                                            OGRANICZONA EMISJA CO2 (t)
+                                        </div>
+                                        <div class="co2_reduced display-1 h5 mb-0 font-weight-bold text-gray-800">0
+                                        </div>
                                     </div>
-                                    <div class="co2_reduced display-1 h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                </div>
-                                <div class="col-auto">
-                                    <img class="icon" src="img/co2.png">
+                                    <div class="col-auto">
+                                        <img class="icon" src="img/co2.png">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +124,7 @@
                     <div class="minicard">
                         <div class="row no-gutters align-items-center h-100 text-white">
                             <div class="col mr-2">
-                                <div id="reduced_co2_trees" class="h5 mb-1">OGRANICZONA EMISJA CO2 (t)</div>
+                                <div id="reduced_co2_trees" class="h5  mb-1">OGRANICZONA EMISJA CO2 (t)</div>
                                 <div class="co2_reduced h5 mb-0 font-weight-bold text-gray-800">0</div>
                             </div>
                         </div>
@@ -130,8 +141,11 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div id="reduced_co2_trees_rightsidepanel" class="h5 font-weight-bold  mb-1">OGRANICZONA EMISJA CO2 (t)</div>
-                                    <div class="co2_reduced display-1 h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                    <div id="reduced_co2_trees_rightsidepanel" class="h5 font-weight-bold  mb-1">
+                                        OGRANICZONA EMISJA CO2 (t)
+                                    </div>
+                                    <div class="co2_reduced display-1 h5 mb-0 font-weight-bold text-gray-800">0
+                                    </div>
                                 </div>
                                 <div class="col-auto">
                                     <img class="icon" src="img/co2.png">
@@ -145,10 +159,13 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div id="have_to_plant" class="h5 font-weight-bold  mb-1">Aby zmiejszyć ilość CO2 w atmosferze o taką
-                                        wartość musielibyśmy posadzić
+                                    <div id="have_to_plant" class="h5 font-weight-bold  mb-1">Aby zmiejszyć ilość CO2 w
+                                        atmosferze o
+                                        taką
+                                        wartość musielibyśmy postadzić
                                     </div>
-                                    <div class="trees_saved display-1 h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                    <div class="trees_saved display-1 h5 mb-0 font-weight-bold text-gray-800">0
+                                    </div>
                                 </div>
                                 <div class="col-auto">
                                     <img class="icon" src="img/tree.png">
@@ -162,7 +179,9 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div id="env_benefits" class="h5 font-weight-bold  mb-1">100 m2 lasu - około 80 drzew usuwa tonę CO2 z
+                                    <div id="env_benefits" class="h5 font-weight-bold  mb-1">100 m2 lasu - około 80
+                                        drzew usuwa tonę
+                                        CO2 z
                                         atmosfery w ciągu 10 lat
                                     </div>
                                 </div>
@@ -198,7 +217,9 @@
                     <div class="minicard">
                         <div class="row no-gutters align-items-center h-100 text-white">
                             <div class="col mr-2">
-                                <div id="produced_energy_powerchart_total" class="h5 mb-1">WYPRODUKOWANA ENERGIA (kWh)</div>
+                                <div id="produced_energy_powerchart_total" class="h5  mb-1">WYPRODUKOWANA ENERGIA
+                                    (kWh)
+                                </div>
                                 <div class="total_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
                             </div>
                         </div>
@@ -206,7 +227,7 @@
                     <div class="minicard">
                         <div class="row no-gutters align-items-center h-100 text-white">
                             <div class="col mr-2">
-                                <div id="reduced_co2_powerchart" class="h5 mb-1">OGRANICZONA EMISJA CO2 (t)</div>
+                                <div id="reduced_co2_powerchart" class="h5  mb-1">OGRANICZONA EMISJA CO2 (t)</div>
                                 <div class="co2_reduced h5 mb-0 font-weight-bold text-gray-800">0</div>
                             </div>
                         </div>
@@ -218,13 +239,15 @@
                 </div>
             </div>
             <div class="col-xl-8 col-md-9 mb-4">
-                <div id="power_today_powerchart" class="h2 text-white font-weight-bold mb-1" style="text-align: center; margin-top: 25px;">
+                <div id="power_today_powerchart" class="h2 text-white font-weight-bold mb-1"
+                     style="text-align: center; margin-top: 25px;">
                     Moc wygenerowana dzisiaj
                 </div>
                 <div class="vertical-center" id="chart"></div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <script>
     var lang = navigator.language
@@ -236,8 +259,8 @@
     let powerMeasurements = [];
 
 
-    function translate(){
-        if(navigator.language === 'en' || navigator.language.startsWith('en-')) {
+    function translate() {
+        if (navigator.language === 'en' || navigator.language.startsWith('en-')) {
             document.getElementById("building_desc").innerText = "This building produces balanced energy thanks to solar energy";
             document.getElementById("current_power_intro").innerText = "CURRENT POWER (kW)";
             document.getElementById("produced_energy_intro").innerText = "PRODUCED ENERGY (kWh)";
@@ -257,6 +280,7 @@
             document.getElementById("produced_energy_powerchart_total").innerText = "PRODUCED ENERGY (kWh)";
             document.getElementById("reduced_co2_powerchart").innerText = "REDUCED EMISSION OF CO2 (t)";
             document.getElementById("power_today_powerchart").innerText = "Power produced today";
+            document.getElementById("preds").innerText = "Press the button to start slideshow"
         }
     }
 
@@ -343,8 +367,11 @@
     }
 
     function main() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const apiToken = urlParams.get('apiToken') != null ? urlParams.get('apiToken') : config["apiToken"];
+        const installationId = urlParams.get('installationId') != null ? urlParams.get('installationId') : config["installationId"];
         (function () {
-            getSummary(properties["url"], config["installationId"], config["apiToken"]);
+            getSummary(properties["url"], installationId, apiToken);
             setTimeout(arguments.callee, properties["refreshTime"]);
         })();
     }
@@ -394,6 +421,20 @@
                 })
                 draw(output, properties["colours"]["fillColor"], properties["colours"]["strokeColor"], "title")
             })
+    }
+
+    var elem = document.documentElement;
+
+    function openFullscreen() {
+        document.getElementById("preds").style.display = "none";
+        document.getElementById("ds").style.display = "block";
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        }
     }
 
     main();

@@ -8,6 +8,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {ActivatedRoute, Router} from "@angular/router";
 import {InstallationDto} from "../../model/InstallationDto";
 import {TranslateService} from "@ngx-translate/core";
+import {QuestionBase} from '../../components/Question-boxes/question-base';
+import {QuestionTextbox} from '../../components/Question-boxes/question-textbox';
 
 @Component({
   selector: 'app-edit-installation',
@@ -18,6 +20,8 @@ export class EditInstallationComponent extends InstallationAddPanelComponent imp
   installationId: number
   oldModel: Installation
   isEditing = true;
+  questions$: QuestionBase<any>[];
+  questionsValues: Map<string, string> = new Map<string, string>();
 
   constructor(public installationService: InstallationService,
               public manufacturerCredentialService: ManufacturerCredentialService,
@@ -36,6 +40,12 @@ export class EditInstallationComponent extends InstallationAddPanelComponent imp
     observableInstallation.subscribe(response => {
       this.formModel = InstallationDto.fromDto(response)
       this.oldModel = InstallationDto.fromDto(response)
+
+      let credentials = this.manufacturersMap.get(this.formModel.inverter.manufacturer);
+      this.questions$ = this.credentialsToQuestionBase(credentials);
+      this.questions$.map(question => {
+        question.value = this.formModel.inverter.credentials[question.key]
+      })
     })
   }
 

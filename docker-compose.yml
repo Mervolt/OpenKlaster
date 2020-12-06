@@ -43,7 +43,8 @@ services:
       - ./file-repository:/file-repository
   openklaster-webpage:
     build:
-      context: OpenKlasterWeb
+      context: .
+      dockerfile: OpenKlasterWeb/Dockerfile
       network: host
     environment:
       - API_URL=http://localhost/

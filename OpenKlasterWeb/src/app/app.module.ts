@@ -66,6 +66,8 @@ import { DigitalSignageComponent } from './digital-signage/digital-signage.compo
 import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {I18Paginator} from "./i18n/I18Paginator";
+import {ClipboardModule} from 'ngx-clipboard';
+
 
 @NgModule({
   declarations: [
@@ -115,7 +117,7 @@ import {I18Paginator} from "./i18n/I18Paginator";
       {path: 'editInstallation/:id', component: EditInstallationComponent},
       {path: 'swagger-ui', component: SwaggerUiComponent},
       {path: 'charts', component: ChartsComponent},
-      {path: 'digitalSignage', component: DigitalSignageComponent}
+      {path: 'digitalSignage', component: DigitalSignageComponent},
     ]),
     ReactiveFormsModule,
     FormsModule,
@@ -148,7 +150,9 @@ import {I18Paginator} from "./i18n/I18Paginator";
         useFactory: httpTranslation,
         deps: [HttpClient]
       }
-    })
+    }),
+    ClipboardModule
+
   ],
   providers: [
     {

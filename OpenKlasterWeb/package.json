@@ -29,6 +29,7 @@
     "@types/date-fns": "^2.6.0",
     "bootstrap": "^4.5.0",
     "date-fns": "^2.16.1",
+    "ngx-clipboard": "^14.0.1",
     "ngx-cookie-service": "^3.0.4",
     "ngx-spinner": "^10.0.1",
     "ngx-toastr": "^13.1.0",

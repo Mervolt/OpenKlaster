@@ -6,6 +6,13 @@
   align-items: center;
 }
 
+.summary {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .container{
   border-width: 1px;
   border-style: solid;
@@ -36,4 +43,46 @@
   height:auto;
   display:block;
   z-index:999;
+}
+
+.url-init {
+  border-color: #e5e5e5 !important;
+  background: #71d675;
+}
+.web-path {
+  border: 2px solid #ccc;
+  width: 550px;
+  display: inline-block;
+  font-size: 20px;
+  height: 50px;
+}
+
+.web-path-code {
+  padding: 10px;
+  display: inline-block;
+  float: left;
+}
+
+.copy-url {
+  padding: 6px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.url-copied {
+  padding: 10px 0px;
+  color: #ffffff;
+  font-size: 20px;
+  display: inline-block;
+}
+
+.mat-card-actions {
+  text-align: center !important;
+}
+
+.thumbnail-text {
+  font-size: 30px;
+  margin: 30px
 }
