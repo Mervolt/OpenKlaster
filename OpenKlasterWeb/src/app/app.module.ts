@@ -62,6 +62,7 @@ import {NgxSpinnerModule} from 'ngx-spinner';
 import {ToastrModule} from 'ngx-toastr';
 import { DigitalSignageComponent } from './digital-signage/digital-signage.component';
 import {ClipboardModule} from 'ngx-clipboard';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -136,7 +137,8 @@ import {ClipboardModule} from 'ngx-clipboard';
     MatStepperModule,
     NgxSpinnerModule,
     ToastrModule.forRoot(),
-    ClipboardModule
+    ClipboardModule,
+    MatTooltipModule
   ],
   providers: [
     UserService,

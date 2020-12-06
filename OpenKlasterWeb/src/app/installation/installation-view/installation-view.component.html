@@ -1,59 +1,66 @@
 <app-navbar></app-navbar>
 <div class="page-container">
   <mat-card class="main-card-container">
-    <div [ngClass]="['left-margin-container', 'dashboard-card' ]">
-      <mat-card [ngClass]="['left-margin-card']">
-        <div class="installation-container">
-          <mat-card-header class="installation-header-container">
-            <mat-card-title>
-              Installation
-            </mat-card-title>
-            <mat-icon>wb_sunny</mat-icon>
-          </mat-card-header>
-          <mat-card class="installation-description-container">
-            {{installation.description}}
-          </mat-card>
-        </div>
-        <div [ngClass]="['installation-properties-container']">
-          <div class="properties-container" [ngStyle]="{'grid-template-columns': '49% 49%'}">
-            <div *ngFor="let property of summaryProperties | keyvalue" class="property-container">
-              <span>{{property.key}}</span>
-              <span>{{property.value}}</span>
+      <mat-card class="id-container-card"
+                matTooltip="It is used in API, charts and digital signage panels to select proper installation" > <!--TODO translate it-->
+        <h3>{{installationId}}</h3>
+      </mat-card>
+    <div class ="info-container">
+      <div [ngClass]="['left-margin-container', 'dashboard-card' ]">
+        <mat-card [ngClass]="['left-margin-card']">
+          <div class="installation-container">
+            <mat-card-header class="installation-header-container">
+              <mat-card-title>
+                Installation
+              </mat-card-title>
+              <mat-icon>wb_sunny</mat-icon>
+            </mat-card-header>
+            <mat-card class="installation-description-container">
+              {{installation.description}}
+            </mat-card>
+
+          </div>
+          <div [ngClass]="['installation-properties-container']">
+            <div class="properties-container" [ngStyle]="{'grid-template-columns': '49% 49%'}">
+              <div *ngFor="let property of summaryProperties | keyvalue" class="property-container">
+                <span>{{property.key}}</span>
+                <span>{{property.value}}</span>
+              </div>
             </div>
           </div>
-        </div>
 
-      </mat-card>
-      <button mat-raised-button color="primary" type="button" class="btn btn-primary"
-              (click)="navigateToCharts()">Show charts
-      </button>
-      <button mat-raised-button color="primary" type="button" class="btn btn-primary"
-              (click)="navigateToDigitalSignage()">Create digital signage config
-      </button>
-      <button mat-raised-button color="primary" type="button" class="btn btn-primary"
-              (click)="navigateToEditInstallation()">Edit installation
-      </button>
-      <button mat-raised-button color="warn" type="button" class="btn btn-danger"
-              (click)="openDeleteConfirmationWindow()">Remove installation
-      </button>
-    </div>
-    <div [ngClass]="['right-margin-container', 'dashboard-card']">
-      <mat-card [ngClass]="['right-margin-card']">
-        <app-description-tile [description]="installation.inverter.description" tileTitle="Inverter" icon="power_input"
-                              [properties]="getInverterProperties()"
-                              [ngClass]="'dashboard-card'" [singlePropertiesDisplay]="true"></app-description-tile>
-      </mat-card>
-      <mat-card [ngClass]="['right-margin-card']">
-        <app-description-tile [description]="installation.source.description" tileTitle="Source" icon="power"
-                              [properties]="getSourceProperties()"
-                              [ngClass]="'dashboard-card'"></app-description-tile>
-      </mat-card>
-      <mat-card [ngClass]="['right-margin-card']">
-        <app-description-tile [singlePropertiesDisplay]="true"
-                              [description]="installation.load.description"
-                              tileTitle="Load" icon="home" [properties]="getLoadProperties()"
-                              [ngClass]="'dashboard-card'"></app-description-tile>
-      </mat-card>
+        </mat-card>
+        <button mat-raised-button color="primary" type="button" class="btn btn-primary"
+                (click)="navigateToCharts()">Show charts
+        </button>
+        <button mat-raised-button color="primary" type="button" class="btn btn-primary"
+                (click)="navigateToDigitalSignage()">Create digital signage config
+        </button>
+        <button mat-raised-button color="primary" type="button" class="btn btn-primary"
+                (click)="navigateToEditInstallation()">Edit installation
+        </button>
+        <button mat-raised-button color="warn" type="button" class="btn btn-danger"
+                (click)="openDeleteConfirmationWindow()">Remove installation
+        </button>
+      </div>
+      <div [ngClass]="['right-margin-container', 'dashboard-card']">
+        <mat-card [ngClass]="['right-margin-card']">
+          <app-description-tile [description]="installation.inverter.description" tileTitle="Inverter" icon="power_input"
+                                [properties]="getInverterProperties()"
+                                [ngClass]="'dashboard-card'" [singlePropertiesDisplay]="true"></app-description-tile>
+        </mat-card>
+        <mat-card [ngClass]="['right-margin-card']">
+          <app-description-tile [description]="installation.source.description" tileTitle="Source" icon="power"
+                                [properties]="getSourceProperties()"
+                                [ngClass]="'dashboard-card'"></app-description-tile>
+        </mat-card>
+        <mat-card [ngClass]="['right-margin-card']">
+          <app-description-tile [singlePropertiesDisplay]="true"
+                                [description]="installation.load.description"
+                                tileTitle="Load" icon="home" [properties]="getLoadProperties()"
+                                [ngClass]="'dashboard-card'"></app-description-tile>
+        </mat-card>
+      </div>
     </div>
   </mat-card>
 </div>
