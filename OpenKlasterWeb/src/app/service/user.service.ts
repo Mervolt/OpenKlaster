@@ -10,7 +10,6 @@ import {ToastrService} from 'ngx-toastr';
   providedIn: 'root'
 })
 export class UserService {
-  errorReasonKey: string = 'error'
 
   constructor(public http: HttpClient,
               private toastr: ToastrService) {
@@ -29,7 +28,7 @@ export class UserService {
   }
 
   private updateUser(updateDto: UserUpdateDto): Promise<boolean> {
-    return this.http.put(EndpointHolder.userEndpoint, updateDto).toPromise().then(response => {
+    return this.http.put(EndpointHolder.userEndpoint, updateDto, {responseType: 'text'}).toPromise().then(response => {
       this.toastr.success('Pomyślnie zaktualizowane twoje dane');
       return true;
     })

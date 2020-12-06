@@ -13,7 +13,7 @@ export class TokenService {
   constructor(public http: HttpClient) {
   }
 
-  getTokens(cookies: CookieService): Observable<any> {
+  getUserInfo(cookies: CookieService): Observable<any> {
     let params = new HttpParams()
       .set('username', cookies.get(CookieHolder.usernameKey))
       .set('sessionToken', cookies.get(CookieHolder.tokenKey));

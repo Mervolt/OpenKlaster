@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
-import {User} from "../../model/User";
 import {CookieService} from "ngx-cookie-service";
 import {CookieHolder} from "../../model/CookieHolder";
 import {TokenService} from "../../service/token/token.service";
@@ -23,6 +22,10 @@ export class UserEditionComponent implements OnInit {
   email: string;
 
   myCallbackFunction = (): void => {
+
+  }
+
+  onSubmit() {
     if(this.isPasswordDisabled){
       this.formModel.newPassword = this.formModel.password;
     }
@@ -34,6 +37,8 @@ export class UserEditionComponent implements OnInit {
         this.requestState = 'failure'
         this.ngOnInit()
       })
+    this.isEmailDisabled = true
+    this.isPasswordDisabled = true
     setTimeout(() => {
       this.requestState = 'none'
     }, 3500);
@@ -44,7 +49,7 @@ export class UserEditionComponent implements OnInit {
 
   prepareUser() {
     this.newPasswordConfirm = ''
-    this.tokenService.getTokens(this.cookieService).toPromise().then(response => {
+    this.tokenService.getUserInfo(this.cookieService).toPromise().then(response => {
       this.email = response['email'];
       this.oldEmail = this.email;
       this.username = this.cookieService.get(CookieHolder.usernameKey);
