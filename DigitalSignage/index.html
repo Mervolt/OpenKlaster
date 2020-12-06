@@ -145,7 +145,7 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div id="planting_trees" class="h5 font-weight-bold  mb-1">Aby zmiejszyć ilość CO2 w atmosferze o taką
+                                    <div id="have_to_plant" class="h5 font-weight-bold  mb-1">Aby zmiejszyć ilość CO2 w atmosferze o taką
                                         wartość musielibyśmy posadzić
                                     </div>
                                     <div class="trees_saved display-1 h5 mb-0 font-weight-bold text-gray-800">0</div>
@@ -237,7 +237,7 @@
 
 
     function translate(){
-        if(navigator.language === 'en' || navigator.language === 'en-US') {
+        if(navigator.language === 'en' || navigator.language.startsWith('en-')) {
             document.getElementById("building_desc").innerText = "This building produces balanced energy thanks to solar energy";
             document.getElementById("current_power_intro").innerText = "CURRENT POWER (kW)";
             document.getElementById("produced_energy_intro").innerText = "PRODUCED ENERGY (kWh)";
@@ -248,7 +248,7 @@
             document.getElementById("produced_energy_trees_total").innerText = "PRODUCED ENERGY (kWh)";
             document.getElementById("reduced_co2_trees").innerText = "REDUCED EMISSION OF CO2 (t)";
             document.getElementById("reduced_co2_trees_rightsidepanel").innerText = "REDUCED EMISSION OF CO2 (t)";
-            document.getElementById("planting_trees").innerText = "To reduce the amount of CO2 in the atmosphere we would have to put";
+            document.getElementById("have_to_plant").innerText = "To reduce the amount of CO2 in the atmosphere we would have to put";
             document.getElementById("env_benefits").innerText = "100 m2 of forest which is about 80 trees reduces one " +
                 "tone of CO2 from atmosphere in 10 years";
             document.getElementById("current_power_powerchart").innerText = "CURRENT POWER (kWh)";
