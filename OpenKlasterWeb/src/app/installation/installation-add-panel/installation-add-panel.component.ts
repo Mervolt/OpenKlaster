@@ -34,7 +34,8 @@ export class InstallationAddPanelComponent {
   constructor(public installationService: InstallationService,
               public manufacturerCredentialService: ManufacturerCredentialService,
               public cookieService: CookieService, public dialog: MatDialog,
-              public router: Router) {
+              public router: Router,
+              public translateService: TranslateService) {
     manufacturerCredentialService.getCredentials().toPromise().then(response => {
       for (let manufacturer in response) {
         this.manufacturersMap.set(manufacturer, response[manufacturer]);
@@ -85,7 +86,7 @@ export class InstallationAddPanelComponent {
     let dialog = this.dialog.open(ConfirmationDialogPopupComponent, {
       width: '500px'
     })
-    dialog.componentInstance.popupContent = "There is no support for Wind installations yet.."
+    dialog.componentInstance.popupContent = this.translateService.instant("WindInstallation");
     group.value = "";
     this.formModel.installationType = "";
   }

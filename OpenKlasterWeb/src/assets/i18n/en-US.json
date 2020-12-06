@@ -18,7 +18,7 @@
   "AddInstallation_SourceCapacity": "Source capacity",
   "AddInstallation_SourceTilt": "Source tilt",
   "AddInstallation_SourceDescription": "Source description",
-  "AddInstallation_Submit": "Submit installation",
+  "AddInstallation_Submit": "Submit",
   "Credentials_ProvideToken": "Provide token",
   "Credentials_Token": "Token",
   "Credentials_Userpass": "Provide username and password",
@@ -111,5 +111,7 @@
   "DialogUpdate_Failure": "Error while updating your data, try again",
   "DeleteInstallation_Question": "Are you sure you want to delete installation?",
   "DeleteInstallation_Confirm": "Yes",
-  "DeleteInstallation_Cancel": "Cancel"
+  "DeleteInstallation_Cancel": "Cancel",
+  "WindInstallation": "There is no support for Wind installations yet."
+
 }
