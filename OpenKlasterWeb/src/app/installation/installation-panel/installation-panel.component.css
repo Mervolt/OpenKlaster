@@ -20,7 +20,6 @@
 
 .basic-list-item {
   height: 20vh;
-  background: var(--installation-card-color);
 }
 
 .basic-list-item:hover {
