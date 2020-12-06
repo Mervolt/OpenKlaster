@@ -72,7 +72,7 @@ export class InstallationAddPanelComponent {
     this.questions$ = this.credentialsToQuestionBase(credentials);
   }
 
-  private credentialsToQuestionBase(credentials: string[]): QuestionBase<string>[] {
+  protected credentialsToQuestionBase(credentials: string[]): QuestionBase<string>[] {
     return credentials.map(credential => {
       return new QuestionTextbox(credential, credential);
     });
