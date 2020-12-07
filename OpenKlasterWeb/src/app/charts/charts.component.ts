@@ -9,6 +9,7 @@ import {Chart} from '../model/chart';
 import {compareAsc, format, parse} from 'date-fns';
 import {ActivatedRoute} from '@angular/router';
 import {MatHorizontalStepper, MatStepper} from '@angular/material/stepper';
+import {DateAdapter} from "@angular/material/core";
 
 @Component({
   selector: 'app-charts',

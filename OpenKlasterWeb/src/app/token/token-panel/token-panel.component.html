@@ -3,20 +3,21 @@
     <div class="flex-div-row">
       <div class="flex-div-column">
         <div class="margin-20">
-          <h1 class="margin-20">Your tokens</h1>
+          <h1 class="margin-20">{{'UserPanel_YourTokens' | translate}}</h1>
           <table mat-table [dataSource]="tabledTokens" class="mat-elevation-z8">
             <ng-container matColumnDef="number">
-              <th mat-header-cell *matHeaderCellDef style="text-align: left">No</th>
+              <th mat-header-cell *matHeaderCellDef style="text-align: left">{{'UserPanel_TokenNumber' | translate}}</th>
               <td mat-cell style="min-width: 75px"
                   *matCellDef="let element"> {{element.number //noinspection UnresolvedVariable}} </td>
             </ng-container>
             <ng-container matColumnDef="token">
-              <th mat-header-cell *matHeaderCellDef>Token</th>
+              <th mat-header-cell *matHeaderCellDef>{{'UserPanel_TokenData' | translate}}</th>
               <td mat-cell style="min-width: 125px"
                   *matCellDef="let element"> {{element.token //noinspection UnresolvedVariable}} </td>
             </ng-container>
             <ng-container matColumnDef="removeButton">
-              <th mat-header-cell *matHeaderCellDef (click)="removeAllTokens()" class="remove-cell-header">Remove</th>
+              <th mat-header-cell *matHeaderCellDef (click)="removeAllTokens()" class="remove-cell-header">
+                {{'UserPanel_TokenRemove' | translate}}</th>
               <td mat-cell
                   *matCellDef="let element">
                   <button mat-mini-fab color="warn" (click)="removeToken(element.token)//noinspection UnresolvedVariable">
@@ -29,7 +30,7 @@
           </table>
         </div>
         <div class="margin-20-20-20-30">
-          <app-submit-button [onClick]="myCallbackFunction" buttonCaption="Generate new token" [requestState]="requestState"></app-submit-button>
+          <app-submit-button [onClick]="myCallbackFunction" buttonCaption="{{'UserPanel_GenerateNewToken' | translate}}" [requestState]="requestState"></app-submit-button>
         </div>
       </div>
     </div>

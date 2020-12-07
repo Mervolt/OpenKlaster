@@ -21,6 +21,7 @@ export class InstallationViewComponent implements OnInit {
   installation: Installation
   installationSummary: InstallationSummary
   summaryProperties: Map<string, any>
+  propertyPrefix: String = "EditInstallationProperty_"
 
   constructor(private router: Router, private installationsService: InstallationService,
               private route: ActivatedRoute, private cookieService: CookieService,
@@ -36,11 +37,11 @@ export class InstallationViewComponent implements OnInit {
     observableSummary.subscribe(response => {
       this.installationSummary = InstallationSummary.fromDto(response)
       let outp = new Map<string, any>();
-      outp.set('Total energy', this.installationSummary.totalEnergy + " kWh")
-      outp.set('Today energy', this.installationSummary.todayEnergy + " kWh")
-      outp.set('Current power', this.installationSummary.currentPower + " kW")
-      outp.set('Trees saved', this.installationSummary.environmentalBenefits.treesSaved)
-      outp.set('Co2 reduced', this.installationSummary.environmentalBenefits.co2Reduced + " tons")
+      outp.set(this.propertyPrefix + 'TotalEnergy', this.installationSummary.totalEnergy + " kWh")
+      outp.set(this.propertyPrefix + 'TodayEnergy', this.installationSummary.todayEnergy + " kWh")
+      outp.set(this.propertyPrefix + 'CurrentPower', this.installationSummary.currentPower + " kW")
+      outp.set(this.propertyPrefix + 'TreesSaved', this.installationSummary.environmentalBenefits.treesSaved)
+      outp.set(this.propertyPrefix + 'Co2Reduced', this.installationSummary.environmentalBenefits.co2Reduced + " tons")
       this.summaryProperties = outp
     })
   }
@@ -83,24 +84,24 @@ export class InstallationViewComponent implements OnInit {
 
   getInverterProperties(): Map<string, any> {
     let outp = new Map<string, any>();
-    outp.set('Model type', this.installation.inverter.modelType)
-    outp.set('Manufacturer', this.installation.inverter.manufacturer)
+    outp.set(this.propertyPrefix + 'ModelType', this.installation.inverter.modelType)
+    outp.set(this.propertyPrefix + 'Manufacturer', this.installation.inverter.manufacturer)
     return outp
   }
 
   getSourceProperties(): Map<string, any> {
     let outp = new Map<string, any>();
-    outp.set('Latitude', this.installation.latitude + '°')
-    outp.set('Longitude', this.installation.longitude + '°')
-    outp.set('Tilt', this.installation.source.tilt + '°')
-    outp.set('Azimuth', this.installation.source.azimuth + '°')
-    outp.set('Capacity', this.installation.source.capacity + ' W')
+    outp.set(this.propertyPrefix + 'Latitude', this.installation.latitude + '°')
+    outp.set(this.propertyPrefix + 'Longitude', this.installation.longitude + '°')
+    outp.set(this.propertyPrefix + 'Tilt', this.installation.source.tilt + '°')
+    outp.set(this.propertyPrefix + 'Azimuth', this.installation.source.azimuth + '°')
+    outp.set(this.propertyPrefix + 'Capacity', this.installation.source.capacity + ' W')
     return outp
   }
 
   getLoadProperties(): Map<string, any> {
     let outp = new Map<string, any>();
-    outp.set('Name', this.installation.load.name)
+    outp.set(this.propertyPrefix + 'Name', this.installation.load.name)
     return outp
   }
 

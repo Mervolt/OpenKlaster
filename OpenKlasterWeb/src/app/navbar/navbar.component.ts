@@ -12,15 +12,16 @@ import {NavigationNameAddressTuple} from "../model/NavigationNameAddressTuple";
 })
 export class NavbarComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+  navbarPrefix: String = 'Navbar_';
 
   links: NavigationNameAddressTuple[] = [
-    new NavigationNameAddressTuple('Your installations', this.navigateToYourInstallations.bind(this)),
-    new NavigationNameAddressTuple('Add installation', this.navigateToInstallationGeneration.bind(this)),
-    new NavigationNameAddressTuple('Charts', this.navigateToCharts.bind(this)),
-    new NavigationNameAddressTuple('User Panel', this.navigateToUserPanel.bind(this)),
-    new NavigationNameAddressTuple('API Documentation', this.navigateToSwagger.bind(this)),
-    new NavigationNameAddressTuple('Digital Signage', this.navigateToDigitalSignage.bind(this)),
-    new NavigationNameAddressTuple('Logout', this.logout.bind(this))
+    new NavigationNameAddressTuple(this.navbarPrefix + 'YourInstallations', this.navigateToYourInstallations.bind(this)),
+    new NavigationNameAddressTuple(this.navbarPrefix + 'AddInstallation', this.navigateToInstallationGeneration.bind(this)),
+    new NavigationNameAddressTuple(this.navbarPrefix + 'Charts', this.navigateToCharts.bind(this)),
+    new NavigationNameAddressTuple(this.navbarPrefix + 'UserPanel', this.navigateToUserPanel.bind(this)),
+    new NavigationNameAddressTuple(this.navbarPrefix + 'APIDocumentation', this.navigateToSwagger.bind(this)),
+    new NavigationNameAddressTuple(this.navbarPrefix + 'DigitalSignage', this.navigateToDigitalSignage.bind(this)),
+    new NavigationNameAddressTuple(this.navbarPrefix + 'Logout', this.logout.bind(this))
   ]
 
   constructor(public service: SingleInstallationPanelService, private router: Router, private appComp: AppComponent) {

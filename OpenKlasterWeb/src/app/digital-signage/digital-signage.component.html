@@ -3,22 +3,22 @@
 <mat-horizontal-stepper class="font-20" linear="Enable linear mode" #stepper>
   <mat-step [stepControl]="installationForm">
     <form [formGroup]="installationForm">
-      <ng-template matStepLabel>Choose your installation and API token</ng-template>
+      <ng-template matStepLabel>{{'DigitalSignage_ChooseInst' | translate}}</ng-template>
       <div class="step" *ngIf="!loading">
         <div style="flex-direction: column">
-          <h3>Installation</h3>
+          <h3>{{'DigitalSignage_Installation' | translate}}</h3>
           <mat-form-field appearance="standard">
-            <mat-label>Select an option</mat-label>
+            <mat-label>{{'DigitalSignage_SelectOption' | translate}}</mat-label>
             <mat-select formControlName="installationId">
-              <mat-option>None</mat-option>
+              <mat-option>{{'DigitalSignage_None' | translate}}</mat-option>
               <mat-option *ngFor="let id of installationIDs" [value]="id">{{id}}</mat-option>
             </mat-select>
           </mat-form-field>
-          <h3>API Token</h3>
+          <h3>{{'DigitalSignage_APIToken' | translate}}</h3>
           <mat-form-field appearance="standard">
-            <mat-label>Select an option</mat-label>
+            <mat-label>{{'DigitalSignage_SelectOption' | translate}}</mat-label>
             <mat-select formControlName="apiToken">
-              <mat-option>None</mat-option>
+              <mat-option>{{'DigitalSignage_None' | translate}}</mat-option>
               <mat-option *ngFor="let token of apiTokens" [value]="token">{{token}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -30,26 +30,29 @@
     </form>
   </mat-step>
   <mat-step [stepControl]="slidesForm">
-    <ng-template matStepLabel>Choose desired views and time per one</ng-template>
+    <ng-template matStepLabel>{{'DigitalSignage_ChooseView' | translate}}</ng-template>
     <div class="step">
       <button mat-fab style="margin-right: 100px;" color="primary" matStepperPrevious>
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <div style="align-items: center; display: flex; flex-direction: column">
+      <div style="align-items: flex-start; display: flex; flex-direction: column">
         <div style="display:flex; flex-direction: row; min-width: 350px">
           <img class="thumbnail" height="90" width="160" src="assets/img/introDigital.png">
-          <mat-checkbox [(ngModel)]="introSelected" color="primary" class="thumbnail-text">Intros</mat-checkbox>
+          <mat-checkbox [(ngModel)]="introSelected"
+                        class="thumbnail-text">{{'DigitalSignage_Intros' | translate}}</mat-checkbox>
         </div>
         <div style="display: flex;flex-direction: row; min-width: 350px">
           <img class="thumbnail" height="90" width="160" src="assets/img/treesDigital.png">
-          <mat-checkbox [(ngModel)]="treesSelected" color="primary" class="thumbnail-text">Trees</mat-checkbox>
+          <mat-checkbox [(ngModel)]="treesSelected"
+                        class="thumbnail-text">{{'DigitalSignage_Trees' | translate}}</mat-checkbox>
         </div>
         <div style="display: flex;flex-direction: row; min-width: 350px">
           <img class="thumbnail" height="90" width="160" src="assets/img/chartsDigital.png">
-          <mat-checkbox [(ngModel)]="chartsSelected" color="primary" class="thumbnail-text">Charts</mat-checkbox>
+          <mat-checkbox [(ngModel)]="chartsSelected"
+                        class="thumbnail-text">{{'DigitalSignage_Charts' | translate}}</mat-checkbox>
         </div>
-        <mat-form-field style="margin: 30px">
-          <mat-label>Time per view [ms]</mat-label>
+        <mat-form-field style="margin: 30px 0px;min-width: 300px">
+          <mat-label>{{'DigitalSignage_TimePerView' | translate}}</mat-label>
           <input [(ngModel)]="desiredTimePerSlide" matInput required>
         </mat-form-field>
       </div>
@@ -59,7 +62,7 @@
     </div>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Summarization</ng-template>
+    <ng-template matStepLabel>{{'DigitalSignage_Summarization' | translate}}</ng-template>
     <div class="summary">
       <button mat-fab color="primary" style="margin-right: 100px" matStepperPrevious>
         <mat-icon>arrow_back</mat-icon>
@@ -68,18 +71,16 @@
       <div>
         <mat-card class="example-card">
           <mat-card-header>
-            <mat-card-title>You can go to digital signage in your browser</mat-card-title>
+            <mat-card-title>{{'DigitalSignage_GoToSignage' | translate}}</mat-card-title>
           </mat-card-header>
           <mat-card-content>
             <div>
-              <h5>Copy from Clipboard URL</h5>
+              <h5>{{'DigitalSignage_Clipboard' | translate}}</h5>
               <div [ngClass]="contenCopied ? 'web-path url-init' : 'web-path'">
                 <div class="web-path-code">{{couponText}}</div>
-
                 <ng-container *ngIf="contenCopied; else copiedNgTemp">
-                  <div class="url-copied">Copied!</div>
+                  <div class="url-copied">{{'DigitalSignage_Copied' | translate}}</div>
                 </ng-container>
-
                 <ng-template #copiedNgTemp>
                   <div (cbOnSuccess)="contentCopied($event)" ngxClipboard [cbContent]="getDigitalSignageLink()">
                     <div class="copy-url">
@@ -94,21 +95,22 @@
                 </ng-template>
               </div>
             </div>
-            <h5>Or go directly</h5>
+            <h5>{{'DigitalSignage_Directly' | translate}}</h5>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-raised-button color="primary" style="margin-left: 30px" (click)="goToDigitalSignage()">Go</button>
+            <button mat-raised-button color="primary" style="margin-left: 30px" (click)="goToDigitalSignage()">
+              {{'DigitalSignage_Go' | translate}}
+            </button>
           </mat-card-actions>
         </mat-card>
-
         <mat-card class="example-card" style="margin-top: 25px">
           <mat-card-header>
-            <mat-card-title>You can download the files and run them on the microcomputer</mat-card-title>
+            <mat-card-title>{{'DigitalSignage_Files' | translate}}</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <h5>1. Download the configuration file</h5>
+            <h5>{{'DigitalSignage_1Download' | translate}}</h5>
             <div style="border: solid black 1px; padding: 5px">
-              <h3>File preview:</h3>
+              <h3>{{'DigitalSignage_FilePreview' | translate}}</h3>
               <p>const config = {{'{'}}</p>
               <p>"installationId": {{this.installationId}},</p>
               <p>"apiToken": {{this.apiToken}},</p>
@@ -122,18 +124,18 @@
             </div>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-raised-button color="primary" style="margin-left: 30px" (click)="downloadFile()">Download</button>
+            <button mat-raised-button color="primary" style="margin-left: 30px"
+                    (click)="downloadFile()">{{'DigitalSignage_Download' | translate}}</button>
           </mat-card-actions>
           <mat-card-content>
-            <h5>2. Download the rest of the files</h5>
+            <h5>{{'DigitalSignage_2Download' | translate}}</h5>
           </mat-card-content>
           <mat-card-actions>
             <button mat-raised-button color="primary" style="margin-left: 30px">TODO</button>
           </mat-card-actions>
           <mat-card-content>
-            <h5>3. Drop the configuration file into the rest of the files</h5>
-
-            <h5>4. You can run it</h5>
+            <h5>{{'DigitalSignage_3Download' | translate}}</h5>
+            <h5>{{'DigitalSignage_4Download' | translate}}</h5>
           </mat-card-content>
         </mat-card>
       </div>
