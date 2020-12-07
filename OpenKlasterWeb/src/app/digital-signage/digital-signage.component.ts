@@ -78,7 +78,7 @@ export class DigitalSignageComponent implements OnInit {
         this.loading = false
     })
 
-    this.tokenService.getTokens(this.appComp.cookieService).subscribe(response => {
+    this.tokenService.getUserInfo(this.appComp.cookieService).subscribe(response => {
       let tokensData: TokenResponse[] = <TokenResponse[]>(response["userTokens"])
       this.apiTokens = tokensData.map(token => token.data)
       this.tokensLoaded = true;

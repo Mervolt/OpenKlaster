@@ -1,44 +1,47 @@
 <div class="header-container">
   <h1 class="margin-20">{{'UserPanel_YourUserInfo' | translate}}</h1>
 </div>
-<div>
-  <mat-form-field appearance="outline" class="userformfield">
-    <mat-label>{{'UserPanel_YourUserUsername' | translate}}</mat-label>
-    <input matInput id="username" name="username" required [disabled]="true"
-           [(ngModel)]="username">
-  </mat-form-field>
-</div>
-<div>
-  <mat-form-field appearance="outline" class="userformfield">
-    <mat-label>{{'UserPanel_YourUserEmail' | translate}}</mat-label>
-    <input matInput id="email" name="email" required [disabled]="isEmailDisabled"
-           [(ngModel)]="email">
-  </mat-form-field>
-</div>
-<div *ngIf="!isPasswordDisabled || !isEmailDisabled">
-  <mat-form-field appearance="outline" class="userformfield">
-    <mat-label>{{'UserPanel_YourUserCurrentPassword' | translate}}</mat-label>
-    <input matInput id="password" name="password" required
-           [(ngModel)]="formModel.password" type="password">
-  </mat-form-field>
-</div>
-<div *ngIf="!isPasswordDisabled">
-  <mat-form-field appearance="outline" class="userformfield">
-    <mat-label>{{'UserPanel_YourUserNewPassword' | translate}}</mat-label>
-    <input matInput id="newPassword" name="newPassword" required
-           [(ngModel)]="formModel.newPassword" type="password">
-  </mat-form-field>
-</div>
-<div *ngIf="!isPasswordDisabled">
-  <mat-form-field appearance="outline" class="userformfield">
-    <mat-label>{{'UserPanel_YourUserConfirmNewPassword' | translate}}</mat-label>
-    <input matInput id="newPasswordConfirm" name="newPasswordConfirm" required
-           [(ngModel)]="newPasswordConfirm" type="password" [appEqualsTo]="formModel.newPassword">
-  </mat-form-field>
-</div>
-<div class="buttons-container">
-  <app-submit-button [onClick]="myCallbackFunction" buttonCaption="{{'UserPanel_YourUserSubmitEdition' | translate}}"
-                     [requestState]="requestState" [disabled]="isEmailDisabled && isPasswordDisabled"></app-submit-button>
-  <button mat-raised-button (click)="toggleEmailEdit()">{{'UserPanel_YourUserChangeEmail' | translate}}</button>
-  <button mat-raised-button (click)="togglePasswordEdit()">{{'UserPanel_YourUserChangePassword' | translate}}</button>
-</div>
+<form (ngSubmit)="editForm.valid && onSubmit()" #editForm="ngForm">
+  <div>
+    <mat-form-field appearance="outline" class="userformfield">
+      <mat-label>{{'UserPanel_YourUserUsername' | translate}}</mat-label>
+      <input matInput id="username" name="username" required [disabled]="true"
+             [(ngModel)]="username">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline" class="userformfield">
+      <mat-label>{{'UserPanel_YourUserEmail' | translate}}</mat-label>
+      <input matInput id="email" name="email" required [disabled]="isEmailDisabled"
+             [(ngModel)]="formModel.email">
+    </mat-form-field>
+  </div>
+  <div *ngIf="!isPasswordDisabled || !isEmailDisabled">
+    <mat-form-field appearance="outline" class="userformfield">
+      <mat-label>{{'UserPanel_YourUserCurrentPassword' | translate}}</mat-label>
+      <input matInput id="password" name="password" required
+             [(ngModel)]="formModel.password" type="password">
+    </mat-form-field>
+  </div>
+  <div *ngIf="!isPasswordDisabled">
+    <mat-form-field appearance="outline" class="userformfield">
+      <mat-label>{{'UserPanel_YourUserNewPassword' | translate}}</mat-label>
+      <input matInput id="newPassword" name="newPassword" required
+             [(ngModel)]="formModel.newPassword" type="password">
+    </mat-form-field>
+  </div>
+  <div *ngIf="!isPasswordDisabled">
+    <mat-form-field appearance="outline" class="userformfield">
+      <mat-label>{{'UserPanel_YourUserConfirmNewPassword' | translate}}</mat-label>
+      <input matInput id="newPasswordConfirm" name="newPasswordConfirm" required
+             [(ngModel)]="newPasswordConfirm" type="password" [appEqualsTo]="formModel.newPassword">
+    </mat-form-field>
+  </div>
+  <div class="buttons-container">
+    <app-submit-button [onClick]="myCallbackFunction" buttonCaption="{{'UserPanel_YourUserSubmitEdition' | translate}}"
+                       [requestState]="requestState"
+                       [disabled]="isEmailDisabled && isPasswordDisabled"></app-submit-button>
+    <button mat-raised-button (click)="toggleEmailEdit()">{{'UserPanel_YourUserChangeEmail' | translate}}</button>
+    <button mat-raised-button (click)="togglePasswordEdit()">{{'UserPanel_YourUserChangePassword' | translate}}</button>
+  </div>
+</form>

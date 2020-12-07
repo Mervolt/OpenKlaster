@@ -29,7 +29,7 @@ export class TokenPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let request = this.tokenPanelService.getTokens(this.appComp.cookieService);
+    let request = this.tokenPanelService.getUserInfo(this.appComp.cookieService);
     request.subscribe(response => {
       this.tabledTokens = []
       let tokensData: TokenResponse[] = <TokenResponse[]>(response["userTokens"])
