@@ -12,7 +12,7 @@
   "AddInstallation_InverterModelType": "Typ modelu inwertera",
   "AddInstallation_InverterDescription": "Opis inwertera",
   "AddInstallation_InverterManufacturer": "Producent inwertera",
-  "AddInstallation_InverterCredentials": "Token do inwertera",
+  "AddInstallation_InverterCredentials": "Uwierzytelnianie",
   "AddInstallation_SourceInfo": "Informacje o źródle energii",
   "AddInstallation_SourceAzimuth": "Azymut źródła energii",
   "AddInstallation_SourceCapacity": "Pojemność źródła energii",

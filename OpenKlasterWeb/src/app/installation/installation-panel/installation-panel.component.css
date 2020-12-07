@@ -1,25 +1,14 @@
 .list-item-installation-detail {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+  width: 15%;
+  height: 120px
 }
 
 .list-item-installation-detail-content {
   text-align: center;
-  width: 10vw;
-  font-size: larger;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.list-item-installation-detail-header {
-  text-align: center;
-  width: 10vw;
-}
-
-.basic-list-item {
-  height: 20vh;
+.list-item-installation-goto-button {
+  width: 10%
 }
 
 .basic-list-item:hover {
