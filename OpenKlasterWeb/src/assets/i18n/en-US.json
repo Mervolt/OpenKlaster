@@ -122,7 +122,7 @@
   "DeleteInstallation_Question": "Are you sure you want to delete installation?",
   "DeleteInstallation_Confirm": "Yes",
   "DeleteInstallation_Cancel": "Cancel",
-  "WindInstallation": "There is no support for Wind installations yet.",
+  "WindInstallation": "There is no support for Wind installations yet."
 
 
 }

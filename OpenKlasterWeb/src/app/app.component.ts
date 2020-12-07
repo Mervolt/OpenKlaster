@@ -26,7 +26,7 @@ export class AppComponent {
       this.translateService.setDefaultLang('pl-PL')
       this.dateAdapter.setLocale('pl-PL')
     }
-    else if(navigator.language.startsWith('en-')) {
+    else if(navigator.language.startsWith('en')) {
       this.translateService.setDefaultLang('en-US')
       this.dateAdapter.setLocale('en-US')
     }
