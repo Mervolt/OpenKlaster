@@ -131,4 +131,8 @@ export class DigitalSignageComponent implements OnInit {
       "power_chart=" + this.chartsSelected + "&" +
       "slideChangeTimeout=" + this.desiredTimePerSlide;
   }
+
+  routeToDigitalSignageRepo() {
+    window.open("https://github.com/Mervolt/OpenKlasterDigitalSignage", "_blank");
+  }
 }
