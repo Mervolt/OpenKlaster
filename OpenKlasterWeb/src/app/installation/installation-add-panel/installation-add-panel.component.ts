@@ -23,8 +23,6 @@ import {TranslateService} from "@ngx-translate/core";
 export class InstallationAddPanelComponent {
   sendRequestState = 'wait'
   manufacturersMap: Map<string, string[]> = new Map();
-  isEditing = false;
-
   questions$: QuestionBase<any>[];
 
   @ViewChild(CredentialsFormComponent) credentialsForm;

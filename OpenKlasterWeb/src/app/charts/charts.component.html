@@ -7,13 +7,13 @@
       <div class="step">
         <mat-form-field appearance="standard">
           <mat-label>{{'Charts_SelectOption' | translate}}</mat-label>
-          <mat-select formControlName="installationId">
+          <mat-select formControlName="installationId" (selectionChange)="installationSelectedOption()">
             <mat-option>{{'Charts_NoInstallation' | translate}}</mat-option>
             <mat-option *ngFor="let id of installationIDs" [value]="id">{{id}}</mat-option>
           </mat-select>
         </mat-form-field>
-        <button mat-fab matStepperNext style="margin-left: 100px;" color="primary" (click)="installationSelected()">
-          <mat-icon>arrow_forward</mat-icon>
+        <button mat-fab matStepperNext style="margin-left: 100px;" color="primary" (click)="installationSelected()" id="ChooseInstallationNext"
+         hidden>
         </button>
       </div>
     </form>
@@ -28,16 +28,14 @@
       </div>
       <div *ngIf="!getSelectableDatesError">
         <div class="step">
-          <button mat-fab style="margin-right: 100px;" color="primary" matStepperPrevious>
-            <mat-icon>arrow_back</mat-icon>
-          </button>
           <mat-form-field class="component-container">
             <mat-label>{{'Charts_ChooseDate' | translate}}</mat-label>
-            <input matInput disabled class="component-container" [matDatepickerFilter]="dateFilter" formControlName="date" [matDatepicker]="picker">
+            <input matInput disabled class="component-container" [matDatepickerFilter]="dateFilter" formControlName="date"
+                   [matDatepicker]="picker" (ngModelChange)="dateSelectedOption()">
             <mat-datepicker-toggle class="component-container" matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker disabled="false" touchUi class="component-container" [dateClass]="dateClass" #picker></mat-datepicker>
           </mat-form-field>
-          <button mat-fab matStepperNext style="margin-left: 100px;" color="primary" (click)="dateSelected()">
+          <button mat-fab matStepperNext style="margin-left: 100px;" color="primary" (click)="dateSelected()" id="ChooseDateNext" hidden>
             <mat-icon>arrow_forward</mat-icon>
           </button>
         </div>

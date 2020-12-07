@@ -1,13 +1,27 @@
 .list-item-installation-detail {
   width: 100%;
-  height: 120px;
+  display: flex;
+  flex-direction: column;
 }
 
 .list-item-installation-detail-content {
   text-align: center;
-  width: 100%;
+  width: 10vw;
+  font-size: larger;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.list-item-installation-goto-button {
-  width: 10%
+.list-item-installation-detail-header {
+  text-align: center;
+  width: 10vw;
+}
+
+.basic-list-item {
+  height: 20vh;
+}
+
+.basic-list-item:hover {
+  background: var(--installation-card-text-color);
 }

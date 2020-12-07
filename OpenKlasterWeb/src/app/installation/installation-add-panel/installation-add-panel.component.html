@@ -7,8 +7,7 @@
         <div style="margin-top: 8px">
           <mat-button-toggle-group [(ngModel)]="formModel.installationType" name="installationType"
                                    #group="matButtonToggleGroup">
-            <mat-button-toggle value="Solar"
-                               style="min-width: 200px">{{'AddInstallation_InstallationSolar' | translate}}</mat-button-toggle>
+            <mat-button-toggle value="Solar" style="min-width: 200px">{{'AddInstallation_InstallationSolar' | translate}}</mat-button-toggle>
             <mat-button-toggle value="Wind" style="min-width: 200px"
                                (change)="onWindInstallationType($event, group)">{{'AddInstallation_InstallationWind' | translate }}</mat-button-toggle>
           </mat-button-toggle-group>
@@ -17,14 +16,14 @@
         <div style="">
           <mat-form-field appearance="outline" class="userformfield">
             <mat-label>{{'AddInstallation_InstallationLongitude' | translate}} [°]</mat-label>
-            <input matInput id="longitude" name="longitude" required
+            <input matInput id="longitude" name="longitude" required type="number" step="any"
                    [(ngModel)]="formModel.longitude">
           </mat-form-field>
         </div>
         <div>
           <mat-form-field appearance="outline" class="userformfield">
             <mat-label>{{'AddInstallation_InstallationLatitude' | translate}} [°]</mat-label>
-            <input matInput id="latitude" name="latitude" required
+            <input matInput id="latitude" name="latitude" required type="number" step="any"
                    [(ngModel)]="formModel.latitude">
           </mat-form-field>
         </div>
@@ -37,12 +36,12 @@
         </mat-form-field>
       </div>
     </div>
-    <mat-label>{{'AddInstallation_LoadInfo' | translate}}</mat-label>
+    <mat-label>Load Information</mat-label>
     <div style="display: flex">
       <div class="half-div-line-margins-max400">
         <mat-form-field appearance="outline" class="userformfield">
           <mat-label>{{'AddInstallation_LoadName' | translate}}</mat-label>
-          <input matInput id="loadName" name="loadName" required
+          <input matInput id="loadName" name="loadName"
                  [(ngModel)]="formModel.load.name">
         </mat-form-field>
       </div>
@@ -64,9 +63,9 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="userformfield">
           <mat-label>{{'AddInstallation_InverterManufacturer' | translate}}</mat-label>
-          <mat-select [(value)]="formModel.inverter.manufacturer">
+          <mat-select [(value)]="formModel.inverter.manufacturer" >
             <mat-option style="background-color: white" *ngFor="let manufacturer of manufacturersMap.keys()"
-                        [value]="manufacturer" (onSelectionChange)="changeCredentials($event)">
+                        [value]="manufacturer" (onSelectionChange)="changeCredentials($event)" >
               {{manufacturer}}
             </mat-option>
           </mat-select>
@@ -91,19 +90,19 @@
       <div class="half-div-line-margins-max400">
         <mat-form-field appearance="outline" class="userformfield">
           <mat-label>{{'AddInstallation_SourceAzimuth' | translate}} [°]</mat-label>
-          <input matInput id="sourceAzimuth" name="sourceAzimuth" required
+          <input matInput id="sourceAzimuth" name="sourceAzimuth" required type="number" step="any"
                  [(ngModel)]="formModel.source.azimuth">
         </mat-form-field>
         <br>
         <mat-form-field appearance="outline" class="userformfield">
           <mat-label>{{'AddInstallation_SourceCapacity' | translate}} [W]</mat-label>
-          <input matInput id="sourceCapacity" name="sourceCapacity" required
+          <input matInput id="sourceCapacity" name="sourceCapacity" required type="number" step="any"
                  [(ngModel)]="formModel.source.capacity">
         </mat-form-field>
         <br>
         <mat-form-field appearance="outline" class="userformfield">
           <mat-label>{{'AddInstallation_SourceTilt' | translate}} [°]</mat-label>
-          <input matInput id="sourceTilt" name="sourceTilt" required
+          <input matInput id="sourceTilt" name="sourceTilt" required type="number" step="any"  min="0"
                  [(ngModel)]="formModel.source.tilt">
         </mat-form-field>
       </div>
@@ -115,7 +114,7 @@
         </mat-form-field>
       </div>
     </div>
-    <app-submit-button [onClick]="myCallbackFunction" buttonCaption="{{'AddInstallation_Submit' | translate}}" [requestState]="sendRequestState" style="padding-left: 20px">
-    </app-submit-button>
+    <app-submit-button [onClick]="myCallbackFunction" buttonCaption="{{'AddInstallation_Submit' | translate}}"
+                       [requestState]="sendRequestState" style="padding-left: 20px"></app-submit-button>
   </form>
 </div>

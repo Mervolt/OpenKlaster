@@ -53,6 +53,7 @@
   "EditInstallation_Inverter": "Inverter",
   "EditInstallation_Source": "Source",
   "EditInstallation_Load": "Load",
+  "EditInstallation_tooltip": "It is used in api, charts and digital signage to distinguish installations",
   "EditInstallationProperty_Latitude": "Latitude",
   "EditInstallationProperty_Longitude": "Longitude",
   "EditInstallationProperty_Tilt": "Tilt",
