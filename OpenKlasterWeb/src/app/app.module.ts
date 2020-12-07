@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
@@ -19,7 +19,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {InstallationAddPanelComponent} from './installation/installation-add-panel/installation-add-panel.component';
 import {MatListModule} from "@angular/material/list";
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {RequestResponseComponentComponent} from './request-response-component/request-response-component.component';
@@ -61,8 +61,12 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {ToastrModule} from 'ngx-toastr';
 import { DigitalSignageComponent } from './digital-signage/digital-signage.component';
+import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {I18Paginator} from "./i18n/I18Paginator";
 import {ClipboardModule} from 'ngx-clipboard';
 import {MatTooltipModule} from "@angular/material/tooltip";
+
 
 @NgModule({
   declarations: [
@@ -137,10 +141,21 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     MatStepperModule,
     NgxSpinnerModule,
     ToastrModule.forRoot(),
-    ClipboardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslation,
+        deps: [HttpClient]
+      }
+    }),
+    ClipboardModule
   ],
   providers: [
+    {
+      provide: MatPaginatorIntl, deps: [TranslateService],
+      useFactory: (translateService: TranslateService) => new I18Paginator(translateService).getPaginatorIntl()
+    },
     UserService,
     TokenService,
     InstallationService,
@@ -159,4 +174,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   bootstrap: [AppComponent]
 })
 export class AppModule {
+}
+
+export function httpTranslation(http: HttpClient) {
+  return new TranslateHttpLoader(http);
 }

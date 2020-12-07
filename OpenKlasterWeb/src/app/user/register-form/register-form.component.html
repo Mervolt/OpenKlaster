@@ -2,21 +2,21 @@
   <div class="container userform registerform">
     <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">{{'RegisterForm_Email' | translate}}</label>
         <input type="text" class="form-control userformfield" id="email" name="email" required
                [(ngModel)]="model.email">
 
-        <label for="username">Username</label>
+        <label for="username">{{'RegisterForm_Username' | translate}}</label>
         <input type="text" class="form-control userformfield" id="username" name="username" required
                [(ngModel)]="model.username">
 
-        <label for="password">Password</label>
+        <label for="password">{{'RegisterForm_Password' | translate}}</label>
         <input type="password" class="form-control userformfield" id="password" name="password" required
                [(ngModel)]="model.password">
 
         <div class="userformbutton">
-          <button mat-raised-button color="primary" type="submit" class="btn btn-primary">Register</button>
-          <button type="button" class="btn btn-link link" (click)="redirectToLogin()">Already have an account?</button>
+          <button mat-raised-button color="primary" type="submit" class="btn btn-primary">{{'RegisterForm_Register' | translate}}</button>
+          <button type="button" class="btn btn-link link" (click)="redirectToLogin()">{{'RegisterForm_Account' | translate}}</button>
         </div>
       </div>
     </form>

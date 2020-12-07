@@ -14,7 +14,7 @@
         <ng-template #windInstall><img src="assets/img/wind_install.jpg" alt="" class="img-with-margin"></ng-template>
         <div class="list-item-installation-detail">
           <div class="list-item-installation-detail-header">
-            <h4>Installation description</h4>
+            <h4>{{'AllInstallations_InstallationDescription' | translate}}</h4>
           </div>
           <div class="list-item-installation-detail-content">
             {{installation.description}}
@@ -22,7 +22,7 @@
         </div>
         <div class="list-item-installation-detail">
           <div class="list-item-installation-detail-header">
-            <h4>Source description</h4>
+            <h4>{{'AllInstallations_SourceDescription' | translate}}</h4>
           </div>
           <div class="list-item-installation-detail-content">
             {{installation.source.description}}
@@ -30,7 +30,7 @@
         </div>
         <div class="list-item-installation-detail">
           <div class="list-item-installation-detail-header">
-            <h4>Inverter manufacturer</h4>
+            <h4>{{'AllInstallations_InverterManufacturer' | translate}}</h4>
           </div>
           <div class="list-item-installation-detail-content">
             {{installation.inverter.manufacturer}}
@@ -38,7 +38,7 @@
         </div>
         <div class="list-item-installation-detail">
           <div class="list-item-installation-detail-header">
-            <h4>Inverter description</h4>
+            <h4>{{'AllInstallations_InverterDescription' | translate}}</h4>
           </div>
           <div class="list-item-installation-detail-content">
             {{installation.inverter.description}}
@@ -46,7 +46,7 @@
         </div>
         <div class="list-item-installation-detail">
           <div class="list-item-installation-detail-header">
-            <h4>Load name</h4>
+            <h4>{{'AllInstallations_LoadName' | translate}}</h4>
           </div>
           <div class="list-item-installation-detail-content">
             {{installation.load.name}}
@@ -54,7 +54,7 @@
         </div>
         <div class="list-item-installation-detail">
           <div class="list-item-installation-detail-header">
-            <h4>Load description</h4>
+            <h4>{{'AllInstallations_LoadDescription' | translate}}</h4>
           </div>
           <div class="list-item-installation-detail-content">
             {{installation.load.description}}
@@ -64,4 +64,3 @@
     </div>
   </mat-list-item>
 </mat-action-list>
-

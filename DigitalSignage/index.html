@@ -8,24 +8,24 @@
     <script src="js/d3.min.js"></script>
     <script src="config.js"></script>
     <script src="js/properties.js"></script>
-	<link rel="icon" href="img/favicon.ico">
+    <link rel="icon" href="img/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body style="overflow: hidden; margin:0;">
 
 <div class="slideshow-container">
-    <button id="preds" type="button" onclick="openFullscreen();" class="btn btn-primary">Press the button to start slideshow</button>
+    <button id="preds" type="button" onclick="openFullscreen();" class="btn btn-primary">Naciśnij, aby rozpocząć pokaz slajdów
+    </button>
     <!-- INTRO -->
     <div id="ds" style="display: none">
         <div id="intro" class="slide" style="background-image: url('img/solar_panels.jpg');">
             <div class="row">
                 <div class="col-xl-5 col-md-6">
                     <div class="left-panel">
-                        <div class="h2 text-white font-weight-bold mb-1" style="margin: 50px; min-width: 200px;">Ten
-                            budynek
-                            wytwarza
-                            zrównoważoną energię dzięki energii słonecznej
+                        <div id="building_desc" class="h2 text-white font-weight-bold mb-1"
+                             style="margin: 50px; min-width: 200px;">
+                            Ten budynek wytwarza zrównoważoną energię dzięki energii słonecznej
                         </div>
                         <div class="logo logo-left-panel">
                             <img src="img/logo.png" style="width: 100%">
@@ -39,7 +39,9 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="h5 font-weight-bold mb-1">AKTUALNA MOC (kW)</div>
+                                        <div id="current_power_intro" class="h5 font-weight-bold mb-1">AKTUALNA MOC
+                                            (kW)
+                                        </div>
                                         <div class="current_power display-1 mb-0 font-weight-bold text-gray-800">0</div>
                                     </div>
                                     <div class="col-auto">
@@ -54,12 +56,14 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="h5 font-weight-bold text-uppercase mb-1">WYPRODUKOWANA ENERGIA (kWh)
+                                        <div id="produced_energy_intro" class="h5 font-weight-bold text-uppercase mb-1">
+                                            WYPRODUKOWANA ENERGIA (kWh)
                                         </div>
                                         <div class="total_energy display-1 mb-0 font-weight-bold text-gray-800">0</div>
                                     </div>
                                     <div class="col-auto">
                                         <img class="icon" src="img/energy.png">
+
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +74,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="h5 font-weight-bold text-uppercase mb-1">OGRANICZONA EMISJA CO2 (t)
+                                        <div id="reduced_co2_intro" class="h5 font-weight-bold text-uppercase mb-1">
+                                            OGRANICZONA EMISJA CO2 (t)
                                         </div>
                                         <div class="co2_reduced display-1 h5 mb-0 font-weight-bold text-gray-800">0
                                         </div>
@@ -82,167 +87,205 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- TREES -->
-        <div id="trees" class="slide" style="background-image: url('img/forest.jpg');">
-            <div class="row">
-                <div class="col-xl-5 col-md-6">
-                    <div class="left-panel">
-                        <div class="minicard">
-                            <div class="row no-gutters align-items-center h-100 text-white">
-                                <div class="col mr-2">
-                                    <div class="h5 mb-1">AKTUALNA MOC (kW)</div>
-                                    <div class="current_power h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="minicard">
-                            <div class="row no-gutters align-items-center h-100 text-white">
-                                <div class="col mr-2">
-                                    <div class="h5  mb-1">WYPRODUKOWANA ENERGIA</div>
-                                    <div class="h5  mb-1">DZISIAJ (kWh)</div>
-                                    <div class="today_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="minicard">
-                            <div class="row no-gutters align-items-center h-100 text-white">
-                                <div class="col mr-2">
-                                    <div class="h5  mb-1">WYPRODUKOWANA ENERGIA (kWh)</div>
-                                    <div class="total_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="minicard">
-                            <div class="row no-gutters align-items-center h-100 text-white">
-                                <div class="col mr-2">
-                                    <div class="h5  mb-1">OGRANICZONA EMISJA CO2 (t)</div>
-                                    <div class="co2_reduced h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="logo-left-panel">
-                            <img src="img/logo.png" style="width: 100%">
-                            <img src="img/OpenKlaster.png" style="width: 100%">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-5 col-md-6">
-                    <div class="infocard" style="width: 100%">
-                        <div class="card h-100 bg-dark text-white">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="h5 font-weight-bold  mb-1">OGRANICZONA EMISJA CO2 (t)</div>
-                                        <div class="co2_reduced display-1 h5 mb-0 font-weight-bold text-gray-800">0
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <img class="icon" src="img/co2.png">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="infocard" style="width: 100%; height: 25vh">
-                        <div class="card h-100 bg-dark text-white">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="h5 font-weight-bold  mb-1">Aby zmiejszyć ilość CO2 w atmosferze o
-                                            taką
-                                            wartość musielibyśmy postadzić
-                                        </div>
-                                        <div class="trees_saved display-1 h5 mb-0 font-weight-bold text-gray-800">0
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <img class="icon" src="img/tree.png">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="infocard" style="width: 100%; height: 15vh">
-                        <div class="card h-100 bg-dark text-white">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="h5 font-weight-bold  mb-1">100 m2 lasu - około 80 drzew usuwa tonę
-                                            CO2 z
-                                            atmosfery w ciągu 10 lat
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- POWER_CHART -->
-        <div id="power_chart" class="slide">
-            <div class="row" style="background-color: #3e3e3e; color: #dcdcdc">
-                <div class="col-md-3">
-                    <div class="left-panel">
-                        <div class="minicard">
-                            <div class="row no-gutters align-items-center h-100 text-white">
-                                <div class="col mr-2">
-                                    <div class="h5 mb-1">AKTUALNA MOC (kW)</div>
-                                    <div class="current_power h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="minicard">
-                            <div class="row no-gutters align-items-center h-100 text-white">
-                                <div class="col mr-2">
-                                    <div class="h5  mb-1">WYPRODUKOWANA ENERGIA</div>
-                                    <div class="h5  mb-1">DZISIAJ (kWh)</div>
-                                    <div class="today_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="minicard">
-                            <div class="row no-gutters align-items-center h-100 text-white">
-                                <div class="col mr-2">
-                                    <div class="h5  mb-1">WYPRODUKOWANA ENERGIA (kWh)</div>
-                                    <div class="total_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="minicard">
-                            <div class="row no-gutters align-items-center h-100 text-white">
-                                <div class="col mr-2">
-                                    <div class="h5  mb-1">OGRANICZONA EMISJA CO2 (t)</div>
-                                    <div class="co2_reduced h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="logo-left-panel">
-                            <img src="img/logo.png" style="width: 100%">
-                            <img src="img/OpenKlaster.png" style="width: 100%">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-8 col-md-9 mb-4">
-                    <div class="h2 text-white font-weight-bold mb-1" style="text-align: center; margin-top: 25px;">
-                        Moc wygenerowana dzisiaj
-                    </div>
-                    <div class="vertical-center" id="chart"></div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- TREES -->
+    <div id="trees" class="slide" style="background-image: url('img/forest.jpg');">
+        <div class="row">
+            <div class="col-xl-5 col-md-6">
+                <div class="left-panel">
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div id="current_power_trees" class="h5 mb-1">AKTUALNA MOC (kW)</div>
+                                <div class="current_power h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div id="produced_energy_trees" class="h5  mb-1">WYPRODUKOWANA ENERGIA</div>
+                                <div id="produced_energy_trees_today" class="h5  mb-1">DZISIAJ (kWh)</div>
+                                <div class="today_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div id="produced_energy_trees_total" class="h5  mb-1">WYPRODUKOWANA ENERGIA (kWh)</div>
+                                <div class="total_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div id="reduced_co2_trees" class="h5  mb-1">OGRANICZONA EMISJA CO2 (t)</div>
+                                <div class="co2_reduced h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logo-left-panel">
+                        <img src="img/logo.png" style="width: 100%">
+                        <img src="img/OpenKlaster.png" style="width: 100%">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-5 col-md-6">
+                <div class="infocard" style="width: 100%">
+                    <div class="card h-100 bg-dark text-white">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div id="reduced_co2_trees_rightsidepanel" class="h5 font-weight-bold  mb-1">
+                                        OGRANICZONA EMISJA CO2 (t)
+                                    </div>
+                                    <div class="co2_reduced display-1 h5 mb-0 font-weight-bold text-gray-800">0
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <img class="icon" src="img/co2.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="infocard" style="width: 100%; height: 25vh">
+                    <div class="card h-100 bg-dark text-white">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div id="have_to_plant" class="h5 font-weight-bold  mb-1">Aby zmiejszyć ilość CO2 w
+                                        atmosferze o
+                                        taką
+                                        wartość musielibyśmy postadzić
+                                    </div>
+                                    <div class="trees_saved display-1 h5 mb-0 font-weight-bold text-gray-800">0
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <img class="icon" src="img/tree.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="infocard" style="width: 100%; height: 15vh">
+                    <div class="card h-100 bg-dark text-white">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div id="env_benefits" class="h5 font-weight-bold  mb-1">100 m2 lasu - około 80
+                                        drzew usuwa tonę
+                                        CO2 z
+                                        atmosfery w ciągu 10 lat
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- POWER_CHART -->
+    <div id="power_chart" class="slide">
+        <div class="row" style="background-color: #3e3e3e; color: #dcdcdc">
+            <div class="col-md-3">
+                <div class="left-panel">
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div id="current_power_powerchart" class="h5 mb-1">AKTUALNA MOC (kW)</div>
+                                <div class="current_power h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div id="produced_energy_powerchart" class="h5  mb-1">WYPRODUKOWANA ENERGIA</div>
+                                <div id="produced_energy_powerchart_today" class="h5  mb-1">DZISIAJ (kWh)</div>
+                                <div class="today_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div id="produced_energy_powerchart_total" class="h5  mb-1">WYPRODUKOWANA ENERGIA
+                                    (kWh)
+                                </div>
+                                <div class="total_energy h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="minicard">
+                        <div class="row no-gutters align-items-center h-100 text-white">
+                            <div class="col mr-2">
+                                <div id="reduced_co2_powerchart" class="h5  mb-1">OGRANICZONA EMISJA CO2 (t)</div>
+                                <div class="co2_reduced h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logo-left-panel">
+                        <img src="img/logo.png" style="width: 100%">
+                        <img src="img/OpenKlaster.png" style="width: 100%">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 col-md-9 mb-4">
+                <div id="power_today_powerchart" class="h2 text-white font-weight-bold mb-1"
+                     style="text-align: center; margin-top: 25px;">
+                    Moc wygenerowana dzisiaj
+                </div>
+                <div class="vertical-center" id="chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 <script>
+    var lang = navigator.language
     let total_energy = 0;
     let current_power = 0;
     let today_energy = 0;
     let co2_reduced = 0;
     let trees_saved = 0;
     let powerMeasurements = [];
+
+
+    function translate() {
+        if (navigator.language === 'en' || navigator.language.startsWith('en-')) {
+            document.getElementById("building_desc").innerText = "This building produces balanced energy thanks to solar energy";
+            document.getElementById("current_power_intro").innerText = "CURRENT POWER (kW)";
+            document.getElementById("produced_energy_intro").innerText = "PRODUCED ENERGY (kWh)";
+            document.getElementById("reduced_co2_intro").innerText = "REDUCED EMISSION OF CO2 (t)";
+            document.getElementById("current_power_trees").innerText = "CURRENT POWER (kW)";
+            document.getElementById("produced_energy_trees").innerText = "ENERGY PRODUCED";
+            document.getElementById("produced_energy_trees_today").innerText = "TODAY (kWh)";
+            document.getElementById("produced_energy_trees_total").innerText = "PRODUCED ENERGY (kWh)";
+            document.getElementById("reduced_co2_trees").innerText = "REDUCED EMISSION OF CO2 (t)";
+            document.getElementById("reduced_co2_trees_rightsidepanel").innerText = "REDUCED EMISSION OF CO2 (t)";
+            document.getElementById("have_to_plant").innerText = "To reduce the amount of CO2 in the atmosphere we would have to put";
+            document.getElementById("env_benefits").innerText = "100 m2 of forest which is about 80 trees reduces one " +
+                "tone of CO2 from atmosphere in 10 years";
+            document.getElementById("current_power_powerchart").innerText = "CURRENT POWER (kWh)";
+            document.getElementById("produced_energy_powerchart").innerText = "ENERGY PRODUCED";
+            document.getElementById("produced_energy_powerchart_today").innerText = "TODAY (kWh)";
+            document.getElementById("produced_energy_powerchart_total").innerText = "PRODUCED ENERGY (kWh)";
+            document.getElementById("reduced_co2_powerchart").innerText = "REDUCED EMISSION OF CO2 (t)";
+            document.getElementById("power_today_powerchart").innerText = "Power produced today";
+            document.getElementById("preds").innerText = "Press the button to start slideshow"
+        }
+    }
+
+
+    window.onload = translate
 
     function promilOfWidth(promil) {
         return window.innerWidth * (promil / 1000);

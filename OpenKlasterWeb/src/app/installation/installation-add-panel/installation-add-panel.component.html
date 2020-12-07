@@ -1,120 +1,120 @@
 <app-navbar></app-navbar>
 <div class="container">
-    <form (ngSubmit)="installationForm.valid && onSubmit()" #installationForm="ngForm">
-      <mat-label>Installation Info</mat-label>
-      <div style="display: flex">
-        <div class="half-div-line-margins-max400">
-          <div style="margin-top: 8px">
-            <mat-button-toggle-group [(ngModel)]="formModel.installationType" name="installationType"
-                                     #group="matButtonToggleGroup">
-              <mat-button-toggle value="Solar" style="min-width: 200px">Solar</mat-button-toggle>
-              <mat-button-toggle value="Wind" style="min-width: 200px"
-                                 (change)="onWindInstallationType($event, group)" >Wind</mat-button-toggle>
-            </mat-button-toggle-group>
-          </div>
-          <br>
-          <div style="">
-            <mat-form-field appearance="outline" class="userformfield">
-              <mat-label>Longitude [°]</mat-label>
-              <input matInput id="longitude" name="longitude" required type="number" step="any"
-                     [(ngModel)]="formModel.longitude">
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field appearance="outline" class="userformfield">
-              <mat-label>Latitude [°]</mat-label>
-              <input matInput id="latitude" name="latitude" required type="number" step="any"
-                     [(ngModel)]="formModel.latitude">
-            </mat-form-field>
-          </div>
+  <form (ngSubmit)="installationForm.valid && onSubmit()" #installationForm="ngForm">
+    <mat-label>{{'AddInstallation_InstallationInfo' | translate}}</mat-label>
+    <div style="display: flex">
+      <div class="half-div-line-margins-max400">
+        <div style="margin-top: 8px">
+          <mat-button-toggle-group [(ngModel)]="formModel.installationType" name="installationType"
+                                   #group="matButtonToggleGroup">
+            <mat-button-toggle value="Solar" style="min-width: 200px">{{'AddInstallation_InstallationSolar' | translate}}</mat-button-toggle>
+            <mat-button-toggle value="Wind" style="min-width: 200px"
+                               (change)="onWindInstallationType($event, group)">{{'AddInstallation_InstallationWind' | translate }}</mat-button-toggle>
+          </mat-button-toggle-group>
         </div>
-        <div class="half-div-line-margins-max400">
+        <br>
+        <div style="">
           <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Description</mat-label>
-            <textarea matInput id="description" name="description"
-                      [(ngModel)]="formModel.description"></textarea>
+            <mat-label>{{'AddInstallation_InstallationLongitude' | translate}} [°]</mat-label>
+            <input matInput id="longitude" name="longitude" required type="number" step="any"
+                   [(ngModel)]="formModel.longitude">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline" class="userformfield">
+            <mat-label>{{'AddInstallation_InstallationLatitude' | translate}} [°]</mat-label>
+            <input matInput id="latitude" name="latitude" required type="number" step="any"
+                   [(ngModel)]="formModel.latitude">
           </mat-form-field>
         </div>
       </div>
-      <mat-label>Load Information</mat-label>
-      <div style="display: flex">
-        <div class="half-div-line-margins-max400">
-          <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Load Name</mat-label>
-            <input matInput id="loadName" name="loadName"
-                   [(ngModel)]="formModel.load.name">
-          </mat-form-field>
-        </div>
-        <div class="half-div-line-margins-max400">
-          <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Load Description</mat-label>
-            <textarea matInput id="loadDescription" name="loadDescription"
-                      [(ngModel)]="formModel.load.description"></textarea>
-          </mat-form-field>
+      <div class="half-div-line-margins-max400">
+        <mat-form-field appearance="outline" class="userformfield">
+          <mat-label>{{'AddInstallation_InstallationDescription' | translate}}</mat-label>
+          <textarea matInput id="description" name="description"
+                    [(ngModel)]="formModel.description"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-label>Load Information</mat-label>
+    <div style="display: flex">
+      <div class="half-div-line-margins-max400">
+        <mat-form-field appearance="outline" class="userformfield">
+          <mat-label>{{'AddInstallation_LoadName' | translate}}</mat-label>
+          <input matInput id="loadName" name="loadName"
+                 [(ngModel)]="formModel.load.name">
+        </mat-form-field>
+      </div>
+      <div class="half-div-line-margins-max400">
+        <mat-form-field appearance="outline" class="userformfield">
+          <mat-label>{{'AddInstallation_LoadDescription' | translate}}</mat-label>
+          <textarea matInput id="loadDescription" name="loadDescription"
+                    [(ngModel)]="formModel.load.description"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-label>{{'AddInstallation_InverterInfo' | translate}}</mat-label>
+    <div style="display: flex">
+      <div class="half-div-line-margins-max400">
+        <mat-form-field appearance="outline" class="userformfield">
+          <mat-label>{{'AddInstallation_InverterModelType' | translate}}</mat-label>
+          <input matInput id="inverterModelType" name="inverterModelType" required
+                 [(ngModel)]="formModel.inverter.modelType">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="userformfield">
+          <mat-label>{{'AddInstallation_InverterManufacturer' | translate}}</mat-label>
+          <mat-select [(value)]="formModel.inverter.manufacturer" >
+            <mat-option style="background-color: white" *ngFor="let manufacturer of manufacturersMap.keys()"
+                        [value]="manufacturer" (onSelectionChange)="changeCredentials($event)" >
+              {{manufacturer}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <mat-label *ngIf="questions$.length!==0">{{'AddInstallation_InverterCredentials' | translate}}</mat-label>
+          <app-dynamic-form [questions]="questions$"
+                            (credentialsEventEmitter)="handleCredentialsChange($event)">
+          </app-dynamic-form>
         </div>
       </div>
-      <mat-label>Inverter Information</mat-label>
-      <div style="display: flex">
-        <div class="half-div-line-margins-max400">
-          <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Inverter Model Type</mat-label>
-            <input matInput id="inverterModelType" name="inverterModelType" required
-                   [(ngModel)]="formModel.inverter.modelType">
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Inverter manufacturer</mat-label>
-            <mat-select [(value)]="formModel.inverter.manufacturer" >
-              <mat-option style="background-color: white" *ngFor="let manufacturer of manufacturersMap.keys()"
-                          [value]="manufacturer" (onSelectionChange)="changeCredentials($event)" >
-                {{manufacturer}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <div>
-            <mat-label *ngIf="questions$.length!==0">Credentials</mat-label>
-            <app-dynamic-form [questions]="questions$"
-                              (credentialsEventEmitter)="handleCredentialsChange($event)">
-            </app-dynamic-form>
-          </div>
-        </div>
-        <div class="half-div-line-margins-max400">
-          <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Inverter Description</mat-label>
-            <textarea matInput id="inverterDescription" name="inverterDescription"
-                      [(ngModel)]="formModel.inverter.description"></textarea>
-          </mat-form-field>
-        </div>
+      <div class="half-div-line-margins-max400">
+        <mat-form-field appearance="outline" class="userformfield">
+          <mat-label>{{'AddInstallation_InverterDescription' | translate}}</mat-label>
+          <textarea matInput id="inverterDescription" name="inverterDescription"
+                    [(ngModel)]="formModel.inverter.description"></textarea>
+        </mat-form-field>
       </div>
-      <mat-label>Source Information</mat-label>
-      <div style="display: flex">
-        <div class="half-div-line-margins-max400">
-          <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Source Azimuth [°]</mat-label>
-            <input matInput id="sourceAzimuth" name="sourceAzimuth" required type="number" step="any"
-                   [(ngModel)]="formModel.source.azimuth">
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Source Capacity [W]</mat-label>
-            <input matInput id="sourceCapacity" name="sourceCapacity" required type="number" step="any"
-                   [(ngModel)]="formModel.source.capacity">
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Source Tilt [°]</mat-label>
-            <input matInput id="sourceTilt" name="sourceTilt" required type="number" step="any"  min="0"
-                   [(ngModel)]="formModel.source.tilt">
-          </mat-form-field>
-        </div>
-        <div class="half-div-line-margins-max400">
-          <mat-form-field appearance="outline" class="userformfield">
-            <mat-label>Source Description</mat-label>
-            <textarea matInput id="sourceDescription" name="sourceDescription"
-                      [(ngModel)]="formModel.source.description"></textarea>
-          </mat-form-field>
-        </div>
+    </div>
+    <mat-label>{{'AddInstallation_SourceInfo' | translate}}</mat-label>
+    <div style="display: flex">
+      <div class="half-div-line-margins-max400">
+        <mat-form-field appearance="outline" class="userformfield">
+          <mat-label>{{'AddInstallation_SourceAzimuth' | translate}} [°]</mat-label>
+          <input matInput id="sourceAzimuth" name="sourceAzimuth" required type="number" step="any"
+                 [(ngModel)]="formModel.source.azimuth">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline" class="userformfield">
+          <mat-label>{{'AddInstallation_SourceCapacity' | translate}} [W]</mat-label>
+          <input matInput id="sourceCapacity" name="sourceCapacity" required type="number" step="any"
+                 [(ngModel)]="formModel.source.capacity">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline" class="userformfield">
+          <mat-label>{{'AddInstallation_SourceTilt' | translate}} [°]</mat-label>
+          <input matInput id="sourceTilt" name="sourceTilt" required type="number" step="any"  min="0"
+                 [(ngModel)]="formModel.source.tilt">
+        </mat-form-field>
       </div>
-      <app-submit-button [onClick]="myCallbackFunction" buttonCaption="Submit Installation"
-                         [requestState]="sendRequestState" style="padding-left: 20px"></app-submit-button>
-    </form>
+      <div class="half-div-line-margins-max400">
+        <mat-form-field appearance="outline" class="userformfield">
+          <mat-label>{{'AddInstallation_SourceDescription' | translate}}</mat-label>
+          <textarea matInput id="sourceDescription" name="sourceDescription"
+                    [(ngModel)]="formModel.source.description"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <app-submit-button [onClick]="myCallbackFunction" buttonCaption="{{'AddInstallation_Submit' | translate}}"
+                       [requestState]="sendRequestState" style="padding-left: 20px"></app-submit-button>
+  </form>
 </div>

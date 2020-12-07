@@ -8,9 +8,7 @@ import {InstallationService} from '../service/installation/installation.service'
 import {Chart} from '../model/chart';
 import {compareAsc, format, parse} from 'date-fns';
 import {ActivatedRoute} from '@angular/router';
-import {MatHorizontalStepper, MatStepper} from '@angular/material/stepper';
-import {MatOptionSelectionChange} from "@angular/material/core";
-import {MatSelectChange} from "@angular/material/select";
+import {MatHorizontalStepper} from '@angular/material/stepper';
 
 @Component({
   selector: 'app-charts',
