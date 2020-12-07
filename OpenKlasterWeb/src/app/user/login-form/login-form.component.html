@@ -3,18 +3,18 @@
     <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
       <div class="form-group">
 
-        <label for="username">Username</label>
+        <label for="username">{{'LoginForm_Username' | translate}}</label>
         <input type="text" class="form-control userformfield" id="username" name="username" required
                [(ngModel)]="model.username">
 
-        <label for="password">Password</label>
+        <label for="password">{{'LoginForm_Password' | translate}}</label>
         <input type="password" class="form-control userformfield" id="password" name="password" required
                [(ngModel)]="model.password">
 
         <div class="userformbutton">
-          <button mat-raised-button color="primary" type="submit">Login</button>
+          <button mat-raised-button color="primary" type="submit">{{'LoginForm_Login' | translate}}</button>
           <button type="button" class="btn btn-link link"
-                  (click)="redirectToRegister()">Don't have account yet?
+                  (click)="redirectToRegister()">{{'LoginForm_NoAccount' | translate}}
           </button>
         </div>
       </div>

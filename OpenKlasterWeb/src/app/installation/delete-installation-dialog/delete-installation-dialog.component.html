@@ -1,7 +1,8 @@
 <div mat-dialog-content>
-  <p>Are you sure you want to delete installation?</p>
+  <p>{{'DeleteInstallation_Question' | translate}}</p>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button color="warn" [mat-dialog-close] (click)="deleteInstallation(id)">Yes</button>
-  <button mat-raised-button color="primary" [mat-dialog-close]>Cancel</button>
+  <button mat-raised-button color="warn" [mat-dialog-close] (click)="deleteInstallation(id)">
+    {{'DeleteInstallation_Confirm' | translate}}</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]>{{'DeleteInstallation_Cancel' | translate}}</button>
 </div>
