@@ -18,15 +18,8 @@ export class AppComponent {
               public translateService: TranslateService,
               private dateAdapter: DateAdapter<Date>) {
     this.translateService.addLangs(['en-US', 'pl-PL', 'pl', 'en']);
-    if(navigator.language === 'pl-PL' || navigator.language === 'en-US') {
-      this.translateService.setDefaultLang(navigator.language)
-      this.dateAdapter.setLocale(navigator.language)
-    }
-    else if(navigator.language.startsWith('pl-')) {
-      this.translateService.setDefaultLang('pl-PL')
-      this.dateAdapter.setLocale('pl-PL')
-    }
-    else if(navigator.language.startsWith('en')) {
+
+    if(navigator.language.startsWith('en')) {
       this.translateService.setDefaultLang('en-US')
       this.dateAdapter.setLocale('en-US')
     }
