@@ -3,11 +3,15 @@ param_sep: ':'
 wrapped_site: false
 reverse_proxy_setup: false
 languages:
+  supported:
+    - en
+    - pl
+  default_lang: pl
   include_default_lang: true
   translations: true
   translations_fallback: true
   session_store_active: false
-  http_accept_language: false
+  http_accept_language: true
   override_locale: false
 home:
   alias: /home

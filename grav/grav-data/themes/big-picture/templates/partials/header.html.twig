@@ -8,7 +8,11 @@
             {% for module in page.collection() %}
             <li><a href="#{{ module.folder|replace({'_': ''}) }}">{{ module.menu }}</a></li>
             {% endfor %}
-			<li><a href="/login"><b>Przejdź do systemu</b></a></li>
+            {% if html_lang == 'en' %}
+			    <li><a href="/login"><b>Go to the system</b></a></li>
+			{% else %}
+                <li><a href="/login"><b>Przejdź do systemu</b></a></li>
+			{% endif %}
         </ul>
     </nav>
 </header>
