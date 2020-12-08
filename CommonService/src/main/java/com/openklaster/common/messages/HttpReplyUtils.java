@@ -15,6 +15,7 @@ public class HttpReplyUtils {
                 .putHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
                 .putHeader("Access-Control-Allow-Headers", "*")
                 .putHeader("Access-Control-Allow-Credentials", "true")
+                .putHeader("Access-Control-Expose-Headers", "Authorization")
                 .end(Json.encodePrettily(content));
     }
 

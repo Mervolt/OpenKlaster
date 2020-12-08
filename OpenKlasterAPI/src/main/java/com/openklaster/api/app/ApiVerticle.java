@@ -4,6 +4,7 @@ package com.openklaster.api.app;
 import com.openklaster.api.APIVerticleConfig;
 import com.openklaster.api.handler.ApiHandler;
 import com.openklaster.api.handler.CredentialsApiHandler;
+import com.openklaster.common.messages.HttpReplyUtils;
 import com.openklaster.common.verticle.OpenklasterVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
@@ -58,6 +59,7 @@ public class ApiVerticle extends OpenklasterVerticle {
     private void routerConfig(Router router) {
         configureRouteHandler(router);
         handlers.forEach(handler -> handler.configure(router, eventBus));
+        router.route().method(HttpMethod.OPTIONS).handler(context -> HttpReplyUtils.sendOkEmptyResponse(context.response()));
         router.route("/api/1/*").handler(StaticHandler.create("static"));
     }
 
