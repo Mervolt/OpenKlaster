@@ -13,6 +13,8 @@ public class HttpReplyUtils {
                 .putHeader("Content-Type", "application/json")
                 .putHeader("Access-Control-Allow-Origin", "*")
                 .putHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+                .putHeader("Access-Control-Allow-Headers", "*")
+                .putHeader("Access-Control-Allow-Credentials", "true")
                 .end(Json.encodePrettily(content));
     }
 
