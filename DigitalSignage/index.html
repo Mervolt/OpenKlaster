@@ -395,9 +395,7 @@
         fetch(sendUrl, {
             method: 'get',
             headers: {
-                'Content-Type': 'application/json',
-                'Origin': '*',
-                'Accept': "*/*",
+                'Content-Type': 'application/json'
             }
         }).then(response => response.json())
             .then(data => {

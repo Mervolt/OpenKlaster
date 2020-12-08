@@ -11,11 +11,6 @@ public class HttpReplyUtils {
     public static void sendJsonResponse(HttpServerResponse serverResponse, Object content) {
         serverResponse
                 .putHeader("Content-Type", "application/json")
-                .putHeader("Access-Control-Allow-Origin", "*")
-                .putHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-                .putHeader("Access-Control-Allow-Headers", "*")
-                .putHeader("Access-Control-Allow-Credentials", "true")
-                .putHeader("Access-Control-Expose-Headers", "Authorization")
                 .end(Json.encodePrettily(content));
     }
 
