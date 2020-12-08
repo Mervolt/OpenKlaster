@@ -65,6 +65,7 @@ public class ApiVerticle extends OpenklasterVerticle {
         Set<HttpMethod> allowedMethods = new HashSet<>();
         allowedMethods.add(HttpMethod.PUT);
         allowedMethods.add(HttpMethod.DELETE);
+        allowedMethods.add(HttpMethod.OPTIONS);
 
         router.route().handler(BodyHandler.create())
                 .handler(CorsHandler.create("*")
