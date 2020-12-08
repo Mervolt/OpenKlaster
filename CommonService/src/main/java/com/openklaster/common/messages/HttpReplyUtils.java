@@ -12,6 +12,7 @@ public class HttpReplyUtils {
         serverResponse
                 .putHeader("Content-Type", "application/json")
                 .putHeader("Access-Control-Allow-Origin", "*")
+                .putHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
                 .end(Json.encodePrettily(content));
     }
 
