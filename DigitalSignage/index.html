@@ -15,7 +15,8 @@
 <body style="overflow: hidden; margin:0;">
 
 <div class="slideshow-container">
-    <button id="preds" type="button" onclick="openFullscreen();" class="btn btn-primary">Naciśnij, aby rozpocząć pokaz slajdów
+    <button id="preds" type="button" onclick="openFullscreen();" class="btn btn-primary">Naciśnij, aby rozpocząć pokaz
+        slajdów
     </button>
     <!-- INTRO -->
     <div id="ds" style="display: none">
@@ -394,7 +395,9 @@
         fetch(sendUrl, {
             method: 'get',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Origin': '*',
+                'Accept': "*/*",
             }
         }).then(response => response.json())
             .then(data => {

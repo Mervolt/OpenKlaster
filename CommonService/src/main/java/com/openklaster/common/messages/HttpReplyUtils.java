@@ -9,7 +9,9 @@ public class HttpReplyUtils {
     public static final String successfulRequestMessage = "Successful request";
 
     public static void sendJsonResponse(HttpServerResponse serverResponse, Object content) {
-        serverResponse.putHeader("Content-Type", "application/json")
+        serverResponse
+                .putHeader("Content-Type", "application/json")
+                .putHeader("Access-Control-Allow-Origin", "*")
                 .end(Json.encodePrettily(content));
     }
 
@@ -18,7 +20,7 @@ public class HttpReplyUtils {
                 .end(successfulRequestMessage);
     }
 
-    public static void sendFailureResponse(HttpServerResponse serverResponse, final int code, final String message){
+    public static void sendFailureResponse(HttpServerResponse serverResponse, final int code, final String message) {
         serverResponse.setStatusCode(code);
         serverResponse.end(message);
     }
