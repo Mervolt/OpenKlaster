@@ -32,6 +32,5 @@ public class PostInstallation extends Model {
     private Double longitude;
     @NotNull(message = ModelValidationErrorMessages.LATITUDE)
     private Double latitude;
-    @NotBlank(message = ModelValidationErrorMessages.DESCRIPTION)
     private String description;
 }

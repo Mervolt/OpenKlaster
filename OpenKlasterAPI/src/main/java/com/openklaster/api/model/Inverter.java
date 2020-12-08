@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Inverter {
-    @NotBlank(message = ModelValidationErrorMessages.DESCRIPTION)
     private String description;
     @NotBlank(message = ModelValidationErrorMessages.MANUFACTURER)
     private String manufacturer;

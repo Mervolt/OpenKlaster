@@ -12,8 +12,6 @@ import javax.validation.constraints.NotBlank;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Load {
-    @NotBlank(message = ModelValidationErrorMessages.NAME)
     private String name;
-    @NotBlank(message = ModelValidationErrorMessages.DESCRIPTION)
     private String description;
 }

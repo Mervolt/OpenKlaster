@@ -12,7 +12,6 @@ import {TokenPanelComponent} from './token/token-panel/token-panel.component';
 import {InstallationPanelComponent} from './installation/installation-panel/installation-panel.component';
 import {TokenService} from './service/token/token.service';
 import {CookieService} from 'ngx-cookie-service';
-import {SingleInstallationPanelComponent} from './installation/single-installation-panel/single-installation-panel.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSliderModule} from "@angular/material/slider";
 import {MatMenuModule} from "@angular/material/menu";
@@ -38,7 +37,6 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {EditInstallationComponent} from './installation/edit-installation/edit-installation.component';
 import {CredentialsTokenComponent} from './credentials/credentials-token/credentials-token.component';
 import {CredentialsUserpassComponent} from './credentials/credentials-userpass/credentials-userpass.component';
-import {InstallationListItemComponent} from './installation/installation-list-item/installation-list-item.component';
 import {MatTableModule} from "@angular/material/table";
 import {ConfirmationDialogPopupComponent} from './components/confirmation-dialog-popup/confirmation-dialog-popup.component';
 import {SwaggerUiComponent} from './swagger-ui/swagger-ui.component';
@@ -67,6 +65,7 @@ import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {I18Paginator} from "./i18n/I18Paginator";
 import {ClipboardModule} from 'ngx-clipboard';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -77,7 +76,6 @@ import {ClipboardModule} from 'ngx-clipboard';
     RegisterFormComponent,
     TokenPanelComponent,
     InstallationPanelComponent,
-    SingleInstallationPanelComponent,
     InstallationAddPanelComponent,
     RequestResponseComponentComponent,
     CredentialsFormComponent,
@@ -87,7 +85,6 @@ import {ClipboardModule} from 'ngx-clipboard';
     EditInstallationComponent,
     CredentialsTokenComponent,
     CredentialsUserpassComponent,
-    InstallationListItemComponent,
     ConfirmationDialogPopupComponent,
     SwaggerUiComponent,
     ChartsComponent,
@@ -144,6 +141,7 @@ import {ClipboardModule} from 'ngx-clipboard';
     MatStepperModule,
     NgxSpinnerModule,
     ToastrModule.forRoot(),
+    MatTooltipModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -152,7 +150,6 @@ import {ClipboardModule} from 'ngx-clipboard';
       }
     }),
     ClipboardModule
-
   ],
   providers: [
     {

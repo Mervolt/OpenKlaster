@@ -19,7 +19,5 @@ public class Source {
     private Integer tilt;
     @NotNull(message = ModelValidationErrorMessages.CAPACITY)
     private Integer capacity;
-    @NotBlank(message = ModelValidationErrorMessages.DESCRIPTION)
     private String description;
-
 }

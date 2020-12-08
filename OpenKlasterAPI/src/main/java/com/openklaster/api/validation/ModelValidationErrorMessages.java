@@ -25,8 +25,6 @@ public class ModelValidationErrorMessages {
 
     public static final String LATITUDE = "Latitude is required";
 
-    public static final String DESCRIPTION = "Description is required";
-
     public static final String MANUFACTURER = "Manufacturer of the inwerter is required";
 
     public static final String CREDENTIALS = "Credentials are required";
