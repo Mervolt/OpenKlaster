@@ -1,0 +1,22 @@
+<div *ngIf="allTokens==false" style="align-items: center; display: flex;flex-direction: column">
+  <div mat-dialog-content>
+    {{'DeleteTokenDialog_DeleteOneQuestion' | translate}} '{{token}}'?
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="warn" [mat-dialog-close] (click)="deleteToken(token)">
+      {{'DeleteTokenDialog_Delete' | translate}}</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]>{{'DeleteTokenDialog_Cancel' | translate}}</button>
+  </div>
+</div>
+
+
+<div *ngIf="allTokens==true" style="align-items: center; display: flex;flex-direction: column">
+  <div mat-dialog-content>
+    {{'DeleteTokenDialog_DeleteAllQuestion' | translate}}
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="warn" [mat-dialog-close] (click)="deleteAllTokens()">
+      {{'DeleteTokenDialog_Delete' | translate}}</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]>{{'DeleteTokenDialog_Cancel' | translate}}</button>
+  </div>
+</div>
