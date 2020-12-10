@@ -16,11 +16,11 @@
                   *matCellDef="let element"> {{element.token //noinspection UnresolvedVariable}} </td>
             </ng-container>
             <ng-container matColumnDef="removeButton">
-              <th mat-header-cell *matHeaderCellDef (click)="removeAllTokens()" class="remove-cell-header">
+              <th mat-header-cell *matHeaderCellDef (click)="openDeleteAllTokensConfirmationWindow()" class="remove-cell-header">
                 {{'UserPanel_TokenRemove' | translate}}</th>
               <td mat-cell
                   *matCellDef="let element">
-                  <button mat-mini-fab color="warn" (click)="removeToken(element.token)//noinspection UnresolvedVariable">
+                  <button mat-mini-fab color="warn" (click)="openDeleteTokenConfirmationWindow(element.token)//noinspection UnresolvedVariable">
                     <mat-icon>delete</mat-icon>
                   </button>
               </td>

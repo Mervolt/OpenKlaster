@@ -125,6 +125,10 @@
   "DeleteInstallation_Confirm": "Tak",
   "DeleteInstallation_Cancel": "Anuluj",
   "WindInstallation": "Instalacje wiatrowe nie są jeszcze wspierane",
+  "DeleteTokenDialog_DeleteOneQuestion": "Czy na pewno chcesz usunąć ten token",
+  "DeleteTokenDialog_Delete": "Usuń",
+  "DeleteTokenDialog_Cancel": "Anuluj",
+  "DeleteTokenDialog_DeleteAllQuestion": "Czy na pewno chcesz usunąć wszystkie tokeny?",
 
   "RANGE_PAGE_LABEL_1": "0 z {{length}}",
   "RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} z {{length}}"

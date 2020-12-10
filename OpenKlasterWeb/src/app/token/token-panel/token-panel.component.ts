@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {TokenService} from '../../service/token/token.service';
 import {AppComponent} from '../../app.component';
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteTokenDialogComponent} from "../delete-token-dialog/delete-token-dialog.component";
 
 export interface TokenResponse {
   data: string
@@ -24,7 +26,7 @@ export class TokenPanelComponent implements OnInit {
   displayedColumns: string[] = ['number', 'token', 'removeButton']
   loading: boolean = false;
 
-  constructor(public tokenPanelService: TokenService, public appComp: AppComponent) {
+  constructor(public tokenPanelService: TokenService, public appComp: AppComponent, private dialog: MatDialog) {
     this.cookieService = appComp.cookieService;
   }
 
@@ -53,24 +55,21 @@ export class TokenPanelComponent implements OnInit {
     this.resolvePromise(addPromise)
   }
 
-  removeAllTokens() {
-    if(!window.confirm('Are sure you want to delete all tokens?')) {
-      return;
-    }
-    this.requestState = 'waiting'
-    this.loading = true
-    let removeAllPromise = this.tokenPanelService.deleteAllTokens(this.cookieService).toPromise();
-    this.resolvePromise(removeAllPromise)
-    this.loading = false
+  openDeleteTokenConfirmationWindow(token: String){
+    let dialog = this.dialog.open(DeleteTokenDialogComponent, {
+      width: '500px'
+    })
+    dialog.componentInstance.allTokens = false;
+    dialog.componentInstance.token = token
+    dialog.componentInstance.parentComp = this
   }
 
-  removeToken(token: string) {
-    if(!window.confirm('Are sure you want to delete this token?')) {
-      return;
-    }
-    this.requestState = 'waiting'
-    let removePromise = this.tokenPanelService.deleteToken(this.cookieService, token).toPromise();
-    this.resolvePromise(removePromise)
+  openDeleteAllTokensConfirmationWindow(){
+    let dialog = this.dialog.open(DeleteTokenDialogComponent, {
+      width: '500px'
+    })
+    dialog.componentInstance.allTokens = true;
+    dialog.componentInstance.parentComp = this
   }
 
   private resolvePromise(promise: Promise<any>) {

@@ -66,6 +66,7 @@ import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {I18Paginator} from "./i18n/I18Paginator";
 import {ClipboardModule} from 'ngx-clipboard';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { DeleteTokenDialogComponent } from './token/delete-token-dialog/delete-token-dialog.component';
 
 
 @NgModule({
@@ -98,7 +99,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     InstallationViewComponent,
     DescriptionTileComponent,
     DashboardPropertiesComponent,
-    DigitalSignageComponent
+    DigitalSignageComponent,
+    DeleteTokenDialogComponent
   ],
   imports: [
     BrowserModule,
