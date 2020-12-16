@@ -36,7 +36,8 @@ export class InstallationAddPanelComponent {
               public translateService: TranslateService) {
     manufacturerCredentialService.getCredentials().toPromise().then(response => {
       for (let manufacturer in response) {
-        this.manufacturersMap.set(manufacturer, response[manufacturer]);
+        let translated = response[manufacturer].map(entry => this.translateService.instant(entry))
+        this.manufacturersMap.set(manufacturer, translated);
       }
     });
     this.formModel = new Installation();
