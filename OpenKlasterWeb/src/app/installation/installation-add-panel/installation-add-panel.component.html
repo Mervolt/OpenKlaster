@@ -64,7 +64,7 @@
         <mat-form-field appearance="outline" class="userformfield">
           <mat-label>{{'AddInstallation_InverterManufacturer' | translate}}</mat-label>
           <mat-select [(value)]="formModel.inverter.manufacturer" >
-            <mat-option style="background-color: white" *ngFor="let manufacturer of manufacturersMap.keys()"
+            <mat-option style="background-color: white" *ngFor="let manufacturer of manufacturers"
                         [value]="manufacturer" (onSelectionChange)="changeCredentials($event)" >
               {{manufacturer}}
             </mat-option>

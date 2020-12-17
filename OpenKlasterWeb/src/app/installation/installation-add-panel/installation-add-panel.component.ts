@@ -23,6 +23,7 @@ import {TranslateService} from "@ngx-translate/core";
 export class InstallationAddPanelComponent {
   sendRequestState = 'wait'
   manufacturersMap: Map<string, string[]> = new Map();
+  manufacturers: string[]
   questions$: QuestionBase<any>[];
 
   @ViewChild(CredentialsFormComponent) credentialsForm;
@@ -34,17 +35,19 @@ export class InstallationAddPanelComponent {
               public cookieService: CookieService, public dialog: MatDialog,
               public router: Router,
               public translateService: TranslateService) {
-    manufacturerCredentialService.getCredentials().toPromise().then(response => {
-      for (let manufacturer in response) {
-        let translated = response[manufacturer].map(entry => this.translateService.instant(entry))
-        this.manufacturersMap.set(manufacturer, translated);
-      }
-    });
     this.formModel = new Installation();
     this.questions$ = [];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.manufacturerCredentialService.getCredentials().toPromise().then(response => {
+      for (let manufacturer in response) {
+        let translated = response[manufacturer].map(entry => this.translateService.instant(entry))
+        this.manufacturersMap.set(manufacturer, translated);
+        this.manufacturers = Array.from(this.manufacturersMap.keys());
+      }
+    });
+  }
 
   onSubmit() {
     this.sendRequestState = 'waiting'
