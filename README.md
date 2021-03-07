@@ -10,6 +10,7 @@
 Todo
 	
 ## Technologies
+![Technologies](img/techstack.png)
 Project is created with:
 * Todo
 	
