@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // TODO INJECT IT SOMEWHERE
+// TODO zaimplementowac autentykacje tutaj
 public class AuthInterceptor implements HandlerInterceptor {
 
     //
