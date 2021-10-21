@@ -12,5 +12,7 @@
     <file url="file://$PROJECT_DIR$/OpenKlasterAPI/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/OpenKlasterCore/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/OpenKlasterCore/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/resources" charset="UTF-8" />
   </component>
 </project>

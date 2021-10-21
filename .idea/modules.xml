@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/OpenKlaster.iml" filepath="$PROJECT_DIR$/OpenKlaster.iml" />
       <module fileurl="file://$PROJECT_DIR$/OpenKlasterAPI/OpenKlasterAPI.iml" filepath="$PROJECT_DIR$/OpenKlasterAPI/OpenKlasterAPI.iml" />
       <module fileurl="file://$PROJECT_DIR$/OpenKlasterCore/OpenKlasterCore.iml" filepath="$PROJECT_DIR$/OpenKlasterCore/OpenKlasterCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>

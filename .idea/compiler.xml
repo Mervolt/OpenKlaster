@@ -2,19 +2,22 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="FileRepositoryService" />
         <module name="OpenKlasterAPI" />
+        <module name="app" />
+        <module name="CassandraService" />
+        <module name="FileRepositoryService" />
         <module name="CommonService" />
         <module name="OpenKlasterCore" />
-        <module name="CassandraService" />
         <module name="MongoService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="app" target="1.8" />
       <module name="CassandraService" target="1.8" />
       <module name="CommonService" target="1.8" />
       <module name="FileRepositoryService" target="1.8" />
@@ -23,5 +26,10 @@
       <module name="OpenKlasterAPI" target="1.8" />
       <module name="OpenKlasterCore" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="app" options="-parameters" />
+    </option>
   </component>
 </project>
