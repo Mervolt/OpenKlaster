@@ -1,8 +1,8 @@
 package com.openklaster.app.model.requests;
 
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class ApiTokenRequest {
-    String username;
+    private String username;
 }

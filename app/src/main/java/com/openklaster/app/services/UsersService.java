@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,7 +80,7 @@ public class UsersService {
     public TokenResponse generateApiTokenForUser(ApiTokenRequest apiTokenRequest) {
         UserEntity userEntity = getUserOrThrow404(apiTokenRequest.getUsername());
         TokenEntity generatedToken = tokensService.generateUserToken();
-        List<TokenEntity> newTokensList = new ArrayList<>(userEntity.getUserTokens());
+        List<TokenEntity> newTokensList = new ArrayList<>(Optional.ofNullable(userEntity.getUserTokens()).orElse(Collections.emptyList()));
         newTokensList.add(generatedToken);
         UserEntity newUser = userEntity.withUserTokens(newTokensList);
         userRepository.save(newUser);

@@ -1,8 +1,8 @@
 package com.openklaster.app.model.responses;
 
+import lombok.Value;
+
+@Value
 public class TokenResponse {
-    private String data;
-    public TokenResponse(String data){
-        this.data = data;
-    }
+    String data;
 }

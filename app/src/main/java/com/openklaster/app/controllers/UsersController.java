@@ -1,5 +1,6 @@
 package com.openklaster.app.controllers;
 
+import com.openklaster.app.model.entities.user.TokenEntity;
 import com.openklaster.app.model.entities.user.UserEntity;
 import com.openklaster.app.model.requests.LoginRequest;
 import com.openklaster.app.model.requests.RegisterRequest;
@@ -12,6 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -47,8 +52,13 @@ public class UsersController {
         return UserResponse.builder()
                 .username(entity.getUsername())
                 .email(entity.getEmail())
-                .tokens(entity.getUserTokens().stream().map(tokenEntity -> new TokenResponse(tokenEntity.getData())).collect(Collectors.toList()))
+                .tokens(toTokenResponse(entity.getUserTokens()))
                 .build();
+    }
 
+    private static List<TokenResponse> toTokenResponse(List<TokenEntity> userTokens) {
+        return Optional.ofNullable(userTokens)
+                .map(tokenEntities  -> tokenEntities.stream().map(tokenEntity -> new TokenResponse(tokenEntity.getData())).collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
     }
 }
