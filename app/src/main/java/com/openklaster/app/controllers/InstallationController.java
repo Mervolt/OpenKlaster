@@ -31,12 +31,12 @@ public class InstallationController {
         return fromEntity(installationService.getInstallationOrThrow404(installationId));
     }
 
-    @PostMapping(path = "/add")
+    @PostMapping()
     public InstallationResponse createInstallation(@RequestBody InstallationRequest installationRequest) {
         return fromEntity(installationService.addNewInstallation(installationRequest));
     }
 
-    @PostMapping(path = "/update")
+    @PutMapping()
     public InstallationResponse updateInstallation(@RequestBody InstallationUpdateRequest installationUpdateRequest) {
         return fromEntity(installationService.updateInstallation(installationUpdateRequest));
     }

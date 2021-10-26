@@ -75,6 +75,11 @@
 			<artifactId>springfox-boot-starter</artifactId>
 			<version>${springfox-boot-starter.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.0.36.Final</version>
+		</dependency>
 	</dependencies>
 
 	<build>

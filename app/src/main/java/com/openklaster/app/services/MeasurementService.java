@@ -1,6 +1,7 @@
 package com.openklaster.app.services;
 
 import com.openklaster.app.model.entities.measurement.LoadMeasurementEntity;
+import com.openklaster.app.model.entities.measurement.MeasurementUnit;
 import com.openklaster.app.model.entities.measurement.SourceMeasurementEntity;
 import com.openklaster.app.model.requests.MeasurementRequest;
 import com.openklaster.app.model.responses.MeasurementResponse;
@@ -23,7 +24,7 @@ public class MeasurementService {
     @Autowired
     SourceMeasurementRepository sourceMeasurementRepository;
 
-    public MeasurementResponse addLoadMeasurement(MeasurementRequest request, String unit) {
+    public MeasurementResponse addLoadMeasurement(MeasurementRequest request, MeasurementUnit unit) {
         Date date = Optional.ofNullable(request.getTimestamp()).orElse(new Date());
         LoadMeasurementEntity newMeasurement = LoadMeasurementEntity.builder()
                 .installationId(request.getInstallationId())
@@ -35,7 +36,7 @@ public class MeasurementService {
         return createLoadMeasurementResponse(request, unit, date);
     }
 
-    public MeasurementResponse addSourceMeasurement(MeasurementRequest request, String unit) {
+    public MeasurementResponse addSourceMeasurement(MeasurementRequest request, MeasurementUnit unit) {
         Date date = Optional.ofNullable(request.getTimestamp()).orElse(new Date());
         SourceMeasurementEntity newMeasurement = SourceMeasurementEntity.builder()
                 .installationId(request.getInstallationId())
@@ -47,7 +48,7 @@ public class MeasurementService {
         return createLoadMeasurementResponse(request, unit, date);
     }
 
-    public List<MeasurementResponse> getLoadMeasurements(String installationId, Date startDate, Date endDate, String unit) {
+    public List<MeasurementResponse> getLoadMeasurements(String installationId, Date startDate, Date endDate, MeasurementUnit unit) {
         Optional<Date> startDateOpt = Optional.ofNullable(startDate);
         Optional<Date> endDateOpt = Optional.ofNullable(endDate);
         return getLoadEntities(installationId, startDateOpt, endDateOpt, unit)
@@ -59,7 +60,7 @@ public class MeasurementService {
     }
 
     private List<LoadMeasurementEntity> getLoadEntities(String installationId, Optional<Date> startDateOpt,
-                                                        Optional<Date> endDateOpt, String unit) {
+                                                        Optional<Date> endDateOpt, MeasurementUnit unit) {
         if (startDateOpt.isPresent() && endDateOpt.isPresent()) {
             return loadMeasurementRepository.findByTimestampBetweenAndUnitAndInstallationId(startDateOpt.get(),
                     endDateOpt.get(), unit, installationId);
@@ -70,11 +71,11 @@ public class MeasurementService {
             return loadMeasurementRepository.findByTimestampBeforeAndUnitAndInstallationId(endDateOpt.get(),
                     unit, installationId);
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "At least one date should be provided");
+            return loadMeasurementRepository.findByInstallationIdAndUnit(installationId, unit);
         }
     }
 
-    public List<MeasurementResponse> getSourceMeasurements(String installationId, Date startDate, Date endDate, String unit) {
+    public List<MeasurementResponse> getSourceMeasurements(String installationId, Date startDate, Date endDate, MeasurementUnit unit) {
         Optional<Date> startDateOpt = Optional.ofNullable(startDate);
         Optional<Date> endDateOpt = Optional.ofNullable(endDate);
         return getSourceEntities(installationId, startDateOpt, endDateOpt, unit)
@@ -86,7 +87,7 @@ public class MeasurementService {
     }
 
     private List<SourceMeasurementEntity> getSourceEntities(String installationId, Optional<Date> startDateOpt,
-                                                        Optional<Date> endDateOpt, String unit) {
+                                                        Optional<Date> endDateOpt, MeasurementUnit unit) {
         if (startDateOpt.isPresent() && endDateOpt.isPresent()) {
             return sourceMeasurementRepository.findByTimestampBetweenAndUnitAndInstallationId(startDateOpt.get(),
                     endDateOpt.get(), unit, installationId);
@@ -97,15 +98,15 @@ public class MeasurementService {
             return sourceMeasurementRepository.findByTimestampBeforeAndUnitAndInstallationId(endDateOpt.get(),
                     unit, installationId);
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "At least one date should be provided");
+            return sourceMeasurementRepository.findByInstallationIdAndUnit(installationId, unit);
         }
     }
 
-    private MeasurementResponse createLoadMeasurementResponse(MeasurementRequest request, String unit, Date date) {
+    private MeasurementResponse createLoadMeasurementResponse(MeasurementRequest request, MeasurementUnit unit, Date date) {
         return MeasurementResponse.builder()
                 .installationId(request.getInstallationId())
                 .timestamp(date)
-                .unit(unit)
+                .unit(unit.name())
                 .value(request.getValue())
                 .build();
     }
@@ -113,7 +114,7 @@ public class MeasurementService {
     private MeasurementResponse loadMeasurementEntityToResponse(LoadMeasurementEntity entity) {
         return MeasurementResponse.builder()
                 .installationId(entity.getInstallationId())
-                .unit(entity.getUnit())
+                .unit(entity.getUnit().name())
                 .timestamp(entity.getTimestamp())
                 .value(entity.getValue())
                 .build();
@@ -122,7 +123,7 @@ public class MeasurementService {
     private MeasurementResponse sourceMeasurementEntityToResponse(SourceMeasurementEntity entity) {
         return MeasurementResponse.builder()
                 .installationId(entity.getInstallationId())
-                .unit(entity.getUnit())
+                .unit(entity.getUnit().name())
                 .timestamp(entity.getTimestamp())
                 .value(entity.getValue())
                 .build();

@@ -1,10 +1,13 @@
 package com.openklaster.app.controllers;
 
+import com.openklaster.app.model.entities.measurement.MeasurementUnit;
 import com.openklaster.app.model.requests.MeasurementRequest;
 import com.openklaster.app.model.responses.MeasurementResponse;
 import com.openklaster.app.services.InstallationService;
 import com.openklaster.app.services.InstallationSummaryService;
+import com.openklaster.app.services.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -14,61 +17,59 @@ import java.util.List;
 public class MeasurementsController {
 
     @Autowired
-    InstallationService installationService;
-    @Autowired
-    InstallationSummaryService summaryService;
-
-    //TODO ogarnac uzycie serwisów
+    MeasurementService measurementService;
 
     @PostMapping(path = "powerConsumption")
     public MeasurementResponse addPowerConsumption(@RequestBody MeasurementRequest measurementRequest) {
-        throw new UnsupportedOperationException();
+        return measurementService.addLoadMeasurement(measurementRequest, MeasurementUnit.kW);
     }
 
     @PostMapping(path = "powerProduction")
     public MeasurementResponse addPowerProduction(@RequestBody MeasurementRequest measurementRequest) {
-        throw new UnsupportedOperationException();
+        return measurementService.addSourceMeasurement(measurementRequest, MeasurementUnit.kW);
     }
 
     @PostMapping(path = "energyConsumed")
     public MeasurementResponse addEnergyConsumed(@RequestBody MeasurementRequest measurementRequest) {
-        throw new UnsupportedOperationException();
+        return measurementService.addLoadMeasurement(measurementRequest, MeasurementUnit.kWh);
     }
 
     @PostMapping(path = "energyProduced")
     public MeasurementResponse addEnergyProduced(@RequestBody MeasurementRequest measurementRequest) {
-        throw new UnsupportedOperationException();
+        return measurementService.addSourceMeasurement(measurementRequest, MeasurementUnit.kWh);
     }
 
 
     @GetMapping(path = "powerConsumption")
-    public List<MeasurementResponse> getPowerConsumption(@RequestParam String installationId, @RequestParam Date startDate,
-                                                         @RequestParam Date endDate) {
-        throw new UnsupportedOperationException();
+    public List<MeasurementResponse> getPowerConsumption(@RequestParam String installationId,
+                                                         @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date startDate,
+                                                         @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date endDate) {
+        return measurementService.getLoadMeasurements(installationId, startDate, endDate, MeasurementUnit.kW);
     }
 
     @GetMapping(path = "powerProduction")
-    public List<MeasurementResponse> getPowerProduction(@RequestParam String installationId, @RequestParam Date startDate,
-                                                         @RequestParam Date endDate) {
-        throw new UnsupportedOperationException();
+    public List<MeasurementResponse> getPowerProduction(@RequestParam String installationId,
+                                                        @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date startDate,
+                                                        @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date endDate){
+        return measurementService.getSourceMeasurements(installationId, startDate, endDate, MeasurementUnit.kW);
     }
 
     @GetMapping(path = "energyConsumed")
-    public List<MeasurementResponse> getEnergyConsumed(@RequestParam String installationId, @RequestParam Date startDate,
-                                                         @RequestParam Date endDate) {
-        throw new UnsupportedOperationException();
+    public List<MeasurementResponse> getEnergyConsumed(@RequestParam String installationId,
+                                                       @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date startDate,
+                                                       @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date endDate) {
+        return measurementService.getLoadMeasurements(installationId, startDate, endDate, MeasurementUnit.kWh);
     }
 
     @GetMapping(path = "energyProduced")
-    public List<MeasurementResponse> getEnergyProduced(@RequestParam String installationId, @RequestParam Date startDate,
-                                                         @RequestParam Date endDate) {
-        throw new UnsupportedOperationException();
+    public List<MeasurementResponse> getEnergyProduced(@RequestParam String installationId,
+                                                       @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date startDate,
+                                                       @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date endDate)  {
+        return measurementService.getSourceMeasurements(installationId, startDate, endDate, MeasurementUnit.kWh);
     }
 
     @GetMapping(path = "summary")
     public List<MeasurementResponse> getSummary(@RequestParam String installationId) {
         throw new UnsupportedOperationException();
     }
-
-
 }
