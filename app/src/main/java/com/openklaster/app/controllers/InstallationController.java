@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController("installations")
+@RestController()
+@RequestMapping("installations")
 public class InstallationController {
 
     @Autowired
@@ -30,12 +31,12 @@ public class InstallationController {
         return fromEntity(installationService.getInstallationOrThrow404(installationId));
     }
 
-    @PostMapping()
+    @PostMapping(path = "/add")
     public InstallationResponse createInstallation(@RequestBody InstallationRequest installationRequest) {
         return fromEntity(installationService.addNewInstallation(installationRequest));
     }
 
-    @PostMapping()
+    @PostMapping(path = "/update")
     public InstallationResponse updateInstallation(@RequestBody InstallationUpdateRequest installationUpdateRequest) {
         return fromEntity(installationService.updateInstallation(installationUpdateRequest));
     }

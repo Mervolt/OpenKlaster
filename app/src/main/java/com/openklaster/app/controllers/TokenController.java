@@ -6,7 +6,8 @@ import com.openklaster.app.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("token")
+@RestController()
+@RequestMapping("token")
 public class TokenController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class TokenController {
         usersService.removeToken(apiToken, username);
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/all")
     public void removeAllTokens(@RequestParam String username) {
         usersService.removeAllTokens(username);
     }
