@@ -15,6 +15,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenBasedAuthenticationFilter authenticationFilter;
 
+    private static final String ApiContext = "/api/v1";
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
@@ -29,6 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**");
+                .antMatchers(ApiContext +"/v3/api-docs/**", ApiContext + "/swagger-ui/**",
+                        ApiContext + "/swagger-resources/**");
     }
 }
