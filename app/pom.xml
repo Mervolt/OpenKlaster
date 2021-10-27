@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.openklaster</groupId>
-	<artifactId>app</artifactId>
-	<version>1.0</version>
+	<artifactId>OpenklasterApplication</artifactId>
+	<version>1.0.0</version>
 	<name>Openklaster-App</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>

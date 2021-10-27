@@ -1,46 +1,14 @@
 version: '3'
 services:
-  inverters_connectors:
+  openklaster-backend:
     build:
-      context: InvertersConnectors
-      network: host
-    depends_on:
-      - mongo-db
-      - openklaster-api
-  openklaster-core:
-    build: OpenKlasterCore
-    environment:
-      - TZ=Poland
-    depends_on:
-      - openklaster-cassandra
-      - openklaster-mongo
-  openklaster-api:
-    build: OpenKlasterAPI
+      context: app
+      dockerfile: docker/Dockerfile
     environment:
       - TZ=Poland
     ports:
-      - "8082:8082"
-    depends_on:
-      - openklaster-core
-  openklaster-mongo:
-    build: MongoService
-    environment:
-      - MONGO_DB={"port":27017,"host":"mongo-db"}
-    depends_on:
-      - mongo-db
-  openklaster-cassandra:
-    build: CassandraService
-    environment:
-      - TZ=Poland
-      - CASSANDRA_DB={"keyspace":"openklaster","port":9042,"host":"cassandra-db"}
-    depends_on:
-      - cassandra-db
-  openklaster-filerepository:
-    build: FileRepositoryService
-    environment:
-      - VOLUME_PATH=/file-repository
-    volumes:
-      - ./file-repository:/file-repository
+      - "8082:8080"
+    restart: always
   openklaster-webpage:
     build:
       context: .
@@ -48,10 +16,9 @@ services:
       network: host
     environment:
       - API_URL=http://localhost/
-    depends_on:
-      - openklaster-api
     ports:
       - "80:80"
+    restart: always
   mongo-db:
     image: 'mongo'
     environment:
@@ -60,15 +27,22 @@ services:
       - ./mongo-volume:/data/db
     expose:
       - '27017-27019'
+    ports:
+      - "27017:27017"
+    restart: always
   cassandra-db:
       image: cassandra:latest
       expose:
         - "9042"
+      ports:
+        - "9042:9042"
       volumes:
         - ./data/cassandra:/var/lib/cassandra
+      restart: always
   grav:
     build:
       context: grav
       network: host
     volumes:
       - ./grav/grav-data/:/var/www/html/user
+    restart: always
