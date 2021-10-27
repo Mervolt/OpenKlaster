@@ -10,3 +10,7 @@ spring:
       database: DEFAULT_DB
       port: 27017
       host: localhost
+server:
+  port: 8082
+  servlet:
+    context-path: /api/v1
