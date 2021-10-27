@@ -11,6 +11,7 @@ import com.openklaster.app.model.responses.TokenResponse;
 import com.openklaster.app.persistence.mongo.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -100,6 +101,7 @@ public class UsersService {
         UserEntity newUser = userEntity.withUserTokens(new ArrayList<>());
         userRepository.save(newUser);
     }
+
 
     private UserEntity getUserOrThrow404(String username) {
         return userRepository.findById(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

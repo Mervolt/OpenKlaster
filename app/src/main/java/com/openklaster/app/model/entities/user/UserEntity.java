@@ -1,9 +1,6 @@
 package com.openklaster.app.model.entities.user;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Value;
-import lombok.With;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,6 +8,7 @@ import java.util.List;
 
 @Document("userz")
 @Value
+@Getter
 @Builder
 public class UserEntity {
 
