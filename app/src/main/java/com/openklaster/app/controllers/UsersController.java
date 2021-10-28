@@ -28,8 +28,8 @@ public class UsersController {
     UsersService usersService;
 
     @GetMapping()
-    public UserResponse userInfo(@RequestParam String username) {
-        return usersService.getUser(username).map(UsersController::fromEntityToResponse)
+    public UserResponse userInfo() {
+        return usersService.getUser().map(UsersController::fromEntityToResponse)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 

@@ -5,26 +5,22 @@ import com.openklaster.app.model.entities.installation.InstallationEntity;
 import com.openklaster.app.model.requests.InstallationRequest;
 import com.openklaster.app.model.requests.InstallationUpdateRequest;
 import com.openklaster.app.persistence.mongo.MongoSequenceGenerator;
-import com.openklaster.app.persistence.mongo.dao.InstallationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.openklaster.app.persistence.mongo.installation.InstallationRepository;
+import com.openklaster.app.persistence.mongo.installation.SafeInstallationAccessor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class InstallationService {
-
-    @Autowired
     InstallationRepository installationRepository;
-
-    @Autowired
+    SafeInstallationAccessor safeInstallationAccessor;
     MongoSequenceGenerator mongoSequenceGenerator;
 
-    public List<InstallationEntity> getAllInstallations(String username) {
-        return installationRepository.findAllByUsername(username);
+    public List<InstallationEntity> getAllInstallations() {
+        return safeInstallationAccessor.getCurrentUserInstallations();
     }
 
     public InstallationEntity addNewInstallation(InstallationRequest installationRequest) {
@@ -48,7 +44,7 @@ public class InstallationService {
     }
 
     public InstallationEntity updateInstallation(InstallationUpdateRequest installationRequest) {
-        InstallationEntity entity = getInstallationOrThrow404(installationRequest.getInstallationId());
+        InstallationEntity entity = getInstallation(installationRequest.getInstallationId());
         InstallationEntity newInstallation = InstallationEntity.builder()
                 .username(installationRequest.getUsername())
                 .installationType(installationRequest.getInstallationType())
@@ -65,11 +61,11 @@ public class InstallationService {
     }
 
     public void removeInstallation(String installationId) {
-        getInstallationOrThrow404(installationId);
+        getInstallation(installationId);
         installationRepository.deleteById(installationId);
     }
 
-    public InstallationEntity getInstallationOrThrow404(String installationId) {
-        return installationRepository.findById(installationId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public InstallationEntity getInstallation(String installationId) {
+        return safeInstallationAccessor.getCurrentUserInstallation(installationId);
     }
 }

@@ -8,10 +8,10 @@ import com.openklaster.app.model.requests.LoginRequest;
 import com.openklaster.app.model.requests.RegisterRequest;
 import com.openklaster.app.model.requests.UpdateUserRequest;
 import com.openklaster.app.model.responses.TokenResponse;
-import com.openklaster.app.persistence.mongo.dao.UserRepository;
+import com.openklaster.app.persistence.mongo.user.UserContextAccessor;
+import com.openklaster.app.persistence.mongo.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -32,8 +32,11 @@ public class UsersService {
     @Autowired
     private TokensService tokensService;
 
-    public Optional<UserEntity> getUser(String username) {
-        return userRepository.findById(username);
+    @Autowired
+    private UserContextAccessor userContextAccessor;
+
+    public Optional<UserEntity> getUser() {
+        return Optional.ofNullable(userContextAccessor.getCurrentUser());
     }
 
     public UserEntity addUser(RegisterRequest registerRequest) {

@@ -2,9 +2,8 @@ package com.openklaster.app.services;
 
 import com.openklaster.app.model.entities.user.SessionTokenEntity;
 import com.openklaster.app.model.entities.user.UserEntity;
-import com.openklaster.app.persistence.mongo.dao.UserRepository;
+import com.openklaster.app.persistence.mongo.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 

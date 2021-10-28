@@ -1,4 +1,4 @@
-package com.openklaster.app.persistence.mongo.dao;
+package com.openklaster.app.persistence.mongo.user;
 
 import com.openklaster.app.model.entities.user.UserEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;

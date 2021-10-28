@@ -6,6 +6,7 @@ import com.openklaster.app.model.requests.InstallationUpdateRequest;
 import com.openklaster.app.model.responses.InstallationResponse;
 import com.openklaster.app.services.InstallationService;
 import io.swagger.annotations.Api;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +14,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Api(tags = "installations", description = "Installations management")
-@RestController()
+@RestController
+@AllArgsConstructor
 @RequestMapping("installations")
 public class InstallationController {
-
-    @Autowired
     InstallationService installationService;
 
     @GetMapping(path = "all")
-    public List<InstallationResponse> getAllInstallations(@RequestParam String username) {
-        return installationService.getAllInstallations(username)
+    public List<InstallationResponse> getAllInstallations() {
+        return installationService.getAllInstallations()
                 .stream()
                 .map(this::fromEntity)
                 .collect(Collectors.toList());
@@ -30,7 +30,7 @@ public class InstallationController {
 
     @GetMapping()
     public InstallationResponse getInstallation(@RequestParam String installationId) {
-        return fromEntity(installationService.getInstallationOrThrow404(installationId));
+        return fromEntity(installationService.getInstallation(installationId));
     }
 
     @PostMapping()
