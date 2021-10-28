@@ -4,12 +4,12 @@ import com.openklaster.app.model.entities.installation.InstallationType;
 import com.openklaster.app.model.entities.installation.InverterEntity;
 import com.openklaster.app.model.entities.installation.LoadEntity;
 import com.openklaster.app.model.entities.installation.SourceEntity;
+import com.openklaster.app.validation.installation.SafeInstallation;
 import lombok.Value;
-
-import java.util.Map;
 
 @Value
 public class InstallationUpdateRequest {
+    @SafeInstallation
     String installationId;
     String username;
     InstallationType installationType;

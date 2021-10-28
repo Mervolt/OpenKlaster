@@ -3,11 +3,12 @@ package com.openklaster.app.controllers;
 import com.openklaster.app.model.entities.measurement.MeasurementUnit;
 import com.openklaster.app.model.requests.MeasurementRequest;
 import com.openklaster.app.model.responses.MeasurementResponse;
-import com.openklaster.app.services.MeasurementService;
+import com.openklaster.app.model.responses.summary.SummaryResponse;
+import com.openklaster.app.services.MeasurementsService;
+import com.openklaster.app.services.InstallationSummaryService;
 import com.openklaster.app.validation.installation.SafeInstallation;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,26 +22,27 @@ import java.util.List;
 @AllArgsConstructor
 @Validated
 public class MeasurementsController {
-    MeasurementService measurementService;
+    private final MeasurementsService measurementsService;
+    private final InstallationSummaryService installationSummaryService;
 
     @PostMapping(path = "powerConsumption")
     public MeasurementResponse addPowerConsumption(@RequestBody @Valid MeasurementRequest measurementRequest) {
-        return measurementService.addLoadMeasurement(measurementRequest, MeasurementUnit.kW);
+        return measurementsService.addLoadMeasurement(measurementRequest, MeasurementUnit.kW);
     }
 
     @PostMapping(path = "powerProduction")
     public MeasurementResponse addPowerProduction(@RequestBody @Valid MeasurementRequest measurementRequest) {
-        return measurementService.addSourceMeasurement(measurementRequest, MeasurementUnit.kW);
+        return measurementsService.addSourceMeasurement(measurementRequest, MeasurementUnit.kW);
     }
 
     @PostMapping(path = "energyConsumed")
     public MeasurementResponse addEnergyConsumed(@RequestBody @Valid MeasurementRequest measurementRequest) {
-        return measurementService.addLoadMeasurement(measurementRequest, MeasurementUnit.kWh);
+        return measurementsService.addLoadMeasurement(measurementRequest, MeasurementUnit.kWh);
     }
 
     @PostMapping(path = "energyProduced")
     public MeasurementResponse addEnergyProduced(@RequestBody @Valid MeasurementRequest measurementRequest) {
-        return measurementService.addSourceMeasurement(measurementRequest, MeasurementUnit.kWh);
+        return measurementsService.addSourceMeasurement(measurementRequest, MeasurementUnit.kWh);
     }
 
 
@@ -48,32 +50,32 @@ public class MeasurementsController {
     public List<MeasurementResponse> getPowerConsumption(@RequestParam @SafeInstallation String installationId,
                                                          @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate,
                                                          @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endDate) {
-        return measurementService.getLoadMeasurements(installationId, startDate, endDate, MeasurementUnit.kW);
+        return measurementsService.getLoadMeasurements(installationId, startDate, endDate, MeasurementUnit.kW);
     }
 
     @GetMapping(path = "powerProduction")
     public List<MeasurementResponse> getPowerProduction(@RequestParam @SafeInstallation String installationId,
                                                         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate,
                                                         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endDate) {
-        return measurementService.getSourceMeasurements(installationId, startDate, endDate, MeasurementUnit.kW);
+        return measurementsService.getSourceMeasurements(installationId, startDate, endDate, MeasurementUnit.kW);
     }
 
     @GetMapping(path = "energyConsumed")
     public List<MeasurementResponse> getEnergyConsumed(@RequestParam @SafeInstallation String installationId,
                                                        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate,
                                                        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endDate) {
-        return measurementService.getLoadMeasurements(installationId, startDate, endDate, MeasurementUnit.kWh);
+        return measurementsService.getLoadMeasurements(installationId, startDate, endDate, MeasurementUnit.kWh);
     }
 
     @GetMapping(path = "energyProduced")
     public List<MeasurementResponse> getEnergyProduced(@RequestParam @SafeInstallation String installationId,
                                                        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate,
                                                        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endDate) {
-        return measurementService.getSourceMeasurements(installationId, startDate, endDate, MeasurementUnit.kWh);
+        return measurementsService.getSourceMeasurements(installationId, startDate, endDate, MeasurementUnit.kWh);
     }
 
     @GetMapping(path = "summary")
-    public List<MeasurementResponse> getSummary(@RequestParam String installationId) {
-        throw new UnsupportedOperationException();
+    public SummaryResponse getSummary(@RequestParam @SafeInstallation String installationId) {
+        return installationSummaryService.createSummary(installationId);
     }
 }

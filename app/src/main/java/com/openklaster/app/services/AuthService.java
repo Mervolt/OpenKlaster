@@ -3,20 +3,17 @@ package com.openklaster.app.services;
 import com.openklaster.app.model.entities.user.SessionTokenEntity;
 import com.openklaster.app.model.entities.user.UserEntity;
 import com.openklaster.app.persistence.mongo.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class AuthService {
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TokensService tokensService;
+    private final UserRepository userRepository;
+    private final TokensService tokensService;
 
     public String hashPassword(String plainPassword) {
         return BCrypt.hashpw(plainPassword, BCrypt.gensalt());

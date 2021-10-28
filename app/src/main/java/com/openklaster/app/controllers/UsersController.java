@@ -9,6 +9,7 @@ import com.openklaster.app.model.responses.TokenResponse;
 import com.openklaster.app.model.responses.UserResponse;
 import com.openklaster.app.services.UsersService;
 import io.swagger.annotations.Api;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +22,9 @@ import java.util.stream.Collectors;
 
 @Api(tags = "user", description = "User management")
 @RestController
+@AllArgsConstructor
 @RequestMapping("user")
 public class UsersController {
-
-    @Autowired
     UsersService usersService;
 
     @GetMapping()

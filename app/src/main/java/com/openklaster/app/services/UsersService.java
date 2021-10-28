@@ -10,6 +10,7 @@ import com.openklaster.app.model.requests.UpdateUserRequest;
 import com.openklaster.app.model.responses.TokenResponse;
 import com.openklaster.app.persistence.mongo.user.UserContextAccessor;
 import com.openklaster.app.persistence.mongo.user.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,18 +22,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UsersService {
-
-    @Autowired
     private AuthService authService;
-
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private TokensService tokensService;
-
-    @Autowired
     private UserContextAccessor userContextAccessor;
 
     public Optional<UserEntity> getUser() {

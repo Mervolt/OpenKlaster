@@ -23,4 +23,7 @@ public interface SourceMeasurementRepository extends CassandraRepository<SourceM
 
     @Query(allowFiltering = true)
     List<SourceMeasurementEntity> findByInstallationIdAndUnit(String installationId, MeasurementUnit unit);
+
+    @Query(allowFiltering = true)
+    List<SourceMeasurementEntity> findByTimestampBetweenAndInstallationId(Date startDate, Date endDate, String installationId);
 }

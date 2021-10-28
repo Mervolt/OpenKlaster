@@ -4,15 +4,15 @@ import com.openklaster.app.model.requests.ApiTokenRequest;
 import com.openklaster.app.model.responses.TokenResponse;
 import com.openklaster.app.services.UsersService;
 import io.swagger.annotations.Api;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "user")
-@RestController()
+@RestController
+@AllArgsConstructor
 @RequestMapping("token")
 public class TokenController {
-
-    @Autowired
     UsersService usersService;
 
     @PostMapping()

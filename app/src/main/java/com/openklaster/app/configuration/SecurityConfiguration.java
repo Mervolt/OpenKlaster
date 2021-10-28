@@ -1,6 +1,7 @@
 package com.openklaster.app.configuration;
 
 import com.openklaster.app.controllers.interceptors.TokenBasedAuthenticationFilter;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,9 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    @Autowired
     private TokenBasedAuthenticationFilter authenticationFilter;
     
     @Override
