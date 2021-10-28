@@ -10,3 +10,7 @@ spring:
       database: DEFAULT_DB
       port: 27017
       host: mongo-db
+server:
+  port: 8082
+  servlet:
+    context-path: /api/1

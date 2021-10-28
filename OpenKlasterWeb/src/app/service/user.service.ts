@@ -63,14 +63,14 @@ export class UserService {
       .toPromise()
       .then(response => {
         cookieService.set("username", user.username);
-        cookieService.set("sessionToken", response['sessionToken']['data']);
+        cookieService.set("sessionToken", response['data']);
         this.toastr.success(this.getSuccessLoginTranslation());
         return true;
       })
       .catch(() => {
         this.toastr.error(this.getFailureLoginTranslation());
         return false;
-      })
+      });
   }
 
   private getSuccessLoginTranslation(){
