@@ -23,7 +23,6 @@ import java.util.Optional;
 @Service
 public class UsersService {
 
-
     @Autowired
     private AuthService authService;
 
@@ -57,13 +56,17 @@ public class UsersService {
         boolean isPasswordOk = authService.authenticatePassword(updateUserRequest.getPassword(), userEntity.getPassword());
         if (!isPasswordOk) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 
-        return UserEntity.builder()
+        UserEntity user = UserEntity.builder()
                 .id(updateUserRequest.getUsername())
                 .email(updateUserRequest.getEmail())
                 .password(updateUserRequest.getNewPassword())
                 .userTokens(userEntity.getUserTokens())
                 .sessionToken(userEntity.getSessionToken())
                 .build();
+
+        userRepository.save(user);
+
+        return user;
     }
 
     public TokenResponse generateSessionTokenForUser(LoginRequest loginRequest) {

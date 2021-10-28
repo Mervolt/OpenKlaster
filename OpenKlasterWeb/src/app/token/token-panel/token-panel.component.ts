@@ -34,7 +34,7 @@ export class TokenPanelComponent implements OnInit {
     let request = this.tokenPanelService.getUserInfo(this.appComp.cookieService);
     request.subscribe(response => {
       this.tabledTokens = []
-      let tokensData: TokenResponse[] = <TokenResponse[]>(response["userTokens"])
+      let tokensData: TokenResponse[] = <TokenResponse[]>(response["tokens"])
       let counter = 0
       tokensData.map(element => {
         this.tabledTokens.push({number: counter, token: element.data})
