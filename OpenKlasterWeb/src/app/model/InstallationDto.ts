@@ -2,7 +2,7 @@ import {Installation} from "./Installation";
 
 export class InstallationDto {
 
-  static installationIdKey: string = '_id';
+  static installationIdKey: string = 'installationId';
   static installationTypeKey: string = 'installationType';
   static longitudeKey: string = 'longitude';
   static latitudeKey: string = 'latitude';

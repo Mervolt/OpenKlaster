@@ -49,7 +49,7 @@ export class ChartsComponent implements OnInit {
 
   ngOnInit(): void {
     this.installationService.getInstallations(this.cookieService).subscribe(response => {
-      this.installationIDs = response.map(installation => installation['_id'])
+      this.installationIDs = response.map(installation => installation['installationId'])
     })
 
     this.installationForm = this.fb.group({

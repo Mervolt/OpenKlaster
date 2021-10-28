@@ -72,14 +72,14 @@ export class DigitalSignageComponent implements OnInit {
 
   getFormOptions(): void {
     this.installationService.getInstallations(this.cookieService).subscribe(response => {
-      this.installationIDs = response.map(installation => installation['_id'])
+      this.installationIDs = response.map(installation => installation['installationId'])
       this.installationsLoaded = true;
       if (this.tokensLoaded === true)
         this.loading = false
     })
 
     this.tokenService.getUserInfo(this.appComp.cookieService).subscribe(response => {
-      let tokensData: TokenResponse[] = <TokenResponse[]>(response["userTokens"])
+      let tokensData: TokenResponse[] = <TokenResponse[]>(response["tokens"])
       this.apiTokens = tokensData.map(token => token.data)
       this.tokensLoaded = true;
       if (this.installationsLoaded === true)

@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./delete-installation-dialog.component.css']
 })
 export class DeleteInstallationDialogComponent implements OnInit {
-  id: string
+  id: string;
 
   constructor(public cookieService: CookieService, public http: HttpClient, public router: Router) {
   }
@@ -21,10 +21,9 @@ export class DeleteInstallationDialogComponent implements OnInit {
 
   deleteInstallation(id: string) {
     let params = new HttpParams().set('sessionToken', this.cookieService.get(CookieHolder.tokenKey)).set('installationId', id);
-    this.http.delete(EndpointHolder.installationEndpoint, {params: params}).subscribe(response => {
-      if( response) {
-        this.router.navigate(['/installations']).then()
-      }
+    console.log(params)
+    this.http.delete(EndpointHolder.installationEndpoint, {params: params, responseType: 'text'}, ).subscribe(() => {
+      this.router.navigate(['/installations']).then();
     });
   }
 }

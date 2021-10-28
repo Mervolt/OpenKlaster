@@ -40,7 +40,7 @@ export class TokenPanelComponent implements OnInit {
         this.tabledTokens.push({number: counter, token: element.data})
         counter++
       })
-      this.tokens = response["userTokens"]
+      this.tokens = response["tokens"]
     })
   }
 

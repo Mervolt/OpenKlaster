@@ -8,6 +8,7 @@ import com.openklaster.app.model.requests.UpdateUserRequest;
 import com.openklaster.app.model.responses.TokenResponse;
 import com.openklaster.app.model.responses.UserResponse;
 import com.openklaster.app.services.UsersService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Api(tags = "user", description = "User management")
 @RestController
 @RequestMapping("user")
 public class UsersController {
@@ -57,7 +59,7 @@ public class UsersController {
 
     private static List<TokenResponse> toTokenResponse(List<TokenEntity> userTokens) {
         return Optional.ofNullable(userTokens)
-                .map(tokenEntities  -> tokenEntities.stream().map(tokenEntity -> new TokenResponse(tokenEntity.getData())).collect(Collectors.toList()))
+                .map(tokenEntities -> tokenEntities.stream().map(tokenEntity -> new TokenResponse(tokenEntity.getData())).collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
     }
 }

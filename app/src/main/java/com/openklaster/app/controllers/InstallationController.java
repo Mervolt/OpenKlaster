@@ -5,12 +5,14 @@ import com.openklaster.app.model.requests.InstallationRequest;
 import com.openklaster.app.model.requests.InstallationUpdateRequest;
 import com.openklaster.app.model.responses.InstallationResponse;
 import com.openklaster.app.services.InstallationService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Api(tags = "installations", description = "Installations management")
 @RestController()
 @RequestMapping("installations")
 public class InstallationController {

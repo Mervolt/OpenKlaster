@@ -54,7 +54,7 @@ export class InstallationAddPanelComponent {
     let addPromise = this.installationService.addInstallation(this.formModel, this.cookieService);
     addPromise
       .then(response  => {
-        let id = response['_id']
+        let id = response['installationId']
         this.sendRequestState = 'success'
         this.router.navigate(['installations', id]).then()
       })
