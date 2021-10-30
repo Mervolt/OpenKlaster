@@ -4,6 +4,7 @@ import {SingleInstallationPanelService} from "../installation/single-installatio
 import {Router} from "@angular/router";
 import {AppComponent} from "../app.component";
 import {NavigationNameAddressTuple} from "../model/NavigationNameAddressTuple";
+import {EndpointHolder} from "../model/EndpointHolder";
 
 @Component({
   selector: 'app-navbar',
@@ -43,7 +44,7 @@ export class NavbarComponent implements OnInit {
   }
 
   navigateToSwagger(): void {
-    this.router.navigate(['swagger-ui']).then();
+    window.open(EndpointHolder.swaggerEndpoint)
   }
 
   navigateToCharts(): void {

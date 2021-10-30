@@ -7,7 +7,6 @@ import com.openklaster.app.model.responses.InstallationResponse;
 import com.openklaster.app.services.InstallationService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

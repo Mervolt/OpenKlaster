@@ -34,8 +34,6 @@
     "ngx-spinner": "^10.0.1",
     "ngx-toastr": "^13.1.0",
     "rxjs": "~6.5.5",
-    "swagger-ui-dist": "^3.32.4",
-    "swagger-ui-themes": "^3.0.1",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },

@@ -45,6 +45,7 @@ export class InstallationAddPanelComponent {
         let translated = response[manufacturer].map(entry => this.translateService.instant(entry))
         this.manufacturersMap.set(manufacturer, translated);
         this.manufacturers = Array.from(this.manufacturersMap.keys());
+        this.formModel.installationType = 'Solar';
       }
     });
   }
