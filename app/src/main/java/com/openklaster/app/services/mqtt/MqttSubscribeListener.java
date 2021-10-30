@@ -46,8 +46,10 @@ public class MqttSubscribeListener implements ApplicationListener<MqttSubscribed
     }
 
     private MqttPahoMessageDrivenChannelAdapter createAdapter() {
-        return new MqttPahoMessageDrivenChannelAdapter(String.format("tcp://%s:%s", address, port),
+        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(String.format("tcp://%s:%s", address, port),
                 "MqttClient", topic);
+        adapter.setRecoveryInterval(1000*60*20);
+        return adapter;
     }
 
     @Component
