@@ -17,3 +17,10 @@ server:
 openklaster:
   files:
     base-path: file-repository/data
+  mqtt:
+    enabled: false
+    topic: "-"
+    address: "-"
+    port: 1883
+    cipher-key: "-"
+    installation-id: "-"

@@ -24,6 +24,16 @@ public class MeasurementsService {
     LoadMeasurementRepository loadMeasurementRepository;
     SourceMeasurementRepository sourceMeasurementRepository;
 
+    public SourceMeasurementEntity addSourceMeasurementEntity(double value, String installationId, Date timestamp, MeasurementUnit unit) {
+        SourceMeasurementEntity loadMeasurementEntity = SourceMeasurementEntity.builder()
+                .installationId(installationId)
+                .unit(unit)
+                .value(value)
+                .timestamp(timestamp)
+                .build();
+       return sourceMeasurementRepository.save(loadMeasurementEntity);
+    }
+
     public MeasurementResponse addLoadMeasurement(MeasurementRequest request, MeasurementUnit unit) {
         Date date = Optional.ofNullable(request.getTimestamp()).orElse(new Date());
         LoadMeasurementEntity newMeasurement = LoadMeasurementEntity.builder()
