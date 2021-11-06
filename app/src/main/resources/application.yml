@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: EXTRACTOR_OFF
   data:
     cassandra:
       keyspace-name: openklaster

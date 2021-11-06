@@ -8,10 +8,7 @@ import com.openklaster.app.model.responses.MeasurementResponse;
 import com.openklaster.app.persistence.cassandra.dao.LoadMeasurementRepository;
 import com.openklaster.app.persistence.cassandra.dao.SourceMeasurementRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
@@ -24,28 +21,26 @@ public class MeasurementsService {
     LoadMeasurementRepository loadMeasurementRepository;
     SourceMeasurementRepository sourceMeasurementRepository;
 
-    public MeasurementResponse addLoadMeasurement(MeasurementRequest request, MeasurementUnit unit) {
-        Date date = Optional.ofNullable(request.getTimestamp()).orElse(new Date());
+    public MeasurementResponse addLoadMeasurement(String installationId, Date date, double value, MeasurementUnit unit) {
         LoadMeasurementEntity newMeasurement = LoadMeasurementEntity.builder()
-                .installationId(request.getInstallationId())
+                .installationId(installationId)
                 .unit(unit)
-                .value(request.getValue())
+                .value(value)
                 .timestamp(date)
                 .build();
         loadMeasurementRepository.save(newMeasurement);
-        return createLoadMeasurementResponse(request, unit, date);
+        return createMeasurementResponse(installationId, date, value, unit);
     }
 
-    public MeasurementResponse addSourceMeasurement(MeasurementRequest request, MeasurementUnit unit) {
-        Date date = Optional.ofNullable(request.getTimestamp()).orElse(new Date());
+    public MeasurementResponse addSourceMeasurement(String installationId, Date date, double value, MeasurementUnit unit) {
         SourceMeasurementEntity newMeasurement = SourceMeasurementEntity.builder()
-                .installationId(request.getInstallationId())
+                .installationId(installationId)
                 .unit(unit)
-                .value(request.getValue())
+                .value(value)
                 .timestamp(date)
                 .build();
         sourceMeasurementRepository.save(newMeasurement);
-        return createLoadMeasurementResponse(request, unit, date);
+        return createMeasurementResponse(installationId, date, value, unit);
     }
 
     public List<MeasurementResponse> getLoadMeasurements(String installationId, Date startDate, Date endDate, MeasurementUnit unit) {
@@ -102,12 +97,12 @@ public class MeasurementsService {
         }
     }
 
-    private MeasurementResponse createLoadMeasurementResponse(MeasurementRequest request, MeasurementUnit unit, Date date) {
+    private MeasurementResponse createMeasurementResponse(String installationId, Date date, double value, MeasurementUnit unit) {
         return MeasurementResponse.builder()
-                .installationId(request.getInstallationId())
+                .installationId(installationId)
                 .timestamp(date)
                 .unit(unit.name())
-                .value(request.getValue())
+                .value(value)
                 .build();
     }
 
