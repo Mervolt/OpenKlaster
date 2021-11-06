@@ -28,11 +28,11 @@ public class InstallationSummaryService {
         List<SourceMeasurementEntity> powerMeasurements = getMeasurementByUnit(sourceMeasurements, MeasurementUnit.kW);
         List<SourceMeasurementEntity> energyMeasurements = getMeasurementByUnit(sourceMeasurements, MeasurementUnit.kWh);
 
-        double earliestEnergyMeasurement = energyMeasurements.stream().min(Comparator.comparing(SourceMeasurementEntity::getValue))
+        double earliestEnergyMeasurement = energyMeasurements.stream().min(Comparator.comparing(SourceMeasurementEntity::getTimestamp))
                 .map(SourceMeasurementEntity::getValue).orElse(0.0);
-        double latestEnergyMeasurement = energyMeasurements.stream().max(Comparator.comparing(SourceMeasurementEntity::getValue))
+        double latestEnergyMeasurement = energyMeasurements.stream().max(Comparator.comparing(SourceMeasurementEntity::getTimestamp))
                 .map(SourceMeasurementEntity::getValue).orElse(0.0);
-        double latestPowerMeasurement = powerMeasurements.stream().max(Comparator.comparing(SourceMeasurementEntity::getValue))
+        double latestPowerMeasurement = powerMeasurements.stream().max(Comparator.comparing(SourceMeasurementEntity::getTimestamp))
                 .map(SourceMeasurementEntity::getValue).orElse(0.0);
 
         Map<Date, BigDecimal> measurementsMap = convertMeasurementArrayIntoMap(powerMeasurements);

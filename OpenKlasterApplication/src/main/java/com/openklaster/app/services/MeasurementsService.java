@@ -8,6 +8,8 @@ import com.openklaster.app.model.responses.MeasurementResponse;
 import com.openklaster.app.persistence.cassandra.dao.LoadMeasurementRepository;
 import com.openklaster.app.persistence.cassandra.dao.SourceMeasurementRepository;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,6 +23,8 @@ public class MeasurementsService {
     LoadMeasurementRepository loadMeasurementRepository;
     SourceMeasurementRepository sourceMeasurementRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(MeasurementsService.class);
+
     public SourceMeasurementEntity addSourceMeasurementEntity(double value, String installationId, Date timestamp, MeasurementUnit unit) {
         SourceMeasurementEntity loadMeasurementEntity = SourceMeasurementEntity.builder()
                 .installationId(installationId)
@@ -28,6 +32,7 @@ public class MeasurementsService {
                 .value(value)
                 .timestamp(timestamp)
                 .build();
+        logger.debug(("Added source measurement" + loadMeasurementEntity.toString()));
         return sourceMeasurementRepository.save(loadMeasurementEntity);
     }
 
@@ -40,6 +45,7 @@ public class MeasurementsService {
                 .timestamp(date)
                 .build();
         loadMeasurementRepository.save(newMeasurement);
+        logger.debug(("Added source measurement" + newMeasurement.toString()));
         return createLoadMeasurementResponse(request, unit, date);
     }
 
@@ -52,6 +58,7 @@ public class MeasurementsService {
                 .timestamp(date)
                 .build();
         sourceMeasurementRepository.save(newMeasurement);
+        logger.debug(("Added source measurement" + newMeasurement.toString()));
         return createLoadMeasurementResponse(request, unit, date);
     }
 

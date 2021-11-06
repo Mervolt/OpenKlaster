@@ -9,6 +9,8 @@ import com.openklaster.app.persistence.mongo.MongoSequenceGenerator;
 import com.openklaster.app.persistence.mongo.installation.InstallationRepository;
 import com.openklaster.app.persistence.mongo.installation.SafeInstallationAccessor;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,8 @@ public class InstallationService {
     InstallationRepository installationRepository;
     SafeInstallationAccessor safeInstallationAccessor;
     MongoSequenceGenerator mongoSequenceGenerator;
+
+    private static final Logger logger = LoggerFactory.getLogger(InstallationService.class);
 
     public List<InstallationEntity> getAllInstallations() {
         return safeInstallationAccessor.getCurrentUserInstallations();
@@ -40,6 +44,8 @@ public class InstallationService {
                 .id(generateId())
                 .build();
         installationRepository.insert(newInstallation);
+        logger.debug(String.format("Installation with id '%s' for user '%s' added.",
+                newInstallation.getId(), newInstallation.getUsername()));
         return newInstallation;
     }
 
@@ -63,12 +69,15 @@ public class InstallationService {
                 .id(entity.getId())
                 .build();
         installationRepository.save(newInstallation);
+        logger.debug(String.format("Installation with id '%s' for user '%s' updated.",
+                newInstallation.getId(), newInstallation.getUsername()));
         return newInstallation;
     }
 
     public void removeInstallation(String installationId) {
         getInstallation(installationId);
         installationRepository.deleteById(installationId);
+        logger.debug(String.format("Installation with id '%s' removed", installationId));
     }
 
     public InstallationEntity getInstallation(String installationId) {

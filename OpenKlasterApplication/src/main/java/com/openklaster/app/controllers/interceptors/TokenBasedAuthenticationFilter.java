@@ -28,12 +28,25 @@ public class TokenBasedAuthenticationFilter extends OncePerRequestFilter {
         Optional<String> apiToken = Optional.ofNullable(request.getParameter("apiToken"));
 
         if (sessionToken.isPresent()) {
-            authService.getUserAuthenticatedBySessionToken(sessionToken.get()).
-                    ifPresent(userEntity -> authenticate(userEntity, sessionToken.get(), request));
+            Optional<UserEntity> userOpt = authService.getUserAuthenticatedBySessionToken(sessionToken.get());
+            if (userOpt.isPresent()) {
+                authenticate(userOpt.get(), sessionToken.get(), request);
+            } else {
+                response.setStatus(401);
+                logger.warn(String.format("Unknown session token: %s", sessionToken.get()));
+                return;
+            }
 
         } else if (apiToken.isPresent()) {
-            authService.getUserAuthenticatedByApiToken(apiToken.get()).
-                    ifPresent(userEntity -> authenticate(userEntity, apiToken.get(), request));
+            Optional<UserEntity> userOpt = authService.getUserAuthenticatedByApiToken(apiToken.get());
+            if (userOpt.isPresent()) {
+                authenticate(userOpt.get(), apiToken.get(), request);
+            } else {
+                response.setStatus(401);
+                logger.warn(String.format("Unknown api token: %s", apiToken.get()));
+
+                return;
+            }
         }
 
         filterChain.doFilter(request, response);

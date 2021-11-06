@@ -43,19 +43,24 @@ public class MqttService implements InitializingBean {
     private final Validator<String> validator = new StringValidator() {
     };
 
-    private final static Logger logger =LoggerFactory.getLogger(MqttService.class);
+    private static final Logger logger = LoggerFactory.getLogger(MqttService.class);
 
-    private Map<String, Date> lastMessageTime = new HashMap<>();
+    private final Map<String, Date> lastMessageTime = new HashMap<>();
 
     public void handle(Message<?> message) {
-        String decryptedMessage = decryptMessage(message);
-        String[] splittedMsg = decryptedMessage.split(";");
-        Date date = getDate(splittedMsg[0]);
-        if (!checkAndUpdateDate(date, installationId)) return;
-        double value = getValue(splittedMsg[1]);
-        SourceMeasurementEntity result = measurementsService.addSourceMeasurementEntity(value, installationId,
-                date, MeasurementUnit.kW);
-        logger.debug(String.format("Added measurement from mqtt: %s", result.toString()));
+        try {
+            String decryptedMessage = decryptMessage(message);
+            String[] splittedMsg = decryptedMessage.split(";");
+            Date date = getDate(splittedMsg[0]);
+            if (!checkAndUpdateDate(date, installationId)) return;
+            double value = getValue(splittedMsg[1]);
+            SourceMeasurementEntity result = measurementsService.addSourceMeasurementEntity(value, installationId,
+                    date, MeasurementUnit.kW);
+            logger.debug(String.format("Added measurement from mqtt: %s", result.toString()));
+        } catch (Exception e) {
+            logger.error("Error during handling mqtt message", e);
+            throw e;
+        }
     }
 
     private String decryptMessage(Message<?> message) {
@@ -69,7 +74,7 @@ public class MqttService implements InitializingBean {
         if (parsed > 0) {
             return 0;
         } else {
-            return - parsed / 1000;
+            return -parsed / 1000;
         }
     }
 
@@ -83,7 +88,7 @@ public class MqttService implements InitializingBean {
 
     private boolean checkAndUpdateDate(Date date, String installationId) {
         Date lastDate = lastMessageTime.get(installationId);
-        if (lastDate ==null || lastDate.before(Date.from(Instant.now().minusSeconds(60*5L)))){
+        if (lastDate == null || lastDate.before(Date.from(Instant.now().minusSeconds(60 * 5L)))) {
             updateLastMessageTime(installationId, date);
             return true;
         } else {
@@ -91,7 +96,7 @@ public class MqttService implements InitializingBean {
         }
     }
 
-    private synchronized void updateLastMessageTime(String installationId, Date date){
+    private synchronized void updateLastMessageTime(String installationId, Date date) {
         this.lastMessageTime.put(installationId, date);
     }
 

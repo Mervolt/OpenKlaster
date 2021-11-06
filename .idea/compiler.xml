@@ -7,7 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="app" />
+        <module name="OpenklasterApplication" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -18,11 +18,13 @@
       <module name="MongoService" target="1.8" />
       <module name="OpenKlaster" target="1.8" />
       <module name="OpenKlasterAPI" target="1.8" />
+      <module name="OpenklasterApplication" target="1.8" />
       <module name="OpenKlasterCore" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="OpenklasterApplication" options="-parameters" />
       <module name="app" options="-parameters" />
     </option>
   </component>

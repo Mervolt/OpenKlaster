@@ -1,6 +1,7 @@
 package com.openklaster.app.model.entities.measurement;
 
 import lombok.Builder;
+import lombok.ToString;
 import lombok.Value;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
