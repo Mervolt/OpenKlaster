@@ -11,6 +11,8 @@ import com.openklaster.app.model.responses.TokenResponse;
 import com.openklaster.app.persistence.mongo.user.UserContextAccessor;
 import com.openklaster.app.persistence.mongo.user.UserRepository;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ public class UsersService {
     private TokensService tokensService;
     private UserContextAccessor userContextAccessor;
 
+    private static final Logger logger = LoggerFactory.getLogger(UsersService.class);
+
     public Optional<UserEntity> getUser() {
         return Optional.ofNullable(userContextAccessor.getCurrentUser());
     }
@@ -45,6 +49,7 @@ public class UsersService {
                 .password(authService.hashPassword(registerRequest.getPassword()))
                 .build();
         userRepository.insert(newUser);
+        logger.debug(String.format("Added user %s", newUser.getUsername()));
         return newUser;
     }
 
@@ -70,7 +75,7 @@ public class UsersService {
                 .build();
 
         userRepository.save(user);
-
+        logger.debug(String.format("Edited user %s", user.getUsername()));
         return user;
     }
 
@@ -82,7 +87,7 @@ public class UsersService {
         SessionTokenEntity generatedToken = tokensService.generateSessionToken();
         UserEntity newUserEntity = userEntity.withSessionToken(generatedToken);
         userRepository.save(newUserEntity);
-
+        logger.debug(String.format("Generated session token for user %s", loginRequest.getUsername()));
         return new TokenResponse(generatedToken.getData());
     }
 
@@ -93,6 +98,7 @@ public class UsersService {
         newTokensList.add(generatedToken);
         UserEntity newUser = userEntity.withUserTokens(newTokensList);
         userRepository.save(newUser);
+        logger.debug(String.format("Generated api token for user %s", apiTokenRequest.getUsername()));
         return new TokenResponse(generatedToken.getData());
     }
 
@@ -101,12 +107,14 @@ public class UsersService {
         List<TokenEntity> newTokensList = new ArrayList<>(userEntity.getUserTokens());
         newTokensList.remove(new TokenEntity(apiToken));
         UserEntity newUser = userEntity.withUserTokens(newTokensList);
+        logger.debug(String.format("Removed single api token for user %s", username));
         userRepository.save(newUser);
     }
 
     public void removeAllTokens(String username) {
         UserEntity userEntity = getUserOrThrow404(username);
         UserEntity newUser = userEntity.withUserTokens(new ArrayList<>());
+        logger.debug(String.format("Removed all api token for user %s", username));
         userRepository.save(newUser);
     }
 

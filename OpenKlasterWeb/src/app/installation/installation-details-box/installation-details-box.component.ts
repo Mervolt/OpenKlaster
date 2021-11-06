@@ -6,8 +6,8 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./installation-details-box.component.css']
 })
 export class InstallationDetailsBoxComponent implements OnInit {
-  @Input() item: string
-  @Input() itemDescription: string
+  @Input() item: string;
+  @Input() itemDescription: string;
 
   constructor() {
   }

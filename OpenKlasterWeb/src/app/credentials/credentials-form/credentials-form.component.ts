@@ -6,9 +6,9 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
   styleUrls: ['./credentials-form.component.css']
 })
 export class CredentialsFormComponent implements OnInit {
-  @Input() credentialsType: string
-  @Output() credentialsEventEmitter = new EventEmitter<JSON>()
-  credentials
+  @Input() credentialsType: string;
+  @Output() credentialsEventEmitter = new EventEmitter<JSON>();
+  credentials;
 
   constructor() {
   }
@@ -17,10 +17,10 @@ export class CredentialsFormComponent implements OnInit {
   }
 
   sendMessage($event) {
-    this.credentialsEventEmitter.emit($event)
+    this.credentialsEventEmitter.emit($event);
   }
 
   receiveMessage($event) {
-    this.sendMessage($event)
+    this.sendMessage($event);
   }
 }

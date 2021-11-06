@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {QuestionControlService} from "../question-control-service";
-import {QuestionBase} from "../question-base";
-import {FormGroup} from "@angular/forms";
+import {QuestionControlService} from '../question-control-service';
+import {QuestionBase} from '../question-base';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -20,7 +20,7 @@ export class DynamicFormComponent implements OnChanges {
   ngOnChanges() {
     this.form = this.qcs.toFormGroup(this.questions);
     this.form.valueChanges.subscribe(credentials => {
-      this.credentialsEventEmitter.emit(credentials)
-    })
+      this.credentialsEventEmitter.emit(credentials);
+    });
   }
 }

@@ -6,9 +6,9 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
   styleUrls: ['./credentials-userpass.component.css']
 })
 export class CredentialsUserpassComponent implements OnInit {
-  @Output() userpassEmitter = new EventEmitter<JSON>()
-  username: string
-  password: string
+  @Output() userpassEmitter = new EventEmitter<JSON>();
+  username: string;
+  password: string;
 
   constructor() {
   }
@@ -17,10 +17,10 @@ export class CredentialsUserpassComponent implements OnInit {
   }
 
   sendMessage() {
-    let jsonObject: any = {
-      "username": this.username,
-      "password": this.password
-    }
-    this.userpassEmitter.emit(<JSON>jsonObject)
+    const jsonObject: any = {
+      username: this.username,
+      password: this.password
+    };
+    this.userpassEmitter.emit(jsonObject as JSON);
   }
 }

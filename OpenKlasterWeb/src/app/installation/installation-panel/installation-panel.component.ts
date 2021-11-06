@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {InstallationService} from '../../service/installation/installation.service';
 
 import {Installation} from '../../model/Installation';
-import {AppComponent} from "../../app.component";
-import {InstallationDto} from "../../model/InstallationDto";
-import {CookieService} from "ngx-cookie-service";
-import {PageEvent} from "@angular/material/paginator";
-import {Router} from "@angular/router";
+import {AppComponent} from '../../app.component';
+import {InstallationDto} from '../../model/InstallationDto';
+import {CookieService} from 'ngx-cookie-service';
+import {PageEvent} from '@angular/material/paginator';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-installation-panel',
@@ -27,7 +27,7 @@ export class InstallationPanelComponent implements OnInit {
   }
 
   onPageChange(event: PageEvent) {
-    let startIndex = event.pageIndex * event.pageSize;
+    const startIndex = event.pageIndex * event.pageSize;
     let endIndex = startIndex + event.pageSize;
     if (endIndex > this.installations.length) {
       endIndex = this.installations.length;
@@ -36,17 +36,17 @@ export class InstallationPanelComponent implements OnInit {
   }
 
   async getInstallations() {
-    this.installations = []
-    let observableInstallations = this.installationService.getInstallations(this.cookieService);
+    this.installations = [];
+    const observableInstallations = this.installationService.getInstallations(this.cookieService);
     observableInstallations.subscribe(response => {
-      for (let installation in response) {
-        this.installations.push(InstallationDto.fromDto(response[installation]))
+      for (const installation in response) {
+        this.installations.push(InstallationDto.fromDto(response[installation]));
         this.displayedInstallations = this.installations.slice(0, 5);
       }
-    })
+    });
   }
 
   navigateToInstallation(installationId: string) {
-    this.router.navigate(['installations', installationId]).then()
+    this.router.navigate(['installations', installationId]).then();
   }
 }

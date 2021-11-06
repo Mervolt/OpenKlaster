@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
-import {finalize, tap} from "rxjs/operators";
-import {Router} from "@angular/router";
+import {finalize, tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ToastrService} from 'ngx-toastr';
 
@@ -23,12 +23,12 @@ export class HttpClientInterceptor implements HttpInterceptor {
       .pipe(tap(() => {
         },
         (error: HttpErrorResponse) => {
-          let errorStatus = error.status;
+          const errorStatus = error.status;
           if (errorStatus !== HttpResponseCode.Unauthorized) {
             if (request.url.indexOf('user') === -1 ) {
               this.toastr.error('Wystąpił problem z połączeniem z systemem.');
             }
-            return throwError(error)
+            return throwError(error);
           }
           if (request.url.indexOf('login') !== -1 && request.url.indexOf('register') !== -1) {
             this.toastr.warning('Zaloguj się ponownie.');
@@ -50,5 +50,5 @@ export class HttpClientInterceptor implements HttpInterceptor {
 }
 
 class HttpResponseCode {
-  static Unauthorized = 401
+  static Unauthorized = 401;
 }

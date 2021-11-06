@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {User} from '../model/User';
-import {EndpointHolder} from "../model/EndpointHolder";
-import {CookieService} from "ngx-cookie-service";
-import {UserUpdateDto} from "../model/UserUpdateDto";
+import {EndpointHolder} from '../model/EndpointHolder';
+import {CookieService} from 'ngx-cookie-service';
+import {UserUpdateDto} from '../model/UserUpdateDto';
 import {ToastrService} from 'ngx-toastr';
-import {TranslateService} from "@ngx-translate/core";
+import {TranslateService} from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +35,7 @@ export class UserService {
       return true;
     })
       .catch((error: any) => {
-        this.toastr.error(this.getFailureUpdateTranslation())
+        this.toastr.error(this.getFailureUpdateTranslation());
         return false;
       });
   }
@@ -50,20 +50,20 @@ export class UserService {
       .catch(() => {
         this.toastr.error(this.getFailureRegisterTranslation());
         return false;
-      })
+      });
   }
 
   private loginUser(user: User, cookieService: CookieService): Promise<boolean> {
     return this.http.post<JSON>(EndpointHolder.loginEndpoint,
       {
-        "username": user.username,
-        "password": user.password
+        username: user.username,
+        password: user.password
       },
       {responseType: 'json'})
       .toPromise()
       .then(response => {
-        cookieService.set("username", user.username);
-        cookieService.set("sessionToken", response['data']);
+        cookieService.set('username', user.username);
+        cookieService.set('sessionToken', response['data']);
         this.toastr.success(this.getSuccessLoginTranslation());
         return true;
       })
@@ -74,27 +74,27 @@ export class UserService {
   }
 
   private getSuccessLoginTranslation(){
-    return this.translateService.instant("DialogLogin_Success");
+    return this.translateService.instant('DialogLogin_Success');
   }
 
   private getFailureLoginTranslation(){
-    return this.translateService.instant("DialogLogin_Failure");
+    return this.translateService.instant('DialogLogin_Failure');
   }
 
   private getSuccessRegisterTranslation(username: String){
-    return this.translateService.instant("DialogRegister_Success1") + username + this.translateService.instant("DialogRegister_Success2");
+    return this.translateService.instant('DialogRegister_Success1') + username + this.translateService.instant('DialogRegister_Success2');
   }
 
   private getFailureRegisterTranslation(){
-    return this.translateService.instant("DialogRegister_Failure");
+    return this.translateService.instant('DialogRegister_Failure');
   }
 
   private getSuccessUpdateTranslation(){
-    return this.translateService.instant("DialogUpdate_Success");
+    return this.translateService.instant('DialogUpdate_Success');
   }
 
   private getFailureUpdateTranslation(){
-    return this.translateService.instant("DialogUpdate_Failure");
+    return this.translateService.instant('DialogUpdate_Failure');
   }
 
 }

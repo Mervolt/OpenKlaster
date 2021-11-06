@@ -6,8 +6,8 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./goal-representation-component.component.css']
 })
 export class GoalRepresentationComponentComponent implements OnInit {
-  @Input() goalAmount: number
-  @Input() currentAmount: number
+  @Input() goalAmount: number;
+  @Input() currentAmount: number;
 
   constructor() {
   }
@@ -16,9 +16,11 @@ export class GoalRepresentationComponentComponent implements OnInit {
   }
 
   countAmount() {
-    if (this.goalAmount === undefined || this.currentAmount === undefined)
+    if (this.goalAmount === undefined || this.currentAmount === undefined) {
       return 0;
-    else
-      return this.currentAmount / this.goalAmount * 100
+    }
+    else {
+      return this.currentAmount / this.goalAmount * 100;
+    }
   }
 }

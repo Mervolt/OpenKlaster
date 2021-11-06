@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatMenuTrigger} from "@angular/material/menu";
-import {SingleInstallationPanelService} from "../installation/single-installation-panel.service";
-import {Router} from "@angular/router";
-import {AppComponent} from "../app.component";
-import {NavigationNameAddressTuple} from "../model/NavigationNameAddressTuple";
-import {EndpointHolder} from "../model/EndpointHolder";
+import {MatMenuTrigger} from '@angular/material/menu';
+import {SingleInstallationPanelService} from '../installation/single-installation-panel.service';
+import {Router} from '@angular/router';
+import {AppComponent} from '../app.component';
+import {NavigationNameAddressTuple} from '../model/NavigationNameAddressTuple';
+import {EndpointHolder} from '../model/EndpointHolder';
 
 @Component({
   selector: 'app-navbar',
@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
     new NavigationNameAddressTuple(this.navbarPrefix + 'APIDocumentation', this.navigateToSwagger.bind(this)),
     new NavigationNameAddressTuple(this.navbarPrefix + 'DigitalSignage', this.navigateToDigitalSignage.bind(this)),
     new NavigationNameAddressTuple(this.navbarPrefix + 'Logout', this.logout.bind(this))
-  ]
+  ];
 
   constructor(public service: SingleInstallationPanelService, private router: Router, private appComp: AppComponent) {
   }
@@ -44,7 +44,7 @@ export class NavbarComponent implements OnInit {
   }
 
   navigateToSwagger(): void {
-    window.open(EndpointHolder.swaggerEndpoint)
+    window.open(EndpointHolder.swaggerEndpoint);
   }
 
   navigateToCharts(): void {
@@ -61,6 +61,6 @@ export class NavbarComponent implements OnInit {
   }
 
   route(navigation: Function) {
-    navigation()
+    navigation();
   }
 }
