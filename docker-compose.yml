@@ -3,7 +3,7 @@ services:
   openklaster-backend:
     build:
       context: OpenKlasterApplication
-      dockerfile: docker/Dockerfile
+      dockerfile: Dockerfile
     environment:
       - TZ=Poland
     ports:
