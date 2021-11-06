@@ -8,12 +8,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="app" />
-        <module name="OpenKlasterAPI" />
-        <module name="CassandraService" />
-        <module name="FileRepositoryService" />
-        <module name="CommonService" />
-        <module name="OpenKlasterCore" />
-        <module name="MongoService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

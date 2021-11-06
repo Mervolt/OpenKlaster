@@ -9,6 +9,6 @@ services:
   cassandra-db:
     volumes:
       - /var/volumes/cassandra-volume:/var/lib/cassandra
-  openklaster-filerepository:
+  openklaster-backend:
     volumes:
       - /var/volumes/file-repository:/file-repository

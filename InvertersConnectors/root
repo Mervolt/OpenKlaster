@@ -1,1 +1,0 @@
-0,30 * * * * cd /bin/MeasurementsExtractor/; python3 measurements_extractor.py config.yml

@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: #EXTRACTOR_OFF
+  data:
+    cassandra:
+      keyspace-name: openklaster
+      local-datacenter: datacenter1
+      port: 9042
+      contact-points: cassandra-db
+    mongodb:
+      database: DEFAULT_DB
+      port: 27017
+      host: mongo-db
+server:
+  port: 8082
+  servlet:
+    context-path: /api/1
+openklaster:
+  files:
+    base-path: file-repository/data
+  mqtt:
+    enabled: false
+    topic: "-"
+    address: "-"
+    port: 1883
+    cipher-key: "-"
+    installation-id: "-"

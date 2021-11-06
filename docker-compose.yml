@@ -2,12 +2,14 @@ version: '3'
 services:
   openklaster-backend:
     build:
-      context: app
+      context: OpenKlasterApplication
       dockerfile: docker/Dockerfile
     environment:
       - TZ=Poland
     ports:
       - "8082:8082"
+    volumes:
+      - ./file-repository:/file-repository
     restart: always
   openklaster-webpage:
     build:

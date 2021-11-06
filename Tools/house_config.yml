@@ -1,3 +1,0 @@
-mode: FILLUP # STANDARD or FILLUP
-powerProduction: http://localhost/api/1/powerProduction
-powerConsumption: http://localhost/api/1/powerConsumption
