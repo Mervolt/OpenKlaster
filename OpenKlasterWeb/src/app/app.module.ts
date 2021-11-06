@@ -39,7 +39,6 @@ import {CredentialsTokenComponent} from './credentials/credentials-token/credent
 import {CredentialsUserpassComponent} from './credentials/credentials-userpass/credentials-userpass.component';
 import {MatTableModule} from "@angular/material/table";
 import {ConfirmationDialogPopupComponent} from './components/confirmation-dialog-popup/confirmation-dialog-popup.component';
-import {SwaggerUiComponent} from './swagger-ui/swagger-ui.component';
 import {MatCardModule} from "@angular/material/card";
 import {InstallationService} from "./service/installation/installation.service";
 import {HttpClientInterceptor} from "./service/interceptors/http-client-interceptor.service";
@@ -87,7 +86,6 @@ import { DeleteTokenDialogComponent } from './token/delete-token-dialog/delete-t
     CredentialsTokenComponent,
     CredentialsUserpassComponent,
     ConfirmationDialogPopupComponent,
-    SwaggerUiComponent,
     ChartsComponent,
     DynamicFormQuestionComponent,
     DynamicFormComponent,
@@ -114,7 +112,6 @@ import { DeleteTokenDialogComponent } from './token/delete-token-dialog/delete-t
       {path: 'installations/:id', component: InstallationViewComponent},
       {path: 'installationGeneration', component: InstallationAddPanelComponent},
       {path: 'editInstallation/:id', component: EditInstallationComponent},
-      {path: 'swagger-ui', component: SwaggerUiComponent},
       {path: 'charts', component: ChartsComponent},
       {path: 'digitalSignage', component: DigitalSignageComponent},
     ]),

@@ -2,6 +2,7 @@ package com.openklaster.app.services;
 
 
 import com.openklaster.app.model.entities.installation.InstallationEntity;
+import com.openklaster.app.model.entities.installation.InstallationType;
 import com.openklaster.app.model.requests.InstallationRequest;
 import com.openklaster.app.model.requests.InstallationUpdateRequest;
 import com.openklaster.app.persistence.mongo.MongoSequenceGenerator;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -24,9 +26,11 @@ public class InstallationService {
     }
 
     public InstallationEntity addNewInstallation(InstallationRequest installationRequest) {
+        InstallationType type = Optional.ofNullable(installationRequest.getInstallationType())
+                .orElse(InstallationType.Solar);
         InstallationEntity newInstallation = InstallationEntity.builder()
                 .username(installationRequest.getUsername())
-                .installationType(installationRequest.getInstallationType())
+                .installationType(type)
                 .longitude(installationRequest.getLongitude())
                 .latitude(installationRequest.getLatitude())
                 .description(installationRequest.getDescription())
@@ -44,10 +48,12 @@ public class InstallationService {
     }
 
     public InstallationEntity updateInstallation(InstallationUpdateRequest installationRequest) {
+        InstallationType type = Optional.ofNullable(installationRequest.getInstallationType())
+                .orElse(InstallationType.Solar);
         InstallationEntity entity = getInstallation(installationRequest.getInstallationId());
         InstallationEntity newInstallation = InstallationEntity.builder()
                 .username(installationRequest.getUsername())
-                .installationType(installationRequest.getInstallationType())
+                .installationType(type)
                 .longitude(installationRequest.getLongitude())
                 .latitude(installationRequest.getLatitude())
                 .description(installationRequest.getDescription())

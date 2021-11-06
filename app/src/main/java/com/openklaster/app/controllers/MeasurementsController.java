@@ -4,8 +4,8 @@ import com.openklaster.app.model.entities.measurement.MeasurementUnit;
 import com.openklaster.app.model.requests.MeasurementRequest;
 import com.openklaster.app.model.responses.MeasurementResponse;
 import com.openklaster.app.model.responses.summary.SummaryResponse;
-import com.openklaster.app.services.MeasurementsService;
 import com.openklaster.app.services.InstallationSummaryService;
+import com.openklaster.app.services.MeasurementsService;
 import com.openklaster.app.validation.installation.SafeInstallation;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Api(tags = "measurements", description = "Energy and power measurements")
 @RestController
@@ -28,36 +27,23 @@ public class MeasurementsController {
 
     @PostMapping(path = "powerConsumption")
     public MeasurementResponse addPowerConsumption(@RequestBody @Valid MeasurementRequest measurementRequest) {
-        String installationId = measurementRequest.getInstallationId();
-        Date date = Optional.ofNullable(measurementRequest.getTimestamp()).orElse(new Date());
-        double value = measurementRequest.getValue();
-        return measurementsService.addLoadMeasurement(installationId, date, value, MeasurementUnit.kW);
+        return measurementsService.addLoadMeasurement(measurementRequest, MeasurementUnit.kW);
     }
 
     @PostMapping(path = "powerProduction")
     public MeasurementResponse addPowerProduction(@RequestBody @Valid MeasurementRequest measurementRequest) {
-        String installationId = measurementRequest.getInstallationId();
-        Date date = Optional.ofNullable(measurementRequest.getTimestamp()).orElse(new Date());
-        double value = measurementRequest.getValue();
-        return measurementsService.addSourceMeasurement(installationId, date, value, MeasurementUnit.kW);
+        return measurementsService.addSourceMeasurement(measurementRequest, MeasurementUnit.kW);
     }
 
     @PostMapping(path = "energyConsumed")
     public MeasurementResponse addEnergyConsumed(@RequestBody @Valid MeasurementRequest measurementRequest) {
-        String installationId = measurementRequest.getInstallationId();
-        Date date = Optional.ofNullable(measurementRequest.getTimestamp()).orElse(new Date());
-        double value = measurementRequest.getValue();
-        return measurementsService.addLoadMeasurement(installationId, date, value, MeasurementUnit.kW);
+        return measurementsService.addLoadMeasurement(measurementRequest, MeasurementUnit.kWh);
     }
 
     @PostMapping(path = "energyProduced")
     public MeasurementResponse addEnergyProduced(@RequestBody @Valid MeasurementRequest measurementRequest) {
-        String installationId = measurementRequest.getInstallationId();
-        Date date = Optional.ofNullable(measurementRequest.getTimestamp()).orElse(new Date());
-        double value = measurementRequest.getValue();
-        return measurementsService.addSourceMeasurement(installationId, date, value, MeasurementUnit.kW);
+        return measurementsService.addSourceMeasurement(measurementRequest, MeasurementUnit.kWh);
     }
-
 
     @GetMapping(path = "powerConsumption")
     public List<MeasurementResponse> getPowerConsumption(@RequestParam @SafeInstallation String installationId,

@@ -53,10 +53,18 @@ public class UsersService {
         boolean isPasswordOk = authService.authenticatePassword(updateUserRequest.getPassword(), userEntity.getPassword());
         if (!isPasswordOk) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 
+        String password = Optional.ofNullable(updateUserRequest.getNewPassword())
+                .map(pswd -> authService.hashPassword(pswd))
+                .orElse(userEntity.getPassword());
+
+
+        String email = Optional.ofNullable(updateUserRequest.getEmail())
+                .orElse(userEntity.getEmail());
+
         UserEntity user = UserEntity.builder()
                 .id(updateUserRequest.getUsername())
-                .email(updateUserRequest.getEmail())
-                .password(updateUserRequest.getNewPassword())
+                .email(email)
+                .password(password)
                 .userTokens(userEntity.getUserTokens())
                 .sessionToken(userEntity.getSessionToken())
                 .build();

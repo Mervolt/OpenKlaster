@@ -21,26 +21,38 @@ public class MeasurementsService {
     LoadMeasurementRepository loadMeasurementRepository;
     SourceMeasurementRepository sourceMeasurementRepository;
 
-    public MeasurementResponse addLoadMeasurement(String installationId, Date date, double value, MeasurementUnit unit) {
-        LoadMeasurementEntity newMeasurement = LoadMeasurementEntity.builder()
+    public SourceMeasurementEntity addSourceMeasurementEntity(double value, String installationId, Date timestamp, MeasurementUnit unit) {
+        SourceMeasurementEntity loadMeasurementEntity = SourceMeasurementEntity.builder()
                 .installationId(installationId)
                 .unit(unit)
                 .value(value)
+                .timestamp(timestamp)
+                .build();
+        return sourceMeasurementRepository.save(loadMeasurementEntity);
+    }
+
+    public MeasurementResponse addLoadMeasurement(MeasurementRequest request, MeasurementUnit unit) {
+        Date date = Optional.ofNullable(request.getTimestamp()).orElse(new Date());
+        LoadMeasurementEntity newMeasurement = LoadMeasurementEntity.builder()
+                .installationId(request.getInstallationId())
+                .unit(unit)
+                .value(request.getValue())
                 .timestamp(date)
                 .build();
         loadMeasurementRepository.save(newMeasurement);
-        return createMeasurementResponse(installationId, date, value, unit);
+        return createLoadMeasurementResponse(request, unit, date);
     }
 
-    public MeasurementResponse addSourceMeasurement(String installationId, Date date, double value, MeasurementUnit unit) {
+    public MeasurementResponse addSourceMeasurement(MeasurementRequest request, MeasurementUnit unit) {
+        Date date = Optional.ofNullable(request.getTimestamp()).orElse(new Date());
         SourceMeasurementEntity newMeasurement = SourceMeasurementEntity.builder()
-                .installationId(installationId)
+                .installationId(request.getInstallationId())
                 .unit(unit)
-                .value(value)
+                .value(request.getValue())
                 .timestamp(date)
                 .build();
         sourceMeasurementRepository.save(newMeasurement);
-        return createMeasurementResponse(installationId, date, value, unit);
+        return createLoadMeasurementResponse(request, unit, date);
     }
 
     public List<MeasurementResponse> getLoadMeasurements(String installationId, Date startDate, Date endDate, MeasurementUnit unit) {
@@ -82,7 +94,7 @@ public class MeasurementsService {
     }
 
     private List<SourceMeasurementEntity> getSourceEntities(String installationId, Optional<Date> startDateOpt,
-                                                        Optional<Date> endDateOpt, MeasurementUnit unit) {
+                                                            Optional<Date> endDateOpt, MeasurementUnit unit) {
         if (startDateOpt.isPresent() && endDateOpt.isPresent()) {
             return sourceMeasurementRepository.findByTimestampBetweenAndUnitAndInstallationId(startDateOpt.get(),
                     endDateOpt.get(), unit, installationId);
@@ -97,12 +109,12 @@ public class MeasurementsService {
         }
     }
 
-    private MeasurementResponse createMeasurementResponse(String installationId, Date date, double value, MeasurementUnit unit) {
+    private MeasurementResponse createLoadMeasurementResponse(MeasurementRequest request, MeasurementUnit unit, Date date) {
         return MeasurementResponse.builder()
-                .installationId(installationId)
+                .installationId(request.getInstallationId())
                 .timestamp(date)
                 .unit(unit.name())
-                .value(value)
+                .value(request.getValue())
                 .build();
     }
 

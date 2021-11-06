@@ -21,7 +21,6 @@ export class DeleteInstallationDialogComponent implements OnInit {
 
   deleteInstallation(id: string) {
     let params = new HttpParams().set('sessionToken', this.cookieService.get(CookieHolder.tokenKey)).set('installationId', id);
-    console.log(params)
     this.http.delete(EndpointHolder.installationEndpoint, {params: params, responseType: 'text'}, ).subscribe(() => {
       this.router.navigate(['/installations']).then();
     });

@@ -6,8 +6,9 @@
       <div class="half-div-line-margins-max400">
         <div style="margin-top: 8px">
           <mat-button-toggle-group [(ngModel)]="formModel.installationType" name="installationType"
-                                   #group="matButtonToggleGroup">
-            <mat-button-toggle value="Solar" style="min-width: 200px">{{'AddInstallation_InstallationSolar' | translate}}</mat-button-toggle>
+                                   #group="matButtonToggleGroup" value="Solar" required>
+            <mat-button-toggle value="Solar"
+                               style="min-width: 200px">{{'AddInstallation_InstallationSolar' | translate}}</mat-button-toggle>
             <mat-button-toggle value="Wind" style="min-width: 200px"
                                (change)="onWindInstallationType($event, group)">{{'AddInstallation_InstallationWind' | translate }}</mat-button-toggle>
           </mat-button-toggle-group>
@@ -63,9 +64,9 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="userformfield">
           <mat-label>{{'AddInstallation_InverterManufacturer' | translate}}</mat-label>
-          <mat-select [(value)]="formModel.inverter.manufacturer" >
+          <mat-select [(value)]="formModel.inverter.manufacturer">
             <mat-option style="background-color: white" *ngFor="let manufacturer of manufacturers"
-                        [value]="manufacturer" (onSelectionChange)="changeCredentials($event)" >
+                        [value]="manufacturer" (onSelectionChange)="changeCredentials($event)">
               {{manufacturer}}
             </mat-option>
           </mat-select>
@@ -102,7 +103,7 @@
         <br>
         <mat-form-field appearance="outline" class="userformfield">
           <mat-label>{{'AddInstallation_SourceTilt' | translate}} [°]</mat-label>
-          <input matInput id="sourceTilt" name="sourceTilt" required type="number" step="any"  min="0"
+          <input matInput id="sourceTilt" name="sourceTilt" required type="number" step="any" min="0"
                  [(ngModel)]="formModel.source.tilt">
         </mat-form-field>
       </div>

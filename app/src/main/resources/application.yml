@@ -16,3 +16,13 @@ server:
   port: 8082
   servlet:
     context-path: /api/1
+openklaster:
+  files:
+    base-path: file-repository/data
+  mqtt:
+    enabled: false
+    topic: "-"
+    address: "-"
+    port: 1883
+    cipher-key: "-"
+    installation-id: "-"

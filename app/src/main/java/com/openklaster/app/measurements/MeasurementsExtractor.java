@@ -55,8 +55,8 @@ public class MeasurementsExtractor {
 
             if (Objects.nonNull(measurement)) {
                 log.info(id  + "(" + manufacturer + "): " + measurement.getPower() + " kWh, " + measurement.getEnergy() + " kW");
-                measurementsService.addSourceMeasurement(id, new Date(), measurement.getEnergy(), MeasurementUnit.kWh);
-                measurementsService.addSourceMeasurement(id, new Date(), measurement.getPower(), MeasurementUnit.kW);
+                measurementsService.addSourceMeasurementEntity(measurement.getEnergy(), id, new Date(), MeasurementUnit.kWh);
+                measurementsService.addSourceMeasurementEntity(measurement.getPower(), id, new Date(), MeasurementUnit.kW);
             }
 
         }
