@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {Installation} from "../../model/Installation";
-import {InstallationAddPanelComponent} from "../installation-add-panel/installation-add-panel.component";
-import {InstallationService} from "../../service/installation/installation.service";
-import {ManufacturerCredentialService} from "../../service/installation/manufacturer-credential.service";
-import {CookieService} from "ngx-cookie-service";
-import {MatDialog} from "@angular/material/dialog";
-import {ActivatedRoute, Router} from "@angular/router";
-import {InstallationDto} from "../../model/InstallationDto";
-import {TranslateService} from "@ngx-translate/core";
+import {Installation} from '../../model/Installation';
+import {InstallationAddPanelComponent} from '../installation-add-panel/installation-add-panel.component';
+import {InstallationService} from '../../service/installation/installation.service';
+import {ManufacturerCredentialService} from '../../service/installation/manufacturer-credential.service';
+import {CookieService} from 'ngx-cookie-service';
+import {MatDialog} from '@angular/material/dialog';
+import {ActivatedRoute, Router} from '@angular/router';
+import {InstallationDto} from '../../model/InstallationDto';
+import {TranslateService} from '@ngx-translate/core';
 import {QuestionBase} from '../../components/Question-boxes/question-base';
 import {QuestionTextbox} from '../../components/Question-boxes/question-textbox';
 
@@ -17,8 +17,8 @@ import {QuestionTextbox} from '../../components/Question-boxes/question-textbox'
   styleUrls: ['../installation-add-panel/installation-add-panel.component.css']
 })
 export class EditInstallationComponent extends InstallationAddPanelComponent implements OnInit {
-  installationId: number
-  oldModel: Installation
+  installationId: number;
+  oldModel: Installation;
   isEditing = true;
   questions$: QuestionBase<any>[];
   questionsValues: Map<string, string> = new Map<string, string>();
@@ -27,40 +27,41 @@ export class EditInstallationComponent extends InstallationAddPanelComponent imp
               public manufacturerCredentialService: ManufacturerCredentialService,
               public cookieService: CookieService, public dialog: MatDialog,
               public route: ActivatedRoute, public router: Router, public translateService: TranslateService) {
-    super(installationService, manufacturerCredentialService, cookieService, dialog, router, translateService)
+    super(installationService, manufacturerCredentialService, cookieService, dialog, router, translateService);
     this.installationId = Number(route.snapshot.paramMap.get('id'));
   }
 
   ngOnInit(): void {
-    this.getInstallation(this.installationId).then(() => {})
+    this.getManufacturers();
+    this.getInstallation(this.installationId).then(() => {});
   }
 
   async getInstallation(id: number) {
-    let observableInstallation = this.installationService.getInstallation(this.cookieService, id);
+    const observableInstallation = this.installationService.getInstallation(this.cookieService, id);
     observableInstallation.subscribe(response => {
-      this.formModel = InstallationDto.fromDto(response)
-      this.oldModel = InstallationDto.fromDto(response)
+      this.formModel = InstallationDto.fromDto(response);
+      this.oldModel = InstallationDto.fromDto(response);
 
-      let credentials = this.manufacturersMap.get(this.formModel.inverter.manufacturer);
+      const credentials = this.manufacturersMap.get(this.formModel.inverter.manufacturer);
       this.questions$ = this.credentialsToQuestionBase(credentials);
       this.questions$.map(question => {
-        question.value = this.formModel.inverter.credentials[question.key]
-      })
-    })
+        question.value = this.formModel.inverter.credentials[question.key];
+      });
+    });
   }
 
   onSubmit() {
-    this.sendRequestState = 'waiting'
+    this.sendRequestState = 'waiting';
     this.formModel.inverter.credentials = this.oldModel.inverter.credentials;
-    let editPromise = this.installationService.editInstallation(this.formModel, this.cookieService);
+    const editPromise = this.installationService.editInstallation(this.formModel, this.cookieService);
     editPromise
       .then(() => {
-        this.sendRequestState = 'success'
-        this.router.navigate(['installations', this.installationId]).then()
+        this.sendRequestState = 'success';
+        this.router.navigate(['installations', this.installationId]).then();
       })
       .catch(() => {
-        this.sendRequestState = 'failure'
-      })
+        this.sendRequestState = 'failure';
+      });
   }
 
 }

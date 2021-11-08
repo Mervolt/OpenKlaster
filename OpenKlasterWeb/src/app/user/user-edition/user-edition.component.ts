@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from "../../service/user.service";
-import {CookieService} from "ngx-cookie-service";
-import {CookieHolder} from "../../model/CookieHolder";
-import {TokenService} from "../../service/token/token.service";
-import {UserUpdateDto} from "../../model/UserUpdateDto";
+import {UserService} from '../../service/user.service';
+import {CookieService} from 'ngx-cookie-service';
+import {CookieHolder} from '../../model/CookieHolder';
+import {TokenService} from '../../service/token/token.service';
+import {UserUpdateDto} from '../../model/UserUpdateDto';
 
 @Component({
   selector: 'app-user-edition',
@@ -15,7 +15,7 @@ export class UserEditionComponent implements OnInit {
   formModel: UserUpdateDto;
   isEmailDisabled = true;
   isPasswordDisabled = true;
-  requestState: string = 'none'
+  requestState = 'none';
   newPasswordConfirm: string;
   oldEmail: string;
   username: string;
@@ -26,21 +26,21 @@ export class UserEditionComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.isPasswordDisabled){
+    if (this.isPasswordDisabled){
       this.formModel.newPassword = this.formModel.password;
     }
     this.userService.updateUserInfo(this.formModel).then(() => {
-      this.requestState = 'success'
-      this.ngOnInit()
+      this.requestState = 'success';
+      this.ngOnInit();
     })
       .catch(() => {
-        this.requestState = 'failure'
-        this.ngOnInit()
-      })
-    this.isEmailDisabled = true
-    this.isPasswordDisabled = true
+        this.requestState = 'failure';
+        this.ngOnInit();
+      });
+    this.isEmailDisabled = true;
+    this.isPasswordDisabled = true;
     setTimeout(() => {
-      this.requestState = 'none'
+      this.requestState = 'none';
     }, 3500);
   }
 
@@ -48,13 +48,13 @@ export class UserEditionComponent implements OnInit {
               private tokenService: TokenService) {}
 
   prepareUser() {
-    this.newPasswordConfirm = ''
+    this.newPasswordConfirm = '';
     this.tokenService.getUserInfo(this.cookieService).toPromise().then(response => {
-      this.email = response['email'];
+      this.email = response.email;
       this.oldEmail = this.email;
       this.username = this.cookieService.get(CookieHolder.usernameKey);
-      this.formModel = new UserUpdateDto(this.username, "", "", this.email)
-    })
+      this.formModel = new UserUpdateDto(this.username, '', '', this.email);
+    });
   }
 
   toggleEmailEdit() {

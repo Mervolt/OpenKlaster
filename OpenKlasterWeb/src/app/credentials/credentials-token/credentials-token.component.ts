@@ -6,8 +6,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
   styleUrls: ['./credentials-token.component.css']
 })
 export class CredentialsTokenComponent implements OnInit {
-  @Output() tokenEmitter = new EventEmitter<JSON>()
-  token: string
+  @Output() tokenEmitter = new EventEmitter<JSON>();
+  token: string;
 
   constructor() {
 
@@ -17,9 +17,9 @@ export class CredentialsTokenComponent implements OnInit {
   }
 
   sendMessage() {
-    let jsonObject: any = {
-      "token": this.token
-    }
-    this.tokenEmitter.emit(<JSON>jsonObject)
+    const jsonObject: any = {
+      token: this.token
+    };
+    this.tokenEmitter.emit(jsonObject as JSON);
   }
 }

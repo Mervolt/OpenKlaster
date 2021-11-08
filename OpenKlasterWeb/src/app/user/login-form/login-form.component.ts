@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {User} from '../../model/User';
 import {Router} from '@angular/router';
 import {AppComponent} from '../../app.component';
-import {UserService} from "../../service/user.service";
+import {UserService} from '../../service/user.service';
 
 @Component({
   selector: 'app-login-form',
@@ -13,16 +13,17 @@ export class LoginFormComponent implements OnInit {
   model = new User('', '', '');
 
   constructor(public service: UserService, public appComp: AppComponent, private router: Router) {
-    this.appComp.refreshBackground(0)
+    this.appComp.refreshBackground(0);
   }
 
   ngOnInit(): void {
   }
 
   async onSubmit() {
-    let success = await this.service.getSessionToken(this.model, this.appComp.cookieService);
-    if (success)
-      this.router.navigate(['/installations']).then()
+    const success = await this.service.getSessionToken(this.model, this.appComp.cookieService);
+    if (success) {
+      this.router.navigate(['/installations']).then();
+    }
   }
 
   redirectToRegister() {

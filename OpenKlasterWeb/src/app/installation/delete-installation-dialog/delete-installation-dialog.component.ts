@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {CookieHolder} from "../../model/CookieHolder";
-import {EndpointHolder} from "../../model/EndpointHolder";
-import {CookieService} from "ngx-cookie-service";
-import {Router} from "@angular/router";
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {CookieHolder} from '../../model/CookieHolder';
+import {EndpointHolder} from '../../model/EndpointHolder';
+import {CookieService} from 'ngx-cookie-service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-delete-installation-dialog',
@@ -20,8 +20,8 @@ export class DeleteInstallationDialogComponent implements OnInit {
   }
 
   deleteInstallation(id: string) {
-    let params = new HttpParams().set('sessionToken', this.cookieService.get(CookieHolder.tokenKey)).set('installationId', id);
-    this.http.delete(EndpointHolder.installationEndpoint, {params: params, responseType: 'text'}, ).subscribe(() => {
+    const params = new HttpParams().set('sessionToken', this.cookieService.get(CookieHolder.tokenKey)).set('installationId', id);
+    this.http.delete(EndpointHolder.installationEndpoint, {params, responseType: 'text'}, ).subscribe(() => {
       this.router.navigate(['/installations']).then();
     });
   }

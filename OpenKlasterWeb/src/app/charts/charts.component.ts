@@ -18,17 +18,17 @@ import {MatHorizontalStepper} from '@angular/material/stepper';
 })
 export class ChartsComponent implements OnInit {
   @ViewChild('stepper') private stepper: MatHorizontalStepper;
-  getChartsError: boolean = false;
-  getSelectableDatesError: boolean = false;
+  getChartsError = false;
+  getSelectableDatesError = false;
 
   cookieService: CookieService;
   charts: Array<Chart> = new Array<Chart>();
   selectableDates: Array<Date>;
   installationForm: FormGroup;
   datePickerForm: FormGroup;
-  installationId: string = '';
+  installationId = '';
   selectedDate: string;
-  installationIDs: Array<String>
+  installationIDs: Array<String>;
 
   dateClass = (cellDate: Date) => this.isSelectableDate(cellDate) ? 'example-custom-date-class' : '';
   dateFilter = (cellDate: Date) => this.isSelectableDate(cellDate);
@@ -41,16 +41,16 @@ export class ChartsComponent implements OnInit {
               private route: ActivatedRoute) {
     this.cookieService = appComp.cookieService;
     this.route.queryParams.subscribe(params => {
-      if (params['installationId'] != undefined) {
-        this.installationId = params['installationId'];
+      if (params.installationId != undefined) {
+        this.installationId = params.installationId;
       }
     });
   }
 
   ngOnInit(): void {
     this.installationService.getInstallations(this.cookieService).subscribe(response => {
-      this.installationIDs = response.map(installation => installation['installationId'])
-    })
+      this.installationIDs = response.map(installation => installation.installationId);
+    });
 
     this.installationForm = this.fb.group({
       installationId: [this.installationId, Validators.required]
@@ -62,11 +62,11 @@ export class ChartsComponent implements OnInit {
   }
 
   installationSelectedOption() {
-    document.getElementById('ChooseInstallationNext').click()
+    document.getElementById('ChooseInstallationNext').click();
   }
 
   dateSelectedOption() {
-    document.getElementById('ChooseDateNext').click()
+    document.getElementById('ChooseDateNext').click();
   }
 
   installationSelected() {
@@ -78,7 +78,7 @@ export class ChartsComponent implements OnInit {
         }, () => {
           this.getSelectableDatesError = true;
         }
-      )
+      );
       this.datePickerForm.get('date').setValue('');
     }
   }
@@ -87,40 +87,41 @@ export class ChartsComponent implements OnInit {
     if (this.datePickerForm.get('date').value != '' && this.datePickerForm.get('date').value != null) {
       this.getChartsError = false;
       this.selectedDate = this.formatDate(this.datePickerForm.get('date').value);
-      let chartsArray = [];
+      const chartsArray = [];
       this.chartService.getChartsForInstallation(this.cookieService, this.installationId, this.selectedDate)
         .subscribe(response => {
-            let dateKeys = Object.keys(response).sort((a, b) => compareAsc(this.parseDateTime(a), this.parseDateTime(b)));
+            const dateKeys = Object.keys(response).sort((a, b) => compareAsc(this.parseDateTime(a), this.parseDateTime(b)));
             dateKeys.forEach(value =>
               chartsArray.push(new Chart(this.parseDateTime(value),
                 this.domSanitizer.bypassSecurityTrustResourceUrl(response[value]))));
             this.charts = chartsArray;
           },
           () => {
-            this.getChartsError = true
+            this.getChartsError = true;
           }
-        )
+        );
     }
   }
 
   parseDateTime(date: string): Date {
-    return parse(date, "yyyy-MM-dd-HHmmss", new Date());
+    return parse(date, 'yyyy-MM-dd-HHmmss', new Date());
   }
 
   formatTime(date: Date): string {
-    return format(date, 'HH:mm:ss')
+    return format(date, 'HH:mm:ss');
   }
 
   formatDate(date: Date): string {
-    return format(date, 'yyyy-MM-dd')
+    return format(date, 'yyyy-MM-dd');
   }
 
   isSelectableDate(cellDate: Date): boolean {
     let returnValue = false;
-    this.selectableDates.forEach(function (selectableDate) {
-      if (cellDate.getDate() == selectableDate.getDate() && cellDate.getMonth() == selectableDate.getMonth() && cellDate.getFullYear() == selectableDate.getFullYear())
+    this.selectableDates.forEach(function(selectableDate) {
+      if (cellDate.getDate() == selectableDate.getDate() && cellDate.getMonth() == selectableDate.getMonth() && cellDate.getFullYear() == selectableDate.getFullYear()) {
         returnValue = true;
-    })
+      }
+    });
     return returnValue;
   }
 }

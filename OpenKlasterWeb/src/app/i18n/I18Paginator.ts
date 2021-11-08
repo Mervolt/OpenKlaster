@@ -1,5 +1,5 @@
-import {TranslateService} from "@ngx-translate/core";
-import {MatPaginatorIntl} from "@angular/material/paginator";
+import {TranslateService} from '@ngx-translate/core';
+import {MatPaginatorIntl} from '@angular/material/paginator';
 
 export class I18Paginator {
 
@@ -7,7 +7,7 @@ export class I18Paginator {
 
   getPaginatorIntl(): MatPaginatorIntl {
     const paginatorIntl = new MatPaginatorIntl();
-    if(navigator.language === 'pl' || navigator.language === 'pl-PL') {
+    if (navigator.language === 'pl' || navigator.language === 'pl-PL') {
       paginatorIntl.itemsPerPageLabel = 'Pozycje na stronie:';
       paginatorIntl.nextPageLabel = 'Następna strona';
       paginatorIntl.previousPageLabel = 'Poprzednia strona';

@@ -9,8 +9,8 @@ export class SubmitButtonComponent implements OnInit {
 
   @Input() buttonCaption: string;
   @Input() onClick: () => void;
-  @Input() requestState: string = 'none';
-  @Input() disabled: boolean = false;
+  @Input() requestState = 'none';
+  @Input() disabled = false;
 
   constructor() {}
 

@@ -6,9 +6,9 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./request-response-component.component.css']
 })
 export class RequestResponseComponentComponent implements OnInit {
-  @Input() sendRequestState: string
-  @Input() requestReceivedState: string
-  @Input() submittedObjectName: string
+  @Input() sendRequestState: string;
+  @Input() requestReceivedState: string;
+  @Input() submittedObjectName: string;
   constructor() { }
 
   ngOnInit(): void {

@@ -3,9 +3,9 @@ import {Router} from '@angular/router';
 
 import {UserService} from '../../service/user.service';
 import {User} from '../../model/User';
-import {AppComponent} from "../../app.component";
-import {MatDialog} from "@angular/material/dialog";
-import {ConfirmationDialogPopupComponent} from "../../components/confirmation-dialog-popup/confirmation-dialog-popup.component";
+import {AppComponent} from '../../app.component';
+import {MatDialog} from '@angular/material/dialog';
+import {ConfirmationDialogPopupComponent} from '../../components/confirmation-dialog-popup/confirmation-dialog-popup.component';
 
 
 @Component({
@@ -17,14 +17,14 @@ export class RegisterFormComponent implements OnInit {
   model = new User('', '', '');
 
   constructor(public service: UserService, public appComp: AppComponent, private router: Router, public dialog: MatDialog) {
-    this.appComp.refreshBackground(0)
+    this.appComp.refreshBackground(0);
   }
 
   ngOnInit(): void {
   }
 
   async onSubmit() {
-    let success = await this.service.addUser(this.model);
+    const success = await this.service.addUser(this.model);
     if (success) {
       this.router.navigate(['/login']).then();
     }

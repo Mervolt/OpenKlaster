@@ -1,5 +1,5 @@
 export class CookieHolder {
-  static usernameKey: string = 'username'
-  static tokenKey: string = 'sessionToken'
+  static usernameKey = 'username';
+  static tokenKey = 'sessionToken';
 
 }

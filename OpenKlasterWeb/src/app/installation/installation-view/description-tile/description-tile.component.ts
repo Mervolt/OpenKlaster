@@ -7,9 +7,9 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class DescriptionTileComponent implements OnInit {
 
-  @Input() description: string
-  @Input() tileTitle: string
-  @Input() icon: string
+  @Input() description: string;
+  @Input() tileTitle: string;
+  @Input() icon: string;
   @Input() properties: Map<string, any>;
   @Input() singlePropertiesDisplay = false;
 
