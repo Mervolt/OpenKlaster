@@ -56,7 +56,7 @@ public class MqttService implements InitializingBean {
             double value = getValue(splittedMsg[1]);
             SourceMeasurementEntity result = measurementsService.addSourceMeasurementEntity(value, installationId,
                     date, MeasurementUnit.kW);
-            logger.debug(String.format("Added measurement from mqtt: %s", result.toString()));
+            logger.debug(String.format("Added measurement from mqtt: %s\nOriginal Message: %s", result.toString(), decryptedMessage));
         } catch (Exception e) {
             logger.error("Error during handling mqtt message", e);
             throw e;
