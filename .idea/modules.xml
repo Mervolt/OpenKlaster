@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/OpenKlasterApplication/OpenKlasterApplication.iml" filepath="$PROJECT_DIR$/OpenKlasterApplication/OpenKlasterApplication.iml" />
-=======
       <module fileurl="file://$PROJECT_DIR$/OpenKlasterApplication/OpenklasterApplication.iml" filepath="$PROJECT_DIR$/OpenKlasterApplication/OpenklasterApplication.iml" />
->>>>>>> b87fb5ff15e9cc720c03ec5e037192e03f0b52f6
     </modules>
   </component>
 </project>

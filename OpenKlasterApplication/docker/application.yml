@@ -18,6 +18,9 @@ server:
 openklaster:
   files:
     base-path: file-repository/data
+  power-energy:
+    enabled: true
+    installation-id: "-"
   mqtt:
     enabled: false
     topic: "-"

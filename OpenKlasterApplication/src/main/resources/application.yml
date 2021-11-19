@@ -17,6 +17,9 @@ server:
   servlet:
     context-path: /api/1
 openklaster:
+  power-energy:
+    enabled: false
+    installation-id: "-"
   files:
     base-path: ../file-repository/data
   mqtt:

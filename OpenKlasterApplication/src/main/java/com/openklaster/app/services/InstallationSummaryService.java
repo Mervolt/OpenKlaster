@@ -63,6 +63,7 @@ public class InstallationSummaryService {
     private List<SourceMeasurementEntity> getMeasurementByUnit(List<SourceMeasurementEntity> sourceMeasurements, MeasurementUnit unit) {
         return sourceMeasurements.stream()
                 .filter(measurement -> measurement.getUnit().equals(unit))
+                .filter(measurement -> measurement.getValue() > 0)
                 .collect(Collectors.toList());
 
     }

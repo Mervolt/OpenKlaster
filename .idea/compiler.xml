@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="OpenKlasterApplication" />
+        <module name="OpenklasterApplication" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -18,12 +19,14 @@
       <module name="OpenKlaster" target="1.8" />
       <module name="OpenKlasterAPI" target="1.8" />
       <module name="OpenKlasterApplication" target="1.8" />
+      <module name="OpenklasterApplication" target="1.8" />
       <module name="OpenKlasterCore" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="OpenKlasterApplication" options="-parameters" />
+      <module name="OpenklasterApplication" options="-parameters" />
     </option>
   </component>
 </project>
