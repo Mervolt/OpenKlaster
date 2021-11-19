@@ -18,8 +18,10 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @EnableAsync
@@ -54,18 +56,26 @@ public class PowerToEnergyService {
                 .average()
                 .orElse(0);
 
-        MeasurementRequest req = MeasurementRequest.builder()
-                .installationId(installationId)
-                .timestamp(new Date())
-                .value(mediumPower)
-                .build();
-
         String measurementsString = measurements
                 .stream()
                 .map(entity -> String.valueOf(entity.getValue()))
                 .collect(Collectors.joining(", "));
 
+        Optional<Double> latestEnergyMeasurement = sourceMeasurementRepository.
+                findByTimestampBeforeAndUnitAndInstallationId(new Date(), MeasurementUnit.kWh, installationId)
+                .stream()
+                .max(Comparator.comparing(SourceMeasurementEntity::getTimestamp))
+                .map(SourceMeasurementEntity::getValue);
+
+        MeasurementRequest req = MeasurementRequest.builder()
+                .installationId(installationId)
+                .timestamp(new Date())
+                .value(mediumPower + latestEnergyMeasurement.orElse(0.0))
+                .build();
+
+
         logger.debug(String.format("Calculated %f energy from measurements:\n%s", mediumPower, measurementsString));
+        logger.debug(String.format("New energy measurement is %f, previous was %f", req.getValue(), latestEnergyMeasurement.orElse(0.)));
 
         measurementsService.addSourceMeasurement(req, MeasurementUnit.kWh);
     }
