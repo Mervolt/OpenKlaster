@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,10 +61,21 @@ public class InstallationSummaryService {
                 .collect(Collectors.toList());
     }
 
-    private List<SourceMeasurementEntity> getMeasurementByUnit(List<SourceMeasurementEntity> sourceMeasurements, MeasurementUnit unit) {
+    //encapsulation, yea yea, but for quick tests
+    public List<SourceMeasurementEntity> getMeasurementByUnit(List<SourceMeasurementEntity> sourceMeasurements, MeasurementUnit unit) {
+        AtomicInteger zeroValuesCount = new AtomicInteger();
         return sourceMeasurements.stream()
+                .sorted(Comparator.comparing(SourceMeasurementEntity::getTimestamp))
                 .filter(measurement -> measurement.getUnit().equals(unit))
-                .filter(measurement -> measurement.getValue() > 0)
+                .filter(measurement -> {
+                    if (measurement.getValue() == 0.){
+                        zeroValuesCount.addAndGet(1);
+                        return zeroValuesCount.get() > 2;
+                    }else {
+                        zeroValuesCount.set(0);
+                        return true;
+                    }
+                })
                 .collect(Collectors.toList());
 
     }

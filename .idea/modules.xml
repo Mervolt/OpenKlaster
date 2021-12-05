@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/OpenKlasterWeb/OpenKlasterWeb.iml" filepath="$PROJECT_DIR$/OpenKlasterWeb/OpenKlasterWeb.iml" />
       <module fileurl="file://$PROJECT_DIR$/OpenKlasterApplication/OpenklasterApplication.iml" filepath="$PROJECT_DIR$/OpenKlasterApplication/OpenklasterApplication.iml" />
     </modules>
   </component>
