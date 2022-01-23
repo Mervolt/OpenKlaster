@@ -41,6 +41,8 @@ public class AuthService {
                 .email(userEntity.getEmail())
                 .sessionToken(refreshedSessionToken)
                 .userTokens(userEntity.getUserTokens())
+                .role(userEntity.getRole())
+                .active(userEntity.isActive())
                 .build();
 
         userRepository.save(refreshedUserEntity);

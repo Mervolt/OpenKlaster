@@ -1,5 +1,6 @@
 package com.openklaster.app.services;
 
+import com.openklaster.app.model.entities.user.Role;
 import com.openklaster.app.model.entities.user.SessionTokenEntity;
 import com.openklaster.app.model.entities.user.TokenEntity;
 import com.openklaster.app.model.entities.user.UserEntity;
@@ -47,6 +48,8 @@ public class UsersService {
                 .id(registerRequest.getUsername())
                 .email(registerRequest.getEmail())
                 .password(authService.hashPassword(registerRequest.getPassword()))
+                .role(Role.USER)
+                .active(true)
                 .build();
         userRepository.insert(newUser);
         logger.debug(String.format("Added user %s", newUser.getUsername()));
@@ -72,6 +75,8 @@ public class UsersService {
                 .password(password)
                 .userTokens(userEntity.getUserTokens())
                 .sessionToken(userEntity.getSessionToken())
+                .role(userEntity.getRole())
+                .active(userEntity.isActive())
                 .build();
 
         userRepository.save(user);

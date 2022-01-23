@@ -54,7 +54,7 @@ public class TokenBasedAuthenticationFilter extends OncePerRequestFilter {
 
     private void authenticate(UserEntity userEntity, String token, HttpServletRequest request) {
         AuthenticatedUser authentication = new AuthenticatedUser(userEntity, token);
-        authentication.setAuthenticated(true);
+        authentication.setAuthenticated(userEntity.isActive());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

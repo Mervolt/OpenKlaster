@@ -21,6 +21,8 @@ public class UserEntity {
     List<TokenEntity> userTokens;
     @With
     SessionTokenEntity sessionToken;
+    boolean active;
+    Role role;
 
     public String getUsername() {
         return getId();

@@ -1,6 +1,7 @@
 package com.openklaster.app.configuration;
 
 import com.openklaster.app.controllers.interceptors.TokenBasedAuthenticationFilter;
+import com.openklaster.app.model.entities.user.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -21,7 +22,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/user").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/login").permitAll()
-                .anyRequest().permitAll();
+                .antMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
+                .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
