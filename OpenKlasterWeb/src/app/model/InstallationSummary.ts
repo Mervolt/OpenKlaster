@@ -10,6 +10,7 @@ export class InstallationSummary {
   todayEnergy: number;
   currentPower: number;
   environmentalBenefits: EnvironmentalBenefits;
+  power: Map<Date, number>;
 
   constructor() {
     this.environmentalBenefits = new EnvironmentalBenefits();

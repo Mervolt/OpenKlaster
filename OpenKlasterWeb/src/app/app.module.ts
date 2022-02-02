@@ -66,6 +66,19 @@ import {I18Paginator} from './i18n/I18Paginator';
 import {ClipboardModule} from 'ngx-clipboard';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { DeleteTokenDialogComponent } from './token/delete-token-dialog/delete-token-dialog.component';
+import { InstallationSummaryComponent } from './installation-summary/installation-summary/installation-summary.component';
+import { SelectInstallationDialogComponent } from './installation-summary/select-installation-dialog/select-installation-dialog.component';
+import { SummarySlideDescriptionComponent } from './installation-summary/installation-summary/summary-slide-description/summary-slide-description.component';
+import { EnvironmentPanelComponent } from './installation-summary/installation-summary/environment-panel/environment-panel.component';
+import { EnvironmentChartComponent } from './installation-summary/installation-summary/environment-chart/environment-chart.component';
+import {
+  CategoryService,
+  ChartModule,
+  DataLabelService,
+  LegendService,
+  LineSeriesService,
+  TooltipService
+} from "@syncfusion/ej2-angular-charts";
 
 
 @NgModule({
@@ -98,7 +111,12 @@ import { DeleteTokenDialogComponent } from './token/delete-token-dialog/delete-t
     DescriptionTileComponent,
     DashboardPropertiesComponent,
     DigitalSignageComponent,
-    DeleteTokenDialogComponent
+    DeleteTokenDialogComponent,
+    InstallationSummaryComponent,
+    SelectInstallationDialogComponent,
+    SummarySlideDescriptionComponent,
+    EnvironmentPanelComponent,
+    EnvironmentChartComponent
   ],
   imports: [
     BrowserModule,
@@ -114,6 +132,8 @@ import { DeleteTokenDialogComponent } from './token/delete-token-dialog/delete-t
       {path: 'editInstallation/:id', component: EditInstallationComponent},
       {path: 'charts', component: ChartsComponent},
       {path: 'digitalSignage', component: DigitalSignageComponent},
+      {path: 'installationSummary/:id', component: InstallationSummaryComponent},
+      {path: 'installationSummary', component: InstallationSummaryComponent}
     ]),
     ReactiveFormsModule,
     FormsModule,
@@ -148,7 +168,8 @@ import { DeleteTokenDialogComponent } from './token/delete-token-dialog/delete-t
         deps: [HttpClient]
       }
     }),
-    ClipboardModule
+    ClipboardModule,
+    ChartModule
   ],
   providers: [
     {
@@ -168,7 +189,12 @@ import { DeleteTokenDialogComponent } from './token/delete-token-dialog/delete-t
       provide: HTTP_INTERCEPTORS,
       useClass: HttpClientInterceptor,
       multi: true,
-    }
+    },
+    CategoryService,
+    LegendService,
+    TooltipService,
+    DataLabelService,
+    LineSeriesService
   ],
   bootstrap: [AppComponent]
 })

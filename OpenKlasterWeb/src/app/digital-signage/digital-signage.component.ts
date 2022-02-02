@@ -6,9 +6,8 @@ import {CookieService} from 'ngx-cookie-service';
 import {TokenService} from '../service/token/token.service';
 import {TokenResponse} from '../token/token-panel/token-panel.component';
 import {MatHorizontalStepper} from '@angular/material/stepper';
-import {ActivatedRoute, Route} from '@angular/router';
+import {ActivatedRoute, Route, Router} from '@angular/router';
 import {EndpointHolder} from '../model/EndpointHolder';
-import {ClipboardService} from 'ngx-clipboard';
 
 @Component({
   selector: 'app-digital-signage',
@@ -38,7 +37,8 @@ export class DigitalSignageComponent implements OnInit {
               private appComp: AppComponent,
               private installationService: InstallationService,
               private tokenService: TokenService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router) {
     this.cookieService = appComp.cookieService;
   }
 
@@ -58,16 +58,6 @@ export class DigitalSignageComponent implements OnInit {
     });
 
     this.desiredTimePerSlide = 10000;
-  }
-
-  contentCopied(e) {
-    this.contenCopied = e.isSuccess;
-  }
-
-  ngAfterViewInit(): void {
-    if (this.installationId != '') {
-      this.installationForm.get('installationId').setValue(this.installationId);
-    }
   }
 
   getFormOptions(): void {

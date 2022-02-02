@@ -83,6 +83,7 @@
   "Navbar_APIDocumentation": "API Documentation",
   "Navbar_DigitalSignage": "Digital signage",
   "Navbar_Logout": "Logout",
+  "Navbar_InstallationSummary": "Installation summary",
   "Charts_ChooseYourInstallation": "Choose your installation",
   "Charts_SelectOption": "Select an option",
   "Charts_NoInstallation": "None",
@@ -131,6 +132,16 @@
   "DeleteTokenDialog_DeleteAllQuestion": "Are you sure you want to delete all tokens?",
   "Username": "Username",
   "Password": "Password",
-  "Token": "Token"
-
+  "Token": "Token",
+  "SelectInstallationId_Caption" : "Please select an installation.",
+  "Common_Cancel" : "Cancel",
+  "Common_Confirm" : "Ok",
+  "Summary_CurrentPower": "Current Power (kW)",
+  "Summary_Description": "Photovoltaic installation is a source of green energy.",
+  "Summary_TodayEnergy": "Energy produced today (kWh)",
+  "Summary_Energy": "Energy produced (kWh)",
+  "Summary_CO2": "Reduced CO2 emission (t)",
+  "Summary_SavedTrees": "To reduce emission by such rate we need to plant such amount of trees",
+  "Summary_TreesDescription": "100 m2 lasu - około 80 drzew usuwa tonę CO2 z atmosfery w ciągu 10 lat",
+  "Summary_PowerToday": "Today produced energy"
 }

@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
     new NavigationNameAddressTuple(this.navbarPrefix + 'UserPanel', this.navigateToUserPanel.bind(this)),
     new NavigationNameAddressTuple(this.navbarPrefix + 'APIDocumentation', this.navigateToSwagger.bind(this)),
     new NavigationNameAddressTuple(this.navbarPrefix + 'DigitalSignage', this.navigateToDigitalSignage.bind(this)),
+    new NavigationNameAddressTuple(this.navbarPrefix + 'InstallationSummary', this.navigateToInstallationSummary.bind(this)),
     new NavigationNameAddressTuple(this.navbarPrefix + 'Logout', this.logout.bind(this))
   ];
 
@@ -53,6 +54,10 @@ export class NavbarComponent implements OnInit {
 
   navigateToDigitalSignage(): void{
     this.router.navigate(['digitalSignage']).then();
+  }
+
+  navigateToInstallationSummary(): void {
+    this.router.navigate(['installationSummary']).then();
   }
 
   logout() {
