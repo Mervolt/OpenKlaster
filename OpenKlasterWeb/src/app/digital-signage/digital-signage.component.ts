@@ -111,17 +111,9 @@ export class DigitalSignageComponent implements OnInit {
   }
 
   goToDigitalSignage() {
-    window.location.href = this.getDigitalSignageLink();
-  }
-
-  getDigitalSignageLink(): string {
-    return EndpointHolder.digitalSignageEndpoint + '?' +
-      'installationId=' + this.installationId + '&' +
-      'apiToken=' + this.apiToken + '&' +
-      'intro=' + this.introSelected + '&' +
-      'trees=' + this.treesSelected + '&' +
-      'power_chart=' + this.chartsSelected + '&' +
-      'slideChangeTimeout=' + this.desiredTimePerSlide;
+    this.router.navigate(['/installationSummary'],
+      {queryParams: {id :this.installationId, apiToken: this.apiToken, interval: this.desiredTimePerSlide}}
+      )
   }
 
   routeToDigitalSignageRepo() {
