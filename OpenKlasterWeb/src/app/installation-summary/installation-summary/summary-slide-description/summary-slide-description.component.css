@@ -1,0 +1,16 @@
+.slide {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  padding-left: 25px;
+  background-color: rgba(16, 12, 18, 0.7);
+  color: white;
+}
+.logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.img {
+  border-radius: 25px
+}

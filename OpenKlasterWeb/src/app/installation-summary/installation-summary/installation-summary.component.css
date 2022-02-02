@@ -1,0 +1,20 @@
+.margin-panel {
+  width: 20%;
+  height: 200%;
+}
+.main-panel {
+  width: 80%;
+  height: max-content;
+}
+
+.background-div {
+  background-image: url("~src/assets/img/solar_panels.jpg");
+  background-size: 100% 100%;
+  width: 100%;
+  height: 100%;
+}
+
+.slide-container {
+  display: flex;
+  height: max-content;
+}

@@ -31,8 +31,8 @@ export class InstallationService {
     return this.http.get(EndpointHolder.summaryEndpoint, {params});
   }
 
-  getInstallationSummaryByString(cookieService: CookieService, id: string): Observable<InstallationSummary> {
-    const params = new HttpParams().set('sessionToken', cookieService.get(CookieHolder.tokenKey)).set('installationId', id);
+  getInstallationSummaryByString(id: string, apiToken: string): Observable<InstallationSummary> {
+    const params = new HttpParams().set('apiToken', apiToken).set('installationId', id);
     return this.http.get<InstallationSummary>(EndpointHolder.summaryEndpoint, {params});
   }
 
