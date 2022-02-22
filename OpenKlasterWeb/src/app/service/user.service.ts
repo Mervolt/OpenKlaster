@@ -67,8 +67,14 @@ export class UserService {
         this.toastr.success(this.getSuccessLoginTranslation());
         return true;
       })
-      .catch(() => {
-        this.toastr.error(this.getFailureLoginTranslation());
+      .catch((reason) => {
+        console.log(reason.status);
+        if (reason.status === 401) {
+          this.toastr.error(this.getFailureLoginTranslation());
+        }
+        else  if (reason.status === 403) {
+          this.toastr.error(this.getBannedLoginTranslation());
+        }
         return false;
       });
   }
@@ -79,6 +85,10 @@ export class UserService {
 
   private getFailureLoginTranslation(){
     return this.translateService.instant('DialogLogin_Failure');
+  }
+
+  private getBannedLoginTranslation(){
+    return this.translateService.instant('DialogLogin_Banned');
   }
 
   private getSuccessRegisterTranslation(username: String){

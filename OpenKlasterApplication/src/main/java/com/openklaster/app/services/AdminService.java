@@ -6,6 +6,7 @@ import com.openklaster.app.model.requests.UpdateUserAdminRequest;
 import com.openklaster.app.model.responses.UserDto;
 import com.openklaster.app.persistence.mongo.user.UserRepository;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AdminService {
     private final UserRepository userRepository;
+
+    private AuthService authService;
 
     private static final Logger logger = LoggerFactory.getLogger(AdminService.class);
 
@@ -37,10 +40,13 @@ public class AdminService {
         UserEntity userEntity = userRepository.findById(updateUserRequest.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
+        String password = Strings.isBlank(updateUserRequest.getPassword()) ? userEntity.getPassword() :
+                authService.hashPassword(updateUserRequest.getPassword());
+
         UserEntity user = UserEntity.builder()
                 .id(updateUserRequest.getUsername())
                 .email(updateUserRequest.getEmail())
-                .password(updateUserRequest.getPassword())
+                .password(password)
                 .userTokens(userEntity.getUserTokens())
                 .sessionToken(userEntity.getSessionToken())
                 .role(Role.valueOf(updateUserRequest.getRole()))

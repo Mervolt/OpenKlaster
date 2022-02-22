@@ -14,4 +14,6 @@ export class EndpointHolder {
   static summaryEndpoint = EndpointHolder.apiUrl + 'summary';
   static selectableDatesEndpoint = EndpointHolder.apiUrl + 'selectableDates';
   static digitalSignageEndpoint = environment.apiUrl + 'digital-signage/index.html';
+
+  static adminUserEndpoint = EndpointHolder.apiUrl + 'admin/user';
 }

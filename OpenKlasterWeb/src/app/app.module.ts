@@ -46,7 +46,7 @@ import {ChartsComponent} from './charts/charts.component';
 import {DynamicFormQuestionComponent} from './components/Question-boxes/dynamic-form-question/dynamic-form-question.component';
 import {DynamicFormComponent} from './components/Question-boxes/dynamic-form/dynamic-form.component';
 import {SubmitButtonComponent} from './components/submit-button/submit-button.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {UserEditionComponent} from './user/user-edition/user-edition.component';
 import {EditionInputComponent} from './components/edition-input/edition-input.component';
 import {UserPanelComponent} from './user/user-panel/user-panel.component';
@@ -75,9 +75,11 @@ import {
   DataLabelService, DateTimeCategoryService, DateTimeService,
   LegendService,
   LineSeriesService, StripLineService,
-  TooltipService
-} from "@syncfusion/ej2-angular-charts";
-
+  TooltipService, AccumulationChartModule, RangeNavigatorModule, SparklineModule, SmithchartModule, StockChartModule, BulletChartModule
+} from '@syncfusion/ej2-angular-charts';
+import { UserManagementListComponent } from './admin/user-management-list/user-management-list.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -112,7 +114,8 @@ import {
     DeleteTokenDialogComponent,
     InstallationSummaryComponent,
     SummarySlideDescriptionComponent,
-    EnvironmentPanelComponent
+    EnvironmentPanelComponent,
+    UserManagementListComponent
   ],
   imports: [
     BrowserModule,
@@ -129,7 +132,8 @@ import {
       {path: 'charts', component: ChartsComponent},
       {path: 'digitalSignage', component: DigitalSignageComponent},
       {path: 'installationSummary/:id', component: InstallationSummaryComponent},
-      {path: 'installationSummary', component: InstallationSummaryComponent}
+      {path: 'installationSummary', component: InstallationSummaryComponent},
+      {path: 'admin', component: UserManagementListComponent}
     ]),
     ReactiveFormsModule,
     FormsModule,
@@ -165,7 +169,10 @@ import {
       }
     }),
     ClipboardModule,
-    ChartModule
+    ChartModule,
+    MatSlideToggleModule,
+    MatRadioModule,
+    AccumulationChartModule, RangeNavigatorModule, SparklineModule, SmithchartModule, StockChartModule, BulletChartModule
   ],
   providers: [
     {

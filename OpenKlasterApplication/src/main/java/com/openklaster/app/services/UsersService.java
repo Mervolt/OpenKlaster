@@ -87,7 +87,9 @@ public class UsersService {
     public TokenResponse generateSessionTokenForUser(LoginRequest loginRequest) {
         UserEntity userEntity = getUserOrThrow404(loginRequest.getUsername());
         boolean isPasswordOk = authService.authenticatePassword(loginRequest.getPassword(), userEntity.getPassword());
+        boolean active = userEntity.isActive();
         if (!isPasswordOk) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        if (!active)throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
         SessionTokenEntity generatedToken = tokensService.generateSessionToken();
         UserEntity newUserEntity = userEntity.withSessionToken(generatedToken);

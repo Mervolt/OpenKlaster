@@ -117,6 +117,7 @@
   "DigitalSignage_RouteToDigital": "Go to digital signage repository",
   "DialogLogin_Success": "Successfully logged in",
   "DialogLogin_Failure": "Error during login. Check your username and password.",
+  "DialogLogin_Banned": "Your account has been blocked.",
   "DialogRegister_Success1": "User account ",
   "DialogRegister_Success2": " has been created!",
   "DialogRegister_Failure": "Error while creating user",

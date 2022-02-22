@@ -1,4 +1,4 @@
-@import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
+@import "~bootstrap/dist/css/bootstrap.css";
 :root {
   --installation-card-color: rgb(215, 217, 239);
   --installation-card-text-color: rgb(188, 193, 248);

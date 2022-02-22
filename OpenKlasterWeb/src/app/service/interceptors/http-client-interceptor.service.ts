@@ -33,11 +33,6 @@ export class HttpClientInterceptor implements HttpInterceptor {
           if (request.url.indexOf('login') !== -1 && request.url.indexOf('register') !== -1) {
             this.toastr.warning('Zaloguj się ponownie.');
           }
-          if (request.url.indexOf('user') == -1) {
-            this.router.navigate(['login']).then();
-          } else {
-            this.toastr.error('Niepoprawne hasło.');
-          }
         }),
         finalize(() => {
           this.count--;
