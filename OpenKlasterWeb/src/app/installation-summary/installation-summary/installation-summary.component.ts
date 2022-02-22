@@ -31,15 +31,7 @@ export class InstallationSummaryComponent {
     },
     labelFormat: 'MM-dd HH:mm'
   };
-  public primaryYAxis: AxisModel = {
-    title: '[kW]',
-    titleStyle: {
-      color: '#FFFFFF'
-    },
-    labelStyle: {
-      color: '#FFFFFF'
-    }
-  };
+  public primaryYAxis: AxisModel;
 
   constructor(
     private route: ActivatedRoute,
@@ -61,8 +53,23 @@ export class InstallationSummaryComponent {
       tap(summary => {
         this.installationSummary = summary
         this.chartData = InstallationSummary.toChartData(this.installationSummary.power);
+        const maxValue =  Math.max(...this.chartData.map(this.mapToValues));
+        this.primaryYAxis = {
+          title: '[kW]',
+          titleStyle: {
+            color: '#FFFFFF'
+          },
+          labelStyle: {
+            color: '#FFFFFF'
+          },
+          interval: Math.round(maxValue * 10)/100,
+        };
       })
     ).subscribe();
+  }
+
+  mapToValues(element: PowerChartData): number {
+    return element.y;
   }
 
   getInstallationSummary(installationId: string, apiToken: string): Observable<InstallationSummary> {
