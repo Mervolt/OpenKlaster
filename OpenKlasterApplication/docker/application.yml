@@ -11,6 +11,13 @@ spring:
       database: DEFAULT_DB
       port: 27017
       host: mongo-db
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+      date: yyyy-MM-dd
+      time: HH:mm:ss
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 server:
   port: 8082
   servlet:

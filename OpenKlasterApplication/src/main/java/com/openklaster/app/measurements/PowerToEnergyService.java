@@ -8,6 +8,7 @@ import com.openklaster.app.services.MeasurementsService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Async;
@@ -28,15 +29,16 @@ import java.util.stream.Collectors;
 @EnableScheduling
 @Component
 @ConditionalOnProperty("openklaster.power-energy.enabled")
-@AllArgsConstructor
 public class PowerToEnergyService {
 
     @Value("${openklaster.power-energy.installation-id}")
-    private final String installationId;
+    private String installationId;
 
-    private final MeasurementsService measurementsService;
+    @Autowired
+    private MeasurementsService measurementsService;
 
-    private final SourceMeasurementRepository sourceMeasurementRepository;
+    @Autowired
+    private SourceMeasurementRepository sourceMeasurementRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(PowerToEnergyService.class);
 
