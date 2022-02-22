@@ -55,6 +55,7 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['digitalSignage']).then();
   }
 
+
   logout() {
     this.appComp.cookieService.deleteAll();
     this.router.navigate(['login']).then();

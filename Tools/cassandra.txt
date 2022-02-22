@@ -1,0 +1,6 @@
+DROP KEYSPACE openklaster;
+CREATE KEYSPACE openklaster WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'} AND durable_writes = 'true';
+CREATE TABLE openklaster.loadmeasurement ( timestamp timestamp PRIMARY KEY, installationId text, unit text, value double);
+CREATE TABLE openklaster.sourcemeasurement ( timestamp timestamp PRIMARY KEY, installationId text, unit text, value double);
+CREATE TABLE openklaster.weatherconditions ( timestamp timestamp PRIMARY KEY, installationId text, source text, type text, description text);
+CREATE TABLE openklaster.energypredictions ( timestamp timestamp PRIMARY KEY, installationId text, source text, type text, description text);

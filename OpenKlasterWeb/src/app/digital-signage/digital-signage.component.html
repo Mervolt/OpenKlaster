@@ -73,30 +73,6 @@
           <mat-card-header>
             <mat-card-title>{{'DigitalSignage_GoToSignage' | translate}}</mat-card-title>
           </mat-card-header>
-          <mat-card-content>
-            <div>
-              <h5>{{'DigitalSignage_Clipboard' | translate}}</h5>
-              <div [ngClass]="contenCopied ? 'web-path url-init' : 'web-path'">
-                <div class="web-path-code">{{couponText}}</div>
-                <ng-container *ngIf="contenCopied; else copiedNgTemp">
-                  <div class="url-copied">{{'DigitalSignage_Copied' | translate}}</div>
-                </ng-container>
-                <ng-template #copiedNgTemp>
-                  <div (cbOnSuccess)="contentCopied($event)" ngxClipboard [cbContent]="getDigitalSignageLink()">
-                    <div class="copy-url">
-                      <button>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                          <path
-                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                </ng-template>
-              </div>
-            </div>
-            <h5>{{'DigitalSignage_Directly' | translate}}</h5>
-          </mat-card-content>
           <mat-card-actions>
             <button mat-raised-button color="primary" style="margin-left: 30px" (click)="goToDigitalSignage()">
               {{'DigitalSignage_Go' | translate}}

@@ -1,0 +1,39 @@
+<div class="background-div">
+  <ngb-carousel [interval]="intervalTime" [pauseOnHover]="true" *ngIf="installationSummary"
+                [showNavigationIndicators]="false"
+                [showNavigationArrows]="shouldDisplayPowerChart() && shouldDisplayEnergy()">
+    <ng-container *ngIf="shouldDisplayPowerChart()">
+      <ng-template ngbSlide [ngIf]="shouldDisplayPowerChart()">
+        <div class="slide-container">
+          <div class="margin-panel">
+            <app-summary-slide-description [summary]="installationSummary"></app-summary-slide-description>
+          </div>
+          <div class="main-panel">
+            <ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis'
+                       background="rgba(16, 12, 18, 0.8)" [palettes]="['#ff8f00']" height='200%' width='100%'
+                       [tooltip]="tooltip">
+              <e-series-collection>
+                <e-series [dataSource]='chartData' type='Line' xName='x' yName='y'[marker]="marker"></e-series>
+              </e-series-collection>
+            </ejs-chart>
+
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-container *ngIf="shouldDisplayEnergy()">
+      <ng-template ngbSlide>
+        <div class="slide-container">
+          <div class="margin-panel">
+            <app-summary-slide-description [summary]="installationSummary"></app-summary-slide-description>
+          </div>
+          <div class="main-panel">
+            <app-environment-panel
+              [environmentalBenefits]="installationSummary.environmentalBenefits"></app-environment-panel>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+
+  </ngb-carousel>
+</div>

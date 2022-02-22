@@ -10,6 +10,7 @@ export class InstallationSummary {
   todayEnergy: number;
   currentPower: number;
   environmentalBenefits: EnvironmentalBenefits;
+  power: Map<Date, number>;
 
   constructor() {
     this.environmentalBenefits = new EnvironmentalBenefits();
@@ -23,4 +24,20 @@ export class InstallationSummary {
     output.environmentalBenefits = EnvironmentalBenefits.fromDto(dtoObject[this.environmentalBenefitsKey]);
     return output;
   }
+
+  static toChartData(powerMap: Map<Date, number>) {
+    const arr = new Array<PowerChartData>();
+    for (const key of Object.keys(powerMap)) {
+      const date = new Date(Date.parse(key));
+      const value = powerMap[key];
+      arr.push({x: date, y: value});
+    }
+    arr.sort( (date1, date2) => (date1.x < date2.x) ? -1 : 1)
+    return arr;
+  }
+}
+
+export interface PowerChartData {
+  x: Date,
+  y: number,
 }
